@@ -13,6 +13,9 @@ html {
 body {
   margin: 0;
 }
+body a {
+    text-decoration: none;
+}
 article,
 aside,
 details,
@@ -1405,7 +1408,7 @@ a.bg-danger:hover {
 .page-header {
   padding-bottom: 9px;
   margin: 40px 0 20px;
- 
+
 }
 ul,
 ol {
@@ -4770,9 +4773,16 @@ a.label:focus {
 .label-default {
   background-color: #777;
 }
+.label-default a{
+    background-color : #777;
+    color:#fff;
+    text-decoration: none;
+
+}
 .label-default[href]:hover,
 .label-default[href]:focus {
   background-color: #5e5e5e;
+  text-decoration:none;
 }
 .label-primary {
   background-color: #337ab7;

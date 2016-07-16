@@ -38,12 +38,12 @@
 
 
 <div class="page-header">
-	<h2>Hay arkadaşlar</h2><br>
+	<h2>TR-IPTables</h2><br>
 Cuma, Temmuz 15, 2016</div>
 
 <p><h1><strong> IPTables Nedir ? </strong></h1>
 <p>Kernel bazında çalışan ağ paketlerini inceleyebileceğimiz müdahalede bulunabileceğimiz,Linux üzerinde çalışan bir güvenlik duvarı( ateş duvarı (firewall))dır.Oldukça kullanışlı bir araçtır kendisi.Linux üzerinde ki hangi tool/yazılım değil ki ?</p>
-<p><img alt="iptables1" src="0x6.pw/images/resim1.png" />  </p>
+<p><img alt="iptables1" src="images/resim1.png" />  </p>
 <h1>Bilinmesi gereken komutlar &amp; kavramlar</h1>
 <ul>
 <li>ACCEPT : Gelen giden paketleri kabul etmek için kullanılır.</li>
@@ -59,97 +59,83 @@ Cuma, Temmuz 15, 2016</div>
 </pre></div>
 
 
-<p><img alt="iptables2" src="0x6.pw/images/resim2.png" />  </p>
+<p><img alt="iptables2" src="images/resim2.png" />  </p>
 <p>Tam halini görmek için : <a href="https://github.com/ka1nsha/iptables/blob/master/defaultrules.txt">default</a><br />
 <em> -L : Kuralları listeler
 </em> -n : Burada ip ve portlarını bize göstermesini istediğimizi belirtiyoruz.DNS isim çözümlemesi kullanmaz bu yüzden hızlı bir şekilde listeleme yapar.
 * --line-numbers :Kuralları kural tipine göre satır numaralarıyla birlikte gösterir.
 Bir ip adresini drop edelim isterseniz.Şuan elimde web for pentesterın imajı var.Hemen ip almasını sağlayalım.  </p>
-<p><img alt="iptables3" src="0x6.pw/images/resim4.png" /></p>
+<p><img alt="iptables3" src="images/resim4.png" /></p>
 <p>Gördüğünüz gibi 192.168.1.42 ip’sini almış.  </p>
-<p><img alt="iptables4" src="0x6.pw/images/resim5.png" />  </p>
-<div class="highlight"><pre><span></span>iptables -I OUTPUT -d 192.168.1.42 -j DROP ```  
-
-Bu kodu şimdi aşama aşama görelim  
-* -I : Insert kelimesinin ilk harfi yani burada kural eklemek istediğimizi söylüyoruz.
-* OUTPUT : Verdiğimiz ip adresine veri gönderimini engellesin.
-* -d : Destination kelimesinin ilk harfidir.Yani hedefi 192.168.1.42 olan paketleri engelle.
-* -j : Jump kelimesinin kısaltması olarak kullanılmış.Kural için hedef gösteriliyor burda.Yani bu kurala uyan paket drop edilsin şeklinde hikayeleştirilebilir sanırım.
-Şimdide bir domain engelleyelim isterseniz.  
+<p><img alt="iptables4" src="images/resim5.png" />  </p>
+<div class="highlight"><pre><span></span>iptables -I OUTPUT -d 192.168.1.42 -j DROP
 </pre></div>
 
 
-<p>iptables -I OUTPUT -d https://www.canyoupwn.me -j DROP</p>
-<div class="highlight"><pre><span></span>![iptables5](0x6.pw/images/resim6.png)   
-İyi hoş güzel biz engelliyoruz ama lazım oldu bunu kaldırmak istedik o zaman nasıl yapacağız ?
-
-O zaman ilk önce şöyle komut gireceğiz.  
+<p>Bu kodu şimdi aşama aşama görelim<br />
+<em> -I : Insert kelimesinin ilk harfi yani burada kural eklemek istediğimizi söylüyoruz.
+</em> OUTPUT : Verdiğimiz ip adresine veri gönderimini engellesin.
+<em> -d : Destination kelimesinin ilk harfidir.Yani hedefi 192.168.1.42 olan paketleri engelle.
+</em> -j : Jump kelimesinin kısaltması olarak kullanılmış.Kural için hedef gösteriliyor burda.Yani bu kurala uyan paket drop edilsin şeklinde hikayeleştirilebilir sanırım.
+Şimdide bir domain engelleyelim isterseniz.  </p>
+<div class="highlight"><pre><span></span>iptables -I OUTPUT -d https://www.canyoupwn.me -j DROP
 </pre></div>
 
 
-<p>iptables -L -n --line-number | grep “ipadresi”</p>
-<div class="highlight"><pre><span></span>Şaka şaka evet bu yöntemi de kullanabilirsiniz ama kurallarınız çoğaldığın da bu bir sorun olacak.  
+<p><img alt="iptables5" src="images/resim6.png" /> <br />
+İyi hoş güzel biz engelliyoruz ama lazım oldu bunu kaldırmak istedik o zaman nasıl yapacağız ?</p>
+<p>O zaman ilk önce şöyle komut gireceğiz.  </p>
+<div class="highlight"><pre><span></span>iptables -L -n --line-number | grep “ipadresi”
 </pre></div>
 
 
-<p>iptables -L OUTPUT -n --line-number</p>
-<div class="highlight"><pre><span></span>Bu şekilde eklediğiniz kuralları görebiliyorsunuz.”–line-number” komutunu verdik ki silerken satır satır silmemizde bize kolaylık sağlasın diye.
-
-Silmek için aşağıda ki komut yeterlidir.  
+<p>Şaka şaka evet bu yöntemi de kullanabilirsiniz ama kurallarınız çoğaldığın da bu bir sorun olacak.  </p>
+<div class="highlight"><pre><span></span>iptables -L OUTPUT -n --line-number
 </pre></div>
 
 
-<p>iptables -D OUTPUT 1</p>
-<div class="highlight"><pre><span></span>Kodumuza daha yakından bakalım.  
-* -D : Delete’in ilk harfi.Yani silmek istediğimizi belirtiyoruz.
-* OUTPUT : Çıkış yapan paketleri engellemek istediğimizi belirtiyoruz.
-* 1 : 1.Numaralı satır demektir.  
-
-![iptables6](0x6.pw/images/resim7.png)
-
-
-Şu ana kadar hep engellerken -d parametresini kullandık.İsterseniz source’un ilk harfi olan -s i kullanabilirsiniz.Bu da şu anlama gelir.Şöyle örnekle açıklayalım.  
+<p>Bu şekilde eklediğiniz kuralları görebiliyorsunuz.”–line-number” komutunu verdik ki silerken satır satır silmemizde bize kolaylık sağlasın diye.</p>
+<p>Silmek için aşağıda ki komut yeterlidir.  </p>
+<div class="highlight"><pre><span></span>iptables -D OUTPUT 1
 </pre></div>
 
 
-<p>iptables -I INPUT -s 192.168.1.42 -j REJECT</p>
-<div class="highlight"><pre><span></span>Burada kaynağı yani bize paket gönderen 192.168.1.42 olur ise onu reddet diyoruz.
-
-
-
-IPTables ile istersek belirli portalara gelen istekleri veya giden istekleri de engelleyebiliyoruz.Mesela bir şirkette çalıştığımızı düşünelim ve 80 portunun çıkışını engelleyelim ama girişi olsun.  
+<p>Kodumuza daha yakından bakalım.<br />
+<em> -D : Delete’in ilk harfi.Yani silmek istediğimizi belirtiyoruz.
+</em> OUTPUT : Çıkış yapan paketleri engellemek istediğimizi belirtiyoruz.
+* 1 : 1.Numaralı satır demektir.  </p>
+<p><img alt="iptables6" src="images/resim7.png" /></p>
+<p>Şu ana kadar hep engellerken -d parametresini kullandık.İsterseniz source’un ilk harfi olan -s i kullanabilirsiniz.Bu da şu anlama gelir.Şöyle örnekle açıklayalım.  </p>
+<div class="highlight"><pre><span></span>iptables -I INPUT -s 192.168.1.42 -j REJECT
 </pre></div>
 
 
-<p>iptables -I OUTPUT -p tcp --dport 80 -j DROP</p>
-<div class="highlight"><pre><span></span>Bu şekilde engelleyebiliyoruz.Ama bilirsiniz uzak bir ülkede telekom firması da bu şekilde 3 ay boyunca borcunuzu ödemediğiniz takdirde 80 portunu kapatıyordu fakat bir sorun vardı https üzerinden internete ( yavaşda olsa ) çıkabiliyorduk.İşte yukarıda yazdığımız kod ile biz de böyle bir artık açık mı  dersiniz ne dersiniz ona sebebiyet verdik :).Burada –dport yerine –sport da kullanarak source port ( kaynak port ) engelleyebilirsiniz.
-
-Aslında bu şekilde kişisel bilgisayarınızda bir kod ile bunu sağlar iseniz ssl sertifikası olmayan siteye girmemiş olursunuz.
-
-İsterseniz şimdide bize ping atanları engelleyelim ne dersiniz ? Yani sadece ping atmalarını engelleyeceğiz diğer her işlevi yapabilicekler.( Fişi çekmekten iyidir 😛 )  
+<p>Burada kaynağı yani bize paket gönderen 192.168.1.42 olur ise onu reddet diyoruz.</p>
+<p>IPTables ile istersek belirli portalara gelen istekleri veya giden istekleri de engelleyebiliyoruz.Mesela bir şirkette çalıştığımızı düşünelim ve 80 portunun çıkışını engelleyelim ama girişi olsun.  </p>
+<div class="highlight"><pre><span></span>iptables -I OUTPUT -p tcp --dport 80 -j DROP
 </pre></div>
 
 
-<p>iptables -I INPUT -p icmp --icmp-type echo-reply -j DROP</p>
-<div class="highlight"><pre><span></span>Eğer bizden bir ping çıkmasın istiyorsanız.
+<p>Bu şekilde engelleyebiliyoruz.Ama bilirsiniz uzak bir ülkede telekom firması da bu şekilde 3 ay boyunca borcunuzu ödemediğiniz takdirde 80 portunu kapatıyordu fakat bir sorun vardı https üzerinden internete ( yavaşda olsa ) çıkabiliyorduk.İşte yukarıda yazdığımız kod ile biz de böyle bir artık açık mı  dersiniz ne dersiniz ona sebebiyet verdik :).Burada –dport yerine –sport da kullanarak source port ( kaynak port ) engelleyebilirsiniz.</p>
+<p>Aslında bu şekilde kişisel bilgisayarınızda bir kod ile bunu sağlar iseniz ssl sertifikası olmayan siteye girmemiş olursunuz.</p>
+<p>İsterseniz şimdide bize ping atanları engelleyelim ne dersiniz ? Yani sadece ping atmalarını engelleyeceğiz diğer her işlevi yapabilicekler.( Fişi çekmekten iyidir 😛 )  </p>
+<div class="highlight"><pre><span></span>iptables -I INPUT -p icmp --icmp-type echo-reply -j DROP
 </pre></div>
 
 
-<p>iptables -I OUTPUT -p icmp --icmp-type echo-request -j DROP</p>
-<div class="highlight"><pre><span></span>![iptables7](0x6.pw/images/resim8.png)  
-
-
-Genel anlamda aslında iptables ın tüm argümanlarına değindik.Değişek tek şey ip’ler ve protokoller ( tcp / udp ) . Bahsetmediğimiz birkaç şey kaldı bunlarda interface seçmek,load-balancing,time limit ve port yönlendirme.
-
-
-
-İnterface seçimi :
-###### INPUT interface:
+<p>Eğer bizden bir ping çıkmasın istiyorsanız.</p>
+<div class="highlight"><pre><span></span>iptables -I OUTPUT -p icmp --icmp-type echo-request -j DROP
 </pre></div>
 
 
-<p>iptables -I OUTPUT -d 192.168.1.43 -i wlan1 -j DROP
- ```</p>
+<p><img alt="iptables7" src="images/resim8.png" />  </p>
+<p>Genel anlamda aslında iptables ın tüm argümanlarına değindik.Değişek tek şey ip’ler ve protokoller ( tcp / udp ) . Bahsetmediğimiz birkaç şey kaldı bunlarda interface seçmek,load-balancing,time limit ve port yönlendirme.</p>
+<p>İnterface seçimi :</p>
+<h6>INPUT interface:</h6>
+<div class="highlight"><pre><span></span>iptables -I OUTPUT -d 192.168.1.43 -i wlan1 -j DROP
+</pre></div>
+
+
 <p>Kod tamamen örnek amaçlıdır.Burada -i input interface(Paketin alındığı arayüz) anlamına gelir.</p>
 <h6>OUTPUT interface</h6>
 <div class="highlight"><pre><span></span>iptables -I OUTPUT -d 192.168.1.43 -o wlan1 -j ACCEPT
@@ -162,17 +148,17 @@ Genel anlamda aslında iptables ın tüm argümanlarına değindik.Değişek tek
 <p>Kodumuza şöyle birşey eklerisek yeterli gelicektir.</p>
 <div class="highlight"><pre><span></span>iptables -m limit --limit sıklık/zaman(Hour veya Second cinsinden )
 iptables -m limit --limit 10/5s -j DROP
- ```
-
-###### Load-Balancing ( yük dengeleme ) :
-
-Bazı sistemlerde yük dengelemeye ihtiyaç duyulabilir ki duyulması da gerekir aksi takdirde yük dağıtımı olmadığı zaman sistemin çalışmasında sıkıntılar meydana gelecektir.İşte bu gibi durumlar içinde iptables da argümanlarımız bulunuyor.
 </pre></div>
 
 
-<p>iptables -I PREROUTING -p tcp --dport 80 -j DNAT --to-destination 192.168.1.1</p>
-<p>iptables -I PREROUTING -p tcp --dport 80 -j DNAT --to-destination 192.168.1.2```
-Burada hedefi 80 olan tüm paketleri iki sunucu arasında paylaştırdık.</p>
+<h6>Load-Balancing ( yük dengeleme ) :</h6>
+<p>Bazı sistemlerde yük dengelemeye ihtiyaç duyulabilir ki duyulması da gerekir aksi takdirde yük dağıtımı olmadığı zaman sistemin çalışmasında sıkıntılar meydana gelecektir.İşte bu gibi durumlar içinde iptables da argümanlarımız bulunuyor.</p>
+<div class="highlight"><pre><span></span>iptables -I PREROUTING -p tcp --dport 80 -j DNAT --to-destination 192.168.1.1
+iptables -I PREROUTING -p tcp --dport 80 -j DNAT --to-destination 192.168.1.2
+</pre></div>
+
+
+<p>Burada hedefi 80 olan tüm paketleri iki sunucu arasında paylaştırdık.</p>
 <h6>Port yönlendirme :</h6>
 <div class="highlight"><pre><span></span>iptables -t NAT -I PREROUTING -p tcp -d 192.168.1.5 --dport 500 -j DNAT --to 192.168.1.100:300
 </pre></div>
@@ -197,6 +183,20 @@ Burada hedefi 80 olan tüm paketleri iki sunucu arasında paylaştırdık.</p>
     })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+<h1>
+
+  <small><center>My Friends<br><br>
+          <a href="https://mertcangokgoz.com/"><span class="label label-default">#Mertcan Gökgöz</span></a>
+          <a href="https://onur.im/"><span class="label label-default">#Onur Aslan</span></a>
+          <a href="http://www.omeripek.com.tr/"><span class="label label-default">#Ömer İpek</span></a>
+          <a href="https://www.ceyhanmolla.com/"><span class="label label-default">#Ceyhan Molla</span></a>
+          <a href="http://furkankalkan.com/"><span class="label label-default">#Furkan Kalkan</span></a>
+          <a href="https://canyoupwn.me"><span class="label label-default">#Canyoupwn.me</span></a>
+</center>
+          </small>
+</h1>
+
       </div>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -214,42 +214,7 @@ Burada hedefi 80 olan tüm paketleri iki sunucu arasında paylaştırdık.</p>
 	Thanks babayarisi
       </p>
       </div>
-      <div class="col-xs-8 col-xs-offset-2 top-space">
-<h4>Blogroll</h4>
-
-          <h1>
-
-              <small><a href="https://mertcangokgoz.com/" target="_blank">Mertcan Gökgöz</a>
-</h1></small>
 
 
-          <h1>
-
-              <small><a href="https://onur.im/" target="_blank">Onur Aslan</a>
-</h1></small>
-
-
-          <h1>
-
-              <small><a href="http://www.omeripek.com.tr/" target="_blank">Ömer İpek</a>
-</h1></small>
-
-
-          <h1>
-
-              <small><a href="https://www.ceyhanmolla.com/" target="_blank">Ceyhan Molla</a>
-</h1></small>
-
-
-          <h1>
-
-              <small><a href="http://furkankalkan.com/" target="_blank">Furkan Kalkan</a>
-</h1></small>
-
-
-          <h1>
-
-              <small><a href="https://canyoupwn.me" target="_blank">Canyoupwn.me</a>
-</h1></small>
 
     </footer>
