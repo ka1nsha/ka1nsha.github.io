@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="google" value="notranslate"/>
+<meta name="location" content="türkiye, tr, turkey"/>
+<meta name="language" content="tr-TR"/>
+<meta name="geo.region" content="TR"/>
+<meta name="geo.position" content="38.963745;35.243322"/>
+<meta name="ICBM" content="38.963745, 35.243322"/>
+<meta name ="contactcountry" content="TR">
+
+    <title> 0x656e | Haram Detector</title>
+  	<link href="/theme/css/baba.css" rel="stylesheet">
+<link href="/theme/css/yapiskan.css" rel="stylesheet">
+<link href="/theme/css/baba2.css" rel="stylesheet">
+	  <link href="/theme/css/bootstrap.css" rel="stylesheet">
+	   <script src="/theme/js/jquery.min.js"></script>
+
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+
+  </head>
+  <body>
+    <div class="container">
+    <div class="page-header">
+
+  <a href="index.html"><h1>0x656e | Haram Detector </h1></a>
+
+      <h1>
+		<small>				<span class="label label-default">#Canyoupwn</span>
+				<span class="label label-default">#Genel</span>
+				<span class="label label-default">#Python</span>
+				</small>
+	  </h1>
+    </div>
+
+
+<div class="page-header">
+	<h2>Python ile basit vulnhub yazarlarını çeken bot</h2><br>
+Pazar, Temmuz 17, 2016</div>
+
+<p><p>Daha önceden yazmış olduğum bu scripti bugün güncellemek zorunda kaldım.Nedeni vulnhub önceden her türlü bağlantıyı kabul etsede bugün etmiyordu.Bende scripte Chrome Dev Tools'dan kopyaladığım header bilgilerini çaktım script şimdi bağlantı kuruyordu fakat regex patterni boş olarak dönüyordu.İlk scriptte</p>
+<div class="highlight"><pre><span></span>urllib.request.urlopen(url).read()
+</pre></div>
+
+
+<p>şeklinde bir yapı vardı ve bu yapı response'u byte code olarak döndürüyordu.Byte code döndüren response içinde regex ile arama yapmak için basit bir harf argüman var hemen onu da göstereyim.</p>
+<div class="highlight"><pre><span></span>rp = re.findall(b&#39;pattern&#39;,text)
+</pre></div>
+
+
+<p>şeklinde bir argüman ile bytecode olarak arama yapıyor fakat bu debug yaparken sorun nerde ? veya pattern neden bulmuyor şeklinde ki sorunlarınızı çözerken zorluk çıkartıyordu.Bende kodu bu yüzden güncelledim.</p>
+<p><strong> urllib </strong> yerine artık <strong> requests </strong> kullanıyorum.(Respect david beazley)</p>
+<p>Neyse lafı fazla uzatmayalım.
+Sonuç görüntüsü aşağıdadır.</p>
+<p><img alt="vulnhub-scraper" src="images/vulnhub.png" /></p>
+<h3>Kodlar</h3>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python3</span>
+<span class="kn">import</span> <span class="nn">requests</span><span class="o">,</span><span class="nn">re</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s1">&#39;:authority&#39;</span><span class="p">:</span><span class="s1">&#39;www.vulnhub.com&#39;</span><span class="p">,</span>
+<span class="s1">&#39;:method&#39;</span><span class="p">:</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+<span class="c1">#&#39;:path&#39;:&#39;/?page=1&#39;</span>
+<span class="s1">&#39;:scheme&#39;</span><span class="p">:</span><span class="s1">&#39;https&#39;</span><span class="p">,</span>
+<span class="s1">&#39;accept&#39;</span><span class="p">:</span><span class="s1">&#39;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#39;</span><span class="p">,</span>
+<span class="s1">&#39;accept-encoding&#39;</span><span class="p">:</span><span class="s1">&#39;gzip, deflate, sdch, br&#39;</span><span class="p">,</span>
+<span class="s1">&#39;accept-language&#39;</span><span class="p">:</span><span class="s1">&#39;tr,en;q=0.8&#39;</span><span class="p">,</span>
+<span class="s1">&#39;cache-control&#39;</span><span class="p">:</span><span class="s1">&#39;max-age=0&#39;</span>
+<span class="p">,</span><span class="s1">&#39;cookie&#39;</span><span class="p">:</span><span class="s1">&#39;__cfduid=db8361564d5291910653bb1219526d1051468106057; cf_clearance=bba81bf5ad85eef7974fd7ffe76cc5c022a83ca1-1468752269-2592000; _ga=GA1.2.1086152234.1468106055&#39;</span>
+<span class="p">,</span><span class="s1">&#39;upgrade-insecure-requests&#39;</span><span class="p">:</span><span class="s1">&#39;1&#39;</span><span class="p">,</span>
+<span class="s1">&#39;user-agent&#39;</span> <span class="p">:</span><span class="s1">&#39;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.94 Safari/537.36&#39;</span> <span class="p">}</span>
+<span class="n">liste</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">linkler</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">def</span> <span class="nf">getir</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://www.vulnhub.com/?page=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span><span class="n">x</span>
+    <span class="n">linkler</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">yazartopla</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Acılan link : &quot;</span><span class="o">+</span><span class="n">x</span><span class="p">)</span> <span class="c1">#debug için eklemiştim</span>
+
+    <span class="n">ac</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span><span class="o">.</span><span class="n">text</span> <span class="c1">## Siteyi get metodu ile çekiyoruz ve içindeki textleri alıyoruz</span>
+
+    <span class="n">ac</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;\/author\/(.*)\/&#39;</span><span class="p">,</span><span class="n">ac</span><span class="p">)</span> <span class="c1"># Text içinden /author/Arasındaki herşeyi alıyoruz/</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ac</span><span class="p">:</span>  <span class="c1"># Tüm sayfadan arayıp liste şeklinde bir sonuç döndüğü için for döngüsüne sokup tek tek listeye ekliyoruz.</span>
+
+        <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">liste</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">liste</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+
+
+<span class="k">def</span> <span class="nf">git</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span> <span class="c1">### Hata yakalama blokları</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://www.vulnhub.com/author/&quot;</span><span class="o">+</span><span class="n">i</span><span class="o">+</span><span class="s2">&quot;/&quot;</span>
+        <span class="n">ac</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+
+        <span class="n">name</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;&lt;li&gt;&lt;b&gt;Name&lt;\/b&gt;:(.*)&lt;\/li&gt;&#39;</span><span class="p">,</span><span class="n">ac</span><span class="p">)</span>
+        <span class="n">website</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;&lt;li&gt;&lt;b&gt;Website.*&lt;a href=&quot;(.*)&quot;&gt;&#39;</span><span class="p">,</span><span class="n">ac</span><span class="p">)</span>
+        <span class="n">contact</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;&lt;li&gt;&lt;b&gt;.*&lt;\/b&gt;: &lt;a href=</span><span class="se">\&quot;</span><span class="s1">(.*)</span><span class="se">\&quot;</span><span class="s1">&gt;.*&lt;\/a&gt;&lt;\/li&gt;&#39;</span><span class="p">,</span><span class="n">ac</span><span class="p">)</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;&lt;a href=&quot;\/series\/.*\/&quot;&gt;(.*)&lt;\/a&gt;&#39;</span><span class="p">,</span><span class="n">ac</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">contact</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+
+            <span class="n">author</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;İsim&quot;</span> <span class="p">:</span> <span class="n">name</span><span class="p">,</span><span class="s2">&quot;Websitesi&quot;</span> <span class="p">:</span> <span class="n">website</span><span class="p">,</span><span class="s2">&quot;İletişim&quot;</span> <span class="p">:</span> <span class="n">contact</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="s2">&quot;Seriler&quot;</span> <span class="p">:</span> <span class="n">series</span><span class="p">}</span>
+            <span class="n">dosyayaz</span><span class="p">(</span><span class="n">author</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">author</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;İsim&quot;</span> <span class="p">:</span> <span class="n">name</span><span class="p">,</span><span class="s2">&quot;Websitesi&quot;</span> <span class="p">:</span> <span class="n">website</span><span class="p">,</span><span class="s2">&quot;İletişim&quot;</span> <span class="p">:</span> <span class="n">contact</span><span class="p">,</span><span class="s2">&quot;Seriler&quot;</span> <span class="p">:</span> <span class="n">series</span><span class="p">}</span>
+
+            <span class="n">dosyayaz</span><span class="p">(</span><span class="n">author</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">:</span> <span class="c1">## Eğer herhangi bir şekilde ulaşamazsa sayfaya hata var diye uyarı veriyor.Nedense break etmemişim</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Hata var&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">dosyayaz</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">ac</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;yazarlar.txt&#39;</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+    <span class="n">ac</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">ac</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">16</span><span class="p">):</span>
+    <span class="n">getir</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">linkler</span><span class="p">:</span>
+    <span class="n">yazartopla</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">liste</span><span class="p">:</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="n">git</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Github depoma ekleyeceğim oradan isterseniz eklemelerde bulunabilirsiniz.</p>
+<p>Kodu nasıl daha iyileştirebiliriz şeklinde ki yorumlarınızı kendinize saklamayın memnuniyetle okurum :)</p>
+
+</p>
+
+<div id="disqus_thread"></div>
+<script>
+    
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//0x656e.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+<h1>
+
+  <small><center>Helal siteler<br><br>
+          <a href="https://mertcangokgoz.com/"><span class="label label-default">#Mertcan Gökgöz</span></a>
+          <a href="https://onur.im/"><span class="label label-default">#Onur Aslan</span></a>
+          <a href="http://www.omeripek.com.tr/"><span class="label label-default">#Ömer İpek</span></a>
+          <a href="https://www.ceyhanmolla.com/"><span class="label label-default">#Ceyhan Molla</span></a>
+          <a href="http://furkankalkan.com/"><span class="label label-default">#Furkan Kalkan</span></a>
+          <a href="https://canyoupwn.me"><span class="label label-default">#Canyoupwn.me</span></a>
+</center>
+          </small>
+</h1>
+
+      </div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-44262671-1', 'auto');
+  ga('send', 'pageview');
+
+</script><footer id="footer">
+      <div class="col-xs-8 col-xs-offset-2 top-space">
+      <p class="text-center">
+      Theme based : <a href="http:\\ha.cker.io">ha.cker.io</a> , Jinja coded by :0x6 <br>
+	Thanks babayarisi
+      </p>
+      </div>
+
+
+
+    </footer>
