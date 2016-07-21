@@ -44,7 +44,7 @@ Thursday, July 21, 2016</div>
 
 <p><p>Zone-H.com'u bilmeyen yoktur herhalde.Kısaca bahsetmek gerekirse blackhat hackerların deface ettikleri sitelerin bir nevi screenshot/snapshot'unu alan bir site.Çok güzel bilgiler barındırabiliyor.Örnek vermek gerekirse Turkiye'de bu site üzerinde kayıtlı kaç blackhat hacker grub/kişi var veya bunlar kaç defacement yapmış şeklinde güzel datalar sağlanabilir.  </p>
 <p>Bende parse etmeye çalışayım dedim.Bizim baştacımız olan python modüllerinden <strong> requests </strong>,<strong> lxml </strong>'in işimizi görebileceğini düşündüm.Fakat istek yaptığımda bana response olarak içinde bolca şifrelenmiş veri gönderen bir zone-h karşıma çıktı tabi ki bunun yanında captcha ise cabasıydı.Biraz araştırma ile aşağıda vereceğim bir yazı da şifrelenmiş kodları decode etmek için bir yol var.İyi hoş fakat bu seferde captcha sorunu karşımıza çıkıyordu.Bende farklı yollara girdim ve iyi ki de girmişim dedim.<br />
-Decode edebileceğiniz yöntem:https://blog.amilx.com/scaping-zone-h/  </p>
+<a href="https://blog.amilx.com/scaping-zone-h/">Decode edebileceğiniz yöntem</a></p>
 <p>Şimdi parse etmek için yıllara göre filtreleme seçenekleri kullanmak istedim.
 Bundan önce öncelikle bi sitemap.xml e bakmak istedim çünkü eğer sitemap.xml de aşağıda ki gibi bir yapı var ise bu benim işimi çok büyük ölçüde kolaylaştıracaktı.İşimi kolaylaştırabilecek bir yapı aşağıda ki resimde bulunuyor.<br />
 <img alt="zoneh2" src="images/zoneh2.png" /><br />
@@ -56,8 +56,7 @@ Gördüğünüz gibi googlebots vs sitemap i otomatik oluşturulan xml lerden ç
 Neyse bende id  üzerinden gitmeye karar verdim.  </p>
 <p><img alt="zoneh1" src="images/zoneh1.png" /><br />
 Bu şekilde ilk id den başlayıp sonuna kadar gidecektim.Projemde selenium kullandım.(Çünkü captcha ve bazı mirrorlarda hata oluyor.)<br />
-Hatalı bir mirror  örneği:
-<a href="www.zone-h.com/mirror/id/40?zh=1">Hatalı mirror url</a></p>
+<a href="www.zone-h.com/mirror/id/40?zh=1">Hatalı bir mirror  örneği</a></p>
 <p>Neyse kodlara geçelim.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span><span class="nn">sqlite3</span>
 <span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
@@ -131,7 +130,8 @@ Hatalı bir mirror  örneği:
 
 <p>Kod da plugin olarak zenmate kullandım.Captcha vs gelirse eğer kodun içinde input kısmı bulunuyor.Captchayı girdikten sonra 1 e basarsanız captchalı id den devam edecektir.Github'a koymayı düşünüyorum.Commitlerinizi beklerim.Eğer tüm siteyi çeken olursa datayı da isterim daha farklı projelerimde kullanmak için.</p>
 <p>Kodlarla ilgili bir sorunuz olursa yorum veya mail ile belirtebilir/sorabilirsiniz.</p>
-<p>Mail : r4wn3ss[nokta]googlein mail servisi.com</p>
+<p><a href="https://github.com/ka1nsha/zone-h.git">Github Repo adresi</a><br />
+Mail : r4wn3ss[nokta]googlein mail servisi.com</p>
 
 </p>
 
