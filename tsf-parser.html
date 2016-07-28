@@ -107,16 +107,15 @@ Eğer bunu farketmeseydim her döngüde 1 artan bir değişkenle işimi halletme
 
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">disct</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">adddb</span><span class="o">.</span><span class="n">dbadd</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="sb">``</span><span class="err">`</span>
+</pre></div>
 
-<span class="n">Gördüğünüz</span> <span class="n">gibi</span> <span class="n">burada</span> <span class="n">analiz</span> <span class="n">ettikten</span> <span class="n">sonra</span> <span class="n">artık</span> <span class="n">değişen</span> <span class="n">birşey</span> <span class="n">olmuyordu</span><span class="o">.</span>
-<span class="err">Ü</span><span class="n">stelik</span> <span class="n">bütün</span> <span class="n">siteyi</span> <span class="n">parse</span> <span class="n">ettikten</span> <span class="n">sonra</span> <span class="n">db</span> <span class="n">ye</span> <span class="n">ekliyordu</span> <span class="n">bu</span> <span class="n">da</span> <span class="n">herhangi</span> <span class="n">bir</span> <span class="n">hata</span> <span class="n">da</span> <span class="n">hiç</span> <span class="n">bir</span> <span class="n">verinin</span> <span class="n">kaydedilemeyeceği</span> <span class="n">anlamına</span> <span class="n">geliyordu</span><span class="o">.</span>
 
-<span class="n">Ama</span> <span class="n">bundan</span> <span class="err">ö</span><span class="n">nce</span> <span class="n">bütün</span> <span class="n">listelerin</span> <span class="n">parse</span> <span class="n">edilip</span> <span class="n">tekrar</span> <span class="n">aynı</span> <span class="nb">id</span> <span class="n">ile</span> <span class="n">birleştirilmesi</span> <span class="p">(</span> <span class="n">Plaza</span> <span class="n">dilinde</span> <span class="o">**</span> <span class="n">comprasion</span> <span class="o">**</span> <span class="n">deniliyor</span> <span class="n">sanırım</span> <span class="p">)</span>
-<span class="n">Koddan</span> <span class="n">anlayabilirsiniz</span> <span class="n">zaten</span> <span class="n">buda</span> <span class="n">bir</span> <span class="n">sürü</span> <span class="n">soruna</span> <span class="n">sebep</span> <span class="n">oldu</span><span class="o">.</span><span class="n">Verilerin</span> <span class="n">tam</span> <span class="n">kaydedilmemesi</span> <span class="err">ü</span><span class="n">st</span> <span class="err">ü</span><span class="n">ste</span> <span class="n">gelmesi</span> <span class="n">yani</span> <span class="n">verilerde</span> <span class="n">eksik</span> <span class="n">bulunuyordu</span><span class="o">.</span>
-<span class="n">Neyse</span> <span class="n">kod</span> <span class="err">ş</span><span class="n">u</span> <span class="n">hale</span> <span class="n">update</span> <span class="n">edildi</span> <span class="p">(</span> <span class="n">En</span> <span class="n">sorunsuz</span> <span class="n">sürüm</span> <span class="n">sanırım</span> <span class="p">)</span>
-<span class="sb">``</span><span class="err">`</span><span class="n">python</span>
-<span class="kn">import</span> <span class="nn">requests</span>
+<p>Gördüğünüz gibi burada analiz ettikten sonra artık değişen birşey olmuyordu.
+Üstelik bütün siteyi parse ettikten sonra db ye ekliyordu bu da herhangi bir hata da hiç bir verinin kaydedilemeyeceği anlamına geliyordu.</p>
+<p>Ama bundan önce bütün listelerin parse edilip tekrar aynı id ile birleştirilmesi ( Plaza dilinde <strong> comprasion </strong> deniliyor sanırım )
+Koddan anlayabilirsiniz zaten buda bir sürü soruna sebep oldu.Verilerin tam kaydedilmemesi üst üste gelmesi yani verilerde eksik bulunuyordu.
+Neyse kod şu hale update edildi ( En sorunsuz sürüm sanırım )</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">html</span>
 <span class="kn">import</span> <span class="nn">adddb</span>
 <span class="k">def</span> <span class="nf">multiplelist</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">number</span><span class="p">):</span>
