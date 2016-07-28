@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="google" value="notranslate"/>
+<meta name="location" content="türkiye, tr, turkey"/>
+<meta name="language" content="tr-TR"/>
+<meta name="geo.region" content="TR"/>
+<meta name="geo.position" content="38.963745;35.243322"/>
+<meta name="ICBM" content="38.963745, 35.243322"/>
+<meta name ="contactcountry" content="TR">
+
+    <title> 0x656e | Haram Detector</title>
+  	<link href="/theme/css/baba.css" rel="stylesheet">
+<link href="/theme/css/yapiskan.css" rel="stylesheet">
+<link href="/theme/css/baba2.css" rel="stylesheet">
+	  <link href="/theme/css/bootstrap.css" rel="stylesheet">
+	   <script src="/theme/js/jquery.min.js"></script>
+
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+
+  </head>
+  <body>
+    <div class="container">
+    <div class="page-header">
+
+  <a href="index.html"><h1>0x656e | Haram Detector </h1></a>
+
+      <h1>
+		<small>				<span class="label label-default">#Canyoupwn</span>
+				<span class="label label-default">#Genel</span>
+				<span class="label label-default">#Python</span>
+				</small>
+	  </h1>
+    </div>
+
+
+<div class="page-header">
+	<h2>Türkiye Satranç Federasyonu Parser</h2><br>
+Thursday, July 28, 2016</div>
+
+<p><p>Selamlar arkadaşlar bu postta twitterda bir arkadaşımın paylaştığı linkte bulunan verileri çekeceğiz.Bu kod beni baya bi uğraştırdı.
+Aslında uğraştırmaması gerekiyordu fakat ilk olarak parse etmek için regex kullanmayı düşündüm.Fakat regex ile yeterince hızlı olmuyordu bu işlem
+xpath kullanmak istedim işte tüm sorunlar bundan sonra başladı.Öncelikle çekeceğimiz linki vereyim.
+<a href="https://lisans.tsf.org.tr/online/main/kulupliste/">TSF.Org.TR</a>
+Siteye girdiğinizde eğer bir külubü görüntülerseniz özel id atandığını göreceksiniz.Yani aslında arkaplanda post ile verileri alırken 206 id li veriyi çekiyor fakat adress bar da bu
+100545254 şeklinde gözükmekte.
+Eğer bunu farketmeseydim her döngüde 1 artan bir değişkenle işimi halletmeye çalışacaktım.Bu işlem epey uzun oluyordu :)</p>
+<p>Bende xpath ile o açılır menüde ki kulüplerin id lerini ve isimlerini aldım.Daha sonra bi def içinde gerekli olan sayfayı bulup ona göre döngüye devam ediyordu.</p>
+<p>Fakat bu büyük bir soruna yol açtı bunu sadece 1 kere yapıyordu.Yani 25 sayfa aldıysa sonradan yeniden sayfalar açılırsa ( <strong> Ki bazı kulüpler 2600 sayfa </strong>) bunu es geçiyordu.</p>
+<p>Neyse kodumuzun ilk haline bakalım.( <strong> Hataları olabilir bir süre sonra elleşmedim oraya hiç </strong>)</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">html</span>
+<span class="kn">import</span> <span class="nn">adddb</span>
+
+<span class="n">disct</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">def</span> <span class="nf">analyze</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://lisans.tsf.org.tr/online/main/kulupliste/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="n">i</span>
+    <span class="n">ac</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">lx</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">ac</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">global</span> <span class="n">sayfaid</span>
+    <span class="n">sayfaid</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//div[@class=&quot;pagenavdiv&quot;]/a[@href]/text()&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sayfaid</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sayfaid</span> <span class="o">==</span> <span class="p">[]:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+<span class="k">def</span> <span class="nf">multiplelist</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">number</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">http</span> <span class="o">=</span> <span class="s2">&quot;https://lisans.tsf.org.tr/online/main/kulupliste/</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">number</span><span class="p">)</span>
+        <span class="n">ac</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">http</span><span class="p">)</span>
+        <span class="n">lx</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">ac</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">global</span> <span class="n">isim</span><span class="p">,</span><span class="n">soyisim</span><span class="p">,</span><span class="n">dyil</span><span class="p">,</span><span class="n">il</span>
+        <span class="n">isim</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[2]/text()&#39;</span><span class="p">)</span>
+        <span class="n">soyisim</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[3]/text()&#39;</span><span class="p">)</span>
+        <span class="n">dyil</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[4]/text()&#39;</span><span class="p">)</span>
+        <span class="n">il</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[5]/text()&#39;</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://lisans.tsf.org.tr/online/main/kulupliste&quot;</span>
+<span class="n">ac</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">lx</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">ac</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+<span class="nb">id</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;/html/body//option/@value&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">id</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="n">analyze</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="n">multiplelist</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">sayfaid</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span class="s2">&quot;Son&quot;</span><span class="p">:</span>
+                <span class="n">analyze</span><span class="p">(</span><span class="n">sayfaid</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">])</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">multiplelist</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">u</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">isim</span><span class="p">)):</span>
+                <span class="n">isimsoyisim</span> <span class="o">=</span> <span class="n">isim</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="n">soyisim</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">disct</span><span class="p">[</span><span class="n">isimsoyisim</span><span class="p">]</span> <span class="o">=</span> <span class="n">dyil</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">il</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">disct</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">adddb</span><span class="o">.</span><span class="n">dbadd</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="sb">``</span><span class="err">`</span>
+
+<span class="n">Gördüğünüz</span> <span class="n">gibi</span> <span class="n">burada</span> <span class="n">analiz</span> <span class="n">ettikten</span> <span class="n">sonra</span> <span class="n">artık</span> <span class="n">değişen</span> <span class="n">birşey</span> <span class="n">olmuyordu</span><span class="o">.</span>
+<span class="err">Ü</span><span class="n">stelik</span> <span class="n">bütün</span> <span class="n">siteyi</span> <span class="n">parse</span> <span class="n">ettikten</span> <span class="n">sonra</span> <span class="n">db</span> <span class="n">ye</span> <span class="n">ekliyordu</span> <span class="n">bu</span> <span class="n">da</span> <span class="n">herhangi</span> <span class="n">bir</span> <span class="n">hata</span> <span class="n">da</span> <span class="n">hiç</span> <span class="n">bir</span> <span class="n">verinin</span> <span class="n">kaydedilemeyeceği</span> <span class="n">anlamına</span> <span class="n">geliyordu</span><span class="o">.</span>
+
+<span class="n">Ama</span> <span class="n">bundan</span> <span class="err">ö</span><span class="n">nce</span> <span class="n">bütün</span> <span class="n">listelerin</span> <span class="n">parse</span> <span class="n">edilip</span> <span class="n">tekrar</span> <span class="n">aynı</span> <span class="nb">id</span> <span class="n">ile</span> <span class="n">birleştirilmesi</span> <span class="p">(</span> <span class="n">Plaza</span> <span class="n">dilinde</span> <span class="o">**</span> <span class="n">comprasion</span> <span class="o">**</span> <span class="n">deniliyor</span> <span class="n">sanırım</span> <span class="p">)</span>
+<span class="n">Koddan</span> <span class="n">anlayabilirsiniz</span> <span class="n">zaten</span> <span class="n">buda</span> <span class="n">bir</span> <span class="n">sürü</span> <span class="n">soruna</span> <span class="n">sebep</span> <span class="n">oldu</span><span class="o">.</span><span class="n">Verilerin</span> <span class="n">tam</span> <span class="n">kaydedilmemesi</span> <span class="err">ü</span><span class="n">st</span> <span class="err">ü</span><span class="n">ste</span> <span class="n">gelmesi</span> <span class="n">yani</span> <span class="n">verilerde</span> <span class="n">eksik</span> <span class="n">bulunuyordu</span><span class="o">.</span>
+<span class="n">Neyse</span> <span class="n">kod</span> <span class="err">ş</span><span class="n">u</span> <span class="n">hale</span> <span class="n">update</span> <span class="n">edildi</span> <span class="p">(</span> <span class="n">En</span> <span class="n">sorunsuz</span> <span class="n">sürüm</span> <span class="n">sanırım</span> <span class="p">)</span>
+<span class="sb">``</span><span class="err">`</span><span class="n">python</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">html</span>
+<span class="kn">import</span> <span class="nn">adddb</span>
+<span class="k">def</span> <span class="nf">multiplelist</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">number</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">number</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+
+            <span class="n">http</span> <span class="o">=</span> <span class="s2">&quot;https://lisans.tsf.org.tr/online/main/kulupliste/</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">ac</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">http</span><span class="p">)</span>
+            <span class="n">lx</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">ac</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+            <span class="n">isim</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">soyisim</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">dyil</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">il</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">isim</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[2]/text()&#39;</span><span class="p">)</span>
+            <span class="n">soyisim</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[3]/text()&#39;</span><span class="p">)</span>
+            <span class="n">dyil</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[4]/text()&#39;</span><span class="p">)</span>
+            <span class="n">il</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[5]/text()&#39;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">http</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">isim</span><span class="p">)):</span>
+                <span class="n">isimsoyisim</span> <span class="o">=</span> <span class="n">isim</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="n">soyisim</span><span class="p">[</span><span class="n">f</span><span class="p">]</span>
+                <span class="n">adddb</span><span class="o">.</span><span class="n">dbadd</span><span class="p">(</span><span class="n">isimsoyisim</span><span class="p">,</span><span class="n">dyil</span><span class="p">[</span><span class="n">f</span><span class="p">],</span><span class="n">il</span><span class="p">[</span><span class="n">f</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+
+<span class="n">sayfasayisi</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://lisans.tsf.org.tr/online/main/kulupliste&quot;</span>
+<span class="n">ac</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">lx</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">ac</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+<span class="nb">id</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;/html/body//option/@value&#39;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;/html/body//option/text()&#39;</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;([0-9]{0,9}).Sporcu&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">//</span><span class="mi">15</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+    <span class="n">sayfasayisi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">u</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span><span class="n">sayfasayisi</span><span class="p">):</span>
+    <span class="n">multiplelist</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">u</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Bu da iyi hoştu ama netim sağlam olmadığı için arkadaşlarda çalıştırdığımızda verileri tam olarak çekmiyordu toplamda 9000 küsür veri çekiyordu.Büyük ihtimal sunucumuz belli bir request den sonra bizi drop ediyordu ve bizde çok az veri yazabiliyorduk.</p>
+<p>Neyse buna da bir çözüm bulduk.Daha önce <a href="https://twitter.com/1ce7ea">Robin Dimyan bilmem ne :D </a> adlı arkadaşın kodunda kullandığı tor reload kullandım.Test ettiğimde sorunsuz gözüküyordu fakat siteyi tam olarak çekemedim ne yazık ki.</p>
+<p><strong> Neyse kodun son hali aşağıda ki şekildedir.</strong></p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span><span class="o">,</span><span class="nn">socks</span><span class="o">,</span><span class="nn">socket</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">call</span>
+<span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">html</span>
+
+<span class="kn">import</span> <span class="nn">adddb</span><span class="o">,</span><span class="nn">re</span>
+
+
+<span class="k">def</span> <span class="nf">tor_reload</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">call</span><span class="p">(</span><span class="s1">&#39;sudo systemctl reload tor&#39;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Successfully Connected to New Tor Circuit!&quot;</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Can&#39;t changed the Tor node, checking tor status and starting if doesn&#39;t working...&quot;</span><span class="p">)</span>
+    <span class="n">socks</span><span class="o">.</span><span class="n">setdefaultproxy</span><span class="p">(</span><span class="n">socks</span><span class="o">.</span><span class="n">PROXY_TYPE_SOCKS5</span><span class="p">,</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">9050</span><span class="p">)</span>
+    <span class="n">socket</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="n">socks</span><span class="o">.</span><span class="n">socksocket</span>
+
+
+<span class="k">def</span> <span class="nf">multiplelist</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">number</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">number</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+
+            <span class="n">http</span> <span class="o">=</span> <span class="s2">&quot;https://lisans.tsf.org.tr/online/main/kulupliste/</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">ac</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">http</span><span class="p">)</span>
+            <span class="n">lx</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">ac</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+            <span class="n">isim</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">soyisim</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">dyil</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">il</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">isim</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[2]/text()&#39;</span><span class="p">)</span>
+            <span class="n">soyisim</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[3]/text()&#39;</span><span class="p">)</span>
+            <span class="n">dyil</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[4]/text()&#39;</span><span class="p">)</span>
+            <span class="n">il</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[5]/text()&#39;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">http</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">isim</span><span class="p">)):</span>
+                <span class="n">isimsoyisim</span> <span class="o">=</span> <span class="n">isim</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="n">soyisim</span><span class="p">[</span><span class="n">f</span><span class="p">]</span>
+                <span class="n">adddb</span><span class="o">.</span><span class="n">dbadd</span><span class="p">(</span><span class="n">isimsoyisim</span><span class="p">,</span><span class="n">dyil</span><span class="p">[</span><span class="n">f</span><span class="p">],</span><span class="n">il</span><span class="p">[</span><span class="n">f</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+
+<span class="n">sayfasayisi</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://lisans.tsf.org.tr/online/main/kulupliste&quot;</span>
+<span class="n">ac</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">lx</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">ac</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+<span class="nb">id</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;/html/body//option/@value&#39;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;/html/body//option/text()&#39;</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;([0-9]{0,9}).Sporcu&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">//</span><span class="mi">15</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+    <span class="n">sayfasayisi</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">u</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span><span class="n">sayfasayisi</span><span class="p">):</span>
+    <span class="n">multiplelist</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">tor_reload</span><span class="p">()</span>
+</pre></div>
+
+
+<p><img alt="tsfparser" src="images/tsf1.png" />
+Bu arada burada kodda sayfa sayısını toplamsporcu//15+1 ile alıyorum.Hiç değilse daha sağlıklı oluyor.</p>
+<p>Scriptte kullandığım diğer kodlar şu şekildedir.</p>
+<h3>adddb.py</h3>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+
+
+<span class="k">def</span> <span class="nf">dbadd</span><span class="p">(</span><span class="n">isim</span><span class="p">,</span><span class="n">yil</span><span class="p">,</span><span class="n">il</span><span class="p">):</span>
+    <span class="n">op</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;tsf.db&quot;</span><span class="p">)</span>
+    <span class="n">cs</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">cs</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO tsflicense(isim,dyil,il) VALUES (?,?,?)&quot;</span><span class="p">,(</span><span class="n">isim</span><span class="p">,</span><span class="n">yil</span><span class="p">,</span><span class="n">il</span><span class="p">,))</span>
+    <span class="n">op</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">op</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+
+<h3>Createdb.py</h3>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="n">op</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;tsf.db&quot;</span><span class="p">)</span>
+<span class="n">cs</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="n">cs</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE tsflicense(id integer primary key AUTOINCREMENT,isim TEXT,dyil text,il text)&quot;</span><span class="p">)</span>
+<span class="n">op</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="n">op</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+
+<h2>Not : <strong> Burada ki kodlar tamamen eğitim amaçlıdır.Kullanımınızdan doğan herhangi bir yasal sorunda mesuliyet kabul etmem.Yazı hakkında ki yasal sorunlar vs iletişime geçmek için : <a href="r4wn3ss@gmail.com">Email</a> </strong></h2>
+
+</p>
+
+<div id="disqus_thread"></div>
+<script>
+    
+    (function() {  // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        
+        s.src = '//0x656e.disqus.com/embed.js';
+        
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+<h1>
+
+  <small><center>Helal siteler<br><br>
+          <a href="https://mertcangokgoz.com/"><span class="label label-default">#Mertcan Gökgöz</span></a>
+          <a href="https://onur.im/"><span class="label label-default">#Onur Aslan</span></a>
+          <a href="http://www.omeripek.com.tr/"><span class="label label-default">#Ömer İpek</span></a>
+          <a href="https://www.ceyhanmolla.com/"><span class="label label-default">#Ceyhan Molla</span></a>
+          <a href="http://furkankalkan.com/"><span class="label label-default">#Furkan Kalkan</span></a>
+          <a href="https://canyoupwn.me"><span class="label label-default">#Canyoupwn.me</span></a>
+</center>
+          </small>
+</h1>
+
+      </div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-44262671-1', 'auto');
+  ga('send', 'pageview');
+
+</script><footer id="footer">
+      <div class="col-xs-8 col-xs-offset-2 top-space">
+      <p class="text-center">
+      Theme based : <a href="http:\\ha.cker.io">ha.cker.io</a> , Jinja coded by :0x6 <br>
+	Thanks babayarisi
+      </p>
+      </div>
+
+
+
+    </footer>
