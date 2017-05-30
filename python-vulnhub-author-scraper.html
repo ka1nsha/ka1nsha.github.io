@@ -1,48 +1,242 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="google" value="notranslate"/>
-<meta name="location" content="türkiye, tr, turkey"/>
-<meta name="language" content="tr-TR"/>
-<meta name="geo.region" content="TR"/>
-<meta name="geo.position" content="38.963745;35.243322"/>
-<meta name="ICBM" content="38.963745, 35.243322"/>
-<meta name ="contactcountry" content="TR">
-
-    <title> 0x656e | Haram Detector</title>
-  	<link href="/theme/css/baba.css" rel="stylesheet">
-<link href="/theme/css/yapiskan.css" rel="stylesheet">
-<link href="/theme/css/baba2.css" rel="stylesheet">
-	  <link href="/theme/css/bootstrap.css" rel="stylesheet">
-	   <script src="/theme/js/jquery.min.js"></script>
-
-    <script src="/theme/js/bootstrap.min.js"></script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="0x656e" />
+        <meta name="keywords" content="python,requests,parser,lxml,vulnhub" />
+        <meta name="description" content="Daha önceden yazmış olduğum bu scripti bugün güncellemek zorunda kaldım.Nedeni vulnhub önceden her türlü bağlantıyı kabul etsede bugün etmiyordu.Bende scripte Chrome Dev Tools&#39;dan kopyaladığım header bilgilerini çaktım script şimdi bağlantı kuruyordu fakat regex patterni boş olarak dönüyordu.İlk scriptte urllib.request.urlopen(url).read() şeklinde bir yapı vardı …" />
 
 
-  </head>
-  <body>
-    <div class="container">
-    <div class="page-header">
+    <title>Python ile basit vulnhub yazarlarını çeken bot - 0x6 | Junior of All</title>
 
-  <a href="index.html"><h1>0x656e | Haram Detector </h1></a>
+        <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
 
-      <h1>
-		<small>				<span class="label label-default">#Canyoupwn</span>
-				<span class="label label-default">#Genel</span>
-				<span class="label label-default">#Python</span>
-				</small>
-	  </h1>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/theme/css/pygments/native.css" rel="stylesheet" />
+    
+    <link href="/theme/css/pelican-twitchy.min.css" rel="stylesheet" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <!-- Feeds -->
+</head>
+<body data-spy="scroll" data-target="#scrollspy">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper-small" class="twitchy-background">
+            <ul id="accordion-small" class="sidebar-nav sidebar-nav-small">
+                <li>
+        <a href="" title="0x6 | Junior of All" class="collapsed">
+            <span class="glyphicon glyphicon-home"></span>
+        </a>
+    </li>
+                <li class="nav-divider"></li>
+                <li>
+        <a href="/archives.html" title="Recent Articles" class="collapsed">
+            <span class="glyphicon glyphicon-th-list"></span>
+        </a>
+    </li>
+                
+                <li class="nav-divider"></li>
+                <li id="share-small">
+                    <a data-toggle="collapse" data-parent="#accordion-small" href="#collapse-share-small" title="Share" class="collapsed">
+                        <i class="fa fa-share-alt padding-small"></i>
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-share-small" class="collapse ">
+                    <li>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=/python-vulnhub-author-scraper.html" title="Share via Facebook" target="popup">
+                            <i class="fa fa-facebook-square padding-small"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://plus.google.com/share?url=/python-vulnhub-author-scraper.html" title="Share via Google+" target="popup">
+                            <i class="fa fa-google-plus padding-small"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-count="vertical" title="Share via Twitter" target="popup">
+                            <i class="fa fa-twitter-square padding-small"></i>
+                        </a>
+                    </li>
+                </ul></li>
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion-small" href="#collapse-social-small" title="Social" class="collapsed">
+                        <i class="fa fa-users padding-small"></i>
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-social-small" class="collapse ">
+                    <li>
+                        <a href="www.twitter.com/0x656e" title="0x656e"><i class="fa fa-0x656e-square fa-lg padding-small"></i></a>
+                    </li>
+                </ul></li>
+                <li class="nav-divider"></li>
+                <li>
+        <a href="#" title="Back to top" class="collapsed">
+            <span class="fa fa-arrow-up"></span>
+        </a>
+    </li>
+            </ul>
+        </div>
+        <div id="sidebar-wrapper" class="twitchy-background">
+            <ul id="accordion" class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="/">
+                            <span class="glyphicon glyphicon-home padding-small"></span>
+                            0x6 | Junior of All
+                    </a>
+                </li>
+                    <li class="nav-divider"></li>
+                    <li>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-latest">
+                            <span class="glyphicon glyphicon-th-list padding-small"></span>
+                            Recent Articles
+                        </a>
+                    </li>
+                    <li class="panel anti-panel"><ul id="collapse-latest" class="sidebar_submenu collapse in">
+                        <li class="">
+                            <a class="hide-overflow" href="/tsf-parser.html" title="TSF Parser">
+                                <i class="fa fa-file-text padding-small"></i>
+                                TSF Parser
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="hide-overflow" href="/zone-h-parser.html" title="Zone-H Parser">
+                                <i class="fa fa-file-text padding-small"></i>
+                                Zone-H Parser
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a class="hide-overflow" href="/python-vulnhub-author-scraper.html" title="Python ile basit vulnhub yazarlarını çeken bot">
+                                <i class="fa fa-file-text padding-small"></i>
+                                Python ile basit vulnhub yazarlarını çeken bot
+                            </a>
+                        </li>
+                    <li>
+                        <a href="/archives.html">
+                            <i class="fa fa-arrow-right padding-small"></i>
+                            More
+                        </a>
+                    </li>
+                    </ul></li>
+                <li class="nav-divider"></li>
+                <li id="share">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-share" title="Share" class="collapsed">
+                        <i class="fa fa-share-alt padding-small"></i>
+                        Share
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-share" class="sidebar_submenu collapse ">
+                    <li>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=/python-vulnhub-author-scraper.html" target="popup">
+                            <i class="fa fa-facebook-square padding-small"></i>
+                            Facebook
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://plus.google.com/share?url=/python-vulnhub-author-scraper.html" target="popup">
+                            <i class="fa fa-google-plus padding-small"></i>
+                            Google+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-count="vertical" target="popup">
+                            <i class="fa fa-twitter-square padding-small"></i>
+                            Twitter
+                        </a>
+                    </li>
+                </ul></li>
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-social">
+                        <i class="fa fa-users padding-small"></i>
+                        Contact
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-social" class="sidebar_submenu collapse ">
+                    <li>
+                        <a href="www.twitter.com/0x656e" title="0x656e">
+                            <i class="fa fa-0x656e-square fa-lg padding-small"></i>
+                            0x656e
+                        </a>
+                    </li>
+                </ul></li>
+                
+                
+                <li class="nav-divider"></li>
+                <li>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-categories">
+                        <i class="fa fa-folder-open padding-small"></i>
+                        Categories
+                    </a>
+                </li>
+                <li class="panel anti-panel"><ul id="collapse-categories" class="sidebar_submenu collapse ">
+                    <li class="active">
+                        <a href="/category/python.html">
+                            <i class="fa fa-folder-open padding-small"></i>
+                            python
+                            <span class="badge pull-right categorybadge">3</span>
+                        </a>
+                    </li>
+                </ul></li>
+                
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- open/close sidebar -->
+        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
+            <span id="right-arrow" class="glyphicon glyphicon-chevron-right"  title="expand sidebar"></span>
+            <span id="left-arrow" class="glyphicon glyphicon-chevron-left" title="minimize sidebar"></span>
+        </a>
+       <!-- /open/close sidebar -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+<section id="content">
+    <article>
+        <div class="row">
+            <div class="col-lg-9">
+                <header class="page-header">
+                    <h1>
+                        <a href="/python-vulnhub-author-scraper.html"
+                           rel="bookmark"
+                           title="Permalink to Python ile basit vulnhub yazarlarını çeken bot">
+                            Python ile basit vulnhub yazarlarını çeken bot
+                        </a>
+                        <small>
+<div class="post-info">
+    <div class="publish-info-block">
+        <small>
+            <span class="published">
+                <i class="fa fa-calendar padding-small"></i><time datetime="2016-06-17T10:20:00+03:00"> Fri 17 June 2016</time>
+            </span>
+            <span class="category">
+                <i class="fa fa-folder-open padding-small"></i><a href="/category/python.html">python</a>
+            </span>
+            <span class="tags">
+                <i class="fa fa-tags padding-small"></i>
+                <a href="/tag/python.html">python</a> /                 <a href="/tag/requests.html">requests</a> /                 <a href="/tag/parser.html">parser</a> /                 <a href="/tag/lxml.html">lxml</a> /                 <a href="/tag/vulnhub.html">vulnhub</a>            </span>
+        </small>
     </div>
-
-
-<div class="page-header">
-	<h2>Python ile basit vulnhub yazarlarını çeken bot</h2><br>
-Sunday, July 17, 2016</div>
-
-<p><p>Daha önceden yazmış olduğum bu scripti bugün güncellemek zorunda kaldım.Nedeni vulnhub önceden her türlü bağlantıyı kabul etsede bugün etmiyordu.Bende scripte Chrome Dev Tools'dan kopyaladığım header bilgilerini çaktım script şimdi bağlantı kuruyordu fakat regex patterni boş olarak dönüyordu.İlk scriptte</p>
+</div><!-- /.post-info -->                        </small>
+                    </h1>
+                </header>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="entry-content">
+                    <p>Daha önceden yazmış olduğum bu scripti bugün güncellemek zorunda kaldım.Nedeni vulnhub önceden her türlü bağlantıyı kabul etsede bugün etmiyordu.Bende scripte Chrome Dev Tools'dan kopyaladığım header bilgilerini çaktım script şimdi bağlantı kuruyordu fakat regex patterni boş olarak dönüyordu.İlk scriptte</p>
 <div class="highlight"><pre><span></span>urllib.request.urlopen(url).read()
 </pre></div>
 
@@ -53,12 +247,83 @@ Sunday, July 17, 2016</div>
 
 
 <p>şeklinde bir argüman ile bytecode olarak arama yapıyor fakat bu debug yaparken sorun nerde ? veya pattern neden bulmuyor şeklinde ki sorunlarınızı çözerken zorluk çıkartıyordu.Bende kodu bu yüzden güncelledim.</p>
-<p><strong> urllib </strong> yerine artık <strong> requests </strong> kullanıyorum.(Respect david beazley)</p>
-<p>Neyse lafı fazla uzatmayalım.
-Sonuç görüntüsü aşağıdadır.</p>
-<p><img alt="vulnhub-scraper" src="images/vulnhub.png" /></p>
+<p>urllib yerine artık requests kullanıyorum.(Respect david beazley)</p>
+<p>Neyse lafı fazla uzatmayalım. Sonuç görüntüsü aşağıdadır.</p>
+<p><img alt="Vulnhub" src="images/vulnhub.png" title="Vulnhub"></p>
 <h3>Kodlar</h3>
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python3</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python3</span>
 <span class="kn">import</span> <span class="nn">requests</span><span class="o">,</span><span class="nn">re</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
 <span class="s1">&#39;:authority&#39;</span><span class="p">:</span><span class="s1">&#39;www.vulnhub.com&#39;</span><span class="p">,</span>
@@ -78,7 +343,7 @@ Sonuç görüntüsü aşağıdadır.</p>
     <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://www.vulnhub.com/?page=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span><span class="n">x</span>
     <span class="n">linkler</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">yazartopla</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Acılan link : &quot;</span><span class="o">+</span><span class="n">x</span><span class="p">)</span> <span class="c1">#debug için eklemiştim</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Acılan link : &quot;</span><span class="o">+</span><span class="n">x</span><span class="p">)</span> <span class="c1">#debug için eklemiştim</span>
 
     <span class="n">ac</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span><span class="o">.</span><span class="n">text</span> <span class="c1">## Siteyi get metodu ile çekiyoruz ve içindeki textleri alıyoruz</span>
 
@@ -115,7 +380,7 @@ Sonuç görüntüsü aşağıdadır.</p>
 
             <span class="n">dosyayaz</span><span class="p">(</span><span class="n">author</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">:</span> <span class="c1">## Eğer herhangi bir şekilde ulaşamazsa sayfaya hata var diye uyarı veriyor.Nedense break etmemişim</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Hata var&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hata var&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">dosyayaz</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="n">ac</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;yazarlar.txt&#39;</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
@@ -132,58 +397,62 @@ Sonuç görüntüsü aşağıdadır.</p>
     <span class="n">i</span> <span class="o">=</span> <span class="n">i</span>
     <span class="n">git</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </pre></div>
+</td></tr></table>
+                </div>
+                <footer class="text-right">
+                    <p>- 0x656e</p>
+                </footer>
+    <section id="comments" class="comments ">
+        <hr/>
+        <h2>Comments</h2>
+        <div id="disqus_thread"></div>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </section>
+            </div>
+        </div>
+    </article>
+</section>
+<footer>
+    <hr>
+    <div class="row">
+        <div class="col-lg-9 text-center">
+            <p><small>
+                Built by <a href="http://docs.getpelican.com/en/latest">Pelican</a> / <a href="https://github.com/ingwinlu/pelican-twitchy">pelican-twitchy</a>
+                &middot;                    &copy; 2016 0x656e
+            </small></p>
+        </div>
+    </div>
+</footer>            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery Version 1.11.2 -->
+    <script src="/theme/js/jquery-1.11.2.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+    <!-- twitchy Script -->
+    <script src="/theme/js/pelican_twitchy.min.js"></script>
+    <!-- Google Analytics -->
+    <script type="text/javascript">
 
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-44262671-1']);
+        _gaq.push(['_trackPageview']);
 
-<p>Github depoma ekleyeceğim oradan isterseniz eklemelerde bulunabilirsiniz.</p>
-<p>Kodu nasıl daha iyileştirebiliriz şeklinde ki yorumlarınızı kendinize saklamayın memnuniyetle okurum :)</p>
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+</body>
+<script id="dsq-count-scr" src="//0x656e.disqus.com/count.js" async></script>
 
-</p>
-
-<div id="disqus_thread"></div>
-<script>
-    
-    (function() {  // DON'T EDIT BELOW THIS LINE
-        var d = document, s = d.createElement('script');
-        
-        s.src = '//0x656e.disqus.com/embed.js';
-        
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-
-<h1>
-
-  <small><center>Helal siteler<br><br>
-          <a href="https://mertcangokgoz.com/"><span class="label label-default">#Mertcan Gökgöz</span></a>
-          <a href="https://onur.im/"><span class="label label-default">#Onur Aslan</span></a>
-          <a href="http://www.omeripek.com.tr/"><span class="label label-default">#Ömer İpek</span></a>
-          <a href="https://www.ceyhanmolla.com/"><span class="label label-default">#Ceyhan Molla</span></a>
-          <a href="http://furkankalkan.com/"><span class="label label-default">#Furkan Kalkan</span></a>
-          <a href="https://canyoupwn.me"><span class="label label-default">#Canyoupwn.me</span></a>
-</center>
-          </small>
-</h1>
-
-      </div>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-44262671-1', 'auto');
-  ga('send', 'pageview');
-
-</script><footer id="footer">
-      <div class="col-xs-8 col-xs-offset-2 top-space">
-      <p class="text-center">
-      Theme based : <a href="http:\\ha.cker.io">ha.cker.io</a> , Jinja coded by :0x6 <br>
-	Thanks babayarisi
-      </p>
-      </div>
-
-
-
-    </footer>
+</html>
