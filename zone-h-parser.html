@@ -1,242 +1,43 @@
-
 <!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="author" content="0x656e" />
-        <meta name="keywords" content="python,requests,parser,lxml" />
-        <meta name="description" content="Zone-H.com&#39;u bilmeyen yoktur herhalde.Kısaca bahsetmek gerekirse blackhat hackerların deface ettikleri sitelerin bir nevi screenshot/snapshot&#39;unu alan bir site.Çok güzel bilgiler barındırabiliyor.Örnek vermek gerekirse Turkiye&#39;de bu site üzerinde kayıtlı kaç blackhat hacker grub/kişi var veya bunlar kaç defacement yapmış şeklinde güzel datalar sağlanabilir. Bende parse etmeye …" />
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>    Zone-H Parser
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href='https://fonts.googleapis.com/css?family=Gentium+Book+Basic|Merriweather:400,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/theme/css/cid.css">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
 
+            <div class="container">
 
-    <title>Zone-H Parser - 0x6 | Junior of All</title>
+<header class="blog-header">
+    <h1><a href="">0x6 | Junior of All</a></h1>
+    <p></p>
+    <nav>
+        <a href="/">INDEX</a>
+        <a href="/archives">ARCHIVES</a>
+        <a href="/categories">CATEGORIES</a>
+    </nav>
+</header>
 
-        <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css" />
+    <div class="post">
 
-    <link href="/theme/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="/theme/css/pygments/native.css" rel="stylesheet" />
-    
-    <link href="/theme/css/pelican-twitchy.min.css" rel="stylesheet" />
+        <header>
+            <h1>Zone-H Parser</h1>
+            <p class="date">Written on <time datetime="2016-06-21T10:20:00+03:00">Jun 21, 2016</time></p>
+        </header>
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <!-- Feeds -->
-</head>
-<body data-spy="scroll" data-target="#scrollspy">
-    <div id="wrapper">
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper-small" class="twitchy-background">
-            <ul id="accordion-small" class="sidebar-nav sidebar-nav-small">
-                <li>
-        <a href="" title="0x6 | Junior of All" class="collapsed">
-            <span class="glyphicon glyphicon-home"></span>
-        </a>
-    </li>
-                <li class="nav-divider"></li>
-                <li>
-        <a href="/archives.html" title="Recent Articles" class="collapsed">
-            <span class="glyphicon glyphicon-th-list"></span>
-        </a>
-    </li>
-                
-                <li class="nav-divider"></li>
-                <li id="share-small">
-                    <a data-toggle="collapse" data-parent="#accordion-small" href="#collapse-share-small" title="Share" class="collapsed">
-                        <i class="fa fa-share-alt padding-small"></i>
-                    </a>
-                </li>
-                <li class="panel anti-panel"><ul id="collapse-share-small" class="collapse ">
-                    <li>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=/zone-h-parser.html" title="Share via Facebook" target="popup">
-                            <i class="fa fa-facebook-square padding-small"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://plus.google.com/share?url=/zone-h-parser.html" title="Share via Google+" target="popup">
-                            <i class="fa fa-google-plus padding-small"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://twitter.com/share" class="twitter-share-button" data-count="vertical" title="Share via Twitter" target="popup">
-                            <i class="fa fa-twitter-square padding-small"></i>
-                        </a>
-                    </li>
-                </ul></li>
-                <li class="nav-divider"></li>
-                <li>
-                    <a data-toggle="collapse" data-parent="#accordion-small" href="#collapse-social-small" title="Social" class="collapsed">
-                        <i class="fa fa-users padding-small"></i>
-                    </a>
-                </li>
-                <li class="panel anti-panel"><ul id="collapse-social-small" class="collapse ">
-                    <li>
-                        <a href="www.twitter.com/0x656e" title="0x656e"><i class="fa fa-0x656e-square fa-lg padding-small"></i></a>
-                    </li>
-                </ul></li>
-                <li class="nav-divider"></li>
-                <li>
-        <a href="#" title="Back to top" class="collapsed">
-            <span class="fa fa-arrow-up"></span>
-        </a>
-    </li>
-            </ul>
-        </div>
-        <div id="sidebar-wrapper" class="twitchy-background">
-            <ul id="accordion" class="sidebar-nav">
-                <li class="sidebar-brand">
-                    <a href="/">
-                            <span class="glyphicon glyphicon-home padding-small"></span>
-                            0x6 | Junior of All
-                    </a>
-                </li>
-                    <li class="nav-divider"></li>
-                    <li>
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-latest">
-                            <span class="glyphicon glyphicon-th-list padding-small"></span>
-                            Recent Articles
-                        </a>
-                    </li>
-                    <li class="panel anti-panel"><ul id="collapse-latest" class="sidebar_submenu collapse in">
-                        <li class="">
-                            <a class="hide-overflow" href="/tsf-parser.html" title="TSF Parser">
-                                <i class="fa fa-file-text padding-small"></i>
-                                TSF Parser
-                            </a>
-                        </li>
-                        <li class="active">
-                            <a class="hide-overflow" href="/zone-h-parser.html" title="Zone-H Parser">
-                                <i class="fa fa-file-text padding-small"></i>
-                                Zone-H Parser
-                            </a>
-                        </li>
-                        <li class="">
-                            <a class="hide-overflow" href="/python-vulnhub-author-scraper.html" title="Python ile basit vulnhub yazarlarını çeken bot">
-                                <i class="fa fa-file-text padding-small"></i>
-                                Python ile basit vulnhub yazarlarını çeken bot
-                            </a>
-                        </li>
-                    <li>
-                        <a href="/archives.html">
-                            <i class="fa fa-arrow-right padding-small"></i>
-                            More
-                        </a>
-                    </li>
-                    </ul></li>
-                <li class="nav-divider"></li>
-                <li id="share">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-share" title="Share" class="collapsed">
-                        <i class="fa fa-share-alt padding-small"></i>
-                        Share
-                    </a>
-                </li>
-                <li class="panel anti-panel"><ul id="collapse-share" class="sidebar_submenu collapse ">
-                    <li>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=/zone-h-parser.html" target="popup">
-                            <i class="fa fa-facebook-square padding-small"></i>
-                            Facebook
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://plus.google.com/share?url=/zone-h-parser.html" target="popup">
-                            <i class="fa fa-google-plus padding-small"></i>
-                            Google+
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://twitter.com/share" class="twitter-share-button" data-count="vertical" target="popup">
-                            <i class="fa fa-twitter-square padding-small"></i>
-                            Twitter
-                        </a>
-                    </li>
-                </ul></li>
-                <li class="nav-divider"></li>
-                <li>
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-social">
-                        <i class="fa fa-users padding-small"></i>
-                        Contact
-                    </a>
-                </li>
-                <li class="panel anti-panel"><ul id="collapse-social" class="sidebar_submenu collapse ">
-                    <li>
-                        <a href="www.twitter.com/0x656e" title="0x656e">
-                            <i class="fa fa-0x656e-square fa-lg padding-small"></i>
-                            0x656e
-                        </a>
-                    </li>
-                </ul></li>
-                
-                
-                <li class="nav-divider"></li>
-                <li>
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-categories">
-                        <i class="fa fa-folder-open padding-small"></i>
-                        Categories
-                    </a>
-                </li>
-                <li class="panel anti-panel"><ul id="collapse-categories" class="sidebar_submenu collapse ">
-                    <li class="active">
-                        <a href="/category/python.html">
-                            <i class="fa fa-folder-open padding-small"></i>
-                            python
-                            <span class="badge pull-right categorybadge">3</span>
-                        </a>
-                    </li>
-                </ul></li>
-                
-            </ul>
-        </div>
-        <!-- /#sidebar-wrapper -->
-        <!-- open/close sidebar -->
-        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
-            <span id="right-arrow" class="glyphicon glyphicon-chevron-right"  title="expand sidebar"></span>
-            <span id="left-arrow" class="glyphicon glyphicon-chevron-left" title="minimize sidebar"></span>
-        </a>
-       <!-- /open/close sidebar -->
-
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-<section id="content">
-    <article>
-        <div class="row">
-            <div class="col-lg-9">
-                <header class="page-header">
-                    <h1>
-                        <a href="/zone-h-parser.html"
-                           rel="bookmark"
-                           title="Permalink to Zone-H Parser">
-                            Zone-H Parser
-                        </a>
-                        <small>
-<div class="post-info">
-    <div class="publish-info-block">
-        <small>
-            <span class="published">
-                <i class="fa fa-calendar padding-small"></i><time datetime="2016-06-21T10:20:00+03:00"> Tue 21 June 2016</time>
-            </span>
-            <span class="category">
-                <i class="fa fa-folder-open padding-small"></i><a href="/category/python.html">python</a>
-            </span>
-            <span class="tags">
-                <i class="fa fa-tags padding-small"></i>
-                <a href="/tag/python.html">python</a> /                 <a href="/tag/requests.html">requests</a> /                 <a href="/tag/parser.html">parser</a> /                 <a href="/tag/lxml.html">lxml</a>            </span>
-        </small>
-    </div>
-</div><!-- /.post-info -->                        </small>
-                    </h1>
-                </header>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-9">
-                <div class="entry-content">
-                    <p>Zone-H.com'u bilmeyen yoktur herhalde.Kısaca bahsetmek gerekirse blackhat hackerların deface ettikleri sitelerin bir nevi screenshot/snapshot'unu alan bir site.Çok güzel bilgiler barındırabiliyor.Örnek vermek gerekirse Turkiye'de bu site üzerinde kayıtlı kaç blackhat hacker grub/kişi var veya bunlar kaç defacement yapmış şeklinde güzel datalar sağlanabilir.</p>
+        <article>
+            <p>Zone-H.com'u bilmeyen yoktur herhalde.Kısaca bahsetmek gerekirse blackhat hackerların deface ettikleri sitelerin bir nevi screenshot/snapshot'unu alan bir site.Çok güzel bilgiler barındırabiliyor.Örnek vermek gerekirse Turkiye'de bu site üzerinde kayıtlı kaç blackhat hacker grub/kişi var veya bunlar kaç defacement yapmış şeklinde güzel datalar sağlanabilir.</p>
 <p>Bende parse etmeye çalışayım dedim.Bizim baştacımız olan python modüllerinden <strong>requests</strong> , <strong>lxml</strong> 'in işimizi görebileceğini düşündüm.Fakat istek yaptığımda bana response olarak içinde bolca şifrelenmiş veri gönderen bir zone-h karşıma çıktı tabi ki bunun yanında captcha ise cabasıydı.Biraz araştırma ile aşağıda vereceğim bir yazı da şifrelenmiş kodları decode etmek için bir yol var.İyi hoş fakat bu seferde captcha sorunu karşımıza çıkıyordu.Bende farklı yollara girdim ve iyi ki de girmişim dedim.<br>
 <a href="https://blog.amilx.com/scaping-zone-h/">Decode edebileceğiniz yöntem</a></p>
 <p>Şimdi parse etmek için yıllara göre filtreleme seçenekleri kullanmak istedim. Bundan önce öncelikle bi sitemap.xml e bakmak istedim çünkü eğer sitemap.xml de aşağıda ki gibi bir yapı var ise bu benim işimi çok büyük ölçüde kolaylaştıracaktı.İşimi kolaylaştırabilecek bir yapı aşağıda ki resimde bulunuyor.<br>
@@ -322,61 +123,45 @@ Bu şekilde ilk id den başlayıp sonuna kadar gidecektim.Projemde selenium kull
 
 <p>Kod da plugin olarak zenmate kullandım.Captcha vs gelirse eğer kodun içinde input kısmı bulunuyor.Captchayı girdikten sonra 1 e basarsanız captchalı id den devam edecektir.Github'a koymayı düşünüyorum.Commitlerinizi beklerim.Eğer tüm siteyi çeken olursa datayı da isterim daha farklı projelerimde kullanmak için.</p>
 <p>Kodlarla ilgili bir sorunuz olursa yorum veya mail ile belirtebilir/sorabilirsiniz.</p>
-                </div>
-                <footer class="text-right">
-                    <p>- 0x656e</p>
-                </footer>
-    <section id="comments" class="comments ">
-        <hr/>
-        <h2>Comments</h2>
-        <div id="disqus_thread"></div>
-        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
-            Disqus.</a></noscript>
-        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    </section>
-            </div>
-        </div>
-    </article>
-</section>
-<footer>
-    <hr>
-    <div class="row">
-        <div class="col-lg-9 text-center">
-            <p><small>
-                Built by <a href="http://docs.getpelican.com/en/latest">Pelican</a> / <a href="https://github.com/ingwinlu/pelican-twitchy">pelican-twitchy</a>
-                &middot;                    &copy; 2016 0x656e
-            </small></p>
-        </div>
-    </div>
-</footer>            </div>
-        </div>
-        <!-- /#page-content-wrapper -->
-    </div>
-    <!-- /#wrapper -->
-    <!-- jQuery Version 1.11.2 -->
-    <script src="/theme/js/jquery-1.11.2.min.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/theme/js/bootstrap.min.js"></script>
-    <!-- twitchy Script -->
-    <script src="/theme/js/pelican_twitchy.min.js"></script>
-    <!-- Google Analytics -->
+        </article>
+
+        <footer>
+            <p>This entry is posted in <a href="/category/python.html">python</a>.</p>
+        </footer>
+
+<div class="comments">
+    <div id="disqus_thread"></div>
     <script type="text/javascript">
-
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-44262671-1']);
-        _gaq.push(['_trackPageview']);
-
-        (function () {
-            var ga = document.createElement('script');
-            ga.type = 'text/javascript';
-            ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(ga, s);
+        var disqus_shortname = '0x6.pw';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
         })();
     </script>
-    <!-- End Google Analytics Code -->
-</body>
-<script id="dsq-count-scr" src="//0x656e.disqus.com/count.js" async></script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
 
+    </div>
+
+
+<footer class="blog-footer">
+
+    <ul class="nav">
+            <li><a href="www.twitter.com/0x656e">Twitter</a></li>
+    </ul>
+
+    <p class="disclaimer">
+    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/hdra/Pelican-Cid">Cid</a> theme.
+    </p>
+</footer>
+            </div>
+<script>
+    var _gaq=[['_setAccount','UA-44262671-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    </body>
 </html>
