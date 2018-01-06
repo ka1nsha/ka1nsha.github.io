@@ -37,11 +37,10 @@
         </header>
 
         <article>
-            <h2>Neymiş bu Vagrant?</h2>
-<h3>Kısaca Vagrant Nedir?</h3>
+            <h3>Kısaca Vagrant Nedir?</h3>
 <p>Kendi anladığım şekilde anlatmam gerekirse Vagrant hazırladığınız text scriptleri ile sanal sunucular oluşturabileceğiniz otomatize bir araçtır. </p>
 <h3>Ne İşe Yarar?</h3>
-<p>Oluşturduğunuz scriptler ile herhangi bir ortamda, bu ortam müşteri ortamı  veya kendi ortamınız da sizler için hazır bir makine inşa eder. Tabi bir de ansible ile birleştirirseniz tadından yenmez sanırım. Tabi ki bunda özgürsünüz projenizin içerisinde ki bir sh dosyasını da çalıştırabilirsiniz.</p>
+<p>Oluşturduğunuz scriptler ile herhangi bir ortamda, bu ortam müşteri ortamı  veya kendi ortamınız da sizler için hazır bir makine inşa eder. Tabi bir de <a href="https://ka1nsha.github.io/ansible-nginx.html">ansible</a> ile birleştirirseniz tadından yenmez sanırım. Tabi ki bunda özgürsünüz projenizin içerisinde ki bir sh dosyasını da çalıştırabilirsiniz.</p>
 <h3>Birkaç Terim</h3>
 <p><strong> Provider </strong> : Sisteminizin hangi sanallaştırma platformu üzerinde çalıştırılacağını belirtir. Örn: Virtualbox, Vmware, Docker</p>
 <p><strong> Box </strong> : Binlerce kullanıcı tarafından oluşturulmuş özel kutulardır. Bu kutuları scriptiniz içerisine yazarsanız Vagrant bunu sizin için indirir ve script içerisinde belirttiğiniz özellikler üzerinden çalışmasını sağlar. Örnek vermek gerekirse pfsense box'ını indirirseniz sizlere nur topu gibi bir pfsense makinesi verecektir.</p>
@@ -159,11 +158,15 @@ SSH bağlantısı yapalım ve yazıyı sonlandıralım.
 <img alt="Vagrant3" src="images/vagrant3.png"></p>
 <p>Evet artık nur topu gibi bir sanal makinemiz var.
 <img alt="Vagrant4" src="images/vagrant4.png"></p>
+<h3>Vagrant Kutuları İçin</h3>
+<p>Vagrant üzerinde kutuları kullanabileceğinizi söylemiştik.
+Kullanıcılar tarafından oluşturulmuş public kutulara ulaşmak için aşağıda ki linki kullanabilirsiniz.</p>
+<p><a href="https://app.vagrantup.com/boxes/search">Vagrant Boxes</a></p>
 <h5>Ek Linkler</h5>
-<p><a href="https://2rwky424s9rd179jmbzqsca1-wpengine.netdna-ssl.com/wp-content/uploads/2017/12/vagrant-printerfriendly.png">Vagrant CheatSheet</a>
-<a href="https://www.virtualbox.org/manual/ch08.html">VBoxManage</a>
-<a href="https://www.vagrantup.com/docs/cli/">Vagrant CLI</a>
-<a href="https://everythingshouldbevirtual.com/virtualization/vagrant-complex-vagrantfile-configurations/">Complex VagrantFile</a></p>
+<p><a href="https://2rwky424s9rd179jmbzqsca1-wpengine.netdna-ssl.com/wp-content/uploads/2017/12/vagrant-printerfriendly.png">Vagrant CheatSheet</a></p>
+<p><a href="https://www.virtualbox.org/manual/ch08.html">VBoxManage</a></p>
+<p><a href="https://www.vagrantup.com/docs/cli/">Vagrant CLI</a></p>
+<p><a href="https://everythingshouldbevirtual.com/virtualization/vagrant-complex-vagrantfile-configurations/">Complex VagrantFile</a></p>
         </article>
 
         <footer>
