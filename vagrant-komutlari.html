@@ -260,38 +260,38 @@
 Dosya yolu veya HTTP URL kabul etmektedir. HTTP/S desteği bulunmaktadır. HTTP üzerinden basic authentication desteklemektedir. 
 URL üzerinden direkt olarak bir kutu eklenebilmektedir.</pre></p>
 <p>Ayrıca bu komutun alabileceği options parametleri vardır.
-<strong> --box-version {} </strong> : süslü parantezler arasına yazacağınız özel bir versionu indirecektir.
-<strong> --clean </strong> : Eğer bu komutu verirseniz daha önce eğer varsa önbelleğe alınmış verileri, yarım kalmış indirme işlemlerini siler ve yeniden indirmeye başlar. 
-<strong> --force </strong> : Aynı isimde bir kutunuz var ise bunu dikkate almadan üzerine yazar.</p>
+<strong> --box-version {} </strong> : süslü parantezler arasına yazacağınız özel bir versionu indirecektir.</p>
+<p><strong> --clean </strong> : Eğer bu komutu verirseniz daha önce eğer varsa önbelleğe alınmış verileri, yarım kalmış indirme işlemlerini siler ve yeniden indirmeye başlar. </p>
+<p><strong> --force </strong> : Aynı isimde bir kutunuz var ise bunu dikkate almadan üzerine yazar.</p>
 <p><strong> --insecure </strong> : Hatalı SSL Sertifikalarını görmezden gelir.</p>
 <h3>1.1.1 Vagrant box add Dosya Kontrolü</h3>
-<p><strong> --checksum {} </strong> : Dosya bütünlüğü kontrolü yapar.
-<strong> --checksum-type {Tip} </strong> : MD5, Sha1 veya Sha256 değerleri verilerek dosya bütünlüğü kontrolünü sağlamanıza olanak verir.</p>
+<p><strong> --checksum {} </strong> : Dosya bütünlüğü kontrolü yapar.</p>
+<p><strong> --checksum-type {Tip} </strong> : MD5, Sha1 veya Sha256 değerleri verilerek dosya bütünlüğü kontrolünü sağlamanıza olanak verir.</p>
 <h2>1.2 Vagrant box prune</h2>
 <p>Bu komutun da alabileceği parametreler vardır.</p>
-<p><strong> --provider {} </strong> : Özel olarak belirttiğiniz provider'a ait kutuları siler.
-<strong> --dry-run </strong> : Silinebilecek kutuları yazdırır.
-<strong> --name {} </strong> : Özel olarak ismini belirttiğiniz kutuyu silecektir.
-<strong> --force </strong> : Hiç bir uyarıyı gözetmeksizin kutularınızı silecektir.</p>
+<p><strong> --provider {} </strong> : Özel olarak belirttiğiniz provider'a ait kutuları siler.</p>
+<p><strong> --dry-run </strong> : Silinebilecek kutuları yazdırır.</p>
+<p><strong> --name {} </strong> : Özel olarak ismini belirttiğiniz kutuyu silecektir.</p>
+<p><strong> --force </strong> : Hiç bir uyarıyı gözetmeksizin kutularınızı silecektir.</p>
 <h2>1.3 Vagrant box remove</h2>
-<p>Bu komutun alabileceği parametreler aşağıda ki gibidir.
-<strong> --box-version {} </strong> : Sadece belirli versiyona sahip olan kutularınızı silebilirsiniz.
-<strong> --all </strong>: Versiyona bakılmaksızın kutunuzu silecektir.
-<strong> --force </strong>: Kutuyu kullanıyor olsanız bile silecektir.
-<strong> --provider {} </strong> : Belirli provider'a ait kutularınızı silecektir.</p>
+<p>Bu komutun alabileceği parametreler aşağıda ki gibidir.</p>
+<p><strong> --box-version {} </strong> : Sadece belirli versiyona sahip olan kutularınızı silebilirsiniz.</p>
+<p><strong> --all </strong>: Versiyona bakılmaksızın kutunuzu silecektir.</p>
+<p><strong> --force </strong>: Kutuyu kullanıyor olsanız bile silecektir.</p>
+<p><strong> --provider {} </strong> : Belirli provider'a ait kutularınızı silecektir.</p>
 <h2>1.4 Vagrant connect</h2>
 <p>Komutun alabileceği 3 parametre bulunmaktadır.</p>
-<p><strong> --disable-static-ip </strong> : Vermiş olduğunuz static IP'yi iptal eder.
-<strong> --static-ip </strong> : Kutunuza Static IP atarsınız.
-<strong> --ssh </strong> : Eğer sanal makineniz sadece --ssh ile paylaşılmış ise bu kutuya bağlanmanızı sağlar.</p>
+<p><strong> --disable-static-ip </strong> : Vermiş olduğunuz static IP'yi iptal eder.</p>
+<p><strong> --static-ip </strong> : Kutunuza Static IP atarsınız.</p>
+<p><strong> --ssh </strong> : Eğer sanal makineniz sadece --ssh ile paylaşılmış ise bu kutuya bağlanmanızı sağlar.</p>
 <h2>1.5 Vagrant share</h2>
 <p>Komutun alabileceği parametreler aşağıda ki gibidir.</p>
-<p><strong> --disable-http </strong> : HTTP paylaşımınızı iptal eder.
-<strong> --HTTP {PORT} </strong> : Vermiş olduğunuz port üzerinden HTTP sunucusunu paylaşır. Eğer --disable-http yapılmışsa kullanmanız efektif değildir.
-<strong> --HTTPS </strong> : Yukarıda ki maddenin HTTPS için olanıdır.
-<strong> --ssh </strong> : SSH paylaşımını açar.
-<strong> --ssh-no-password </strong> : Bunu bilmiyorum.
-<strong> --ssh-once </strong> : Yalnızca 1 kerelik SSH bağlantısını açar.</p>
+<p><strong> --disable-http </strong> : HTTP paylaşımınızı iptal eder.</p>
+<p><strong> --HTTP {PORT} </strong> : Vermiş olduğunuz port üzerinden HTTP sunucusunu paylaşır. Eğer --disable-http yapılmışsa kullanmanız efektif değildir.</p>
+<p><strong> --HTTPS </strong> : Yukarıda ki maddenin HTTPS için olanıdır.</p>
+<p><strong> --ssh </strong> : SSH paylaşımını açar.</p>
+<p><strong> --ssh-no-password </strong> : Bunu bilmiyorum.</p>
+<p><strong> --ssh-once </strong> : Yalnızca 1 kerelik SSH bağlantısını açar.</p>
 <p>Yazımız buraya kadardı. Başka bir yazı da görüşmek üzere esen kalın.</p>
     </div>
 
