@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+        <title>Ansible ile Nginx Kurulum ve Yapılandırılması vol.1</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+<body>
+
+    <div class="navigation pure-menu pure-menu-horizontal">
+        <a href="/" class="pure-menu-heading  pure-menu-link">0x6 | Junior of All</a>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item"></li>
+
+            <li class="pure-menu-item pure-menu-selected"><a href="/category/ansible.html" class="pure-menu-link">ansible</a></li>
+            <li class="pure-menu-item"><a href="/category/linux.html" class="pure-menu-link">linux</a></li>
+            <li class="pure-menu-item"><a href="/category/python.html" class="pure-menu-link">python</a></li>
+            <li class="pure-menu-item"><a href="/category/vagrant.html" class="pure-menu-link">vagrant</a></li>
+        </ul>
+    </div>
+
+
+<div class="page-container">
+    <div class="entry-content">
+        <div class="post-meta pure-g">
+<div class="pure-u-3-4 meta-data">
+    <a href="/category/ansible.html" class="category">ansible</a><br />
+
+    <a class="author" href="/author/0x656e.html">0x656e</a>
+    &mdash; <abbr title="2017-09-20T10:20:00+03:00">Çrş 20 Eylül 2017</abbr>
+</div>        </div>
+    </div>
+
+    <div class="article-header-container">
+        <div class="background-image-container">
+
+            <div class="background-image-small">
+                <div class="title-container">
+                    <h1>Ansible ile Nginx Kurulum ve Yapılandırılması vol.1</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="entry-content">
+        <p><img alt="Nginx" src="images/nginxansible.png" title="nginx"></p>
+<h1>Ansible ile Nginx Kurulum ve Yapılandırılması</h1>
+<h2>Ansible Nedir?</h2>
+<p>Ansible deployment işlerinizi otomatikleştirebileceğiniz bir betik dilidir. (?)
+Arkaplanında Python kullanmaktadır. ( Yanlış biliyor olabilirim )</p>
+<p>Bütün olayı otomatikleştirmek mi yani ? Evet bütün işi otomatikleştirmek.
+Şimdi düşünüp aklınızdan lan bu kadar şey yazacağıma el ile yaparım daha hızlı
+hallederim diye düşünebilirsiniz. Fakat işler proje büyüdüğünde ve bu işlemi hergün
+yaptığınızda pekte öyle olmamaktadır.</p>
+<p>Ayrıca bu yazdığınız Ansible Role'lerini her projenizde ufak değişiklikler ile birlikte
+kullanabilirsiniz.</p>
+<h2>Nginx Nedir?</h2>
+<p>Şuan dünya üzerinde bulunan Top 10 ( En Fazla Girilen 10 Site ) Sitelerin %50'sine yakını bu Web Sunucusunu kullanmaktadır. Yavaş yavaş Apache'nin tahtını ele geçirmekte
+hatta geçirmiştir bile.</p>
+<p><strong> Tatava yapma olaya geç </strong></p>
+<p><strong> Hadi Başlayalım </strong></p>
+<h2>Ansible Skeleton Oluşturma</h2>
+<p>Ben burada yapacağım işlemleri kategorize ederek bir çok dosya ile çalışmaktayım.</p>
+<p>Örnek vermek gerekirse Nginx kurulumu ayrı bir Role EPEL reposunun eklenmesi için
+ayrı bir role yazmaktayım. Bahsetmeden olmaz test sunucumda Centos kullanmaktayım.</p>
+<p>İskelet yapımız aşağıda ki gibidir.</p>
+<ul>
+<li>Roles ( İşlemleri yaptıracağımız kural dosyaları )<ol>
+<li>Base<ul>
+<li>Tasks ( Görevler )</li>
+</ul>
+</li>
+<li>Nginx<ul>
+<li>Handlers ( Türkçeye çeviremedim )</li>
+<li>Tasks ( Görevler )</li>
+<li>Templates ( İçerisinde variable kullanacağımız konfigürasyon dosyaları )</li>
+</ul>
+</li>
+<li>Web<ul>
+<li>Tasks ( Görevler )</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>Vars ( İçerisine değişkenleri tanımlayacağımız klasör )</p>
+</li>
+<li>
+<p>ansible.cfg (Ansible Konfigürasyonu )</p>
+</li>
+<li>hosts ( Bağlantı Sağlayacağımız Hostlar)</li>
+<li>site.yml ( Ana Ansible Dosyamız )</li>
+<li>webplaybook.yml ( Sadece websunucusu için yazılmış olan playbook )</li>
+</ul>
+<p><strong> Site.yml olarak neden ayırdım? </strong>
+    Çünkü büyüyen projelerde bütün görevleri bu dosyaya yazmak pek efektif değil.
+    Daha sonra ekleyeceğimiz roller için ayrı playbookları include etmek daha kolay.</p>
+<p>Daha sonra ki makalelerimde zaten bu dosyaların üzerinde geliştirmeler yapacağız.</p>
+<p>Şimdi hosts dosyamızı oluşturduk içerisine bağlanacağımız sunucuları yazalım.</p>
+<div class="highlight"><pre><span></span><span class="k">[web]</span>
+<span class="na">192.168.1.53 ansible_connection</span><span class="o">=</span><span class="s">ssh ansible_ssh_user=root ansible_ssh_pass=369874125</span>
+<span class="k">[database]</span>
+<span class="na">192.168.1.53 ansible_ssh_user</span><span class="o">=</span><span class="s">root ansible_ssh_pass=369874125 #Database&#39;i sonra kullanacağız</span>
+</pre></div>
+
+
+<p>Burada açıklanacak çok fazla birşey yok sanırım. Siz buraya istediğiniz kadar ip ekleyebilirsiniz. Ansible bu yazdığınız tüm IP'leri gezerek kurulumları sağlayacaktır.</p>
+<p><strong> Site.yml Dosyamızı Oluşturalım </strong></p>
+<div class="highlight"><pre><span></span>---
+    - include dbplaybook.yml
+    - include webplaybook.yml
+</pre></div>
+
+
+<p>İki tane ansible dosyamı include ettim. DBPlaybook'una daha sonra bakacağız.</p>
+<p><strong> Webplaybook.yml Dosyamızı oluşturalım </strong></p>
+<div class="highlight"><pre><span></span>---
+- name: Create a Web Server and ETC
+  hosts: web
+  become: yes
+  become_user: root
+  remote_user: root
+  vars_files:
+    - vars/main.yml
+  roles:
+    - base
+    - web
+    - nginx
+</pre></div>
+
+
+<p>Burada name olarak istediğinizi yazabilirsiniz sadece bu görevi tanımlamak amacı ile yazılmıştır.</p>
+<p>Hosts: Bu kısımda hosts dosyamızdan hangi IP adresine bağlanacağını belirttik.</p>
+<p>Become_user ve remote_user: Sunucuya hangi user ile bağlanacağımızı belirttik.( Yanlışım olabilir belirtirseniz sevinirim )</p>
+<p>vars_files: Burada rolelerin içinde kullanacağımız değişkenleri belirten dosya yolunu belirttik.</p>
+<p>Roles: Bu kısımda ise bu playbook'un hangi rolleri kapsadığını belirttik.</p>
+<h2>Role'leri hazırlamak</h2>
+<h3>Base Role</h3>
+<div class="highlight"><pre><span></span><span class="x">---</span>
+<span class="x">- name: Upgrade Yum</span>
+<span class="x">  yum: update_cache=yes name=* state=latest</span>
+<span class="x">  tags: packages</span>
+<span class="x">- name: Install Software</span>
+<span class="x">  yum: update_cache=yes name=</span><span class="cp">{{</span> <span class="nv">item</span> <span class="cp">}}</span><span class="x"> state=latest</span>
+<span class="x">  with_items:</span>
+<span class="x">    - htop</span>
+<span class="x">    - fail2ban</span>
+<span class="x">    - openssl</span>
+</pre></div>
+
+
+<p>Burada her bağlandığımız sunucuda yapmamız gerekenleri belirttik. Bunlar nedir ?</p>
+<p>Yum package manager'ı update etmek.
+Daha sonra ise döngüye soktuğumuz itemları sırası ile kurdurmak. with_items içerisinde belirtilen tüm itemlar yum komutuna gönderilerek kurulumu sağlanmaktadır.</p>
+<h2>Nginx Role</h2>
+<div class="highlight"><pre><span></span><span class="x">---</span>
+<span class="x">- name: Nginx Installing on RPM Repo</span>
+<span class="x">  yum: name=http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm</span>
+
+<span class="x">- name: Install Nginx</span>
+<span class="x">  yum: name=nginx state=latest</span>
+
+<span class="x">- name: Create Nginx Conf Folders</span>
+<span class="x">  file: path=/etc/nginx/</span><span class="cp">{{</span> <span class="nv">item</span> <span class="cp">}}</span><span class="x"> state=directory owner= </span><span class="cp">{{</span> <span class="nv">nginx_user</span> <span class="cp">}}</span><span class="x"> group=</span><span class="cp">{{</span> <span class="nv">nginx_user</span> <span class="cp">}}</span><span class="x"> mode=755</span>
+<span class="x">  with_items:</span>
+<span class="x">    - sites-avaliable</span>
+<span class="x">    - sites-enable</span>
+
+<span class="x">- name: Copy Nginx Configuration</span>
+<span class="x">  template: src=nginxconf.j2 dest=/etc/nginx/conf.d/nginx.conf</span>
+
+<span class="x">- name: Firewall Rules</span>
+<span class="x">  command: firewall-cmd --permanent --zone=public --add-service=</span><span class="cp">{{</span> <span class="nv">item</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">  with_items:</span>
+<span class="x">    - http</span>
+<span class="x">    - https</span>
+<span class="x">  notify:</span>
+<span class="x">    - restart firewall</span>
+<span class="x">    - restart nginx</span>
+</pre></div>
+
+
+<p>Burada ilk önce Nginx RPM dosyasını yum reposuna tanıtıyoruz. Daha sonra ise Nginx'i kuruyoruz.</p>
+<p>Bir sonra ki kısım yabancı gelebilir burada file ile bir klasörün oluşturulacağını belirtip bu klasörün yetkilerini vermekteyiz. ( Tabi ki döngüye sokarak 2 klasör oluşturuyoruz kim tek tek yazar ki ? )</p>
+<p>Bir sonra ki kısımda ise template diye bir tag görmekteyiz. Bu tag src'de belirttiğimiz dosyanın içerisini gezerek bu dosyayı renderlar. Yani işin özü içerisinde belirtilmiş olan değişkenleri bu dosyaya yazarak karşıda ki sunucuya atar.</p>
+<p>Kalan kısımlarda command ile direk olarak shell'e komutu bir döngü sayesinde basmaktayız.
+Notify kısmı ise bizim handlers kısmında ismini verdiğimiz görevleri yerine getirir.</p>
+<p><strong> Handlers dosyasına bir göz atalım. </strong></p>
+<div class="highlight"><pre><span></span>---
+- name: restart firewall
+  service: name=firewalld state=restarted
+- name: restart nginx
+  service: name=nginx state=restarted
+</pre></div>
+
+
+<p>Burada name olarak verdiğimiz isimleri Role içerisinde handlers'a yazmaktayız.</p>
+<p><strong> Templates dosyamıza bakalım. </strong></p>
+<div class="highlight"><pre><span></span><span class="x">server {</span>
+<span class="x">       listen       80 </span><span class="cp">{{</span> <span class="nv">project_domain</span> <span class="cp">}}</span><span class="x">;</span>
+<span class="x">       listen       [::]:80 </span><span class="cp">{{</span> <span class="nv">project_domain</span> <span class="cp">}}</span><span class="x">;</span>
+<span class="x">       server_name  _;</span>
+<span class="x">       root         /usr/share/nginx/html;</span>
+
+<span class="x">       # Load configuration files for the default server block.</span>
+<span class="x">       include /etc/nginx/default.d/*.conf;</span>
+
+<span class="x">       location / {</span>
+<span class="x">       }</span>
+
+<span class="x">       error_page 404 /404.html;</span>
+<span class="x">           location = /40x.html {</span>
+<span class="x">       }</span>
+
+<span class="x">       error_page 500 502 503 504 /50x.html;</span>
+<span class="x">           location = /50x.html {</span>
+<span class="x">       }</span>
+<span class="x">   }</span>
+</pre></div>
+
+
+<p>Gördüğünüz gibi burada project_domain şeklinde bir değişkenimiz bulunuyor işte burada ansible bu değişkeni /vars/main.yml dosyasında aramaktadır.</p>
+<h2>Web Role</h2>
+<p>Burayı aslında kalabalık gözüksün diye yaptım. Daha sonra geliştireceğiz hazır da dursun.</p>
+<p>Çok birşey yaptığımız yok sadece yeni komutlar bulunmakta asıl amaç o yani.</p>
+<div class="highlight"><pre><span></span><span class="x">---</span>
+<span class="x">    - name: Add Group for Nginx</span>
+<span class="x">      group: name=</span><span class="cp">{{</span> <span class="nv">nginx_group</span> <span class="cp">}}</span><span class="x"> state=present</span>
+
+<span class="x">    - name : Add User for Nginx</span>
+<span class="x">      user: name=</span><span class="cp">{{</span> <span class="nv">nginx_user</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+
+
+<p>Burada nginx için kullanıcı ve grup eklemekteyiz.</p>
+<h2>Vars Dosyamız</h2>
+<div class="highlight"><pre><span></span>---
+    # Nginx
+    project_domain: 0x656e.com
+    nginx_group: webapps
+    nginx_user: project
+</pre></div>
+
+
+<p>Değişkenlerimizi tanımladık.</p>
+<p>Hadi gazlayalım.</p>
+<h2>Run Forest Run</h2>
+<p>Ansible çalıştırmak için ansible-playbook komutunu girip playbooklarımızı argüman olarak bu komuta göndermeliyiz.</p>
+<p>Komutumuzu yazalım.</p>
+<div class="highlight"><pre><span></span>ansible-playbook webplaybook.yml -i hosts
+</pre></div>
+
+
+<p>Vol 2 de bu dosyaların üstüne bir çok şey ekleyerek devam edeceğiz.
+Şuan yapılan çalışmanın kodlarına erişmek isterseniz.</p>
+<p><a href="https://github.com/ka1nsha/ansible-nginx">Tıklayınız</a></p>
+    </div>
+
+    <footer>
+        <div class="tags">
+            <a href="/tag/ansible.html">ansible</a>
+            <a href="/tag/nginx.html">nginx</a>
+        </div>
+        <div class="pure-g post-footer">
+            <div class="pure-u-1 pure-u-md-1-2">
+                <div class="pure-g poster-info">
+                    <div class="pure-u-3-4">
+                        <h3 class="author-name"><a href="/author/0x656e.html">0x656e</a></h3>
+                        <p class="author-description">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </footer>
+
+    <div class="entry-content">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            var disqus_shortname = '0x6.pw';
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </div>
+
+</div>
+
+
+
+    <footer class="index-footer">
+
+        <a href="/" title="0x6 | Junior of All">0x6 | Junior of All</a>
+        <a href="/category/ansible.html">ansible</a>
+        <a href="/category/linux.html">linux</a>
+        <a href="/category/python.html">python</a>
+        <a href="/category/vagrant.html">vagrant</a>
+        <a href="https://mertcangokgoz.com/">Mertcan Gökgöz</a>
+        <a href="https://onur.im/">Onur Aslan</a>
+        <a href="http://www.omeripek.com.tr/">Ömer İpek</a>
+        <a href="https://canyoupwn.me/">Canyoupwn.me</a>
+
+    </footer>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-44262671-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+</body>
+</html>

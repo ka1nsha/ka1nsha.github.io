@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+        <title>Zone-H Parser</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+<body>
+
+    <div class="navigation pure-menu pure-menu-horizontal">
+        <a href="/" class="pure-menu-heading  pure-menu-link">0x6 | Junior of All</a>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item"></li>
+
+            <li class="pure-menu-item"><a href="/category/ansible.html" class="pure-menu-link">ansible</a></li>
+            <li class="pure-menu-item"><a href="/category/linux.html" class="pure-menu-link">linux</a></li>
+            <li class="pure-menu-item pure-menu-selected"><a href="/category/python.html" class="pure-menu-link">python</a></li>
+            <li class="pure-menu-item"><a href="/category/vagrant.html" class="pure-menu-link">vagrant</a></li>
+        </ul>
+    </div>
+
+
+<div class="page-container">
+    <div class="entry-content">
+        <div class="post-meta pure-g">
+<div class="pure-u-3-4 meta-data">
+    <a href="/category/python.html" class="category">python</a><br />
+
+    <a class="author" href="/author/0x656e.html">0x656e</a>
+    &mdash; <abbr title="2016-06-21T10:20:00+03:00">Sal 21 Haziran 2016</abbr>
+</div>        </div>
+    </div>
+
+    <div class="article-header-container">
+        <div class="background-image-container">
+
+            <div class="background-image-small">
+                <div class="title-container">
+                    <h1>Zone-H Parser</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="entry-content">
+        <p>Zone-H.com'u bilmeyen yoktur herhalde.Kısaca bahsetmek gerekirse blackhat hackerların deface ettikleri sitelerin bir nevi screenshot/snapshot'unu alan bir site.Çok güzel bilgiler barındırabiliyor.Örnek vermek gerekirse Turkiye'de bu site üzerinde kayıtlı kaç blackhat hacker grub/kişi var veya bunlar kaç defacement yapmış şeklinde güzel datalar sağlanabilir.</p>
+<p>Bende parse etmeye çalışayım dedim.Bizim baştacımız olan python modüllerinden <strong>requests</strong> , <strong>lxml</strong> 'in işimizi görebileceğini düşündüm.Fakat istek yaptığımda bana response olarak içinde bolca şifrelenmiş veri gönderen bir zone-h karşıma çıktı tabi ki bunun yanında captcha ise cabasıydı.Biraz araştırma ile aşağıda vereceğim bir yazı da şifrelenmiş kodları decode etmek için bir yol var.İyi hoş fakat bu seferde captcha sorunu karşımıza çıkıyordu.Bende farklı yollara girdim ve iyi ki de girmişim dedim.<br>
+<a href="https://blog.amilx.com/scaping-zone-h/">Decode edebileceğiniz yöntem</a></p>
+<p>Şimdi parse etmek için yıllara göre filtreleme seçenekleri kullanmak istedim. Bundan önce öncelikle bi sitemap.xml e bakmak istedim çünkü eğer sitemap.xml de aşağıda ki gibi bir yapı var ise bu benim işimi çok büyük ölçüde kolaylaştıracaktı.İşimi kolaylaştırabilecek bir yapı aşağıda ki resimde bulunuyor.<br>
+<img alt="zoneh2" src="images/zoneh2.png"><br>
+Gördüğünüz gibi googlebots vs sitemap i otomatik oluşturulan xml lerden çekiyor.<br>
+<img alt="zoneh3" src="images/zoneh3.png"></p>
+<p>Fakat zone-h'da böyle bir yapı bulamadım.<br>
+<img alt="zoneh4" src="images/zoneh4.png"></p>
+<p>Neyse salaklığıma denk gelmiş ve bulamamış da olabilirim.Eğer bulabilirseniz yorum mention herhangi bir şekilde yorumunuzu alabilirim Neyse bende id üzerinden gitmeye karar verdim.</p>
+<p><img alt="zoneh1" src="images/zoneh1.png"><br>
+Bu şekilde ilk id den başlayıp sonuna kadar gidecektim.Projemde selenium kullandım.(Çünkü captcha ve bazı mirrorlarda hata oluyor.)<br>
+<a href="www.zone-h.com/mirror/id/40?zh=1">Hatalı bir mirror örneği</a></p>
+<p>Neyse kodlara geçelim.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span><span class="nn">sqlite3</span>
+<span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.common.exceptions</span> <span class="kn">import</span> <span class="n">NoSuchElementException</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.chrome.options</span> <span class="kn">import</span> <span class="n">Options</span>
+
+<span class="n">chromedriver</span> <span class="o">=</span>  <span class="s2">&quot;/home/0x656e/Downloads/chromedriver&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;webdriver.chrome.driver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chromedriver</span>
+<span class="n">chrome_options</span> <span class="o">=</span> <span class="n">Options</span><span class="p">()</span>
+<span class="n">chrome_options</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--disable-javascript --disable-javascript-i18n-api&quot;</span><span class="p">)</span>
+<span class="n">chrome_options</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;load-extension=/home/0x656e/.config/google-chrome/Default/Extensions/fdcgdnkidjaadafnichfpabhfomcebme/5.5.6_0/&quot;</span><span class="p">)</span>
+<span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Chrome</span><span class="p">(</span><span class="n">chromedriver</span><span class="p">,</span><span class="n">chrome_options</span><span class="o">=</span><span class="n">chrome_options</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">geturl</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+        <span class="n">notified</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element_by_css_selector</span><span class="p">(</span><span class="s1">&#39;.defacet a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+        <span class="n">checkdb</span><span class="p">(</span><span class="n">notified</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">NoSuchElementException</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;ID&quot;</span>
+<span class="k">def</span> <span class="nf">checkdb</span><span class="p">(</span><span class="n">notified</span><span class="p">):</span>
+    <span class="n">op</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;zone-h.db&quot;</span><span class="p">)</span>
+    <span class="n">cs</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">notified</span> <span class="o">=</span> <span class="n">notified</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT * FROM teams where teamurl=&#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;&quot;&quot;</span> <span class="o">%</span><span class="n">notified</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">cs</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">query</span> <span class="o">==</span> <span class="p">[]:</span>
+        <span class="n">teamname</span> <span class="o">=</span> <span class="n">notified</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">cs</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO teams(teamname,teamurl) VALUES(?,?)&quot;</span><span class="p">,(</span><span class="n">teamname</span><span class="p">,</span><span class="n">notified</span><span class="p">))</span>
+        <span class="n">op</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">op</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">teamname</span><span class="o">+</span> <span class="s2">&quot;is added&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+
+        <span class="k">pass</span>
+
+
+<span class="nb">id</span> <span class="o">=</span> <span class="mi">512</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">link</span> <span class="o">=</span>  <span class="s2">&quot;http://www.zone-h.com/mirror/id/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="nb">id</span>
+    <span class="n">chk</span> <span class="o">=</span> <span class="n">geturl</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">chk</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="n">driver</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">chk</span> <span class="o">==</span> <span class="s2">&quot;ID&quot;</span><span class="p">:</span>
+
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Hatalı id:&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Captchayı veya hatayı giderdiyseniz 1&#39;e basın aksi halde 1 harici bir tuşa basın&quot;</span><span class="p">)</span>
+        <span class="n">islem</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Komut : &gt;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">islem</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
+            <span class="nb">id</span> <span class="o">=</span> <span class="nb">id</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">id</span> <span class="o">+=</span><span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">id</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Alt kısmıda db oluşturmak için kullandım.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="n">op</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;zone-h.db&quot;</span><span class="p">)</span>
+<span class="n">cs</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="n">cs</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE teams(id integer primary key AUTOINCREMENT,teamname TEXT,teamurl TEXT)&quot;</span><span class="p">)</span>
+<span class="n">op</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="n">op</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Kod da plugin olarak zenmate kullandım.Captcha vs gelirse eğer kodun içinde input kısmı bulunuyor.Captchayı girdikten sonra 1 e basarsanız captchalı id den devam edecektir.Github'a koymayı düşünüyorum.Commitlerinizi beklerim.Eğer tüm siteyi çeken olursa datayı da isterim daha farklı projelerimde kullanmak için.</p>
+<p>Kodlarla ilgili bir sorunuz olursa yorum veya mail ile belirtebilir/sorabilirsiniz.</p>
+    </div>
+
+    <footer>
+        <div class="tags">
+            <a href="/tag/python.html">python</a>
+            <a href="/tag/requests.html">requests</a>
+            <a href="/tag/parser.html">parser</a>
+            <a href="/tag/lxml.html">lxml</a>
+        </div>
+        <div class="pure-g post-footer">
+            <div class="pure-u-1 pure-u-md-1-2">
+                <div class="pure-g poster-info">
+                    <div class="pure-u-3-4">
+                        <h3 class="author-name"><a href="/author/0x656e.html">0x656e</a></h3>
+                        <p class="author-description">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </footer>
+
+    <div class="entry-content">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            var disqus_shortname = '0x6.pw';
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </div>
+
+</div>
+
+
+
+    <footer class="index-footer">
+
+        <a href="/" title="0x6 | Junior of All">0x6 | Junior of All</a>
+        <a href="/category/ansible.html">ansible</a>
+        <a href="/category/linux.html">linux</a>
+        <a href="/category/python.html">python</a>
+        <a href="/category/vagrant.html">vagrant</a>
+        <a href="https://mertcangokgoz.com/">Mertcan Gökgöz</a>
+        <a href="https://onur.im/">Onur Aslan</a>
+        <a href="http://www.omeripek.com.tr/">Ömer İpek</a>
+        <a href="https://canyoupwn.me/">Canyoupwn.me</a>
+
+    </footer>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-44262671-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+</body>
+</html>
