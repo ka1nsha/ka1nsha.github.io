@@ -57,7 +57,7 @@
 <ul>
 <li>Bu komut varsayılan olarak <strong>Linux formatında</strong> çalışan processleri bizlere döndürür. Bu processlerde bizlere PID, hangi TTY'de çalıştığını, zamanını  ve hangi processin çalıştığını bizlere gösterir. Mesela benim ekran görüntümde tty7'de Xorg çalışıyor.</li>
 </ul>
-<p><img alt="" src="/image/psa1.png"></p>
+<p><img alt="" src="/images/psa1.png"></p>
 <div class="highlight"><pre><span></span>ps au
 ps axu
 </pre></div>
@@ -68,7 +68,7 @@ ps axu
 </ul>
 <p><strong>VSZ</strong> : Bir işlemin kullanacağı, kullanabileceği sanal bellek miktarıdır.</p>
 <p><strong>RSS</strong> : Bu işleme tahsis edilen fiziksel bellek miktarıdır.</p>
-<p><img alt="" src="/image/psaux1.png"></p>
+<p><img alt="" src="/images/psaux1.png"></p>
 <div class="highlight"><pre><span></span>ps -eF
 </pre></div>
 
@@ -83,7 +83,7 @@ ps axu
 <ul>
 <li>Bu komut ile adını verdiğiniz kullanıcıya ait processleri görebilirsiniz.</li>
 </ul>
-<p><img alt="" src="/image/psfu1.png"></p>
+<p><img alt="" src="/images/psfu1.png"></p>
 <div class="highlight"><pre><span></span>ps -U root -u root
 </pre></div>
 
@@ -98,7 +98,7 @@ ps axu
 <ul>
 <li>Bu komut ile bir gruba ait tüm çalışan processleri görebilirsiniz. Bu ne demektir? Mesela web diye bir kullanıcı grubunuz var ve bunun altında nginx/gunicorn/celery bulunuyor. Siz direkt olarak bu şekilde çalışan processleri görebilirsiniz.</li>
 </ul>
-<p><img alt="" src="/image/psfg1.png"></p>
+<p><img alt="" src="/images/psfg1.png"></p>
 <div class="highlight"><pre><span></span>ps -fp PID
 </pre></div>
 
@@ -120,7 +120,7 @@ ps axu
 <ul>
 <li>Bu komut ile yukarıda bahsetmiş olduğumuz <strong>BSD</strong> tarzında bir çıktı alırsınız fakat burada ki tek fark processlerin parent-child ( aslında forest/treeview )  ilişkileri bu çıktı içerisinde gösterilir.</li>
 </ul>
-<p><img alt="" src="/image/psforest1.png"></p>
+<p><img alt="" src="/images/psforest1.png"></p>
 <div class="highlight"><pre><span></span>ps -eo user,%cpu
 </pre></div>
 
@@ -128,7 +128,7 @@ ps axu
 <ul>
 <li>Bu komut ile PS çıktısını kendinize göre özelleştirebilirsiniz. Ben yukarıda ki komutta processin hangi kullanıcı tarafından çalıştırıldığını ve yüzde kaç CPU kullandığını görmek istedim.</li>
 </ul>
-<p><img alt="" src="/image/pschangeoutput1.png"></p>
+<p><img alt="" src="/images/pschangeoutput1.png"></p>
 <div class="highlight"><pre><span></span>ps -eo user,%cpu,command,%mem --sort<span class="o">=</span>-%mem <span class="p">|</span>  head
 </pre></div>
 
@@ -136,7 +136,7 @@ ps axu
 <ul>
 <li>Bu komut ile ps komutu çıktısını sıralayabilirsiniz. Burada -%mem en fazla RAM Kullanan processleri ekrana yazdıracaktır. En az kullananları isterseniz %mem yazabilirsiniz.</li>
 </ul>
-<p><img alt="" src="/image/pssort1.png"></p>
+<p><img alt="" src="/images/pssort1.png"></p>
     </div>
 
     <footer>
