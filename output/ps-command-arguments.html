@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+        <title>PS Komutunun Alabildiği Argümanlar</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+<body>
+
+    <div class="navigation pure-menu pure-menu-horizontal">
+        <a href="/" class="pure-menu-heading  pure-menu-link">0x6 | Junior of All</a>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item"></li>
+
+            <li class="pure-menu-item"><a href="/category/ansible.html" class="pure-menu-link">ansible</a></li>
+            <li class="pure-menu-item pure-menu-selected"><a href="/category/linux.html" class="pure-menu-link">linux</a></li>
+            <li class="pure-menu-item"><a href="/category/python.html" class="pure-menu-link">python</a></li>
+            <li class="pure-menu-item"><a href="/category/vagrant.html" class="pure-menu-link">vagrant</a></li>
+        </ul>
+    </div>
+
+
+<div class="page-container">
+    <div class="entry-content">
+        <div class="post-meta pure-g">
+<div class="pure-u-3-4 meta-data">
+    <a href="/category/linux.html" class="category">linux</a><br />
+
+    <a class="author" href="/author/0x656e.html">0x656e</a>
+    &mdash; <abbr title="2018-02-10T22:19:00+03:00">Cts 10 Şubat 2018</abbr>
+</div>        </div>
+    </div>
+
+    <div class="article-header-container">
+        <div class="background-image-container">
+
+            <div class="background-image-small">
+                <div class="title-container">
+                    <h1>PS Komutunun Alabildiği Argümanlar</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="entry-content">
+        <p><strong>PS</strong> komutu linux üzerinde processleri ( çalışan işlemleri ) monitoring edebileceğimiz bir komuttur. Pek tabi ki bir çok argüman almaktadır. Şimdi bu argümanların en çok kullanılanlarına aşağıda bahsedeceğiz. PS komutu çıktıları bir çok formatta olabiliyor. İyi okumalar.</p>
+<h3>Let's go</h3>
+<p><strong>NOT</strong>: Önce komutu gösterip daha sonra komutu açıklayacağım bilginize.</p>
+<div class="highlight"><pre><span></span>ps -A
+</pre></div>
+
+
+<ul>
+<li>Bu komut varsayılan olarak <strong>Linux formatında</strong> çalışan processleri bizlere döndürür. Bu processlerde bizlere PID, hangi TTY'de çalıştığını, zamanını  ve hangi processin çalıştığını bizlere gösterir. Mesela benim ekran görüntümde tty7'de Xorg çalışıyor.</li>
+</ul>
+<p><img alt="" src="/image/psa1.png"></p>
+<div class="highlight"><pre><span></span>ps au
+ps axu
+</pre></div>
+
+
+<ul>
+<li>Yukarıda ki komutun çıktıları <strong>BSD</strong>  formatında olur. Bu formatta Kullanıcı, PID numarası, kullandığı işlemci yüzdesi, kullandığı ram yüzdesi, VSZ değeri, RSS değeri, TTY değeri, İşlemin durumu, zamanını ve komutunun çıktısını verir.</li>
+</ul>
+<p><strong>VSZ</strong> : Bir işlemin kullanacağı, kullanabileceği sanal bellek miktarıdır.</p>
+<p><strong>RSS</strong> : Bu işleme tahsis edilen fiziksel bellek miktarıdır.</p>
+<p><img alt="" src="/image/psaux1.png"></p>
+<div class="highlight"><pre><span></span>ps -eF
+</pre></div>
+
+
+<ul>
+<li>Yukarıda ki komut full çıktı modudur. Bu çıktıda sizlere UID, PID, PPID, C, SZ, RSS, PSR, STIME, TTY, TIME, CMD değerleri döner.</li>
+</ul>
+<div class="highlight"><pre><span></span>ps -fU ka1
+</pre></div>
+
+
+<ul>
+<li>Bu komut ile adını verdiğiniz kullanıcıya ait processleri görebilirsiniz.</li>
+</ul>
+<p><img alt="" src="/image/psfu1.png"></p>
+<div class="highlight"><pre><span></span>ps -U root -u root
+</pre></div>
+
+
+<ul>
+<li>Bu komut ile root kullanıcı tarafından çalıştırılan tüm processleri görebilirsiniz.</li>
+</ul>
+<div class="highlight"><pre><span></span>ps -fG postgres
+</pre></div>
+
+
+<ul>
+<li>Bu komut ile bir gruba ait tüm çalışan processleri görebilirsiniz. Bu ne demektir? Mesela web diye bir kullanıcı grubunuz var ve bunun altında nginx/gunicorn/celery bulunuyor. Siz direkt olarak bu şekilde çalışan processleri görebilirsiniz.</li>
+</ul>
+<p><img alt="" src="/image/psfg1.png"></p>
+<div class="highlight"><pre><span></span>ps -fp PID
+</pre></div>
+
+
+<ul>
+<li>Bu komut ile PID değerini verdiğiniz process veya processleri görebilirsiniz. Burada tekli veya çoklu seçim yapabilirsiniz.</li>
+</ul>
+<div class="highlight"><pre><span></span>ps -ft tty1
+</pre></div>
+
+
+<ul>
+<li>Bu komut ile o TTY'de çalıştırılan komutları görebilirsiniz.</li>
+</ul>
+<div class="highlight"><pre><span></span>ps -aux --forest
+</pre></div>
+
+
+<ul>
+<li>Bu komut ile yukarıda bahsetmiş olduğumuz <strong>BSD</strong> tarzında bir çıktı alırsınız fakat burada ki tek fark processlerin parent-child ( aslında forest/treeview )  ilişkileri bu çıktı içerisinde gösterilir.</li>
+</ul>
+<p><img alt="" src="/image/psforest1.png"></p>
+<div class="highlight"><pre><span></span>ps -eo user,%cpu
+</pre></div>
+
+
+<ul>
+<li>Bu komut ile PS çıktısını kendinize göre özelleştirebilirsiniz. Ben yukarıda ki komutta processin hangi kullanıcı tarafından çalıştırıldığını ve yüzde kaç CPU kullandığını görmek istedim.</li>
+</ul>
+<p><img alt="" src="/image/pschangeoutput1.png"></p>
+<div class="highlight"><pre><span></span>ps -eo user,%cpu,command,%mem --sort<span class="o">=</span>-%mem <span class="p">|</span>  head
+</pre></div>
+
+
+<ul>
+<li>Bu komut ile ps komutu çıktısını sıralayabilirsiniz. Burada -%mem en fazla RAM Kullanan processleri ekrana yazdıracaktır. En az kullananları isterseniz %mem yazabilirsiniz.</li>
+</ul>
+<p><img alt="" src="/image/pssort1.png"></p>
+    </div>
+
+    <footer>
+        <div class="tags">
+            <a href="/tag/ps-cheatsheet.html">ps cheatsheet</a>
+            <a href="/tag/process-monitoring-on-linux.html">process monitoring on linux</a>
+            <a href="/tag/ps-aux.html">ps aux</a>
+        </div>
+        <div class="pure-g post-footer">
+            <div class="pure-u-1 pure-u-md-1-2">
+                <div class="pure-g poster-info">
+                    <div class="pure-u-3-4">
+                        <h3 class="author-name"><a href="/author/0x656e.html">0x656e</a></h3>
+                        <p class="author-description">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </footer>
+
+    <div class="entry-content">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            var disqus_shortname = '0x6.pw';
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </div>
+
+</div>
+
+
+
+    <footer class="index-footer">
+
+        <a href="/" title="0x6 | Junior of All">0x6 | Junior of All</a>
+        <a href="/category/ansible.html">ansible</a>
+        <a href="/category/linux.html">linux</a>
+        <a href="/category/python.html">python</a>
+        <a href="/category/vagrant.html">vagrant</a>
+        <a href="https://mertcangokgoz.com/">Mertcan Gökgöz</a>
+        <a href="https://onur.im/">Onur Aslan</a>
+        <a href="http://www.omeripek.com.tr/">Ömer İpek</a>
+        <a href="https://canyoupwn.me/">Canyoupwn.me</a>
+
+    </footer>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-44262671-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+</body>
+</html>

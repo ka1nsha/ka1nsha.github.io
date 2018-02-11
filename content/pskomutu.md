@@ -1,8 +1,8 @@
-Title: PS Komutu Hile Kağıdı
+Title: PS Komutunun Alabildiği Argümanlar
 Date: 2018-02-10 22:19
 Tags: ps cheatsheet, process monitoring on linux, ps aux
 Category: linux
-Slug: ps-command-cheatsheet
+Slug: ps-command-arguments
 Authors: 0x656e
 
 
