@@ -40,8 +40,7 @@ DISQUS_SITENAME = "0x656e"
 DISQUS_LOAD_LATER = True
 GOOGLE_ANALYTICS = "UA-44262671-1"
 THEME='/home/ka1/medius'
-OUTPUT_PATH='output'
-PATH='content'
+OUTPUT_PATH='/home/ka1/blogyaziları'
 DISPLAY_PAGES_ON_MENU = False
 SHARE=True
 
