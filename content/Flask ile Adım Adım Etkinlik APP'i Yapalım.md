@@ -7,7 +7,7 @@ Authors: 0x656e
 
 
 
-## Flask ile Adım Adım Etkinlik APP'i Yapalım
+
 
 Selamlar arkadaşlar, birkaç yazı yazmak istedim hem bu arada belki bazı arkadaşların isteklerini de yerine getirmiş olurum. Amacım bu yazı serisinde Flask ile basit bir etkinlik uygulaması yapmak. Bunun için adım adım gideceğim, yazı serisinin en sonunda Bootstrap ile bir arayüz yazacağız. Sanırım en uzun yazımız da bu olacak. Neyse bu yazımızda database üzerinde modelleri oluşturacağız. Elimden geldiğince açıklayıcı olmaya çalıştım iyi okumalar dilerim.
 
@@ -29,7 +29,7 @@ yazmanız yeterlidir. Ben bu yazıda ve projede SQLite kullanacağım. Siz diler
 
 
 
-![](image/dbschema.png)
+![](images/dbschema.png)
 
 
 
@@ -121,5 +121,5 @@ db.create_all()
 
 yazarak kodu çalıştırırsanız artık database'iniz oluşturulacak ve işlem yapmaya hazır hale gelecektir.
 
-![](image/database.png)
+![](images/database.png)
 
