@@ -1,7 +1,7 @@
 Title: Flask ile Adım Adım Etkinlik Uygulaması Yapalım
 Date: 2018-02-13 22:19
 Tags: flask event app, flask sqlalchemy, sqlalchemy, flask mvc, flask
-Category: python, flask
+Category: flask
 Slug: flask-events-app
 Authors: 0x656e
 
@@ -9,7 +9,7 @@ Authors: 0x656e
 
 ## Flask ile Adım Adım Etkinlik APP'i Yapalım
 
-Selamlar arkadaşlar, bir kaç yazı yazmak istedim hem bu arada belki bazı arkadaşların isteklerini de yerine getirmiş olurum. Amacım bu yazı serisinde Flask ile basit bir etkinlik uygulaması yapmak. Bunun için adım adım gideceğim, yazı serisinin en sonunda Bootstrap ile bir arayüz yazacağız. Sanırım en uzun yazımız da bu olacak. Neyse bu yazımız da database üzerinde modelleri oluşturacağız elimden geldiğince açıklayıcı olmaya çalıştım. İyi okumalar.
+Selamlar arkadaşlar, birkaç yazı yazmak istedim hem bu arada belki bazı arkadaşların isteklerini de yerine getirmiş olurum. Amacım bu yazı serisinde Flask ile basit bir etkinlik uygulaması yapmak. Bunun için adım adım gideceğim, yazı serisinin en sonunda Bootstrap ile bir arayüz yazacağız. Sanırım en uzun yazımız da bu olacak. Neyse bu yazımızda database üzerinde modelleri oluşturacağız. Elimden geldiğince açıklayıcı olmaya çalıştım iyi okumalar dilerim.
 
 
 
@@ -17,9 +17,9 @@ Selamlar arkadaşlar, bir kaç yazı yazmak istedim hem bu arada belki bazı ark
 
 Flask bir hayat biçi.... :)
 
-Flask bir Python frameworküdür. Tabi genelde en fazla Django bilinir. Django gerçekten herşeyiyle tam bir web frameworkdür fakat bazen bazı işleriniz için daha minimal frameworkler isteyebilirsiniz işte bu gibi durumlar için micro frameworkler ortaya çıkmaktadır. Flask ise micro frameworkdür. Hızlıca kod yazarak prototipleme yapabilirsiniz üstelik bunları MVC  yazılım mimarisi ile yapabiliyorsunuz. Flask'i kurmak için:
+Flask bir Python frameworküdür. Tabi genelde en fazla Django bilinir. Django gerçekten her şeyiyle tam bir web frameworkdür fakat bazen bazı işleriniz için daha minimal frameworkler isteyebilirsiniz işte bu gibi durumlar için micro frameworkler ortaya çıkmaktadır. Flask ise micro frameworkdür. Hızlıca kod yazarak prototipleme yapabilirsiniz üstelik bunları MVC  yazılım mimarisi ile yapabiliyorsunuz. Flask'i kurmak için
 
-Terminalinize:
+terminalinize:
 
 ```bash
 pip install flask
