@@ -41,8 +41,6 @@ DISQUS_LOAD_LATER = True
 GOOGLE_ANALYTICS = "UA-44262671-1"
 THEME='/home/ka1/medius'
 OUTPUT_PATH='/home/ka1/blogyaziları'
-=======
-OUTPUT_PATH='output'
 PATH='content'
 DISPLAY_PAGES_ON_MENU = False
 SHARE=True
