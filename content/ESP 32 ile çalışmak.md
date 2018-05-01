@@ -7,7 +7,6 @@ Authors: 0x656e
 
 
 
-### ESP 32 ile çalışmak
 
 
 

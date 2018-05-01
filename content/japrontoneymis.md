@@ -79,7 +79,7 @@ Birden fazla get, head gibi taleplerin tek bir paket içerisinde sunucuya iletil
 
 Aşağıda ki grafikte herşey açıkca belli oluyor.
 
-![](http://www.wiki-zero.net/index.php?q=aHR0cDovL3VwbG9hZC53aWtpbWVkaWEub3JnL3dpa2lwZWRpYS9jb21tb25zL3RodW1iLzEvMTkvSFRUUF9waXBlbGluaW5nMi5zdmcvNjQwcHgtSFRUUF9waXBlbGluaW5nMi5zdmcucG5n)
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/1200px-HTTP_pipelining2.svg.png)
 
 #### Benim Yorumum
 
