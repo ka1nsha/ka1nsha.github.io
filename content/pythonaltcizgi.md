@@ -1,3 +1,4 @@
+
 Title: Python'da alt çizgi(_)
 Date: 2018-05-2 22:55
 Tags: python alt çizgi,python alt cizgi nedir?, python altcizgi, python altçizgi, python underscore
@@ -9,7 +10,7 @@ Selamlar, yazıya giriş yapmadan önce uyarayım bu yazı okuduğum bir makaled
 
 
 
-Python kodlarının çoğunda alt çizgiyi görebilirsiniz. Peki ya hiç anlamını araştırdınız mı? Malesef ben de araştırmamıştım. Aslında Python'da alt çizginin çok özel bir yeri varmış. 
+Python kodlarının çoğunda alt çizgiyi görebilirsiniz. Peki ya hiç anlamını araştırdınız mı? Malesef ben de araştırmamıştım. Aslında Python'da alt çizginin çok özel bir yeri varmış.
 
 
 
@@ -29,8 +30,8 @@ Peki bu alt çizgi Python'da hangi amaçlar için kullanılıyormuş?
 
   ### Kullanım Örnekleri
 
-  1. ```python
-     >>> 5
+  1.
+  ```python
      5
      >>>_
      5
@@ -38,27 +39,32 @@ Peki bu alt çizgi Python'da hangi amaçlar için kullanılıyormuş?
      50
      >>>_
      50
-     ### Eğer aynı şeyi bpython3 gibi bir interpreterde denerseniz aynı sonucu alamayabilirsiniz.
-     ```
+
+### Eğer aynı şeyi bpython3 gibi bir interpreterde denerseniz aynı sonucu alamayabilirsiniz.
+
 
   2. ```python
-     for _ in range(10): ### Burada i yerine _ yazdık ve dedik ki bu range ile atanan değer umurumuzda değil.
+     for _ in range(10):
+     ### Burada i yerine _ yazdık ve dedik ki bu range ile atanan değer umurumuzda değil.
+
          fonksiyon()
      ```
 
-  3. Bir modülü yıldız ile importladığınızda yazdığınız fonksiyonun import olmamasını yani private bir fonksiyon olmasını isterseniz sınıfınızı/fonksiyonunuzu bu şekilde yazabilirsiniz. Referans: 
+  3. Bir modülü yıldız ile importladığınızda yazdığınız fonksiyonun import olmamasını yani private bir fonksiyon olmasını isterseniz sınıfınızı/fonksiyonunuzu bu şekilde yazabilirsiniz. Referans:
 
-     [Python Classes]: https://docs.python.org/3/tutorial/classes.html#private-variables-and-class-local-references	"Python Classes"
+     [Python Classes]: https://docs.python.org/3/tutorial/classes.html#private-variables-and-class-local-references
 
   4. Bir uygulamada kullanıcının dilini önceden program üzerinde belirtiyorsanız. Kullanıcıya döndüreceğiniz mesajlarda localization/internationalization dosyanızda ki bir texti aşağıda ki şekilde yazmanız yeterlidir.
 
      ```python
+
      print(_('Bu metin Türkçe dil dosyasından alınmıştır.')
      ```
 
   5. Bu kısımda örnek zaten yeterince açıklayıcı olduğu için direkt olarak aynı örneği alıyorum.
 
      ```python
+
      dec_base = 1_000_000
      bin_base = 0b_1111_0000
      hex_base = 0x_1234_abcd
@@ -70,11 +76,11 @@ Peki bu alt çizgi Python'da hangi amaçlar için kullanılıyormuş?
 
      ​
 
-Referans ve Orjinal Metin: 
+Referans ve Orjinal Metin:
 
 [Buradan!](https://hackernoon.com/understanding-the-underscore-of-python-309d1a029edc)
 
 
 
-Eğer yanlış veya bildirmek istediğiniz bir şey var ise bildirmekten çekinmeyiniz. 
+Eğer yanlış veya bildirmek istediğiniz bir şey var ise bildirmekten çekinmeyiniz.
 
