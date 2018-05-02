@@ -50,7 +50,7 @@
 
     <div class="entry-content">
         <p>Selamlar, yazıya giriş yapmadan önce uyarayım bu yazı okuduğum bir makaleden anladıklarımı kapsamaktadır. Direkt olarak çeviri yapmadım kendi yorumlarımı katarak anladığımı aktarmaya çalıştım. Teşekkürler, iyi okumalar!</p>
-<p>Python kodlarının çoğunda alt çizgiyi görebilirsiniz. Peki ya hiç anlamını araştırdınız mı? Malesef ben de araştırmamıştım. Aslında Python'da alt çizginin çok özel bir yeri varmış. </p>
+<p>Python kodlarının çoğunda alt çizgiyi görebilirsiniz. Peki ya hiç anlamını araştırdınız mı? Malesef ben de araştırmamıştım. Aslında Python'da alt çizginin çok özel bir yeri varmış.</p>
 <p>Peki bu alt çizgi Python'da hangi amaçlar için kullanılıyormuş?</p>
 <ul>
 <li>
@@ -69,50 +69,65 @@
 <p>Bir değeri/değişkeni umursamamak için kullanılıyor.</p>
 </li>
 </ul>
-<p>### Kullanım Örnekleri</p>
-<ol>
-<li>
-<p><code>python
-     &gt;&gt;&gt; 5
-     5
-     &gt;&gt;&gt;_
-     5
-     &gt;&gt;&gt;15+35
-     50
-     &gt;&gt;&gt;_
-     50
-     ### Eğer aynı şeyi bpython3 gibi bir interpreterde denerseniz aynı sonucu alamayabilirsiniz.</code></p>
-</li>
-<li>
-<p><code>python
-     for _ in range(10): ### Burada i yerine _ yazdık ve dedik ki bu range ile atanan değer umurumuzda değil.
-         fonksiyon()</code></p>
-</li>
-<li>
-<p>Bir modülü yıldız ile importladığınızda yazdığınız fonksiyonun import olmamasını yani private bir fonksiyon olmasını isterseniz sınıfınızı/fonksiyonunuzu bu şekilde yazabilirsiniz. Referans: </p>
-<p>[Python Classes]: https://docs.python.org/3/tutorial/classes.html#private-variables-and-class-local-references "Python Classes"</p>
-</li>
-<li>
-<p>Bir uygulamada kullanıcının dilini önceden program üzerinde belirtiyorsanız. Kullanıcıya döndüreceğiniz mesajlarda localization/internationalization dosyanızda ki bir texti aşağıda ki şekilde yazmanız yeterlidir.</p>
-<p><code>python
- print(_('Bu metin Türkçe dil dosyasından alınmıştır.')</code></p>
-</li>
-<li>
-<p>Bu kısımda örnek zaten yeterince açıklayıcı olduğu için direkt olarak aynı örneği alıyorum.</p>
-<p>```python
- dec_base = 1_000_000
+<h3>Kullanım Örnekleri</h3>
+<p>1.</p>
+<div class="highlight"><pre><span></span>5
+
+&gt;&gt;&gt;_
+
+5
+
+&gt;&gt;&gt;15+35
+
+50
+
+&gt;&gt;&gt;_
+
+50
+</pre></div>
+
+
+<p><strong> Eğer aynı şeyi bpython3 gibi bir interpreterde denerseniz aynı sonucu alamayabilirsiniz. </strong></p>
+<p>2.</p>
+<div class="highlight"><pre><span></span> for _ in range(10):
+ ### Burada i yerine _ yazdık ve dedik
+ ki bu range ile atanan değer umurumuzd
+ a
+ değil.
+ fonksiyon()
+</pre></div>
+
+
+<p>3.Bir modülü yıldız ile importladığınızda yazdığınız fonksiyonun import olmamasını yani private bir fonksiyon olmasını isterseniz sınıfınızı/fonksiyonunuzu bu şekilde yazabilirsiniz. Referans:</p>
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Python</span> <span class="n">Classes</span><span class="p">]</span><span class="o">:</span> <span class="nl">https</span><span class="p">:</span><span class="c1">//docs.python.org/3/tutorial/classes.html#private-variables-and-class-local-references</span>
+</pre></div>
+
+
+<p>4.Bir uygulamada kullanıcının dilini önceden program üzerinde belirtiyorsanız. Kullanıcıya döndüreceğiniz mesajlarda localization/internationalization dosyanızda ki bir texti aşağıda ki şekilde yazmanız yeterlidir.</p>
+<div class="highlight"><pre><span></span> print(_(&#39;Bu metin Türkçe dil dosyasından alınmıştır.&#39;)
+</pre></div>
+
+
+<p>5.Bu kısımda örnek zaten yeterince açıklayıcı olduğu için direkt olarak aynı örneği alıyorum.</p>
+<div class="highlight"><pre><span></span> dec_base = 1_000_000
+
  bin_base = 0b_1111_0000
- hex_base = 0x_1234_abcd</p>
-<p>print(dec_base) # 1000000
+
+ hex_base = 0x_1234_abcd
+
+ print(dec_base) # 1000000
+
  print(bin_base) # 240
+
  print(hex_base) # 305441741
- ```</p>
-<p>​</p>
-</li>
-</ol>
-<p>Referans ve Orjinal Metin: </p>
+</pre></div>
+
+
+<p>Referans ve Orjinal Metin:</p>
 <p><a href="https://hackernoon.com/understanding-the-underscore-of-python-309d1a029edc">Buradan!</a></p>
-<p>Eğer yanlış veya bildirmek istediğiniz bir şey var ise bildirmekten çekinmeyiniz. </p>
+<p>Eğer yanlış veya bildirmek istediğiniz bir şey var ise bildirmekten çekinmeyiniz.</p>
+<p>Bundan sonra her yazımda bir şarkı paylaşacağım şimdiden iyi dinlemeler:
+<a href="https://www.youtube.com/watch?v=sZfZ8uWaOFI"><img alt="DREAM ON!" src="https://www.youtube.com/watch?v=sZfZ8uWaOFI"></a></p>
     </div>
 
     <footer>
