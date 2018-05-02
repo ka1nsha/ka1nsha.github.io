@@ -1,4 +1,3 @@
-
 Title: Python'da alt çizgi(_)
 Date: 2018-05-2 22:55
 Tags: python alt çizgi,python alt cizgi nedir?, python altcizgi, python altçizgi, python underscore
@@ -28,53 +27,62 @@ Peki bu alt çizgi Python'da hangi amaçlar için kullanılıyormuş?
 
 * Bir değeri/değişkeni umursamamak için kullanılıyor.
 
-  ### Kullanım Örnekleri
+### Kullanım Örnekleri
 
-  1.
-  ```python
-     5
-     >>>_
-     5
-     >>>15+35
-     50
-     >>>_
-     50
+1.
 
-### Eğer aynı şeyi bpython3 gibi bir interpreterde denerseniz aynı sonucu alamayabilirsiniz.
+    5
+    
+    >>>_
+    
+    5
+    
+    >>>15+35
+    
+    50
+    
+    >>>_
+    
+    50
+** Eğer aynı şeyi bpython3 gibi bir interpreterde denerseniz aynı sonucu alamayabilirsiniz. **
 
+2.
 
-  2. ```python
      for _ in range(10):
-     ### Burada i yerine _ yazdık ve dedik ki bu range ile atanan değer umurumuzda değil.
+     ### Burada i yerine _ yazdık ve dedik
+     ki bu range ile atanan değer umurumuzd
+     a
+     değil.
+     fonksiyon()
 
-         fonksiyon()
-     ```
 
-  3. Bir modülü yıldız ile importladığınızda yazdığınız fonksiyonun import olmamasını yani private bir fonksiyon olmasını isterseniz sınıfınızı/fonksiyonunuzu bu şekilde yazabilirsiniz. Referans:
 
-     [Python Classes]: https://docs.python.org/3/tutorial/classes.html#private-variables-and-class-local-references
+3.Bir modülü yıldız ile importladığınızda yazdığınız fonksiyonun import olmamasını yani private bir fonksiyon olmasını isterseniz sınıfınızı/fonksiyonunuzu bu şekilde yazabilirsiniz. Referans:
 
-  4. Bir uygulamada kullanıcının dilini önceden program üzerinde belirtiyorsanız. Kullanıcıya döndüreceğiniz mesajlarda localization/internationalization dosyanızda ki bir texti aşağıda ki şekilde yazmanız yeterlidir.
+	[Python Classes]: https://docs.python.org/3/tutorial/classes.html#private-variables-and-class-local-references
 
-     ```python
+4.Bir uygulamada kullanıcının dilini önceden program üzerinde belirtiyorsanız. Kullanıcıya döndüreceğiniz mesajlarda localization/internationalization dosyanızda ki bir texti aşağıda ki şekilde yazmanız yeterlidir.
+
+     
 
      print(_('Bu metin Türkçe dil dosyasından alınmıştır.')
-     ```
+     
+5.Bu kısımda örnek zaten yeterince açıklayıcı olduğu için direkt olarak aynı örneği alıyorum.
 
-  5. Bu kısımda örnek zaten yeterince açıklayıcı olduğu için direkt olarak aynı örneği alıyorum.
-
-     ```python
+     
 
      dec_base = 1_000_000
+
      bin_base = 0b_1111_0000
+
      hex_base = 0x_1234_abcd
 
      print(dec_base) # 1000000
-     print(bin_base) # 240
-     print(hex_base) # 305441741
-     ```
 
-     ​
+     print(bin_base) # 240
+
+     print(hex_base) # 305441741
+
 
 Referans ve Orjinal Metin:
 
@@ -83,4 +91,8 @@ Referans ve Orjinal Metin:
 
 
 Eğer yanlış veya bildirmek istediğiniz bir şey var ise bildirmekten çekinmeyiniz.
+
+Bundan sonra her yazımda bir şarkı paylaşacağım şimdiden iyi dinlemeler:
+[![DREAM ON!](https://www.youtube.com/watch?v=sZfZ8uWaOFI)](https://www.youtube.com/watch?v=sZfZ8uWaOFI)
+
 
