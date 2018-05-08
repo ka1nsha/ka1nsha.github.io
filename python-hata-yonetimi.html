@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+        <title>Python İstisnalar ve İstisna Yönetimi</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+<body>
+
+    <div class="navigation pure-menu pure-menu-horizontal">
+        <a href="/" class="pure-menu-heading  pure-menu-link">Enes Ergün | Junior of All</a>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item"></li>
+
+            <li class="pure-menu-item"><a href="/category/ansible.html" class="pure-menu-link">ansible</a></li>
+            <li class="pure-menu-item"><a href="/category/flask.html" class="pure-menu-link">flask</a></li>
+            <li class="pure-menu-item"><a href="/category/iot-elektronik.html" class="pure-menu-link">iot & elektronik</a></li>
+            <li class="pure-menu-item"><a href="/category/linux.html" class="pure-menu-link">linux</a></li>
+            <li class="pure-menu-item pure-menu-selected"><a href="/category/python.html" class="pure-menu-link">python</a></li>
+            <li class="pure-menu-item"><a href="/category/vagrant.html" class="pure-menu-link">vagrant</a></li>
+        </ul>
+    </div>
+
+
+<div class="page-container">
+    <div class="entry-content">
+        <div class="post-meta pure-g">
+<div class="pure-u-3-4 meta-data">
+    <a href="/category/python.html" class="category">python</a><br />
+
+    <a class="author" href="/author/0x656e.html">0x656e</a>
+    &mdash; <abbr title="2018-05-08T23:12:00+03:00">Sal 08 Mayıs 2018</abbr>
+</div>        </div>
+    </div>
+
+    <div class="article-header-container">
+        <div class="background-image-container">
+
+            <div class="background-image-small">
+                <div class="title-container">
+                    <h1>Python İstisnalar ve İstisna Yönetimi</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="entry-content">
+        <p>Bildiğiniz gibi yazdığınız program/uygulama bazı yazım yanlışları veya veri girişi kısımlarında gerekli kontroller ve yönetimler yapılmamışsa  programınız/uygulamanız bir hata FIRLATARAK sonlanacaktır. Üstelik bu konu zararlı kişilerce kullanılarak son kullanıcıyı mağdur etmeye kadar gidebiliyor. Konu bu haliyle zaten oldukça önemli, bu kısımda yazılımcıya oldukça fazla yük düşmekte. Nedir bunlar?</p>
+<ol>
+<li>Yazdığı kodların genel istisna durumlarını yönetmelidir.</li>
+<li>Kullanıcı girişlerini kontrol etmelidir. ( Her konuda edilmeli )</li>
+<li>Zararsız kullanıcının yerine zararlı bir kişinin bu girdi kısımlarına neler girebileceğini tahmin edebilmedir.</li>
+</ol>
+<p>Şu anlık aklıma gelen bu kadar ama eminim fazlası da vardır. Bu konu hakkında beni yeşillendirebilirsiniz. Evet istisna yönetimi bu kadar önemliyken ben de bu konu hakkında yazmak istedim. Peki Python'da istisnalar nedir? Nasıl yönetilir? Hadi başlayalım.</p>
+<h2>Python'da istisnalar</h2>
+<p>Python'da istisnalar Exception ile yönetilir. Python üstünde Built-in olarak gelen bir sürü istisna yöntemi ve yönetimi vardır. Bunların listesine <a href="https://docs.python.org/3/library/exceptions.html">Built-in Exceptions</a> linkine tıklayarak ulaşabilirsiniz. Kod olaraksa en basit şekilde aşağıda ki gibi bir kullanımı vardır.</p>
+<div class="highlight"><pre><span></span>try: # Çalışacak kodunuz.
+    print(0/0)
+except:
+    print(&quot;Hata var&quot;)
+</pre></div>
+
+
+<p>veya aşağıda ki gibi bir kullanım daha uygundur. Çünkü yukarıda ki kod bloğunda ne hata verirse versin hata var yazacaktır.</p>
+<div class="highlight"><pre><span></span><span class="k">try</span><span class="o">:</span>
+    <span class="n">print</span><span class="o">(</span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span><span class="o">)</span>
+<span class="n">except</span> <span class="n">ZeroDivisionError</span><span class="o">:</span>
+    <span class="n">print</span><span class="o">(</span><span class="s2">&quot;Sıfırı sıfıra bölüyon&quot;</span><span class="o">)</span>
+</pre></div>
+
+
+<p>Yukarıda ki kod bloğunda kullandığımız ZeroDivisionError farkettiğiniz üzere bir built-in bir istisnadır.</p>
+<p>Peki karşımıza gelecek bu istisnaları nasıl yöneteceğiz?</p>
+<p>Örnek bir kod bloğunu aşağıda görebilirsiniz.</p>
+<div class="highlight"><pre><span></span>liste = [i for i in range(0,10)]
+try:
+    for i in liste:
+        print(int(i)/0)
+except ZeroDivisionError as hata:
+    print(hata)
+</pre></div>
+
+
+<p>Burada hatayı gördük ve bununla ilgili ekrana bastırdık. Peki bu kadarla mı sınırlıyız? Tabi ki de hayır. Bu kısımda karşımıza 3 deyim daha çıkıyor.</p>
+<p>Bu deyimler: 
+1. Raise
+2. Assert
+3. Else
+4. Finally</p>
+<p>Peki bunlar ne işe yarar? Kısaca açıklayacak olursam:</p>
+<p><strong>Raise</strong>
+Raise bize istisna çıktılarını tanımlamamızı sağlar. Nasıl yani derseniz şu şekilde. Bir yazılımın sadece stringler üzerinde işlem yaptığını düşünün buraya integer bir değer girdiğimizde bize TypeError verecektir. Fakat burada Error çıktısı son kullanıcı için anlamsız olabilir veya bunu değiştirmek isteyebilirsiniz. Base bir exception üzerinden Raise ile bunu yapabilirsiniz. Aslında raise bize istediğimiz zaman bir istisna fırlatmamıza olanak sağlar. Örnek:</p>
+<div class="highlight"><pre><span></span>i = 5
+if type(i) is int:
+    raise TypeError(&quot;Integer lan bu&quot;)
+</pre></div>
+
+
+<p><strong>Assert</strong>
+Bir modül yazdınız mesela bu modül sadece Linux'da çalışsın. Bunun kontrolünü assert ile kontrol ederek gerekli bir istisnayı sağlayabilirsiniz. Yazacağınız 1 satırlık assert ile bu kontrolü sağlayabilirsiniz. Örnek kod:</p>
+<div class="highlight"><pre><span></span>def meminfo():
+    assert (&#39;linux&#39; in sys.platform)
+    ac = open(&quot;/proc/meminfo&quot;)
+meminfo()
+</pre></div>
+
+
+<p>Şimdi yukarıda ki kod da eğer sisteminiz Linuxsa bu kodu çalıştıracaktır. Fakat sisteminiz linux değilse sizlere istisna olarak AssertionError dönecektir. Peki bu durumda biz ne yapacağız?</p>
+<div class="highlight"><pre><span></span><span class="k">try</span><span class="o">:</span>
+    <span class="n">meminfo</span><span class="o">()</span>
+<span class="n">except</span> <span class="n">AssertionError</span><span class="o">:</span>
+    <span class="n">print</span><span class="o">(</span><span class="s2">&quot;Windows haram&quot;</span><span class="o">)</span>
+</pre></div>
+
+
+<p>Gördüğünüz gibi işletim sistemi kontrolünü sağlamış olduk.</p>
+<p><strong>Else</strong></p>
+<p>Else ise muazzam bir özelliğe sahiptir. Nedir bu ? Bir üst örnekte yapmış olduğumuz kodu hatırlayın. Eğer Linux sisteminde çalıştırıyorsak bize hata vermeyecekti. Peki hata vermedi o zaman? Finally kullanabiliriz evet haklısınız fakat farklı bir istisna yönetimi de koymak istiyorum. Mesela hata vermedi ve ben bu dosyayı okudum ama daha sonra parse etmek istiyorum? İşte burada else koşulunun içerisine yazdığımız kod ile bunu kontrol edebiliyoruz. </p>
+<div class="highlight"><pre><span></span><span class="k">try</span><span class="o">:</span>
+    <span class="n">meminfo</span><span class="o">()</span>
+<span class="n">except</span> <span class="n">AssertionError</span><span class="o">:</span>
+    <span class="n">print</span><span class="o">(</span><span class="s2">&quot;Windows haram&quot;</span><span class="o">)</span>
+<span class="k">else</span><span class="o">:</span>
+    <span class="k">try</span><span class="o">:</span>
+        <span class="n">dosya</span> <span class="o">=</span> <span class="n">open</span><span class="o">(</span><span class="s2">&quot;memoryokuyucu.txt&quot;</span><span class="o">,</span><span class="s2">&quot;a&quot;</span><span class="o">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">meminfo</span><span class="o">():</span>
+            <span class="n">i</span> <span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="na">replace</span><span class="o">(</span><span class="s2">&quot;kb&quot;</span><span class="o">,</span><span class="s2">&quot;kilobayt&quot;</span><span class="o">)</span>
+            <span class="n">dosya</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+    <span class="n">except</span> <span class="n">FileNotFoundError</span><span class="o">:</span>
+        <span class="n">print</span><span class="o">(</span><span class="s2">&quot;Memory okuyucu diye bir dosya yok&quot;</span><span class="o">)</span>
+</pre></div>
+
+
+<p>Örnek sanırım yeterince açıklayıcı olmuştur.</p>
+<p><strong> Finally </strong></p>
+<p>İşte geldik en güzel terime Finally. Finally şu işe yaramaktadır. İstisna yönetimlerinden sonra kodumuza ne yapacağımızı söyler. Yani her istisnayı geçti bu kod artık ne yapalım demektir? Burada hiç bir hata almadım veya sürekli çalışsın dediğiniz kodlarınız durabilir.</p>
+<p>Finally konusunda örnek yazmadım zaten yeterince açık olduğu için.</p>
+<p>Yazımı okuduğunuz için teşekkür ederim. Bir hatam veya yanlışım olmuş ise yeşillendirirseniz sevinirim.
+<strong>Unutmadan</strong> bu haftanın şarkısını aşağıda paylaşıyorum.</p>
+<p><a href="https://www.youtube.com/watch?v=nPglNjxVHiM"><img alt="Skunk Anansie - Weak" src="https://img.youtube.com/vi/nPglNjxVHiM/0.jpg"></a></p>
+    </div>
+
+    <footer>
+        <div class="tags">
+            <a href="/tag/python-exceptions.html">Python exceptions</a>
+            <a href="/tag/python-istisna.html">python istisna</a>
+            <a href="/tag/python-istisna-yonetimi.html">python istisna yönetimi</a>
+            <a href="/tag/python-hata-yonetimi.html">python hata yönetimi</a>
+            <a href="/tag/python-exceptions-managing.html">python exceptions managing</a>
+        </div>
+        <div class="pure-g post-footer">
+            <div class="pure-u-1 pure-u-md-1-2">
+                <div class="pure-g poster-info">
+                    <div class="pure-u-3-4">
+                        <h3 class="author-name"><a href="/author/0x656e.html">0x656e</a></h3>
+                        <p class="author-description">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </footer>
+
+    <div class="entry-content">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            var disqus_shortname = '0x656e';
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </div>
+
+</div>
+
+
+
+    <footer class="index-footer">
+
+        <a href="/" title="Enes Ergün | Junior of All">Enes Ergün | Junior of All</a>
+
+        <a href="https://mertcangokgoz.com/">Mertcan Gökgöz</a>
+        <a href="https://onur.im/">Onur Aslan</a>
+        <a href="http://www.omeripek.com.tr/">Ömer İpek</a>
+        <a href="https://canyoupwn.me/">Canyoupwn.me</a>
+        <a href="http://www.oguzozkeroglu.com">Oğuz Özkeroğlu</a>
+
+    </footer>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-44262671-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+</body>
+</html>
