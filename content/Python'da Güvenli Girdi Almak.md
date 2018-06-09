@@ -9,7 +9,7 @@ Authors: 0x656e
 
 
 
-Bildiğiniz üzere uygulamalar da kullanıcı girdisi çok önemlidir. Bu girdilerin serialize edilmesi ve güvenli hale getirilmesi gerekmektedir. Güvenlik bilinci olmayan bir yazılımcı ise bu girdilerde kullanıcıya güvenerek hiç bir önlem almaz ise ne olur? Tabi ki hacklenir. Bu girdilerin güvenli hale getirilmesi için dile özgü bir çok yöntem vardır. Bu yöntem metadolojilerinden (metadoloji miydi bilemedim.) white list kullanılması da oldukça önemlidir. Ama bazen öyle şeyler vardır ki direkt olarak Yazılımın Core'unda çıkmaktadır ve burada olay artık yazılımcıdan çıkmaktadır. Örnek vermek gerekirse tam olarak fonksiyonu hatırlamıyorum fakat PHP'de kötü karakterlerden kaçmak için escape fonksiyonu bulunuyordu ve bu fonksiyon bypasslanabiliyordu. Artık deprecated olduğundan dolayı kullanılmıyor bildiğim kadarıyla.
+Bildiğiniz üzere uygulamalar da kullanıcı girdisi çok önemlidir. Bu girdilerin serialize edilmesi ve güvenli hale getirilmesi gerekmektedir. Güvenlik bilinci olmayan bir yazılımcı ise bu girdilerde kullanıcıya güvenerek hiç bir önlem almaz ise ne olur? Tabi ki hacklenir. Bu girdilerin güvenli hale getirilmesi için dile özgü bir çok yöntem vardır. Bu yöntem metodolojilerinden (metadoloji miydi bilemedim.) white list kullanılması da oldukça önemlidir. Ama bazen öyle şeyler vardır ki direkt olarak Yazılımın Core'unda çıkmaktadır ve burada olay artık yazılımcıdan çıkmaktadır. Örnek vermek gerekirse tam olarak fonksiyonu hatırlamıyorum fakat PHP'de kötü karakterlerden kaçmak için escape fonksiyonu bulunuyordu ve bu fonksiyon bypasslanabiliyordu. Artık deprecated olduğundan dolayı kullanılmıyor bildiğim kadarıyla.
 
 
 
