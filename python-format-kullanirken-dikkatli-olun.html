@@ -49,7 +49,7 @@
     </div>
 
     <div class="entry-content">
-        <p>Bildiğiniz üzere uygulamalar da kullanıcı girdisi çok önemlidir. Bu girdilerin serialize edilmesi ve güvenli hale getirilmesi gerekmektedir. Güvenlik bilinci olmayan bir yazılımcı ise bu girdilerde kullanıcıya güvenerek hiç bir önlem almaz ise ne olur? Tabi ki hacklenir. Bu girdilerin güvenli hale getirilmesi için dile özgü bir çok yöntem vardır. Bu yöntem metadolojilerinden (metadoloji miydi bilemedim.) white list kullanılması da oldukça önemlidir. Ama bazen öyle şeyler vardır ki direkt olarak Yazılımın Core'unda çıkmaktadır ve burada olay artık yazılımcıdan çıkmaktadır. Örnek vermek gerekirse tam olarak fonksiyonu hatırlamıyorum fakat PHP'de kötü karakterlerden kaçmak için escape fonksiyonu bulunuyordu ve bu fonksiyon bypasslanabiliyordu. Artık deprecated olduğundan dolayı kullanılmıyor bildiğim kadarıyla.</p>
+        <p>Bildiğiniz üzere uygulamalar da kullanıcı girdisi çok önemlidir. Bu girdilerin serialize edilmesi ve güvenli hale getirilmesi gerekmektedir. Güvenlik bilinci olmayan bir yazılımcı ise bu girdilerde kullanıcıya güvenerek hiç bir önlem almaz ise ne olur? Tabi ki hacklenir. Bu girdilerin güvenli hale getirilmesi için dile özgü bir çok yöntem vardır. Bu yöntem metodolojilerinden (metadoloji miydi bilemedim.) white list kullanılması da oldukça önemlidir. Ama bazen öyle şeyler vardır ki direkt olarak Yazılımın Core'unda çıkmaktadır ve burada olay artık yazılımcıdan çıkmaktadır. Örnek vermek gerekirse tam olarak fonksiyonu hatırlamıyorum fakat PHP'de kötü karakterlerden kaçmak için escape fonksiyonu bulunuyordu ve bu fonksiyon bypasslanabiliyordu. Artık deprecated olduğundan dolayı kullanılmıyor bildiğim kadarıyla.</p>
 <p>Çok fazla uzattım sanırım uzatmadan mevzuya geçeceğim. </p>
 <h3>Python'da Güvenli Girdi Almak</h3>
 <p>Python'da girdi almak için input fonksiyonu kullanılmaktadır. Yanlış hatırlamıyorsam Python2'de ki input fonksiyonu da yukarıda bahsettiğim gibi güvenli hale getirilmediğinden dolayı sistem üzerinde kod çalıştırılabiliyordu. Tıpkı eval fonksiyonu gibi. Python3 de ise herhangi bir sorun yok gözüküyor. Peki kullanıcı girdisini yaptı buraya kadar her şey güvenli. Peki ya sonra?</p>
@@ -81,7 +81,7 @@
 
 
 <h3>Neden Böyle Oluyor?</h3>
-<p>Aslında bu bir bug değil future. Şaka değil gerçekten. Python3 ile birlikte format ile değerlere ve öğelere ulaşabilir duruma gelmekteyiz. Fakat burada öğelere ve bu öğelerin değerlerine erişmek işte karşımıza bu sorunu çıkartmaktadır.</p>
+<p>Aslında bu bir bug değil feature. Şaka değil gerçekten. Python3 ile birlikte format ile değerlere ve öğelere ulaşabilir duruma gelmekteyiz. Fakat burada öğelere ve bu öğelerin değerlerine erişmek işte karşımıza bu sorunu çıkartmaktadır.</p>
 <p>Peki bunda ne var diyebilirsiniz. Bir hacker eğer kullanıcı girdinize bu şekilde injection yapabiliyorsa kod bloğunuz içerisinde ki örnek vermek gerekirse <code>db_password</code> gibi değerlere ulaşabilecektir.</p>
 <h3>Nasıl Engelleriz</h3>
 <p>Engellemek amacıyla bu yazıyı referans aldığım adreste aşağıda ki şekilde bir fonksiyon ve sınıf verilmiştir. </p>
