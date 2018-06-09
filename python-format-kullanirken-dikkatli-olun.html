@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+        <title>String.Format() Kullanırken Dikkatli Olun</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+<body>
+
+    <div class="navigation pure-menu pure-menu-horizontal">
+        <a href="/" class="pure-menu-heading  pure-menu-link">Enes Ergün | Junior of All</a>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item"></li>
+
+            <li class="pure-menu-item"><a href="/category/ansible.html" class="pure-menu-link">ansible</a></li>
+            <li class="pure-menu-item"><a href="/category/flask.html" class="pure-menu-link">flask</a></li>
+            <li class="pure-menu-item"><a href="/category/iot-elektronik.html" class="pure-menu-link">iot & elektronik</a></li>
+            <li class="pure-menu-item"><a href="/category/linux.html" class="pure-menu-link">linux</a></li>
+            <li class="pure-menu-item pure-menu-selected"><a href="/category/python.html" class="pure-menu-link">python</a></li>
+            <li class="pure-menu-item"><a href="/category/vagrant.html" class="pure-menu-link">vagrant</a></li>
+        </ul>
+    </div>
+
+
+<div class="page-container">
+    <div class="entry-content">
+        <div class="post-meta pure-g">
+<div class="pure-u-3-4 meta-data">
+    <a href="/category/python.html" class="category">python</a><br />
+
+    <a class="author" href="/author/0x656e.html">0x656e</a>
+    &mdash; <abbr title="2018-06-10T02:41:00+03:00">Paz 10 Haziran 2018</abbr>
+</div>        </div>
+    </div>
+
+    <div class="article-header-container">
+        <div class="background-image-container">
+
+            <div class="background-image-small">
+                <div class="title-container">
+                    <h1>String.Format() Kullanırken Dikkatli Olun</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="entry-content">
+        <p>Bildiğiniz üzere uygulamalar da kullanıcı girdisi çok önemlidir. Bu girdilerin serialize edilmesi ve güvenli hale getirilmesi gerekmektedir. Güvenlik bilinci olmayan bir yazılımcı ise bu girdilerde kullanıcıya güvenerek hiç bir önlem almaz ise ne olur? Tabi ki hacklenir. Bu girdilerin güvenli hale getirilmesi için dile özgü bir çok yöntem vardır. Bu yöntem metadolojilerinden (metadoloji miydi bilemedim.) white list kullanılması da oldukça önemlidir. Ama bazen öyle şeyler vardır ki direkt olarak Yazılımın Core'unda çıkmaktadır ve burada olay artık yazılımcıdan çıkmaktadır. Örnek vermek gerekirse tam olarak fonksiyonu hatırlamıyorum fakat PHP'de kötü karakterlerden kaçmak için escape fonksiyonu bulunuyordu ve bu fonksiyon bypasslanabiliyordu. Artık deprecated olduğundan dolayı kullanılmıyor bildiğim kadarıyla.</p>
+<p>Çok fazla uzattım sanırım uzatmadan mevzuya geçeceğim. </p>
+<h3>Python'da Güvenli Girdi Almak</h3>
+<p>Python'da girdi almak için input fonksiyonu kullanılmaktadır. Yanlış hatırlamıyorsam Python2'de ki input fonksiyonu da yukarıda bahsettiğim gibi güvenli hale getirilmediğinden dolayı sistem üzerinde kod çalıştırılabiliyordu. Tıpkı eval fonksiyonu gibi. Python3 de ise herhangi bir sorun yok gözüküyor. Peki kullanıcı girdisini yaptı buraya kadar her şey güvenli. Peki ya sonra?</p>
+<p>Örnek üzerinden gitmek gerekirse login formu üzerinde kullanıcı adı aldığımızı düşünelim. Buraya yazılan kullanıcı adı için aşağıda ki yöntem uygulanırsa sisteminizde açık oluşacaktır.</p>
+<div class="highlight"><pre><span></span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT password FROM users WHERE username=</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span><span class="o">%</span><span class="p">(</span><span class="n">username</span><span class="p">,))</span>
+</pre></div>
+
+
+<p>Burada username kısmına yazılacak herhangi bir tırnak hacker'ın database üzerinde hatta daha ileri aşamalarda sistem üzerinde kod çalıştırabileceği anlamına gelmektedir.</p>
+<p>Peki güvenlisi?</p>
+<p>O da şöyle:</p>
+<div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT password FROM users WHERE username=&#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Not: Ben bu şekilde güvenli olduğunu düşünüyorum ama hatam olabilir. Eğer bir hata varsa okuyucuları bilgilendirmek adına hiç çekinmeden yazabilirsiniz. Yanlış göstermek istemem.</p>
+<p>Evet yukarıda ki örneğimiz daha güvenli(?!)</p>
+<h3>Aslında Güvenli Değilmiş</h3>
+<p>Evet format güvenli diye biliyorduk ama okuduğum makaleye göre güvenli değilmiş. Bunun sebebi ise format değeri ile birlikte kod üzerinde ki başka özellikleri çağırıp ekrana yazdırabilirmişiz.</p>
+<p>Hemen örnek ile göstereyim:</p>
+<div class="highlight"><pre><span></span><span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Selamlar {0} {0.__contains__}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Enes&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Bunu yazdığımızda çıktısı aşağıda ki gibi olacaktır:</p>
+<div class="highlight"><pre><span></span><span class="s2">&quot;Selamlar Enes &lt;method-wrapper &#39;__contains__&#39; of str object at 0x7f4f4a9f5c70&gt;&quot;</span>
+</pre></div>
+
+
+<h3>Neden Böyle Oluyor?</h3>
+<p>Aslında bu bir bug değil future. Şaka değil gerçekten. Python3 ile birlikte format ile değerlere ve öğelere ulaşabilir duruma gelmekteyiz. Fakat burada öğelere ve bu öğelerin değerlerine erişmek işte karşımıza bu sorunu çıkartmaktadır.</p>
+<p>Peki bunda ne var diyebilirsiniz. Bir hacker eğer kullanıcı girdinize bu şekilde injection yapabiliyorsa kod bloğunuz içerisinde ki örnek vermek gerekirse <code>db_password</code> gibi değerlere ulaşabilecektir.</p>
+<h3>Nasıl Engelleriz</h3>
+<p>Engellemek amacıyla bu yazıyı referans aldığım adreste aşağıda ki şekilde bir fonksiyon ve sınıf verilmiştir. </p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Formatter</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Mapping</span>
+
+<span class="k">class</span> <span class="nc">MagicFormatMapping</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This class implements a dummy wrapper to fix a bug in the Python</span>
+<span class="sd">    standard library for string formatting.</span>
+
+<span class="sd">    See http://bugs.python.org/issue13598 for information about why</span>
+<span class="sd">    this is necessary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_index</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_index</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">LookupError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">)</span>
+
+<span class="c1"># This is a necessary API but it&#39;s undocumented and moved around</span>
+<span class="c1"># between Python releases</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">_string</span> <span class="kn">import</span> <span class="n">formatter_field_name_split</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">formatter_field_name_split</span> <span class="o">=</span> <span class="k">lambda</span> \
+        <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">_formatter_field_name_split</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">SafeFormatter</span><span class="p">(</span><span class="n">Formatter</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">first</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="n">formatter_field_name_split</span><span class="p">(</span><span class="n">field_name</span><span class="p">)</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">is_attr</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rest</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_attr</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">safe_getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="p">,</span> <span class="n">first</span>
+
+<span class="k">def</span> <span class="nf">safe_getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+    <span class="c1"># Expand the logic here.  For instance on 2.x you will also need</span>
+    <span class="c1"># to disallow func_globals, on 3.x you will also need to hide</span>
+    <span class="c1"># things like cr_frame and others.  So ideally have a list of</span>
+    <span class="c1"># objects that are entirely unsafe to access.</span>
+    <span class="k">if</span> <span class="n">attr</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;_&#39;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">safe_format</span><span class="p">(</span><span class="n">_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">formatter</span> <span class="o">=</span> <span class="n">SafeFormatter</span><span class="p">()</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">MagicFormatMapping</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">formatter</span><span class="o">.</span><span class="n">vformat</span><span class="p">(</span><span class="n">_string</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+<span class="n">Now</span> <span class="n">you</span> <span class="n">can</span> <span class="n">use</span> <span class="n">the</span> <span class="n">safe_format</span> <span class="n">method</span> <span class="k">as</span> <span class="n">a</span> <span class="n">replacement</span> <span class="k">for</span> <span class="nb">str</span><span class="o">.</span><span class="n">format</span><span class="p">:</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="s1">&#39;{0.__class__}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="s2">&quot;&lt;type &#39;int&#39;&gt;&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">safe_format</span><span class="p">(</span><span class="s1">&#39;{0.__class__}&#39;</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">AttributeError</span><span class="p">:</span> <span class="vm">__class__</span>
+</pre></div>
+
+
+<p>Yazımızın da sonuna geldik. Bu yazıyı okuduğum bir makale üzerinden aldım. Alıntı diyebiliriz isterseniz çalıntıda diyebilirsiniz fakat en azından bildirmeyi görevim bildiğimden dolayı bu yazıyı okumaktasınız. </p>
+<p>Yazının orjinali: <a href="http://lucumr.pocoo.org/2016/12/29/careful-with-str-format/">Careful with STR Format</a></p>
+<p>Evet bu yazıyı da bitirdiğimize göre geleneğim haline getirmeye çalıştığım yazı sonu şarkısını aşağıda paylaşıyorum.</p>
+<p><a href="https://youtu.be/AlwQZAtlTFU"><img alt="Rosey - Love" src="https://img.youtube.com/vi/AlwQZAtlTFU/0.jpg"></a></p>
+    </div>
+
+    <footer>
+        <div class="tags">
+            <a href="/tag/python-string-formatting.html">Python string formatting</a>
+            <a href="/tag/python-format.html">python format</a>
+            <a href="/tag/python-string-injection.html">python string injection</a>
+            <a href="/tag/python-injection.html">python injection</a>
+            <a href="/tag/python-input-verification.html">python input verification</a>
+        </div>
+        <div class="pure-g post-footer">
+            <div class="pure-u-1 pure-u-md-1-2">
+                <div class="pure-g poster-info">
+                    <div class="pure-u-3-4">
+                        <h3 class="author-name"><a href="/author/0x656e.html">0x656e</a></h3>
+                        <p class="author-description">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </footer>
+
+    <div class="entry-content">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            var disqus_shortname = '0x656e';
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </div>
+
+</div>
+
+
+
+    <footer class="index-footer">
+
+        <a href="/" title="Enes Ergün | Junior of All">Enes Ergün | Junior of All</a>
+
+        <a href="https://mertcangokgoz.com/">Mertcan Gökgöz</a>
+        <a href="https://onur.im/">Onur Aslan</a>
+        <a href="http://www.omeripek.com.tr/">Ömer İpek</a>
+        <a href="https://canyoupwn.me/">Canyoupwn.me</a>
+        <a href="http://www.oguzozkeroglu.com">Oğuz Özkeroğlu</a>
+
+    </footer>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-44262671-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+</body>
+</html>
