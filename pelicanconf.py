@@ -24,8 +24,8 @@ LINKS = (('Mertcan Gökgöz', 'https://mertcangokgoz.com/'),
          ('Onur Aslan', 'https://onur.im/'),
          ('Ömer İpek', 'http://www.omeripek.com.tr/'),
          ('Canyoupwn.me', 'https://canyoupwn.me/'),
-         ('Oğuz Özkeroğlu','http://www.oguzozkeroglu.com')
-         ('Ahmet Gürel','http://ahmetgurel.com')
+         ('Oğuz Özkeroğlu','http://www.oguzozkeroglu.com'),
+         ('Ahmet Gürel','http://ahmetgurel.com'),
          ('Berk İmran','https://berkimran.com.tr'),)
 
 # Social widget
@@ -41,8 +41,8 @@ DEFAULT_PAGINATION = 10
 DISQUS_SITENAME = "0x656e"
 DISQUS_LOAD_LATER = True
 GOOGLE_ANALYTICS = "UA-44262671-1"
-THEME='~/Documents/GitHub/medius'
-OUTPUT_PATH='../blogyazilari'
+THEME='c:/Users/ka1/Documents/GitHub/medius'
+OUTPUT_PATH='c:/Users/ka1/Documents/GitHub/blogyazilari'
 PATH='content'
 DISPLAY_PAGES_ON_MENU = False
 SHARE=True
