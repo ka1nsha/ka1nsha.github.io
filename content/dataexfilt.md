@@ -1,14 +1,14 @@
 Title: Data Exfiltration
 Date: 2018-11-11 13:48
 Tags: data exfil, veri kaçırma, veri kaçırma yöntemleri, data exfiltration türkçe, veri güvenliği
-Category: Siber Güvenlik
+Category: siber güvenlik
 Slug: data-exfiltration
 Authors: 0x656e
 
 
 
 
-**Bu yazı tamamen bilgilendirme amaçlıdır.**
+
 ## Data Exfiltration Nedir?
 
 Bir kişi veya grubun yetkisiz bir biçimde bir veriyi başka bir bilgisayar yada sunucuya kopyalaması, transfer etmesi anlamına gelir. Data extrusion(veri çıkarma), data exportation(veri ihracati!), data theft(veri hırsızlığı) olarak da bilinir.
@@ -117,5 +117,11 @@ Yazıyı burada sonlandırıyorum. Daha detaylı bilgilere ulaşmak veya daha fa
 [Data Exfiltration Techniques](https://www.pentestpartners.com/security-blog/data-exfiltration-techniques/)
 
 
+
 **Burada anlatılanlar hakkında yaptığınız,yapacağınız tüm işlemlerden sizler sorumlusunuz. Mesuliyet kabul edilmemektedir.**
 
+**Bu yazı tamamen bilgilendirme amaçlıdır.**
+
+Her yazının sonunda olduğu gibi klasik bu yazının şarkısını paylaşıyorum. 
+
+[![Beth Hart - Caught Out In The Rain](https://img.youtube.com/vi/DuDhiHSksaA/0.jpg)](https://www.youtube.com/watch?v=DuDhiHSksaA)

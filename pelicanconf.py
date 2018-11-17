@@ -26,7 +26,8 @@ LINKS = (('Mertcan Gökgöz', 'https://mertcangokgoz.com/'),
          ('Canyoupwn.me', 'https://canyoupwn.me/'),
          ('Oğuz Özkeroğlu','http://www.oguzozkeroglu.com'),
          ('Ahmet Gürel','http://ahmetgurel.com'),
-         ('Berk İmran','https://berkimran.com.tr'),)
+         ('Berk İmran','https://berkimran.com.tr'),
+         ('Ali Gören','https://aligoren.com'),)
 
 # Social widget
 CONTACTS = (('twitter','www.twitter.com/0x656e'),)
@@ -45,5 +46,6 @@ THEME='c:/Users/ka1/Documents/GitHub/medius'
 OUTPUT_PATH='c:/Users/ka1/Documents/GitHub/blogyazilari'
 PATH='content'
 DISPLAY_PAGES_ON_MENU = False
+DISPLAY_CATEGORIES_ON_MENU = False
 SHARE=True
 
