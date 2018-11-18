@@ -32,7 +32,7 @@ LINKS = (('Mertcan Gökgöz', 'https://mertcangokgoz.com/'),
 # Social widget
 CONTACTS = (('twitter','www.twitter.com/0x656e'),)
 SOCIAL = (('0x656e' ,'www.twitter.com/0x656e'),)
-RECENT_POST_COUNT = 5
+RECENT_POST_COUNT = 10
 DISPLAY_RECENT_POSTS_ON_MENU =5
 
 DEFAULT_PAGINATION = 10
@@ -46,6 +46,6 @@ THEME='c:/Users/ka1/Documents/GitHub/medius'
 OUTPUT_PATH='c:/Users/ka1/Documents/GitHub/blogyazilari'
 PATH='content'
 DISPLAY_PAGES_ON_MENU = False
-DISPLAY_CATEGORIES_ON_MENU = False
+DISPLAY_CATEGORIES_ON_MENU = True
 SHARE=True
 
