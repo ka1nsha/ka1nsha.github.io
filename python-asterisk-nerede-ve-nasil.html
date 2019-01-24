@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+        <title>Python da "*" Karakteri Nerede ve Nasıl Kullanılır</title>
+        <meta charset="utf-8" />
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Social -->
+    <meta property="article:author" content="0x656e" />
+    <meta property="article:section" content="python" />
+    <meta property="article:published_time" content="2019-01-24" />
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Python da "*" Karakteri Nerede ve Nasıl Kullanılır"/>
+    <meta property="og:description" content="Python da &#34;*&#34; Karakteri Nerede ve Nasıl Kullanılır Merhabalar, Vardiyalı çalıştığımdan dolayı bu ay nasıl olduysa 5 gün ard arda tatil iznim olmuş. Bu tatili çok verimli geçirmek istediğimden dolayı çalışacağım konulara çalışmaya, yazacağım kodları yazmaya, bloguma özen vermeye çalıştım. Tabi burada oyun oynamaktan da vazgeçmedim :) İşte bu sebeple bu isteklerimin …"/>
+    <meta property="og:site_name" content="Enes Ergün | Junior of All" />
+    <meta property="og:url" content="/python-asterisk-nerede-ve-nasil.html"/>
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Python da "*" Karakteri Nerede ve Nasıl Kullanılır">
+    <meta name="twitter:description" content="Python da &#34;*&#34; Karakteri Nerede ve Nasıl Kullanılır Merhabalar, Vardiyalı çalıştığımdan dolayı bu ay nasıl olduysa 5 gün ard arda tatil iznim olmuş. Bu tatili çok verimli geçirmek istediğimden dolayı çalışacağım konulara çalışmaya, yazacağım kodları yazmaya, bloguma özen vermeye çalıştım. Tabi burada oyun oynamaktan da vazgeçmedim :) İşte bu sebeple bu isteklerimin …">
+    <meta name="twitter:url" content="/python-asterisk-nerede-ve-nasil.html">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" />
+        <link rel="stylesheet" href="/theme/css/grids-responsive-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+<body>
+
+    <div class="w3-row w3-card w3-white">
+        <header id="header">
+          <a href="" id="header-logo" title="Home">0</a>
+          <nav id="header-menu">
+            <ul>
+              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/ansible.html">ansible</a></li>
+              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/flask.html">flask</a></li>
+              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/iot-elektronik.html">iot & elektronik</a></li>
+              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/linux.html">linux</a></li>
+              <li class="w3-bottombar w3-border-white w3-hover-border-green" style="font-weight: bold;"><a href="/category/python.html">python</a></li>
+              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/siber-guvenlik.html">siber güvenlik</a></li>
+              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/vagrant.html">vagrant</a></li>
+            </ul>
+          </nav>
+        </header>
+      </div>
+
+
+<div class="page-container">
+    <div class="entry-content">
+        <div class="post-meta pure-g">
+<div class="pure-u-3-4 meta-data">
+    <a href="/category/python.html" class="category">python</a><br />
+
+    <a class="author" href="/author/0x656e.html">0x656e</a>
+    &mdash; <abbr title="2019-01-24T18:50:00+03:00">Thu 24 January 2019</abbr>
+</div>        </div>
+    </div>
+
+    <div class="article-header-container">
+        <div class="background-image-container">
+
+            <div class="background-image-small">
+                <div class="title-container">
+                    <h1>Python da "*" Karakteri Nerede ve Nasıl Kullanılır</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="entry-content">
+        <h1>Python da "*" Karakteri Nerede ve Nasıl Kullanılır</h1>
+<p>Merhabalar,</p>
+<p>Vardiyalı çalıştığımdan dolayı bu ay nasıl olduysa 5 gün ard arda tatil iznim olmuş. Bu tatili çok verimli geçirmek istediğimden dolayı çalışacağım konulara çalışmaya, yazacağım kodları yazmaya, bloguma özen vermeye çalıştım. Tabi burada oyun oynamaktan da vazgeçmedim :)</p>
+<p>İşte bu sebeple bu isteklerimin 3.cüsü olan bloguma özen vermeye çalışmanın bir sonucu olarak bu yazıyı okuyucularıma veya araştırmacı arkadaşlara sunuyorum. Eksik gördüğünüz bir kısım veya burası yanlış dediğiniz bir kısım var ise twitter üzerinden veya mail üzerinden belirtmekten çekinmeyin lütfen.</p>
+<p><a href="mailto:info@enesergun.net">Mail</a></p>
+<p><a href="twitter.com/0x656e">Twitter</a></p>
+<p>Bu yazıyı okumadan önce eğer Python hakkında bir fikre sahip değilseniz, henüz dün okumuş olduğum ve çok beğendiğim Fatih ERİKLİ'nin yazısını sizlere önereyim.</p>
+<p><a href="https://medium.com/@fthrkl/y%C4%B1lan-hikayesi-i%CC%87lk-b%C3%B6l%C3%BCm-869f212bb1a2">Yılan Hikayesi İlk Bölüm</a></p>
+<h2>Nedir Bu "*"  Karakteri</h2>
+<p>Yıldız işareti ingilizce de asterisk olarak geçmektedir. Eğer kodlarınızı yazarken "*" işareti ile ilgili bir problem yaşarsanız asterisk diye aratarak, diğer arama sonuçlarından daha hızlı bir arama sonucuna ulaşabilirsiniz.</p>
+<p><strong>Yıldız kelimesi İngilizce de star olarak, yıldız işareti kelimesi ise asterisk olarak geçer. </strong></p>
+<h2>İlk Yıldız İşaretimizi Ne Zaman Gördük</h2>
+<p>Python programlama dilinde yıldız işareti ilk olarak karşımıza <strong>Matematiksel Operatorler</strong> konusunda çıkmaktadır.</p>
+<p>Bu işaret ile vermiş olduğumuz değişkenleri çarpabilir veya bu işareti iki kere kullanarak vermiş olduğumuz integer değerlerinin kuvvetini,üssünü(Power) alabiliriz.</p>
+<p>Örnekle açıklamak gerekirse:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Çarpma</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="mi">2</span> <span class="c1"># A değişkenine tanımlanmış olan liste veri tipini 2 ile çarpıyoruz.</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="c1"># Kuvvet Alma</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="c1"># Eğer bu şekilde yaparsak listenin kuvvetini alamayacağından dolayı bizlere zaten hata verecektir.</span>
+<span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">**</span><span class="mi">4</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">a</span><span class="p">]</span> <span class="c1"># A değişkenini for döngüsüne sokarak tüm sonuçları c değişkenine atadım.</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="mi">625</span><span class="p">,</span> <span class="mi">256</span><span class="p">]</span>
+</pre></div>
+
+
+<p>Yukarıdaki örnekte  farketmiş olacağınız üzere "çarpma" örneğininde bize içinde ki karakterleri değil değişkene tanımlamış olduğumuz değeri 2 ile çarpacaktır. </p>
+<div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="s2">&quot;enes&quot;</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">enesenes</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">&gt;</span><span class="mi">6</span>
+</pre></div>
+
+
+<p>Yine yukarıdaki örneklere ait benzer bir işlem yaptık fakat burada liste değil string veri tipinde bir değer tanımladık. İlk çarpma işlemimizde gördüğünüz gibi stringi iki kere çarparak yan yana yazdı. İkinci işlemimizde ise direkt olarak integer değer verdiğimizden dolayı matematiksel bir işleme sokup bize çıktısını üretti.</p>
+<h2>Gelelim Yıldız İşaretinin Gelişmiş Kullanımlarına</h2>
+<p>Asterisk yani yıldız işaretini bir liste veya sözlük veri tiplerini açarken(unpacking) kullanabiliriz. Burada sözlük ve liste olarak bahsettim fakat iterable olan tüm veri tiplerinde de bu işareti kullanabiliriz. Iterable'ın türkçesi olarak direkt bir çeviri yok bildiğim kadarıyla ama bu konuda en güzel açıklamayı ekşisözlükte "aaron" kullanıcısı entry olarak girmiş. Direkt olarak yazılan entry'i aşağıda belirtiyorum.</p>
+<p>"bir döngü vasıtası ile üzerinde dönülebilen elemanların oluşturduğu bir nesnedir."</p>
+<p><strong>R.I.P Aaron Swartz</strong></p>
+<p><a href="https://eksisozluk.com/iterable--5154245">İterable</a></p>
+<p><strong>Örnek 1 </strong></p>
+<div class="highlight"><pre><span></span><span class="n">isimler</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Enes&#39;</span><span class="p">,</span><span class="s1">&#39;Yasin&#39;</span><span class="p">,</span><span class="s1">&#39;Emir&#39;</span><span class="p">,</span><span class="s1">&#39;Basri&#39;</span><span class="p">,</span><span class="s1">&#39;Mustafa&#39;</span><span class="p">]</span>
+<span class="c1"># Burada isimleri yazdırabilmek için string&#39;e çevirip yazdırabiliriz pek tabii fakat konumuz &quot;*&quot; ve bu yolun pekte efektif olduğu söylenemez.</span>
+<span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">isimler</span><span class="p">)</span> <span class="c1">#Unpacking </span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">isimler</span><span class="p">))</span> <span class="c1"># List to str</span>
+</pre></div>
+
+
+<p>Yukarıdaki örnekte eğer bir listeyi yazdıracaksak bize cidden büyük bir kolaylık sağlıyor. Şimdi diğer örneklerle ve açıklamalarıyla birlikte devam edelim.</p>
+<p><strong>Örnek 2</strong></p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">yazdir</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="n">ogrenci</span>  <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;İsim&#39;</span><span class="p">:</span><span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;Soyisim&#39;</span><span class="p">:</span><span class="s1">&#39;Ergün&#39;</span><span class="p">,</span> <span class="s1">&#39;Okul No&#39;</span><span class="p">:</span> <span class="s1">&#39;1234&#39;</span><span class="p">}</span>
+<span class="n">yazdir</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s2">&quot;Enes&quot;</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="s2">&quot;0x656e&quot;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="n">ogrenci</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="s1">&#39;0x656e&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;İsim&#39;</span><span class="p">:</span> <span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;Soyisim&#39;</span><span class="p">:</span> <span class="s1">&#39;Ergün&#39;</span><span class="p">,</span> <span class="s1">&#39;Okul No&#39;</span><span class="p">:</span> <span class="s1">&#39;1234&#39;</span><span class="p">}}</span>
+</pre></div>
+
+
+<p><strong>Örnek 2.1</strong></p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">yazdir</span><span class="p">(</span><span class="o">*</span><span class="n">utanırım</span><span class="p">,</span><span class="o">**</span><span class="n">ben</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">utanırım</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">ben</span><span class="p">)</span>
+<span class="n">ogrenci</span>  <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;İsim&#39;</span><span class="p">:</span><span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;Soyisim&#39;</span><span class="p">:</span><span class="s1">&#39;Ergün&#39;</span><span class="p">,</span> <span class="s1">&#39;Okul No&#39;</span><span class="p">:</span> <span class="s1">&#39;1234&#39;</span><span class="p">}</span>
+<span class="n">yazdir</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s2">&quot;Enes&quot;</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="s2">&quot;0x656e&quot;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="n">ogrenci</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Burada ki kullanımda bir fonksiyonu çağırırken alabileceği tüm argümanları yakalamak için yıldız karakterini kullanıyoruz ama örnekte 2 farklı kullanım görmekteyiz. Bunları açıklamak istersek eğer:</p>
+<ol>
+<li>Args değerinde kullandığımız tek yıldız argüman olarak vereceğimiz tüm değerleri yakalayacaktır. Burada *args kullanımı zorunlu değildir. İsterseniz <code>*selamnaber</code>  bile kullanabilirsiniz. </li>
+<li>Kwargs değerinde kullandığımız 2 yıldız ise burada ki unpacking işleminin keyworded arguments ile olacağını belirtiyor. Bu ne demek? Fonksiyona göndermiş olduğumuz parametrelerin anahtar kelimelere sahip parametreler olacağını söylüyor.</li>
+</ol>
+<p><strong>Örnek 3</strong></p>
+<div class="highlight"><pre><span></span><span class="n">ogrenci</span>  <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;İsim&#39;</span><span class="p">:</span><span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;Soyisim&#39;</span><span class="p">:</span><span class="s1">&#39;Ergün&#39;</span><span class="p">,</span> <span class="s1">&#39;Okul No&#39;</span><span class="p">:</span> <span class="s1">&#39;1234&#39;</span><span class="p">}</span>
+<span class="n">ogrenci_karnenotu</span> <span class="o">=</span> <span class="s2">&quot;Okulumuz öğrencilerinden {Okul No} okul numarasına sahip {İsim} {Soyisim} adlı öğrenci mezun olmaya hak kazanmıştır.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">ogrenci</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ogrenci_karnenotu</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">Okulumuz</span> <span class="err">öğ</span><span class="n">rencilerinden</span> <span class="mi">1234</span> <span class="n">okul</span> <span class="n">numarasına</span> <span class="n">sahip</span> <span class="n">Enes</span> <span class="n">Ergünadlı</span> <span class="err">öğ</span><span class="n">renci</span> <span class="n">mezun</span> <span class="n">olmaya</span> <span class="n">hak</span> <span class="n">kazanmıştır</span><span class="o">.</span>
+</pre></div>
+
+
+<p>Buradaki kullanımda yine bir unpacking ile karşı karşıyayız. Bu örnekte Sözlük veri tipindeki bir değişkeni string formatting işlemi sırasında açıyoruz. Burada tek tek <code>ogrenci['İsim']</code> yazmaktansa bu şekilde bir kullanım bize büyük kolaylıklar sağlayabilir.</p>
+<h2>Kapanış</h2>
+<p>Sanırım diğer yazılara görece daha kısa bir yazı oldu ama blogun temasını değiştirmek için bir yazı yazma fikrine ihtiyacım vardı. Bu arada yeni tema nasıl? Temayı MinimalXY ile Onur'un Medius temasını birleştirerek yaptım.</p>
+<p>Ayrıca yine bir klasiğim olan yazı sonu şarkısı paylaşmadan edemeyeceğim. Bu sefer 2 adet şarkı paylaşıyorum.</p>
+<p><a href="https://www.youtube.com/watch?v=RF0HhrwIwp0"><img alt="Kings of Leon - Sex on Fire" src="https://i.ytimg.com/vi/RF0HhrwIwp0/hqdefault.jpg"></a></p>
+<p><a href="https://i.ytimg.com/vi/3oMb06O2wXo/hqdefault.jpg"><img alt="Frazey Ford - One More Cup Of Coffee" src="https://i.ytimg.com/vi/3oMb06O2wXo/hqdefault.jpg"></a></p>
+    </div>
+
+    <footer>
+        <div class="tags">
+            <a href="/tag/python3.html">python3</a>
+            <a href="/tag/python3-yildiz.html">python3 yıldız</a>
+            <a href="/tag/python3-yildiz-isareti.html">python3 yıldız işareti</a>
+            <a href="/tag/python3-asterisk.html">python3 asterisk</a>
+            <a href="/tag/python3-args-ve-kwargs.html">python3 args ve kwargs</a>
+            <a href="/tag/python-args.html">python args</a>
+            <a href="/tag/python-kwargs.html">python kwargs</a>
+        </div>
+        <div class="pure-g post-footer">
+            <div class="pure-u-1 pure-u-md-1-2">
+                <div class="pure-g poster-info">
+                    <div class="pure-u-3-4">
+                        <h3 class="author-name"><a href="/author/0x656e.html">0x656e</a></h3>
+                        <p class="author-description">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </footer>
+
+    <div class="entry-content">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            var disqus_shortname = '0x656e';
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </div>
+
+</div>
+
+
+
+    <footer class="index-footer">
+
+        <a href="/" title="Enes Ergün | Junior of All">Enes Ergün | Junior of All</a>
+        <a href="https://mertcangokgoz.com/">Mertcan Gökgöz</a>
+        <a href="https://onur.im/">Onur Aslan</a>
+        <a href="http://www.omeripek.com.tr/">Ömer İpek</a>
+        <a href="https://canyoupwn.me/">Canyoupwn.me</a>
+        <a href="http://www.oguzozkeroglu.com">Oğuz Özkeroğlu</a>
+        <a href="http://ahmetgurel.com">Ahmet Gürel</a>
+        <a href="https://berkimran.com.tr">Berk İmran</a>
+        <a href="https://aligoren.com">Ali Gören</a>
+        <a href="https://0xf61.gitlab.io/">Emir Kurt</a>
+
+    </footer>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-44262671-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+</body>
+</html>
