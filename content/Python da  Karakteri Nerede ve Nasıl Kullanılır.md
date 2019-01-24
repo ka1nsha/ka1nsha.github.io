@@ -6,7 +6,7 @@ Slug: python-asterisk-nerede-ve-nasil
 Authors: 0x656e
 
 
-# Python da "*" Karakteri Nerede ve Nasıl Kullanılır
+
 
 Merhabalar,
 
