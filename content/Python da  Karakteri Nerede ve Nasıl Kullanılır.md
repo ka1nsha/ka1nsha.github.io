@@ -1,5 +1,5 @@
 Title: Python da "*" Karakteri Nerede ve Nasıl Kullanılır
-Date: 2019-24-01 18:50
+Date: 2019-01-24 18:50
 Tags: python3, python3 yıldız, python3 yıldız işareti, python3 asterisk, python3 args ve kwargs, python args, python kwargs
 Category: python
 Slug: python-asterisk-nerede-ve-nasil
@@ -142,7 +142,7 @@ Buradaki kullanımda yine bir unpacking ile karşı karşıyayız. Bu örnekte S
 
 ## Kapanış
 
-Sanırım diğer yazılara görece daha kısa bir yazı oldu ama blogun temasını değiştirmek için bir yazı yazma fikrine ihtiyacım vardı. Bu arada yeni tema nasıl?
+Sanırım diğer yazılara görece daha kısa bir yazı oldu ama blogun temasını değiştirmek için bir yazı yazma fikrine ihtiyacım vardı. Bu arada yeni tema nasıl? Temayı MinimalXY ile Onur'un Medius temasını birleştirerek yaptım.
 
 Ayrıca yine bir klasiğim olan yazı sonu şarkısı paylaşmadan edemeyeceğim. Bu sefer 2 adet şarkı paylaşıyorum.
 

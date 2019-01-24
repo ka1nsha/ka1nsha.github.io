@@ -27,10 +27,11 @@ LINKS = (('Mertcan Gökgöz', 'https://mertcangokgoz.com/'),
          ('Oğuz Özkeroğlu','http://www.oguzozkeroglu.com'),
          ('Ahmet Gürel','http://ahmetgurel.com'),
          ('Berk İmran','https://berkimran.com.tr'),
-         ('Ali Gören','https://aligoren.com'),)
+         ('Ali Gören','https://aligoren.com'),
+         ('Emir Kurt','https://0xf61.gitlab.io/'),)
 
 # Social widget
-CONTACTS = (('twitter','www.twitter.com/0x656e'),)
+CONTACTS = (('twitter','www.twitter.com/0x656e'),('mail','info@enesergun.net'))
 SOCIAL = (('0x656e' ,'www.twitter.com/0x656e'),)
 RECENT_POST_COUNT = 10
 DISPLAY_RECENT_POSTS_ON_MENU =5
@@ -42,10 +43,9 @@ DEFAULT_PAGINATION = 10
 DISQUS_SITENAME = "0x656e"
 DISQUS_LOAD_LATER = True
 GOOGLE_ANALYTICS = "UA-44262671-1"
-THEME='c:/Users/ka1/Documents/GitHub/medius'
+THEME='c:/Users/ka1/Documents/GitHub/Medius'
 OUTPUT_PATH='c:/Users/ka1/Documents/GitHub/blogyazilari'
 PATH='content'
-DISPLAY_PAGES_ON_MENU = False
+DISPLAY_PAGES_ON_MENU = True
 DISPLAY_CATEGORIES_ON_MENU = True
 SHARE=True
-
