@@ -1,4 +1,4 @@
-Title: Python da "*" Karakteri Nerede ve Nasıl Kullanılır
+Title: Python'da "*" Karakteri Nerede ve Nasıl Kullanılır
 Date: 2019-01-24 18:50
 Tags: python3, python3 yıldız, python3 yıldız işareti, python3 asterisk, python3 args ve kwargs, python args, python kwargs
 Category: python
@@ -10,11 +10,11 @@ Authors: 0x656e
 
 Merhabalar,
 
-Vardiyalı çalıştığımdan dolayı bu ay nasıl olduysa 5 gün ard arda tatil iznim olmuş. Bu tatili çok verimli geçirmek istediğimden dolayı çalışacağım konulara çalışmaya, yazacağım kodları yazmaya, bloguma özen vermeye çalıştım. Tabi burada oyun oynamaktan da vazgeçmedim :)
+Vardiyalı çalıştığımdan dolayı bu ay nasıl olduysa 5 gün ard arda iznim olmuş. Bu tatili çok verimli geçirmek istediğimden dolayı çalışacağım konulara çalışmaya, yazacağım kodları yazmaya, bloguma özen vermeye çalıştım. Tabi burada oyun oynamaktan da vazgeçmedim :)
 
 
 
-İşte bu sebeple bu isteklerimin 3.cüsü olan bloguma özen vermeye çalışmanın bir sonucu olarak bu yazıyı okuyucularıma veya araştırmacı arkadaşlara sunuyorum. Eksik gördüğünüz bir kısım veya burası yanlış dediğiniz bir kısım var ise twitter üzerinden veya mail üzerinden belirtmekten çekinmeyin lütfen.
+İşte bu sebeple bu isteklerimin 3.cüsü olan bloguma özen vermeye çalışmanın bir sonucu olarak bu yazıyı okuyucularıma veya araştırmacı arkadaşlara sunuyorum. Eksik gördüğünüz veya burası yanlış dediğiniz bir kısım var ise twitter  veya mail üzerinden belirtmekten çekinmeyin lütfen.
 
 [Mail](mailto:info@enesergun.net)
 
@@ -52,7 +52,7 @@ a = [5,4]
 b = a*2 # A değişkenine tanımlanmış olan liste veri tipini 2 ile çarpıyoruz.
 > [5,4,5,4]
 # Kuvvet Alma
-c = a**2 # Eğer bu şekilde yaparsak listenin kuvvetini alamayacağından dolayı bizlere zaten hata verecektir.
+c = a**2 # Eğer bu şekilde yaparsak listenin kuvvetini alamayacağından dolayı zaten hata verecektir.
 c = [i**4 for i in a] # A değişkenini for döngüsüne sokarak tüm sonuçları c değişkenine atadım.
 > [625, 256]
 ```
@@ -123,7 +123,7 @@ yazdir(a="Enes",b="0x656e",c=ogrenci)
 Burada ki kullanımda bir fonksiyonu çağırırken alabileceği tüm argümanları yakalamak için yıldız karakterini kullanıyoruz ama örnekte 2 farklı kullanım görmekteyiz. Bunları açıklamak istersek eğer:
 
 1. Args değerinde kullandığımız tek yıldız argüman olarak vereceğimiz tüm değerleri yakalayacaktır. Burada *args kullanımı zorunlu değildir. İsterseniz ` *selamnaber`  bile kullanabilirsiniz. 
-2. Kwargs değerinde kullandığımız 2 yıldız ise burada ki unpacking işleminin keyworded arguments ile olacağını belirtiyor. Bu ne demek? Fonksiyona göndermiş olduğumuz parametrelerin anahtar kelimelere sahip parametreler olacağını söylüyor.
+2. Kwargs değerinde kullandığımız 2 yıldız ise buradaki unpacking işleminin keyworded arguments ile olacağını belirtiyor. Bu ne demek? Fonksiyona göndermiş olduğumuz parametrelerin anahtar kelimelere sahip parametreler olacağını söylüyor.
 
 
 
@@ -148,4 +148,4 @@ Ayrıca yine bir klasiğim olan yazı sonu şarkısı paylaşmadan edemeyeceğim
 
 [![Kings of Leon - Sex on Fire](https://i.ytimg.com/vi/RF0HhrwIwp0/hqdefault.jpg)](https://www.youtube.com/watch?v=RF0HhrwIwp0)
 
-[![Frazey Ford - One More Cup Of Coffee](https://i.ytimg.com/vi/3oMb06O2wXo/hqdefault.jpg)](https://i.ytimg.com/vi/3oMb06O2wXo/hqdefault.jpg)
+[![Frazey Ford - One More Cup Of Coffee](https://i.ytimg.com/vi/3oMb06O2wXo/hqdefault.jpg)](https://www.youtube.com/watch?v=3oMb06O2wXo)
