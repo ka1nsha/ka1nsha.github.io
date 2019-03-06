@@ -95,7 +95,7 @@ Pythonda bir değişken atadığınızda ne oluyor biliyor musunuz? Bu atadığ�
 Örnek vermek gerekirse siz `a` ve `b` adında iki farklı değişken tanımladınız bu değişkenlerin değeri de `500` diyelim. İşte bu değişkenler aslında Memory üzerinde hali hazırda obje olarak bulunan `500` objesini işaret ediyor. 
 
 Pythonda objelerin memory üzerinde tutulması ise şu şekilde oluyor.
-||PyObject
+||PyObject|
 | -| -|
 |type|integer|
 |refcount|2|
