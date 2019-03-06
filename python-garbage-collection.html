@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+        <title>Python Hafıza Yönetimi ve Garbage Collection Hakkında</title>
+        <meta charset="utf-8" />
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Social -->
+    <meta property="article:author" content="0x656e" />
+    <meta property="article:section" content="siber güvenlik" />
+    <meta property="article:published_time" content="2019-06-03" />
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Python Hafıza Yönetimi ve Garbage Collection Hakkında"/>
+    <meta property="og:description" content="Python Garbage Collector Garbage Collector Neymiş? Garbage collector Türkçe&#39;ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerinde ki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory&#39;de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C&#39;de 32bit bir integer …"/>
+    <meta property="og:site_name" content="Enes Ergün | Junior of All" />
+    <meta property="og:url" content="https://enesergun.net/python-garbage-collection.html"/>
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Python Hafıza Yönetimi ve Garbage Collection Hakkında">
+    <meta name="twitter:description" content="Python Garbage Collector Garbage Collector Neymiş? Garbage collector Türkçe&#39;ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerinde ki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory&#39;de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C&#39;de 32bit bir integer …">
+    <meta name="twitter:url" content="https://enesergun.net/python-garbage-collection.html">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" />
+        <link rel="stylesheet" href="https://enesergun.net/theme/css/grids-responsive-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://enesergun.net/theme/css/main.css" />
+</head>
+<body>
+
+    <div class="w3-row w3-card w3-white">
+        <header id="header">
+          <a href="https://enesergun.net" id="header-logo" title="Home">0x656e</a>
+          <nav id="header-menu">
+            <ul>
+              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/ansible.html">ansible</a></li>
+              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/flask.html">flask</a></li>
+              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/iot-elektronik.html">iot & elektronik</a></li>
+              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/linux.html">linux</a></li>
+              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/python.html">python</a></li>
+              <li class="w3-bottombar w3-border-white w3-hover-border-green" style="font-weight: bold;"><a href="https://enesergun.net/category/siber-guvenlik.html">siber güvenlik</a></li>
+              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/vagrant.html">vagrant</a></li>
+            </ul>
+          </nav>
+        </header>
+      </div>
+
+
+<div class="page-container">
+    <div class="entry-content">
+        <div class="post-meta pure-g">
+<div class="pure-u-3-4 meta-data">
+    <a href="https://enesergun.net/category/siber-guvenlik.html" class="category">siber güvenlik</a><br />
+
+    <a class="author" href="https://enesergun.net/author/0x656e.html">0x656e</a>
+    &mdash; <abbr title="2019-06-03T13:30:00+03:00">Mon 03 June 2019</abbr>
+</div>        </div>
+    </div>
+
+    <div class="article-header-container">
+        <div class="background-image-container">
+
+            <div class="background-image-small">
+                <div class="title-container">
+                    <h1>Python Hafıza Yönetimi ve Garbage Collection Hakkında</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="entry-content">
+        <h1>Python Garbage Collector</h1>
+<h2>Garbage Collector Neymiş?</h2>
+<p>Garbage collector Türkçe'ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerinde ki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory'de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C'de 32bit bir integer değişkeni tanımlamışsanız bu değişken için memory üzerinde 31 bitlik bir alan açılır ve bu alan içerisinde siz değerlerinizi tutabilirsiniz. Geri kalan bir 1 bit ise işaret biti olarak kullanılır.</p>
+<p>Buraya kadar her şey tamam. Peki o zaman şöyle yapalım biz programın açılışında bir değişken tanımladık ve bunu 1 kere kullandık ve yazdığımız dil otomatik hafıza yönetim'i olmayan bir dil(Örn: C) ne olacak peki? Bu ayırdığımız alan program sonlanana kadar hafızada gereksiz yer kaplayacak.</p>
+<p>İşte bu sebepten dolayı günümüzde kullanılan çoğu scripting dili ile birlikte Go, Java, C# otomatik hafıza yönetimine sahiptir. Bununla birlikte isterseniz C ve C++'a da <a href="https://github.com/ivmai/bdwgc">Boehm-Demers-Weiser</a> ile ekleyebilirsiniz.</p>
+<p>Peki bu işlem nasıl yapılıyor? Burada 2 farklı yöntem karşımıza çıkıyor. 
+1. Reference Counting
+2. Tracing</p>
+<p>Bu kısımları kısaca bahsedip geçeceğim. </p>
+<h3>Reference Counting Nedir?</h3>
+<p>Bu metotda bizim kodumuzu yazarken hafızada kullanacağımız tüm nesne/objelerin reference tablosu tutuluyor. Basit anlamda kafanızda canlanması için örnek veriyorum <code>A</code> şeklinde bir değişkenimiz var ve biz bunu <code>toplama(A)</code> fonksiyonunda kullanıyoruz. Burada toplama fonksiyonunda A'yı referans aldığımızdan dolayı bu tabloda A'nın reference count'u <code>1</code> olacaktır. Tamam şimdi fonksiyondan çıktık artık A'nın bir işlevi kalmadı ve toplama fonksiyonunu bir yere atamadık. Bu sebeple tabloda değişkenimizin reference count'ı <code>0</code> oldu ve artık hafızadan kapladığı alan boşaltıldı. Python dilinde de Reference Counting ve Döngü tespiti kullanılır.</p>
+<p>Reference counting'in bazı dezavantajları var:
+1. Thread-Safe bir yapıda değil. Eğer multithread yapıda bir uygulama yazmışsanız bu sorunlara yol açıyor. Basit anlamda yine örneklendirmeye gideceğim. 1 thread'iniz bir refcount'u artırırken bir thread'iniz bu refcount'u 1 azaltabilir.
+2. Her obje için bir referans count değeri oluşturuyor. Bu da memoryde fazladan alan demek.
+3. Cyclical Reference'ları tanımlayamıyor. 
+Örnek:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="k">del</span> <span class="n">a</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">Output</span><span class="p">:</span>
+<span class="mi">69</span>
+<span class="mi">71</span>
+<span class="mi">70</span>
+</pre></div>
+
+
+<h3>Tracing Garbage Collector</h3>
+<p>En fazla kullanılan yöntemdir.
+Bu Garbage collectorümüz ise biraz karışık. Yine de elimden geldiğince basit bir şekilde anlatmaya çalışacağım. Yazılımımız çalıştığında Memory de Root Set'imiz oluşturuyor bu bizim Memoryde ki en üst alanımız bundan sonra ki tüm obje ve nesneler child olarak memory içerisinde yer ediniyor. Tracing kısmı işte burada devreye giriyor. 2 fazlı bir çalışması bulunuyor.
+1. Root Set'imizin erişebildiği tüm objeler/nesneler kontrol ediliyor ve root setimizden bu objelere/nesnelere erişiliyorsa bu obje/nesne Alive olarak işaretleniyor.(Mark bit)
+2. Bu faz ise Sweep olarak geçmekte. Bu kısımda algoritmamız yine tüm memory'i geziyor eğer Alive işaretlenmiş bir memory alanı varsa bu alan üzerinde Mark biti gelecekte ki Garbage Collection döngüsü için kaldırıyor ve sonra ki memory adresine geçiyor. Eğer bu adres daha önce ziyaret edilmemiş yani Mark bit verilmemişse bunu Free Memory kısmına ekliyor.</p>
+<p>Tabi bu kadarla kalmıyor işin ilerleyen kısımlarında Mark-Compact gibi aşamaları da mevcut ama basit anlamda bu şekilde.</p>
+<p>Wiki üzerinden Tracing'i anlatan görsel:
+<img alt="Tracing Çöp Toplayıcı" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Animation_of_tri-color_garbage_collection.gif/330px-Animation_of_tri-color_garbage_collection.gif"></p>
+<h2>Python'da İşler Nasıl Gidiyor?</h2>
+<p>Yukarıdaki başlıklarda genel olarak Garbage Collection'ın ne olduğundan vs bahsettik sıra Python'a gelince burada işler biraz karışıyor.</p>
+<p>Bu kısımda karşımıza generational garbage collection, gil gibi kavramlar karşımıza çıkıyor. Sırası ile gidelim.</p>
+<p>Python'da iki tür garbage collection kullanılıyor bunlardan 1 tanesi yukarıda da bahsedilen Reference Counting, diğeri ise bir Tracing tipi olan Generational Garbage Collection'dır.</p>
+<h3>Generational Garbage Collection Nedir?</h3>
+<p>Bu garbage collection tipinin mottosu "young objects are much more likely to die than old objects" yani kısaca genç olan erken ölür. </p>
+<p>Bu GC tipinde objeler jenerasyonlarına ayrılıyor, 3 adet grup bulunur.
+1. Generation 0 - Short live
+2. Generation 1 - Medium live
+3. Generation 2 - Long live</p>
+<p>Bir obje GC sonrası yaşamına devam ediyorsa bir sonraki jenerasyona eklenir. Eğer yeni bir obje tanımlanmışsa bu obje <code>Gen 0</code> da başlayacaktır. 
+Yine gerçek hayattan bir örneklendirme yapayım.
+Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi <code>Gen0</code> grubuna <code>Ahmet1</code> olarak yerleştirildi ve aynı anda 5 Ahmet ile tanıştınız. Sonra  Kadıköy'de bir kafede biranızı yudumlarken <code>Ahmet1</code> ile karşılaştınız ve oturup karşılıklı sohbet ettiniz. <code>Ahmet1</code> artık <code>Gen1</code> grubuna girdi ve <code>Gen0</code> grubunda ki tüm Ahmetler hafızanızdan silindi. Eh <code>Ahmet1</code> ile daha sonraları bir sür badire atlattınız(Bir sürü GC evresinden tertemiz çıktı) ve hayatınızda vazgeçilmez oldu.(Runtime'da ihtiyaç duyulan bir obje?!). Artık <code>Ahmet1</code> <code>Gen2</code> grubunda oldu.</p>
+<p>Sanırım en kısa bu şekilde anlatabilirim :D </p>
+<h3>GIL (Global Interpreter Lock)</h3>
+<p>Bu arkadaşımız Python kodumuzun sadece tek bir thread tarafından çalıştırılmasını sağlıyor. Her kod yalnızca 1 thread üstünde çalışıyor. Yani arkaplanda çalışan her interpreter processde o process'e ait bir de GIL bulunuyor. O Process'e ait işlemleri başka bir thread çalıştıramıyor. Bunun sebebi ise yine üst kısımlarda bahsetmiş olduğumuz Reference Counting. Eş zamanlı olarak Reference Counting'in önüne geçebilmek için böyle bir yola gidilmiş.</p>
+<p>GIL'in bu özelliği sebebiyle GC süreçleri hızlanıyor fakat Python kodumuzun sadece tek bir Thread'de çalışması gerekiyor. </p>
+<p><strong>Dipnot:</strong> GIL bir ara kaldırılmak istenmiş hatta Patch'de çıkmış fakat şöyle bir sorun ortaya çıkmış. Yazdığımız kodlar multithread bir yapıdaysa işlemler hızlanmış fakat eğer single thread bir uygulama yazmışsanız performans kaybı <strong>%50</strong> gibi bir sayıya ulaşmış.</p>
+<h3>Python'da Objeler</h3>
+<p>Pythonda bir değişken atadığınızda ne oluyor biliyor musunuz? Bu atadığınız değişken memoryde hali hazırda yaratılmış bir Objeye refererans vererek kullanılıyor. </p>
+<p>Örnek vermek gerekirse siz <code>a</code> ve <code>b</code> adında iki farklı değişken tanımladınız bu değişkenlerin değeri de <code>500</code> diyelim. İşte bu değişkenler aslında Memory üzerinde hali hazırda obje olarak bulunan <code>500</code> objesini işaret ediyor. </p>
+<p>Pythonda objelerin memory üzerinde tutulması ise şu şekilde oluyor.
+||PyObject
+| -| -|
+|type|integer|
+|refcount|2|
+|value|500|</p>
+<p>Kod olarak açıklarsak eğer:</p>
+<div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> 
+<span class="n">output</span><span class="p">:</span>
+<span class="mi">49670448</span>
+<span class="mi">49670448</span> <span class="mi">49670448</span>
+</pre></div>
+
+
+<p>Gördüğünüz gibi iki farklı değişkenim, hatta bir integer'ım var ve aslında hepsi temelde memoryde ki 500 değerini barındıran PyObject'e referans veriyor. Bir de aşağıdaki koda bakalım.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+</pre></div>
+
+
+<p>Çıktısı aşağıdaki gibi olacaktır.</p>
+<div class="highlight"><pre><span></span><span class="mi">2</span>
+<span class="mi">4</span>
+<span class="mi">49671840</span>
+<span class="mi">49671840</span> <span class="mi">49671840</span>
+<span class="mi">4</span>
+</pre></div>
+
+
+<p>ID'lerini bir kenara bırakırsak başlangıçta 500 değerini tutan Objemizin <code>count'u</code> 2 olarak gözükmekte biz bu değeri <code>a</code> ve <code>b</code> değişkenlerine verdiğimizde <code>refcount</code> 4 oluyor fakat <code>print</code> ile yazdırdığımız 500 değeri <code>refcountu</code> etkilemiyor. Bunun nedeni herhangi bir referans vermeden direkt yazdırmamızdan dolayıdır. </p>
+<p>Aslında yazıyı biraz daha uzatıp <code>__slots__</code>dan ve Python üzerindeki veri tipleri ve bu veri tiplerinin kapladıkları alan gibi konulardan bahsetmek istiyordum fakat bir baktım ki zaten sevgili <code>Mazlum Ağar</code> bu konudan bahsetmiş. İlgili yazının linkini hemen aşağıya iliştiriyorum.</p>
+<p><a href="https://medium.com/@mazlumagar/python-tricks-1-slots-e0c9b04f4c5a">Python Tricks <strong>Slots</strong></a></p>
+<p>Konu biraz dağınık olmuş olabilir bu sebeple kusura bakmayınız. Yazı tamamen benimde bilmediğim konu üzerine yaptığım araştırmalar neticesinde çıkmıştır. Eğer bir yanlışımı görürseniz kesinlikle ve kesinlikle beni uyarabilirsiniz. </p>
+<p>Geleneksel hale getirdiğim yazı sonu şarkısını aşağıya ekliyorum, bilimle kalın.</p>
+<p><a href="https://www.youtube.com/watch?v=OYHsJ_h-noc"><img alt="Gökşin Derin- Depresyon" src="https://img.youtube.com/vi/OYHsJ_h-noc/0.jpg"></a></p>
+    </div>
+
+    <footer>
+        <div class="tags">
+            <a href="https://enesergun.net/tag/python-memory-management.html">python memory management</a>
+            <a href="https://enesergun.net/tag/python-hafiza-yonetim.html">python hafıza yönetim</a>
+            <a href="https://enesergun.net/tag/python-yavas.html">python yavaş</a>
+            <a href="https://enesergun.net/tag/python-cop-toplayici.html">python çöp toplayıcı</a>
+            <a href="https://enesergun.net/tag/garbage-collection-types.html">garbage collection types</a>
+        </div>
+        <div class="pure-g post-footer">
+            <div class="pure-u-1 pure-u-md-1-2">
+                <div class="pure-g poster-info">
+                    <div class="pure-u-3-4">
+                        <h3 class="author-name"><a href="https://enesergun.net/author/0x656e.html">0x656e</a></h3>
+                        <p class="author-description">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </footer>
+
+    <div class="entry-content">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            var disqus_shortname = '0x656e';
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+    </div>
+
+</div>
+
+
+
+    <footer class="index-footer">
+
+        <a href="https://enesergun.net/" title="Enes Ergün | Junior of All">Enes Ergün | Junior of All</a>
+        <a href="https://mertcangokgoz.com/">Mertcan Gökgöz</a>
+        <a href="https://onur.im/">Onur Aslan</a>
+        <a href="http://www.omeripek.com.tr/">Ömer İpek</a>
+        <a href="https://canyoupwn.me/">Canyoupwn.me</a>
+        <a href="http://www.oguzozkeroglu.com">Oğuz Özkeroğlu</a>
+        <a href="http://ahmetgurel.com">Ahmet Gürel</a>
+        <a href="https://berkimran.com.tr">Berk İmran</a>
+        <a href="https://aligoren.com">Ali Gören</a>
+        <a href="https://0xf61.gitlab.io/">Emir Kurt</a>
+
+    </footer>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-44262671-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+</body>
+</html>
