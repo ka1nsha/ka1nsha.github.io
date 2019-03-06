@@ -1,60 +1,79 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
-        <title>Python Hafıza Yönetimi ve Garbage Collection Hakkında</title>
-        <meta charset="utf-8" />
+  <title>Python Hafıza Yönetimi ve Garbage Collection Hakkında</title>
+  <meta charset="utf-8" />
+  <meta name="description"
+    content="Profesyonel veya hobi hayatımda kullandığım teknolojiler hakkında çeşitli içerikler üretip kendime ait bir not defteri olarak kullandığım blog sayfam. Arada sırada boş muhabbet yaptığımda olur. "
+    \>
 
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <!-- Social -->
-    <meta property="article:author" content="0x656e" />
-    <meta property="article:section" content="siber güvenlik" />
-    <meta property="article:published_time" content="2019-06-03" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Social -->
+  <meta property="article:author" content="0x656e" />
+  <meta property="article:section" content="python" />
+  <meta property="article:published_time" content="2019-01-06" />
 
-    <meta property="og:type" content="article"/>
-    <meta property="og:title" content="Python Hafıza Yönetimi ve Garbage Collection Hakkında"/>
-    <meta property="og:description" content="Python Garbage Collector Garbage Collector Neymiş? Garbage collector Türkçe&#39;ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerinde ki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory&#39;de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C&#39;de 32bit bir integer …"/>
-    <meta property="og:site_name" content="Enes Ergün | Junior of All" />
-    <meta property="og:url" content="https://enesergun.net/python-garbage-collection.html"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Python Hafıza Yönetimi ve Garbage Collection Hakkında" />
+  <meta property="og:description" content="Python Garbage Collector Garbage Collector Neymiş? Garbage collector Türkçe&#39;ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerindeki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory&#39;de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C&#39;de 32bit bir integer değişkeni …" />
+  <meta property="og:site_name" content="Enes Ergün | Personel Homepage about of my Profession | Python, Cyber Security, Linux" />
+  <meta property="og:url" content="https://enesergun.net/python-garbage-collection.html" />
 
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Python Hafıza Yönetimi ve Garbage Collection Hakkında">
-    <meta name="twitter:description" content="Python Garbage Collector Garbage Collector Neymiş? Garbage collector Türkçe&#39;ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerinde ki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory&#39;de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C&#39;de 32bit bir integer …">
-    <meta name="twitter:url" content="https://enesergun.net/python-garbage-collection.html">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" />
-        <link rel="stylesheet" href="https://enesergun.net/theme/css/grids-responsive-min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="https://enesergun.net/theme/css/main.css" />
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Python Hafıza Yönetimi ve Garbage Collection Hakkında">
+  <meta name="twitter:description" content="Python Garbage Collector Garbage Collector Neymiş? Garbage collector Türkçe&#39;ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerindeki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory&#39;de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C&#39;de 32bit bir integer değişkeni …">
+  <meta name="twitter:url" content="https://enesergun.net/python-garbage-collection.html">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" />
+  <link rel="stylesheet" href="https://enesergun.net/theme/css/grids-responsive-min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://enesergun.net/theme/css/main.css" />
 </head>
+
 <body>
 
-    <div class="w3-row w3-card w3-white">
-        <header id="header">
-          <a href="https://enesergun.net" id="header-logo" title="Home">0x656e</a>
-          <nav id="header-menu">
-            <ul>
-              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/ansible.html">ansible</a></li>
-              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/flask.html">flask</a></li>
-              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/iot-elektronik.html">iot & elektronik</a></li>
-              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/linux.html">linux</a></li>
-              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/python.html">python</a></li>
-              <li class="w3-bottombar w3-border-white w3-hover-border-green" style="font-weight: bold;"><a href="https://enesergun.net/category/siber-guvenlik.html">siber güvenlik</a></li>
-              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/vagrant.html">vagrant</a></li>
-            </ul>
-          </nav>
-        </header>
-      </div>
+  <div class="w3-row w3-card w3-white">
+    <header id="header">
+      <a href="https://enesergun.net" id="header-logo" title="Home">0x656e</a>
+      <nav id="header-menu">
+        <ul>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"
+><a
+                href="https://enesergun.net/category/ansible.html">ansible</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"
+><a
+                href="https://enesergun.net/category/flask.html">flask</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"
+><a
+                href="https://enesergun.net/category/iot-elektronik.html">iot & elektronik</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"
+><a
+                href="https://enesergun.net/category/linux.html">linux</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"
+style="font-weight: bold;" ><a
+                href="https://enesergun.net/category/python.html">python</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"
+><a
+                href="https://enesergun.net/category/siber-guvenlik.html">siber güvenlik</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"
+><a
+                href="https://enesergun.net/category/vagrant.html">vagrant</a></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
 
 
 <div class="page-container">
     <div class="entry-content">
         <div class="post-meta pure-g">
 <div class="pure-u-3-4 meta-data">
-    <a href="https://enesergun.net/category/siber-guvenlik.html" class="category">siber güvenlik</a><br />
+    <a href="https://enesergun.net/category/python.html" class="category">python</a><br />
 
     <a class="author" href="https://enesergun.net/author/0x656e.html">0x656e</a>
-    &mdash; <abbr title="2019-06-03T13:30:00+03:00">Mon 03 June 2019</abbr>
+    &mdash; <abbr title="2019-01-06T13:30:00+03:00">Sun 06 January 2019</abbr>
 </div>        </div>
     </div>
 
@@ -72,8 +91,8 @@
     <div class="entry-content">
         <h1>Python Garbage Collector</h1>
 <h2>Garbage Collector Neymiş?</h2>
-<p>Garbage collector Türkçe'ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerinde ki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory'de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C'de 32bit bir integer değişkeni tanımlamışsanız bu değişken için memory üzerinde 31 bitlik bir alan açılır ve bu alan içerisinde siz değerlerinizi tutabilirsiniz. Geri kalan bir 1 bit ise işaret biti olarak kullanılır.</p>
-<p>Buraya kadar her şey tamam. Peki o zaman şöyle yapalım biz programın açılışında bir değişken tanımladık ve bunu 1 kere kullandık ve yazdığımız dil otomatik hafıza yönetim'i olmayan bir dil(Örn: C) ne olacak peki? Bu ayırdığımız alan program sonlanana kadar hafızada gereksiz yer kaplayacak.</p>
+<p>Garbage collector Türkçe'ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerindeki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory'de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C'de 32bit bir integer değişkeni tanımlamışsanız bu değişken için memory üzerinde 31 bitlik bir alan açılır ve bu alan içerisinde siz değerlerinizi tutabilirsiniz. Geri kalan bir 1 bit ise işaret biti olarak kullanılır.</p>
+<p>Buraya kadar her şey tamam. Peki o zaman şöyle yapalım biz programın açılışında bir değişken tanımladık ve bunu 1 kere kullandık ve yazdığımız dil otomatik hafıza yönetimi olmayan bir dil(Örn: C) ne olacak peki? Bu ayırdığımız alan program sonlanana kadar hafızada gereksiz yer kaplayacak.</p>
 <p>İşte bu sebepten dolayı günümüzde kullanılan çoğu scripting dili ile birlikte Go, Java, C# otomatik hafıza yönetimine sahiptir. Bununla birlikte isterseniz C ve C++'a da <a href="https://github.com/ivmai/bdwgc">Boehm-Demers-Weiser</a> ile ekleyebilirsiniz.</p>
 <p>Peki bu işlem nasıl yapılıyor? Burada 2 farklı yöntem karşımıza çıkıyor. 
 1. Reference Counting
@@ -102,9 +121,9 @@
 
 <h3>Tracing Garbage Collector</h3>
 <p>En fazla kullanılan yöntemdir.
-Bu Garbage collectorümüz ise biraz karışık. Yine de elimden geldiğince basit bir şekilde anlatmaya çalışacağım. Yazılımımız çalıştığında Memory de Root Set'imiz oluşturuyor bu bizim Memoryde ki en üst alanımız bundan sonra ki tüm obje ve nesneler child olarak memory içerisinde yer ediniyor. Tracing kısmı işte burada devreye giriyor. 2 fazlı bir çalışması bulunuyor.
+Bu Garbage collectorümüz ise biraz karışık. Yine de elimden geldiğince basit bir şekilde anlatmaya çalışacağım. Yazılımımız çalıştığında Memory de Root Set'imiz oluşturuyor bu bizim Memoryde ki en üst alanımız bundan sonraki tüm obje ve nesneler child olarak memory içerisinde yer ediniyor. Tracing kısmı işte burada devreye giriyor. 2 fazlı bir çalışması bulunuyor.
 1. Root Set'imizin erişebildiği tüm objeler/nesneler kontrol ediliyor ve root setimizden bu objelere/nesnelere erişiliyorsa bu obje/nesne Alive olarak işaretleniyor.(Mark bit)
-2. Bu faz ise Sweep olarak geçmekte. Bu kısımda algoritmamız yine tüm memory'i geziyor eğer Alive işaretlenmiş bir memory alanı varsa bu alan üzerinde Mark biti gelecekte ki Garbage Collection döngüsü için kaldırıyor ve sonra ki memory adresine geçiyor. Eğer bu adres daha önce ziyaret edilmemiş yani Mark bit verilmemişse bunu Free Memory kısmına ekliyor.</p>
+2. Bu faz ise Sweep olarak geçmekte. Bu kısımda algoritmamız yine tüm memory'i geziyor eğer Alive işaretlenmiş bir memory alanı varsa bu alan üzerinde Mark biti gelecekte ki Garbage Collection döngüsü için kaldırıyor ve sonraki memory adresine geçiyor. Eğer bu adres daha önce ziyaret edilmemiş yani Mark bit verilmemişse bunu Free Memory kısmına ekliyor.</p>
 <p>Tabi bu kadarla kalmıyor işin ilerleyen kısımlarında Mark-Compact gibi aşamaları da mevcut ama basit anlamda bu şekilde.</p>
 <p>Wiki üzerinden Tracing'i anlatan görsel:
 <img alt="Tracing Çöp Toplayıcı" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Animation_of_tri-color_garbage_collection.gif/330px-Animation_of_tri-color_garbage_collection.gif"></p>
@@ -120,7 +139,7 @@ Bu Garbage collectorümüz ise biraz karışık. Yine de elimden geldiğince bas
 3. Generation 2 - Long live</p>
 <p>Bir obje GC sonrası yaşamına devam ediyorsa bir sonraki jenerasyona eklenir. Eğer yeni bir obje tanımlanmışsa bu obje <code>Gen 0</code> da başlayacaktır. 
 Yine gerçek hayattan bir örneklendirme yapayım.
-Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi <code>Gen0</code> grubuna <code>Ahmet1</code> olarak yerleştirildi ve aynı anda 5 Ahmet ile tanıştınız. Sonra  Kadıköy'de bir kafede biranızı yudumlarken <code>Ahmet1</code> ile karşılaştınız ve oturup karşılıklı sohbet ettiniz. <code>Ahmet1</code> artık <code>Gen1</code> grubuna girdi ve <code>Gen0</code> grubunda ki tüm Ahmetler hafızanızdan silindi. Eh <code>Ahmet1</code> ile daha sonraları bir sür badire atlattınız(Bir sürü GC evresinden tertemiz çıktı) ve hayatınızda vazgeçilmez oldu.(Runtime'da ihtiyaç duyulan bir obje?!). Artık <code>Ahmet1</code> <code>Gen2</code> grubunda oldu.</p>
+Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi <code>Gen0</code> grubuna <code>Ahmet1</code> olarak yerleştirildi ve aynı anda 5 Ahmet ile tanıştınız. Sonra  Kadıköy'de bir kafede biranızı yudumlarken <code>Ahmet1</code> ile karşılaştınız ve oturup karşılıklı sohbet ettiniz. <code>Ahmet1</code> artık <code>Gen1</code> grubuna girdi ve <code>Gen0</code> grubunda ki tüm Ahmetler hafızanızdan silindi. Eh <code>Ahmet1</code> ile daha sonraları bir sürü badire atlattınız(Bir sürü GC evresinden tertemiz çıktı) ve hayatınızda vazgeçilmez oldu.(Runtime'da ihtiyaç duyulan bir obje?!). Artık <code>Ahmet1</code> <code>Gen2</code> grubunda oldu.</p>
 <p>Sanırım en kısa bu şekilde anlatabilirim :D </p>
 <h3>GIL (Global Interpreter Lock)</h3>
 <p>Bu arkadaşımız Python kodumuzun sadece tek bir thread tarafından çalıştırılmasını sağlıyor. Her kod yalnızca 1 thread üstünde çalışıyor. Yani arkaplanda çalışan her interpreter processde o process'e ait bir de GIL bulunuyor. O Process'e ait işlemleri başka bir thread çalıştıramıyor. Bunun sebebi ise yine üst kısımlarda bahsetmiş olduğumuz Reference Counting. Eş zamanlı olarak Reference Counting'in önüne geçebilmek için böyle bir yola gidilmiş.</p>
@@ -146,7 +165,7 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi <code>Gen0
 </pre></div>
 
 
-<p>Gördüğünüz gibi iki farklı değişkenim, hatta bir integer'ım var ve aslında hepsi temelde memoryde ki 500 değerini barındıran PyObject'e referans veriyor. Bir de aşağıdaki koda bakalım.</p>
+<p>Gördüğünüz gibi iki farklı değişkenim, hatta bir integer'ım var ve aslında hepsi temelde memorydeki 500 değerini barındıran PyObject'e referans veriyor. Bir de aşağıdaki koda bakalım.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
 <span class="n">a</span> <span class="o">=</span> <span class="mi">500</span>
@@ -171,7 +190,7 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi <code>Gen0
 <p>ID'lerini bir kenara bırakırsak başlangıçta 500 değerini tutan Objemizin <code>count'u</code> 2 olarak gözükmekte biz bu değeri <code>a</code> ve <code>b</code> değişkenlerine verdiğimizde <code>refcount</code> 4 oluyor fakat <code>print</code> ile yazdırdığımız 500 değeri <code>refcountu</code> etkilemiyor. Bunun nedeni herhangi bir referans vermeden direkt yazdırmamızdan dolayıdır. </p>
 <p>Aslında yazıyı biraz daha uzatıp <code>__slots__</code>dan ve Python üzerindeki veri tipleri ve bu veri tiplerinin kapladıkları alan gibi konulardan bahsetmek istiyordum fakat bir baktım ki zaten sevgili <code>Mazlum Ağar</code> bu konudan bahsetmiş. İlgili yazının linkini hemen aşağıya iliştiriyorum.</p>
 <p><a href="https://medium.com/@mazlumagar/python-tricks-1-slots-e0c9b04f4c5a">Python Tricks <strong>Slots</strong></a></p>
-<p>Konu biraz dağınık olmuş olabilir bu sebeple kusura bakmayınız. Yazı tamamen benimde bilmediğim konu üzerine yaptığım araştırmalar neticesinde çıkmıştır. Eğer bir yanlışımı görürseniz kesinlikle ve kesinlikle beni uyarabilirsiniz. </p>
+<p>Konu biraz dağınık olmuş olabilir bu sebeple kusura bakmayınız. Yazı tamamen benim de bilmediğim konu üzerine yaptığım araştırmalar neticesinde çıkmıştır. Eğer bir yanlışımı görürseniz kesinlikle ve kesinlikle beni uyarabilirsiniz. </p>
 <p>Geleneksel hale getirdiğim yazı sonu şarkısını aşağıya ekliyorum, bilimle kalın.</p>
 <p><a href="https://www.youtube.com/watch?v=OYHsJ_h-noc"><img alt="Gökşin Derin- Depresyon" src="https://img.youtube.com/vi/OYHsJ_h-noc/0.jpg"></a></p>
     </div>
@@ -219,20 +238,20 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi <code>Gen0
 
 
 
-    <footer class="index-footer">
+  <footer class="index-footer">
 
-        <a href="https://enesergun.net/" title="Enes Ergün | Junior of All">Enes Ergün | Junior of All</a>
-        <a href="https://mertcangokgoz.com/">Mertcan Gökgöz</a>
-        <a href="https://onur.im/">Onur Aslan</a>
-        <a href="http://www.omeripek.com.tr/">Ömer İpek</a>
-        <a href="https://canyoupwn.me/">Canyoupwn.me</a>
-        <a href="http://www.oguzozkeroglu.com">Oğuz Özkeroğlu</a>
-        <a href="http://ahmetgurel.com">Ahmet Gürel</a>
-        <a href="https://berkimran.com.tr">Berk İmran</a>
-        <a href="https://aligoren.com">Ali Gören</a>
-        <a href="https://0xf61.gitlab.io/">Emir Kurt</a>
+    <a href="https://enesergun.net/" title="Enes Ergün | Personel Homepage about of my Profession | Python, Cyber Security, Linux">Enes Ergün | Personel Homepage about of my Profession | Python, Cyber Security, Linux</a>
+    <a href="https://mertcangokgoz.com/">Mertcan Gökgöz</a>
+    <a href="https://onur.im/">Onur Aslan</a>
+    <a href="http://www.omeripek.com.tr/">Ömer İpek</a>
+    <a href="https://canyoupwn.me/">Canyoupwn.me</a>
+    <a href="http://www.oguzozkeroglu.com">Oğuz Özkeroğlu</a>
+    <a href="http://ahmetgurel.com">Ahmet Gürel</a>
+    <a href="https://berkimran.com.tr">Berk İmran</a>
+    <a href="https://aligoren.com">Ali Gören</a>
+    <a href="https://0xf61.gitlab.io/">Emir Kurt</a>
 
-    </footer>
+  </footer>
 
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -245,4 +264,5 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi <code>Gen0
 
     </script>
 </body>
+
 </html>

