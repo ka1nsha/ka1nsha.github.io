@@ -1,7 +1,7 @@
 Title: Python Hafıza Yönetimi ve Garbage Collection Hakkında
-Date: 2019-06-03 13:30
+Date: 2019-01-06 13:30
 Tags: python memory management, python hafıza yönetim, python yavaş, python çöp toplayıcı, garbage collection types,
-Category: siber güvenlik
+Category: python
 Slug: python-garbage-collection
 Authors: 0x656e
 
@@ -9,9 +9,9 @@ Authors: 0x656e
 
 ## Garbage Collector Neymiş?
 
-Garbage collector Türkçe'ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerinde ki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory'de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C'de 32bit bir integer değişkeni tanımlamışsanız bu değişken için memory üzerinde 31 bitlik bir alan açılır ve bu alan içerisinde siz değerlerinizi tutabilirsiniz. Geri kalan bir 1 bit ise işaret biti olarak kullanılır.
+Garbage collector Türkçe'ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerindeki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory'de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C'de 32bit bir integer değişkeni tanımlamışsanız bu değişken için memory üzerinde 31 bitlik bir alan açılır ve bu alan içerisinde siz değerlerinizi tutabilirsiniz. Geri kalan bir 1 bit ise işaret biti olarak kullanılır.
 
-Buraya kadar her şey tamam. Peki o zaman şöyle yapalım biz programın açılışında bir değişken tanımladık ve bunu 1 kere kullandık ve yazdığımız dil otomatik hafıza yönetim'i olmayan bir dil(Örn: C) ne olacak peki? Bu ayırdığımız alan program sonlanana kadar hafızada gereksiz yer kaplayacak.
+Buraya kadar her şey tamam. Peki o zaman şöyle yapalım biz programın açılışında bir değişken tanımladık ve bunu 1 kere kullandık ve yazdığımız dil otomatik hafıza yönetimi olmayan bir dil(Örn: C) ne olacak peki? Bu ayırdığımız alan program sonlanana kadar hafızada gereksiz yer kaplayacak.
 
 İşte bu sebepten dolayı günümüzde kullanılan çoğu scripting dili ile birlikte Go, Java, C# otomatik hafıza yönetimine sahiptir. Bununla birlikte isterseniz C ve C++'a da [Boehm-Demers-Weiser](https://github.com/ivmai/bdwgc) ile ekleyebilirsiniz.
 
@@ -45,9 +45,9 @@ Output:
 ```
 ### Tracing Garbage Collector
 En fazla kullanılan yöntemdir.
-Bu Garbage collectorümüz ise biraz karışık. Yine de elimden geldiğince basit bir şekilde anlatmaya çalışacağım. Yazılımımız çalıştığında Memory de Root Set'imiz oluşturuyor bu bizim Memoryde ki en üst alanımız bundan sonra ki tüm obje ve nesneler child olarak memory içerisinde yer ediniyor. Tracing kısmı işte burada devreye giriyor. 2 fazlı bir çalışması bulunuyor.
+Bu Garbage collectorümüz ise biraz karışık. Yine de elimden geldiğince basit bir şekilde anlatmaya çalışacağım. Yazılımımız çalıştığında Memory de Root Set'imiz oluşturuyor bu bizim Memoryde ki en üst alanımız bundan sonraki tüm obje ve nesneler child olarak memory içerisinde yer ediniyor. Tracing kısmı işte burada devreye giriyor. 2 fazlı bir çalışması bulunuyor.
 1. Root Set'imizin erişebildiği tüm objeler/nesneler kontrol ediliyor ve root setimizden bu objelere/nesnelere erişiliyorsa bu obje/nesne Alive olarak işaretleniyor.(Mark bit)
-2. Bu faz ise Sweep olarak geçmekte. Bu kısımda algoritmamız yine tüm memory'i geziyor eğer Alive işaretlenmiş bir memory alanı varsa bu alan üzerinde Mark biti gelecekte ki Garbage Collection döngüsü için kaldırıyor ve sonra ki memory adresine geçiyor. Eğer bu adres daha önce ziyaret edilmemiş yani Mark bit verilmemişse bunu Free Memory kısmına ekliyor.
+2. Bu faz ise Sweep olarak geçmekte. Bu kısımda algoritmamız yine tüm memory'i geziyor eğer Alive işaretlenmiş bir memory alanı varsa bu alan üzerinde Mark biti gelecekte ki Garbage Collection döngüsü için kaldırıyor ve sonraki memory adresine geçiyor. Eğer bu adres daha önce ziyaret edilmemiş yani Mark bit verilmemişse bunu Free Memory kısmına ekliyor.
 
 Tabi bu kadarla kalmıyor işin ilerleyen kısımlarında Mark-Compact gibi aşamaları da mevcut ama basit anlamda bu şekilde.
 
@@ -74,7 +74,7 @@ Bu GC tipinde objeler jenerasyonlarına ayrılıyor, 3 adet grup bulunur.
 
 Bir obje GC sonrası yaşamına devam ediyorsa bir sonraki jenerasyona eklenir. Eğer yeni bir obje tanımlanmışsa bu obje `Gen 0` da başlayacaktır. 
 Yine gerçek hayattan bir örneklendirme yapayım.
-Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi `Gen0` grubuna `Ahmet1` olarak yerleştirildi ve aynı anda 5 Ahmet ile tanıştınız. Sonra  Kadıköy'de bir kafede biranızı yudumlarken `Ahmet1` ile karşılaştınız ve oturup karşılıklı sohbet ettiniz. `Ahmet1` artık `Gen1` grubuna girdi ve `Gen0` grubunda ki tüm Ahmetler hafızanızdan silindi. Eh `Ahmet1` ile daha sonraları bir sür badire atlattınız(Bir sürü GC evresinden tertemiz çıktı) ve hayatınızda vazgeçilmez oldu.(Runtime'da ihtiyaç duyulan bir obje?!). Artık `Ahmet1` `Gen2` grubunda oldu.
+Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi `Gen0` grubuna `Ahmet1` olarak yerleştirildi ve aynı anda 5 Ahmet ile tanıştınız. Sonra  Kadıköy'de bir kafede biranızı yudumlarken `Ahmet1` ile karşılaştınız ve oturup karşılıklı sohbet ettiniz. `Ahmet1` artık `Gen1` grubuna girdi ve `Gen0` grubunda ki tüm Ahmetler hafızanızdan silindi. Eh `Ahmet1` ile daha sonraları bir sürü badire atlattınız(Bir sürü GC evresinden tertemiz çıktı) ve hayatınızda vazgeçilmez oldu.(Runtime'da ihtiyaç duyulan bir obje?!). Artık `Ahmet1` `Gen2` grubunda oldu.
 
 Sanırım en kısa bu şekilde anlatabilirim :D 
 
@@ -111,7 +111,7 @@ output:
 49670448 49670448
 ```
 
-Gördüğünüz gibi iki farklı değişkenim, hatta bir integer'ım var ve aslında hepsi temelde memoryde ki 500 değerini barındıran PyObject'e referans veriyor. Bir de aşağıdaki koda bakalım.
+Gördüğünüz gibi iki farklı değişkenim, hatta bir integer'ım var ve aslında hepsi temelde memorydeki 500 değerini barındıran PyObject'e referans veriyor. Bir de aşağıdaki koda bakalım.
 
 ```python
 import sys
@@ -142,7 +142,7 @@ Aslında yazıyı biraz daha uzatıp `__slots__`dan ve Python üzerindeki veri t
 [Python Tricks __Slots__](https://medium.com/@mazlumagar/python-tricks-1-slots-e0c9b04f4c5a)
 
 
-Konu biraz dağınık olmuş olabilir bu sebeple kusura bakmayınız. Yazı tamamen benimde bilmediğim konu üzerine yaptığım araştırmalar neticesinde çıkmıştır. Eğer bir yanlışımı görürseniz kesinlikle ve kesinlikle beni uyarabilirsiniz. 
+Konu biraz dağınık olmuş olabilir bu sebeple kusura bakmayınız. Yazı tamamen benim de bilmediğim konu üzerine yaptığım araştırmalar neticesinde çıkmıştır. Eğer bir yanlışımı görürseniz kesinlikle ve kesinlikle beni uyarabilirsiniz. 
 
 Geleneksel hale getirdiğim yazı sonu şarkısını aşağıya ekliyorum, bilimle kalın.
 
