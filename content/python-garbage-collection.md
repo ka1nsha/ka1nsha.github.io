@@ -1,5 +1,5 @@
 Title: Python Hafıza Yönetimi ve Garbage Collection Hakkında
-Date: 2019-03-06 13:30
+Date: 2019-06-03 13:30
 Tags: python memory management, python hafıza yönetim, python yavaş, python çöp toplayıcı, garbage collection types,
 Category: python
 Slug: python-garbage-collection
