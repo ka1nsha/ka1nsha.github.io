@@ -31,10 +31,7 @@
 &lt;h3&gt;Add-Gitignore&lt;/h3&gt;
 &lt;p&gt;Kendisi seçtiğimiz argümanlara göre bir &lt;code&gt;.gitignore&lt;/code&gt; dosyasını bulunduğunuz dizine bırakıveriyor. Argüman olarak vermeyip uygulama içerisinden seçmeniz gerekiyor bunu belirtmeme gerek yok umarım. Birden fazla argüman alabiliyor.&lt;/p&gt;
 &lt;p&gt;Örnek:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;![add-gitignore demo](https://raw.githubusercontent.com/TejasQ/add-gitignore/master/demo.gif)
-&lt;/pre&gt;&lt;/div&gt;
-
-
+&lt;p&gt;&lt;img alt="add-gitignore demo" src="https://raw.githubusercontent.com/TejasQ/add-gitignore/master/demo.gif"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://github.com/TejasQ/add-gitignore"&gt;Add-Gitignore Github Linki&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Joplin&lt;/h3&gt;
 &lt;p&gt;Kendisi bir not alma uygulaması ve Dropbox üzerinde çalışıyor bu sayede tüm cihazlarınızda senkronize bir şekilde note alabiliyorsunuz. Benzer ama daha basit ve web üzerinden çalışan bir uygulama için &lt;code&gt;hackmd&lt;/code&gt; 'ye  bakabilirsiniz.&lt;/p&gt;
@@ -60,10 +57,7 @@
 &lt;p&gt;&lt;a href="https://github.com/jorgebucaran/fisher"&gt;Fisher Github Linki&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;HTTPie&lt;/h3&gt;
 &lt;p&gt;Kendisi CLI üzerinden HTTP Client görevini sağlıyor. Tıpkı cURL gibi ama daha insancılı. Gayet başarılı bir uygulama. API'lara vs istek atarken sıkça kullanabilirsiniz. &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;httpie&lt;/span&gt; &lt;span class="n"&gt;demo&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="nl"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//raw.githubusercontent.com/jakubroztocil/httpie/master/httpie.gif)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
+&lt;p&gt;&lt;img alt="httpie demo" src="https://raw.githubusercontent.com/jakubroztocil/httpie/master/httpie.gif"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://github.com/jakubroztocil/httpie"&gt;HTTPie Github Linki&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;QuiteRSS&lt;/h3&gt;
 &lt;p&gt;Kendisi bir RSS Feeder. Sevgili &lt;code&gt;Emir&lt;/code&gt;'in tavsiyesi üzerine kullanmaya başladım.&lt;/p&gt;
@@ -84,17 +78,13 @@
 &lt;p&gt;&lt;a href="https://dbeaver.io/"&gt;DBeaver Official Site&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Ascicinema&lt;/h3&gt;
 &lt;p&gt;Kendisini uzun zamandır biliyordum fakat script veya projelerimde hiç kullanmamıştım. Kullanmak nasip oldu. Terminal üzerinde kayıt almanıza ve bu kayıdı paylaşmanıza olanak sağlayan mükemmel bir uygulama. Linkini aşağıda paylaşıyor olacağım. Kullanmak için kayıt olmanız gerekmekte. Kayıt olduktan sonra bir link ile siz olduğunuzu doğruluyorsunuz ve record edip direkt olarak upload edebiliyorsunuz. Kullanımı çok rahat ve pratik. Örnek bir kullanımımı aşağıda görebilirsiniz.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;[![Örnek kullanım](https://asciinema.org/a/oRY2H6RUf87aCN2xpNngFQ0iX.svg)](https://asciinema.org/a/oRY2H6RUf87aCN2xpNngFQ0iX)
-&lt;/pre&gt;&lt;/div&gt;
-
-
+&lt;p&gt;&lt;a href="https://asciinema.org/a/oRY2H6RUf87aCN2xpNngFQ0iX"&gt;&lt;img alt="Örnek kullanım" src="https://asciinema.org/a/oRY2H6RUf87aCN2xpNngFQ0iX.svg"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://asciinema.org/"&gt;Asciicinema&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Aslında kurmuş, bulmuş olduğum transfer.sh adlı bir uygulama daha mevcut fakat sanırım sistemlerde bir problem var ve çalışmıyor. İlgili tool terminal üzerinden dosya paylaşmanıza olanak sağlayan bir uygulama. &lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Geldik yazının sonuna. Bundan sonraki yazım muhtelemelen güvenlik araçları ile ilgili olacaktır.&lt;/p&gt;
 &lt;p&gt;Benim için bir gelenek olan yazı sonu şarkımı aşağıya iliştiriyorum. &lt;/p&gt;
 &lt;p&gt;Oldukça sert ve protest olarak nitelendirdiğim bu şarkıyı umarım keyifle dinlersiniz :)&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;[![Saian K&amp;quot;st Uçurum Çiçeği](http://img.youtube.com/vi/J-KUtPPlUqs/0.jpg)](https://www.youtube.com/watch?v=J-KUtPPlUqs &amp;quot;saian &amp;lt;3&amp;quot;)
-&lt;/pre&gt;&lt;/div&gt;</content><category term="linux kurulum sonrası"></category><category term="linux tavsiye uygulamalar"></category><category term="yazılımcılar için linux"></category><category term="en güzel linux uygualamaları"></category></entry><entry><title>Python Hafıza Yönetimi ve Garbage Collection Hakkında</title><link href="https://enesergun.net/python-garbage-collection.html" rel="alternate"></link><published>2019-03-06T13:30:00+03:00</published><updated>2019-03-06T13:30:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-03-06:/python-garbage-collection.html</id><summary type="html">&lt;h1&gt;Python Garbage Collector&lt;/h1&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=J-KUtPPlUqs" title="saian &amp;lt;3"&gt;&lt;img alt="Saian K&amp;quot;st Uçurum Çiçeği" src="http://img.youtube.com/vi/J-KUtPPlUqs/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="linux kurulum sonrası"></category><category term="linux tavsiye uygulamalar"></category><category term="yazılımcılar için linux"></category><category term="en güzel linux uygualamaları"></category></entry><entry><title>Python Hafıza Yönetimi ve Garbage Collection Hakkında</title><link href="https://enesergun.net/python-garbage-collection.html" rel="alternate"></link><published>2019-03-06T13:30:00+03:00</published><updated>2019-03-06T13:30:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-03-06:/python-garbage-collection.html</id><summary type="html">&lt;h1&gt;Python Garbage Collector&lt;/h1&gt;
 &lt;h2&gt;Garbage Collector Neymiş?&lt;/h2&gt;
 &lt;p&gt;Garbage collector Türkçe'ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerindeki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory'de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C'de 32bit bir integer değişkeni …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Python Garbage Collector&lt;/h1&gt;
 &lt;h2&gt;Garbage Collector Neymiş?&lt;/h2&gt;
