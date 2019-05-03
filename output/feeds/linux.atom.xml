@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün | Personel homepage about of my Profession - linux</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/linux.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2018-02-10T22:19:00+03:00</updated><entry><title>PS Komutunun Alabildiği Argümanlar</title><link href="https://enesergun.net/ps-command-arguments.html" rel="alternate"></link><published>2018-02-10T22:19:00+03:00</published><updated>2018-02-10T22:19:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-02-10:/ps-command-arguments.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;PS&lt;/strong&gt; komutu linux üzerinde processleri ( çalışan işlemleri ) monitoring edebileceğimiz bir komuttur. Pek tabi ki bir çok argüman almaktadır. Şimdi bu argümanların en çok kullanılanlarına aşağıda bahsedeceğiz. PS komutu çıktıları bir çok formatta olabiliyor. İyi okumalar.&lt;/p&gt;
+&lt;h3&gt;Let's go&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;NOT&lt;/strong&gt;: Önce komutu gösterip daha sonra komutu açıklayacağım bilginize.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -A
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Bu komut …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;PS&lt;/strong&gt; komutu linux üzerinde processleri ( çalışan işlemleri ) monitoring edebileceğimiz bir komuttur. Pek tabi ki bir çok argüman almaktadır. Şimdi bu argümanların en çok kullanılanlarına aşağıda bahsedeceğiz. PS komutu çıktıları bir çok formatta olabiliyor. İyi okumalar.&lt;/p&gt;
+&lt;h3&gt;Let's go&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;NOT&lt;/strong&gt;: Önce komutu gösterip daha sonra komutu açıklayacağım bilginize.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -A
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Bu komut varsayılan olarak &lt;strong&gt;Linux formatında&lt;/strong&gt; çalışan processleri bizlere döndürür. Bu processlerde bizlere PID, hangi TTY'de çalıştığını, zamanını  ve hangi processin çalıştığını bizlere gösterir. Mesela benim ekran görüntümde tty7'de Xorg çalışıyor.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="" src="/images/psa1.png"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps au
+ps axu
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Yukarıda ki komutun çıktıları &lt;strong&gt;BSD&lt;/strong&gt;  formatında olur. Bu formatta Kullanıcı, PID numarası, kullandığı işlemci yüzdesi, kullandığı ram yüzdesi, VSZ değeri, RSS değeri, TTY değeri, İşlemin durumu, zamanını ve komutunun çıktısını verir.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;VSZ&lt;/strong&gt; : Bir işlemin kullanacağı, kullanabileceği sanal bellek miktarıdır.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;RSS&lt;/strong&gt; : Bu işleme tahsis edilen fiziksel bellek miktarıdır.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/psaux1.png"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -eF
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Yukarıda ki komut full çıktı modudur. Bu çıktıda sizlere UID, PID, PPID, C, SZ, RSS, PSR, STIME, TTY, TIME, CMD değerleri döner.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -fU ka1
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Bu komut ile adını verdiğiniz kullanıcıya ait processleri görebilirsiniz.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="" src="/images/psfu1.png"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -U root -u root
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Bu komut ile root kullanıcı tarafından çalıştırılan tüm processleri görebilirsiniz.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -fG postgres
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Bu komut ile bir gruba ait tüm çalışan processleri görebilirsiniz. Bu ne demektir? Mesela web diye bir kullanıcı grubunuz var ve bunun altında nginx/gunicorn/celery bulunuyor. Siz direkt olarak bu şekilde çalışan processleri görebilirsiniz.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="" src="/images/psfg1.png"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -fp PID
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Bu komut ile PID değerini verdiğiniz process veya processleri görebilirsiniz. Burada tekli veya çoklu seçim yapabilirsiniz.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -ft tty1
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Bu komut ile o TTY'de çalıştırılan komutları görebilirsiniz.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -aux --forest
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Bu komut ile yukarıda bahsetmiş olduğumuz &lt;strong&gt;BSD&lt;/strong&gt; tarzında bir çıktı alırsınız fakat burada ki tek fark processlerin parent-child ( aslında forest/treeview )  ilişkileri bu çıktı içerisinde gösterilir.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="" src="/images/psforest1.png"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -eo user,%cpu
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Bu komut ile PS çıktısını kendinize göre özelleştirebilirsiniz. Ben yukarıda ki komutta processin hangi kullanıcı tarafından çalıştırıldığını ve yüzde kaç CPU kullandığını görmek istedim.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="" src="/images/pschangeoutput1.png"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -eo user,%cpu,command,%mem --sort&lt;span class="o"&gt;=&lt;/span&gt;-%mem &lt;span class="p"&gt;|&lt;/span&gt;  head
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Bu komut ile ps komutu çıktısını sıralayabilirsiniz. Burada -%mem en fazla RAM Kullanan processleri ekrana yazdıracaktır. En az kullananları isterseniz %mem yazabilirsiniz.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="" src="/images/pssort1.png"&gt;&lt;/p&gt;</content><category term="ps cheatsheet"></category><category term="process monitoring on linux"></category><category term="ps aux"></category></entry></feed>
