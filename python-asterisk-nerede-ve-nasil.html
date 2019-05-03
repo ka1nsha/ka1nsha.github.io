@@ -1,95 +1,50 @@
 <!DOCTYPE html>
-<html lang="tr">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
 
 <head>
-  <title>Python'da "*" Karakteri Nerede ve Nasıl Kullanılır</title>
-  <meta charset="utf-8" />
-  <meta name="description"
-    content="Profesyonel veya hobi hayatımda kullandığım teknolojiler hakkında çeşitli içerikler üretip kendime ait bir not defteri olarak kullandığım blog sayfam. Arada sırada boş muhabbet yaptığımda olur. "
-    \>
-
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Social -->
-  <meta property="article:author" content="0x656e" />
-  <meta property="article:section" content="python" />
-  <meta property="article:published_time" content="2019-01-24" />
-
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="Python'da "*" Karakteri Nerede ve Nasıl Kullanılır" />
-  <meta property="og:description" content="Merhabalar, Vardiyalı çalıştığımdan dolayı bu ay nasıl olduysa 5 gün ard arda iznim olmuş. Bu tatili çok verimli geçirmek istediğimden dolayı çalışacağım konulara çalışmaya, yazacağım kodları yazmaya, bloguma özen vermeye çalıştım. Tabi burada oyun oynamaktan da vazgeçmedim :) İşte bu sebeple bu isteklerimin 3.cüsü olan bloguma özen vermeye çalışmanın bir …" />
-  <meta property="og:site_name" content="Enes Ergün | Personel homepage about of my Profession" />
-  <meta property="og:url" content="https://enesergun.net/python-asterisk-nerede-ve-nasil.html" />
-
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Python'da "*" Karakteri Nerede ve Nasıl Kullanılır">
-  <meta name="twitter:description" content="Merhabalar, Vardiyalı çalıştığımdan dolayı bu ay nasıl olduysa 5 gün ard arda iznim olmuş. Bu tatili çok verimli geçirmek istediğimden dolayı çalışacağım konulara çalışmaya, yazacağım kodları yazmaya, bloguma özen vermeye çalıştım. Tabi burada oyun oynamaktan da vazgeçmedim :) İşte bu sebeple bu isteklerimin 3.cüsü olan bloguma özen vermeye çalışmanın bir …">
-  <meta name="twitter:url" content="https://enesergun.net/python-asterisk-nerede-ve-nasil.html">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" />
-  <link rel="stylesheet" href="https://enesergun.net/theme/css/grids-responsive-min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://enesergun.net/theme/css/main.css" />
+    <meta charset="utf-8">
+    <title>    Python'da "*" Karakteri Nerede ve Nasıl Kullanılır
+</title>
+    <meta name="description" content="Python,Linux,CyberSecurity,Siber Güvenlik,Elektronik,Programlama">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Gentium+Book+Basic|Merriweather:400,300' rel='stylesheet'
+        type='text/css'>
+    <link rel="stylesheet" href="https://enesergun.net/theme/css/cid.css">
+    <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+        title="Enes Ergün Atom Feed" />
 </head>
 
 <body>
+    <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
 
-  <div class="w3-row w3-card w3-white">
-    <header id="header">
-      <a href="https://enesergun.net" id="header-logo" title="Home">0x656e</a>
-      <nav id="header-menu">
-        <ul>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"
-><a
-                href="https://enesergun.net/category/ansible.html">ansible</a></li>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"
-><a
-                href="https://enesergun.net/category/flask.html">flask</a></li>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"
-><a
-                href="https://enesergun.net/category/iot-elektronik.html">iot & elektronik</a></li>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"
-><a
-                href="https://enesergun.net/category/linux.html">linux</a></li>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"
-style="font-weight: bold;" ><a
-                href="https://enesergun.net/category/python.html">python</a></li>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"
-><a
-                href="https://enesergun.net/category/siber-guvenlik.html">siber güvenlik</a></li>
-            <li class="w3-bottombar w3-border-white w3-hover-border-green"
-><a
-                href="https://enesergun.net/category/vagrant.html">vagrant</a></li>
-        </ul>
-      </nav>
-    </header>
-  </div>
+    <div class="container">
 
+<header class="blog-header">
+    <h1><a href="https://enesergun.net">Enes Ergün</a></h1>
 
-<div class="page-container">
-    <div class="entry-content">
-        <div class="post-meta pure-g">
-<div class="pure-u-3-4 meta-data">
-    <a href="https://enesergun.net/category/python.html" class="category">python</a><br />
+    <nav>
+        <a href="https://enesergun.net/">Ana Sayfa</a>
+        <a href="https://enesergun.net/archives">Arşivler</a>
+        <a href="https://enesergun.net/categories">Kategoriler</a>
+    </nav>
+</header>
 
-    <a class="author" href="https://enesergun.net/author/0x656e.html">0x656e</a>
-    &mdash; <abbr title="2019-01-24T18:50:00+03:00">Thu 24 January 2019</abbr>
-</div>        </div>
-    </div>
+    <div class="post">
 
-    <div class="article-header-container">
-        <div class="background-image-container">
+        <header>
+            <h1>Python'da "*" Karakteri Nerede ve Nasıl Kullanılır</h1>
+            <p class="date">Written on <time datetime="2019-01-24T18:50:00+03:00">Jan 24, 2019</time></p>
+        </header>
 
-            <div class="background-image-small">
-                <div class="title-container">
-                    <h1>Python'da "*" Karakteri Nerede ve Nasıl Kullanılır</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="entry-content">
-        <p>Merhabalar,</p>
+        <article>
+            <p>Merhabalar,</p>
 <p>Vardiyalı çalıştığımdan dolayı bu ay nasıl olduysa 5 gün ard arda iznim olmuş. Bu tatili çok verimli geçirmek istediğimden dolayı çalışacağım konulara çalışmaya, yazacağım kodları yazmaya, bloguma özen vermeye çalıştım. Tabi burada oyun oynamaktan da vazgeçmedim :)</p>
 <p>İşte bu sebeple bu isteklerimin 3.cüsü olan bloguma özen vermeye çalışmanın bir sonucu olarak bu yazıyı okuyucularıma veya araştırmacı arkadaşlara sunuyorum. Eksik gördüğünüz veya burası yanlış dediğiniz bir kısım var ise twitter  veya mail üzerinden belirtmekten çekinmeyin lütfen.</p>
 <p><a href="mailto:info@enesergun.net">Mail</a></p>
@@ -177,56 +132,35 @@ style="font-weight: bold;" ><a
 <p>Ayrıca yine bir klasiğim olan yazı sonu şarkısı paylaşmadan edemeyeceğim. Bu sefer 2 adet şarkı paylaşıyorum.</p>
 <p><a href="https://www.youtube.com/watch?v=RF0HhrwIwp0"><img alt="Kings of Leon - Sex on Fire" src="https://i.ytimg.com/vi/RF0HhrwIwp0/hqdefault.jpg"></a></p>
 <p><a href="https://www.youtube.com/watch?v=3oMb06O2wXo"><img alt="Frazey Ford - One More Cup Of Coffee" src="https://i.ytimg.com/vi/3oMb06O2wXo/hqdefault.jpg"></a></p>
-    </div>
+        </article>
 
-    <footer>
-        <div class="tags">
-            <a href="https://enesergun.net/tag/python3.html">python3</a>
-            <a href="https://enesergun.net/tag/python3-yildiz.html">python3 yıldız</a>
-            <a href="https://enesergun.net/tag/python3-yildiz-isareti.html">python3 yıldız işareti</a>
-            <a href="https://enesergun.net/tag/python3-asterisk.html">python3 asterisk</a>
-            <a href="https://enesergun.net/tag/python3-args-ve-kwargs.html">python3 args ve kwargs</a>
-            <a href="https://enesergun.net/tag/python-args.html">python args</a>
-            <a href="https://enesergun.net/tag/python-kwargs.html">python kwargs</a>
-        </div>
-        <div class="pure-g post-footer">
-            <div class="pure-u-1 pure-u-md-1-2">
-                <div class="pure-g poster-info">
-                    <div class="pure-u-3-4">
-                        <h3 class="author-name"><a href="https://enesergun.net/author/0x656e.html">0x656e</a></h3>
-                        <p class="author-description">
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <footer>
+            <p>This entry is posted in <a href="https://enesergun.net/category/python.html">python</a>.</p>
+        </footer>
 
-
-
-        </div>
-
-
-    </footer>
-
-    <div class="entry-content">
-        <div id="disqus_thread"></div>
-        <script type="text/javascript">
-            var disqus_shortname = '0x656e';
-            (function() {
-                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-    </div>
-
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = '0x656e';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 </div>
 
+    </div>
 
 
-  <footer class="index-footer">
+<footer class="blog-footer">
 
-    <a href="https://enesergun.net/" title="Enes Ergün | Personel homepage about of my Profession">Enes Ergün | Personel homepage about of my Profession</a>
+    <ul class="nav">
+        <li><a href="www.twitter.com/0x656e">Twitter</a></li>
+        <li><a href="info@enesergun.net">Mail</a></li>
+    </ul>
     <a href="https://mertcangokgoz.com/">Mertcan Gökgöz</a>
     <a href="https://onur.im/">Onur Aslan</a>
     <a href="http://www.omeripek.com.tr/">Ömer İpek</a>
@@ -236,19 +170,21 @@ style="font-weight: bold;" ><a
     <a href="https://berkimran.com.tr">Berk İmran</a>
     <a href="https://aligoren.com">Ali Gören</a>
     <a href="https://0xf61.gitlab.io/">Emir Kurt</a>
+    <a href="https://cybersaxostiger.github.io/">1v3m</a>
+    <p class="disclaimer">
 
-  </footer>
+        Built with <a href="http://getpelican.com">Pelican</a>, and <a
+            href="https://github.com/hdra/Pelican-Cid">Cid</a> theme.
 
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-44262671-1', 'auto');
-      ga('send', 'pageview');
-
-    </script>
+    </p>
+</footer>
+    </div>
+<script>
+    var _gaq=[['_setAccount','UA-44262671-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
 </body>
 
 </html>

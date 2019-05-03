@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - iot &amp; elektronik</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/iot-elektronik.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2018-04-14T13:12:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>ESP32 ile çalışmak</title><link href="https://enesergun.net/esp32-ile-calismak.html" rel="alternate"></link><published>2018-04-14T13:12:00+03:00</published><updated>2018-04-14T13:12:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-04-14:/esp32-ile-calismak.html</id><summary type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
+&lt;p&gt;Geçen hafta sonu sevdiğim bir abim daha önce almış olduğu ESP32 kartını denemem için bana getirmişti. Malesef sadece dün akşam bu kart ile ilgilenebildim. Tabi ki daha öncesinde kart hakkında araştırmalar yapmış bulundum. &lt;/p&gt;
+&lt;h4&gt;Bu kart ne işe yarar?&lt;/h4&gt;
+&lt;p&gt;Bu kart tümleşik bir kart olarak geçiyor. Kendine ait bir işlemcisi …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
+&lt;p&gt;Geçen hafta sonu sevdiğim bir abim daha önce almış olduğu ESP32 kartını denemem için bana getirmişti. Malesef sadece dün akşam bu kart ile ilgilenebildim. Tabi ki daha öncesinde kart hakkında araştırmalar yapmış bulundum. &lt;/p&gt;
+&lt;h4&gt;Bu kart ne işe yarar?&lt;/h4&gt;
+&lt;p&gt;Bu kart tümleşik bir kart olarak geçiyor. Kendine ait bir işlemcisi/rom eprom artık ne diyorsunuz bilmiyorum metadolojiye o kadar hakim değilim. Yani burada bahsetmek istediğim şey bu kartı alıp usb ile bağladıktan ve programladıktan sonra tek başına bir şekilde kullanabiliyorsunuz. Herhangi bir board'a ihtiyacı yok ( eg: Arduino, Raspberry ).&lt;/p&gt;
+&lt;h4&gt;Özellikler&lt;/h4&gt;
+&lt;p&gt;&lt;a href="https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf"&gt;Ayrıntılar için tıklayınız&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Aşağıda ki resimde bir karşılaştırma göreceksiniz. Bu karşılaştırma da  oldukça popüler olan ESP8266 modülü ile ESP32'nin farklarını göreceksiniz. ESP32 de bluetooth olduğundan dolayı Low Level Bluetooth projelerinizde bile kullanabilirsiniz(Beacon).&lt;/p&gt;
+&lt;p&gt;Beacon &lt;a href="https://www.donanimhaber.com/diger-bilim-ve-teknoloji/haberleri/Dosya-konusu-Beacon-teknolojisi-nedir-Nerelerde-kullanilir.htm"&gt;Türkçe Beacon Nedir?&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Differences" src="https://www.cnx-software.com/wp-content/uploads/2016/03/ESP8266_vs_ESP32.png"&gt;&lt;/p&gt;
+&lt;p&gt;Ben şuan bu kartı Samsung Fast Charge özellikli bir usb kablosu ile sıkıntısız bir şekilde kullanıyorum. Tabi ki kabloyu USB(5.0v) üzerinden bağlıyorum.&lt;/p&gt;
+&lt;h4&gt;Başlayalım&lt;/h4&gt;
+&lt;p&gt;&lt;em&gt;Öncelikle bu yazıyı ben bu işte profesyonel, çok iyi olduğum için değil dün akşam bu konuda herhangi bir Türkçe referans bulamadığımdan dolayı yazıyorum. Bir nevi çevirmenlik yapacağım.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Nelere ihtiyacımız var?&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Bilgisayar&lt;/li&gt;
+&lt;li&gt;ESP-IDF ( ESP32 için çeşitli script ve toolların olduğu bir paket )&lt;/li&gt;
+&lt;li&gt;ESP32&lt;/li&gt;
+&lt;li&gt;USB Kablosu&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Linux için kurulum&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Ben debian based bir sistem kullandığımdan dolayı aşağıda ki gereksinimleri kuracağım sizler işletim sisteminize göre bunları kurmalısınız.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install gcc git wget make libncurses-dev flex bison gperf python python-serial
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="https://esp-idf.readthedocs.io/en/latest/get-started/linux-setup.html"&gt;Diğer Linux Sistemler İçin&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://esp-idf.readthedocs.io/en/latest/get-started/windows-setup.html"&gt;Windows İçin&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://esp-idf.readthedocs.io/en/latest/get-started/macos-setup.html"&gt;MAC İçin&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Xtense-ESP32 Paketini Kuralım&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Herhangi bir yerde esp adında veya farklı bir ad ile klasör oluşturunuz. Ben örneğe sadık kalacağım için home dizini üzerinde esp adında bir klasör oluşturdum. Daha sonra burada aşağıda ki komutu girdim.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Şimdi paketimiz indikten sonra bu sıkıştırılmış dosyayı bir klasöre açalım.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;tar -xzf xtensa&lt;span class="o"&gt;[&lt;/span&gt;tab-tab&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Açtığımız klasör içerisinde bin klasörüne gidip isterseniz burada &lt;code&gt;pwd&lt;/code&gt; yazabilirsiniz. Buna neden ihtiyacımız var? Çünkü kullandığımız sisteme environment olarak eklememiz gerekmekte.&lt;/p&gt;
+&lt;p&gt;Ben ZSH kullandığımdan dolayı .zshrc dosyasına ekledim fakat siz BASH kullanıyorsanız .bashrc veya hepsinden bağımsız olarak &lt;code&gt;/etc/profile&lt;/code&gt; dosyasına aşağıda ki kodu ekleyelim.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$PATH&lt;/span&gt;&lt;span class="s2"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="s2"&gt;/espdizininiz/xtensa[tab-tab]/bin&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Environment ne diye soracak olursanız sizi &lt;a href="http://www.belgeler.org/lis/archive-tlkg-lis-6.4.html"&gt;şuraya alalım&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Evet burayı tamamladıysak şimdi ESP-IDF kuralım. ESP-IDF içerisinde bize başlangıç aşamasında lazım olacak her şey var. Örnek vermek gerekirse Hello World uygulaması, Bluetooth Scanner, Wireless Scanner gibi amacımıza uygun kod blokları hali hazırda içerisinde bulunuyor.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ESP-IDF Kuralım&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;İstediğimiz bir yere Github üzerinden aşağıda ki komut ile repomuzu indirelim.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone --recursive https://github.com/espressif/esp-idf.git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;İndirdikten sonra içerisine girip &lt;code&gt;git submodule update --init&lt;/code&gt; yapalım. Yukarıda Environment olarak tanımlama yapmıştık hatırlarsanız aynısını ESP-IDF içinde yapalım.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;IDF_PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;~/esp/esp-idf
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Merhaba ESP32&lt;/h4&gt;
+&lt;p&gt;Kurulumlarımız tamamlandıktan sonra bir şeye başlarken her zaman yaptığımız gibi bir hello world yazdıralım. Bu yazma ekranı tabi ki bizim terminalimizde fakat ESP32 tarafından yazılmış olacak.&lt;/p&gt;
+&lt;p&gt;ESP-IDF içerisinde examples/get-started içerisinde hello_world adlı klasöre gidelim. &lt;/p&gt;
+&lt;p&gt;Aşağıda ki komutu girelim.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;make menuconfig
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Bu komutu girdikten sonra sizi terminal üzerinde bir arayüz karşılayacak burada kartımıza ait bilgileri değiştirebileceğiz. ( bende default tanımlı geldiği için değiştirmedim ).&lt;/p&gt;
+&lt;p&gt;Aşağıda ki resmi direk referans sayfasından alıyorum.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Serial Flasher" src="https://esp-idf.readthedocs.io/en/latest/_images/project-configuration.png"&gt;&lt;/p&gt;
+&lt;p&gt;Burada en önemli nokta Serial Flasher Config&lt;/p&gt;
+&lt;p&gt;Buraya girdiğinizde aygıtınızın bağlı olduğu serial port'u göreceksiniz. Bende bu /ttyUSB0 sizler bunu &lt;code&gt;ls /dev/tty*&lt;/code&gt; komutunu girerek görebilirsiniz. Bu kısımda hangisi olduğunu bilemiyorsanız aygıtı çıkartıp ve takıp komutu 2 kere çalıştırmanız yeterli.&lt;/p&gt;
+&lt;p&gt;Serial Flasher Config kısmından Serial Portumuzu girdikten sonra Save yapıyoruz.&lt;/p&gt;
+&lt;h4&gt;Hadi uygulamayı ESP32'ye atalım&lt;/h4&gt;
+&lt;p&gt;Bir üst kısımda uygulamamızın ayarlarını kayıt etmiştik hatırlarsanız. Şimdi bu uygulamayı ESP32 üzerine atmamız gerekecek. Bunun için yapmamız gereken tek şey aşağıda ki komutu girmek.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;make flash
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Bu komutu girdikten sonra yazılımınız ESP32 üzerine atılacaktır. Eğer Connect kısmında benim gibi hata alıyorsanız bu kısımda yapmanız gerken şey ESP32 üzerinde ki BOOT tuşuna basılı tutmanız veya 1 kere basmanız bunu zaten deneyerek görebileceksiniz.&lt;/p&gt;
+&lt;h4&gt;Hadi uygulama çalışıyor mu bakalım&lt;/h4&gt;
+&lt;p&gt;Attığımız uygulamanın çalışıp çalışmadığını veya ne çıktı ürettiğini görmek isterseniz bunun için terminale aşağıda ki komutu yazmanız yeterlidir.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;make monitor
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Not:&lt;/strong&gt;  Hello World uygulamasından sonra terminalden çıkamayabilirsiniz. Bunun için klavye kısayolu : CTRL + ] (Köşeli Parantez)&lt;/p&gt;
+&lt;h4&gt;Bağlantı problemi yaşıyorum?&lt;/h4&gt;
+&lt;p&gt;Cihazınızın sağlam olup olmadığını test etmek için ve bağlantı kontrolleri yapmak için ESP-IDF içerisinde Components kısmında esptool diye bir klasör bulunuyor. Bu klasörün içerisinde ki esptool.py dosyasını aşağıda ki komutla çalıştırırsanız eğer bağlanabilirse size ESP32'niz hakkında bilgiler verecektir. Bu komutu girdikten sonra üzerinde ki tuşları deneyerek hangisine bastıktan sonra Connect olduğuna bakarsanız da olur. (Ben gece 4 de yaptığımdan dolayı hatırlamıyorum sanırım rastgele basmıştım.)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python esptool.py --chip esp32 -b &lt;span class="m"&gt;115200&lt;/span&gt; -p /dev/ttyUSB0 flash_id
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;veya&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python esptool.py --chip esp32 -b &lt;span class="m"&gt;115200&lt;/span&gt; -p /dev/ttyUSB0 chip_id
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Aşağıda ki ekran görüntüsünü de kendi ekranımdan aldım.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="esp32 Başlamak" src="images/esp32nemicya.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;Okuduğunuz için teşekkürler.&lt;/p&gt;</content><category term="esp32 introduction"></category><category term="esp32 başlangıç"></category><category term="esp32 türkçe"></category><category term="esp32 kullanmak"></category></entry></feed>
