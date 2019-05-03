@@ -70,9 +70,8 @@ Kendisi seçtiğimiz argümanlara göre bir `.gitignore` dosyasını bulunduğun
 
 Örnek:
 
-```
 ![add-gitignore demo](https://raw.githubusercontent.com/TejasQ/add-gitignore/master/demo.gif)
-```
+
 
 [Add-Gitignore Github Linki](https://github.com/TejasQ/add-gitignore)
 
@@ -124,9 +123,9 @@ Fish-shell için bir paket yöneticisi.
 
 Kendisi CLI üzerinden HTTP Client görevini sağlıyor. Tıpkı cURL gibi ama daha insancılı. Gayet başarılı bir uygulama. API'lara vs istek atarken sıkça kullanabilirsiniz. 
 
-```
+
 ![httpie demo](https://raw.githubusercontent.com/jakubroztocil/httpie/master/httpie.gif)
-```
+
 
 [HTTPie Github Linki](https://github.com/jakubroztocil/httpie)
 
@@ -168,9 +167,9 @@ Kullanmayan kaldı mı ya bunu? Kendisi bir çok DBMS'e bağlantı kurmanıza ol
 
 Kendisini uzun zamandır biliyordum fakat script veya projelerimde hiç kullanmamıştım. Kullanmak nasip oldu. Terminal üzerinde kayıt almanıza ve bu kayıdı paylaşmanıza olanak sağlayan mükemmel bir uygulama. Linkini aşağıda paylaşıyor olacağım. Kullanmak için kayıt olmanız gerekmekte. Kayıt olduktan sonra bir link ile siz olduğunuzu doğruluyorsunuz ve record edip direkt olarak upload edebiliyorsunuz. Kullanımı çok rahat ve pratik. Örnek bir kullanımımı aşağıda görebilirsiniz.
 
-```
+
 [![Örnek kullanım](https://asciinema.org/a/oRY2H6RUf87aCN2xpNngFQ0iX.svg)](https://asciinema.org/a/oRY2H6RUf87aCN2xpNngFQ0iX)
-```
+
 
 [Asciicinema](https://asciinema.org/)
 
@@ -184,6 +183,5 @@ Benim için bir gelenek olan yazı sonu şarkımı aşağıya iliştiriyorum.
 
 Oldukça sert ve protest olarak nitelendirdiğim bu şarkıyı umarım keyifle dinlersiniz :)
 
-```
+
 [![Saian K"st Uçurum Çiçeği](http://img.youtube.com/vi/J-KUtPPlUqs/0.jpg)](https://www.youtube.com/watch?v=J-KUtPPlUqs "saian <3")
-```
