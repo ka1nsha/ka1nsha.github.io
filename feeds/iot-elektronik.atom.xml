@@ -1,5 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - iot &amp; elektronik</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/iot-elektronik.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2018-04-14T13:12:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>ESP32 ile çalışmak</title><link href="https://enesergun.net/esp32-ile-calismak.html" rel="alternate"></link><published>2018-04-14T13:12:00+03:00</published><updated>2018-04-14T13:12:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-04-14:/esp32-ile-calismak.html</id><summary type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - iot &amp; elektronik</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/iot-elektronik.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2019-05-27T12:00:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>ESP32 üzerinde Python yazmak - Micropython</title><link href="https://enesergun.net/esp32-ile-micropython.html" rel="alternate"></link><published>2019-05-27T12:00:00+03:00</published><updated>2019-05-27T12:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-05-27:/esp32-ile-micropython.html</id><summary type="html">&lt;p&gt;ESP32 ile nasıl çalışacağımıza ve cihaza hali hazırda daha önceki bir blog konusunda değinmiştik. &lt;/p&gt;
+&lt;p&gt;İlgili yazı linki: &lt;a href="https://enesergun.net/esp32-ile-calismak.html"&gt;ESP32 İle Çalışmak&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Yukarıda linkini vermiş olduğum yazıda ESP-IDF ve pip ile birlikte kurduğumuz ESPTool kullanıyorduk. İnternet üzerindeki bir çok elektronik konulu blog yazılarını incelediğinizde elektronik cihazlara ait kodlamaların genellikle C ile yazıldığını …&lt;/p&gt;</summary><content type="html">&lt;p&gt;ESP32 ile nasıl çalışacağımıza ve cihaza hali hazırda daha önceki bir blog konusunda değinmiştik. &lt;/p&gt;
+&lt;p&gt;İlgili yazı linki: &lt;a href="https://enesergun.net/esp32-ile-calismak.html"&gt;ESP32 İle Çalışmak&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Yukarıda linkini vermiş olduğum yazıda ESP-IDF ve pip ile birlikte kurduğumuz ESPTool kullanıyorduk. İnternet üzerindeki bir çok elektronik konulu blog yazılarını incelediğinizde elektronik cihazlara ait kodlamaların genellikle C ile yazıldığını görebilirsiniz. C bilmeyen birisi için(Örn:Ben) projeyi ilerlettikçe bu oldukça içinden çıkılamaz bir durum halini alabiliyor. İşte bu sebepledir ki bazı arkadaşlarımız elektronik cihazlar üzerinde Python yazabilmemize olanak sağlayan bir dil yazmışlar. Kendileri bu dili yine C ile yazmış olup ismine de &lt;strong&gt;MicroPython&lt;/strong&gt; ismini vermişler.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="images/micropython1.png"&gt;&lt;/p&gt;
+&lt;h2&gt;MicroPython Nedir?&lt;/h2&gt;
+&lt;p&gt;Kendileri ESP32 veya diğer boardlar üzerinde Python(Python'a benzer kod) kodu yazmamızı sağlayan bir dil. İçerisinde implente olmuş bir biçimde Python 3.4 kullanıyor fakat normal bir Python'a göre farklılıkları da bulunmuyor değil. &lt;/p&gt;
+&lt;p&gt;İlgili farklılıklara ulaşmak için: &lt;a href="http://docs.micropython.org/en/latest/genrst/index.html"&gt;MicroPython differences from CPython&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;MicroPython'ın desteklemiş olduğu boardlar: &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Micro:bit&lt;/li&gt;
+&lt;li&gt;ESP8266&lt;/li&gt;
+&lt;li&gt;ESP32&lt;/li&gt;
+&lt;li&gt;Pyboard D-Series&lt;/li&gt;
+&lt;li&gt;WiPy ve CC3200&lt;/li&gt;
+&lt;li&gt;MicroPython pyboard&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;MicroPython'ı ESP32'ye Nasıl Yükleriz?&lt;/h2&gt;
+&lt;p&gt;Bunun için aslında çok fazla bir ihtiyacımız bulunmamaktadır. MicroPython'ı yüklemek için "bin" dosyasını flashlamamız yeterli.&lt;/p&gt;
+&lt;p&gt;Cihazınıza uygun firmware'i indirmek için : &lt;a href="https://micropython.org/download#esp32"&gt;MicroPython Firmware for ESP32&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Yukarıda verilmiş link üzerinden en son sürüm "bin" dosyasını indirmeniz gerekmektedir. İndirdikten sonra aşağıda verilmiş olan komut ile &lt;strong&gt;"Linux"&lt;/strong&gt;  üzerinde bu işlemi yapabilirsiniz. Değiştirilmesi gereken parametreler komut  altında açıklanacaktır.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo esptool.py --chip esp32 --port /dev/ttyUSB0 --baud &lt;span class="m"&gt;921600&lt;/span&gt; write_flash -z 0x1000 esp32-20190526-v1.10-387-g1470184bd.bin
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Değiştirilmesi gereken argümanlar/parametreler:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;esp32-20190526-v1.10-387-g1470184bd.bin&lt;/li&gt;
+&lt;li&gt;921600&lt;/li&gt;
+&lt;li&gt;İlgili değer baud değeridir. Bu değer saniye başı serial port üzerinden transfer edilebilecek bit sayısını belli etmektedir. flash atarken bu değerle yazdırdık, dinlerkende 115200 baud değerinde dinleme yapmamız gerekmektedir. &lt;/li&gt;
+&lt;li&gt;/dev/ttyUSB0&lt;/li&gt;
+&lt;li&gt;İlgili değer ise ESP32 cihazınızın hangi portundan bağlandığını göstermektedir.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Yükledikten Sonra Nasıl Kod Yazacağız?&lt;/h2&gt;
+&lt;p&gt;Şimdi her şeyi yükledik. Ama kodu nasıl yazacağız derseniz terminal'e aşağıdaki komutu yazmanız yeterlidir.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;screen /dev/ttyUSB1 115200&lt;/code&gt; &lt;/p&gt;
+&lt;p&gt;2 kere enter'a bastığınızda direkt olarak interactive prompt'a düşeceksinizdir. Örnek bir ekran görüntüsünü aşağıya ekliyor olacağım.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Micropython Türkçe" src="images/micropython3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Micropython Türkçe" src="images/micropython4.png"&gt;&lt;/p&gt;
+&lt;p&gt;Eğer bu şekilde(REPL) kod yazmak hoşunuza gitmiyorsa yazdığınız kodu ampy(dilerseniz rshell) ile ESP32 Boardınıza yükleyebilirsiniz.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo ampy --port /dev/ttyUSB0 put main.py&lt;/code&gt; &lt;/p&gt;
+&lt;p&gt;Ampy ile attığımız kod artık her boot edilişte otomatik olarak çalışacaktır.&lt;/p&gt;
+&lt;p&gt;Ben aşağıdaki kodu attım ve sürekli çalışmasını sonsuz bir while döngüsü ile sağladım. Eğer sıcaklık 30 derece üstüne çıkarsa bize haber verecektir. Ekran görüntüsünü de aşağıda gösteriyor olacağım.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;dht&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;machine&lt;/span&gt;
+&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dht&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DHT11&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;machine&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Pin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;temp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;temperature&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;temp&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Çok sıcak acil durum olarak API bilgi gönderildi&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;break&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Oda sıcaklığındayız mükemmel&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="Micropython Türkçe" src="images/micropython5.png"&gt;&lt;/p&gt;
+&lt;p&gt;Bu yazı şimdilik bu kadar. Belki ileride (üşenmezsem) ESP32 üzerinden sürekli olarak sıcaklık değerlerini ağda bulunan bir API'a alarak onun veri görselleştirmesini yapabiliriz veya bir sunucu odasında olduğumuzu düşünüp belirli bir sıcaklık üstüne çıktığında farklı bir porttan veri göndermesini sağlayabiliriz.&lt;/p&gt;
+&lt;p&gt;Okuduğunuz için teşekkür ederim. Yine bir klasik olarak şarkı paylaşacağım fakat bu sefer yine 2 tane paylaşacağım.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.youtube.com/watch?v=5hNT2wtVIBI" title="Nothing burns like the cold"&gt;&lt;img alt="Nothing burns like the 
+cold" src="http://img.youtube.com/vi/5hNT2wtVIBI/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.youtube.com/watch?v=1gdihQ_cnfQ" title="Biig Piig Perdida"&gt;&lt;img alt="Biig Piig 
+Perdida" src="http://img.youtube.com/vi/1gdihQ_cnfQ/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="esp32 türkçe"></category><category term="micropython türkçe"></category><category term="esp32 micropython türkçe"></category><category term="esp32 ile micropython kullanmak"></category><category term="python ve elektronik"></category><category term="elektronik aletlerde python yazmak"></category></entry><entry><title>ESP32 ile çalışmak</title><link href="https://enesergun.net/esp32-ile-calismak.html" rel="alternate"></link><published>2018-04-14T13:12:00+03:00</published><updated>2018-04-14T13:12:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-04-14:/esp32-ile-calismak.html</id><summary type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
 &lt;p&gt;Geçen hafta sonu sevdiğim bir abim daha önce almış olduğu ESP32 kartını denemem için bana getirmişti. Malesef sadece dün akşam bu kart ile ilgilenebildim. Tabi ki daha öncesinde kart hakkında araştırmalar yapmış bulundum. &lt;/p&gt;
 &lt;h4&gt;Bu kart ne işe yarar?&lt;/h4&gt;
 &lt;p&gt;Bu kart tümleşik bir kart olarak geçiyor. Kendine ait bir işlemcisi …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
