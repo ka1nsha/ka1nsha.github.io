@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>    Python İstisnalar ve İstisna Yönetimi
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href='https://fonts.googleapis.com/css?family=Gentium+Book+Basic|Merriweather:400,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://enesergun.net/theme/css/cid.css">
+        <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+            <div class="container">
+
+<header class="blog-header">
+    <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
+    <p> Personel homepage about of my Profession </p>
+    <nav>
+        <a href="https://enesergun.net/">INDEX</a>
+        <a href="https://enesergun.net/archives">ARCHIVES</a>
+        <a href="https://enesergun.net/categories">CATEGORIES</a>
+    </nav>
+</header>
+
+    <div class="post">
+
+        <header>
+            <h1>Python İstisnalar ve İstisna Yönetimi</h1>
+            <p class="date">Written on <time datetime="2018-05-08T23:12:00+03:00">May 08, 2018</time></p>
+        </header>
+
+        <article>
+            <p>Bildiğiniz gibi yazdığınız program/uygulama bazı yazım yanlışları veya veri girişi kısımlarında gerekli kontroller ve yönetimler yapılmamışsa  programınız/uygulamanız bir hata FIRLATARAK sonlanacaktır. Üstelik bu konu zararlı kişilerce kullanılarak son kullanıcıyı mağdur etmeye kadar gidebiliyor. Konu bu haliyle zaten oldukça önemli, bu kısımda yazılımcıya oldukça fazla yük düşmekte. Nedir bunlar?</p>
+<ol>
+<li>Yazdığı kodların genel istisna durumlarını yönetmelidir.</li>
+<li>Kullanıcı girişlerini kontrol etmelidir. ( Her konuda edilmeli )</li>
+<li>Zararsız kullanıcının yerine zararlı bir kişinin bu girdi kısımlarına neler girebileceğini tahmin edebilmedir.</li>
+</ol>
+<p>Şu anlık aklıma gelen bu kadar ama eminim fazlası da vardır. Bu konu hakkında beni yeşillendirebilirsiniz. Evet istisna yönetimi bu kadar önemliyken ben de bu konu hakkında yazmak istedim. Peki Python'da istisnalar nedir? Nasıl yönetilir? Hadi başlayalım.</p>
+<h2>Python'da istisnalar</h2>
+<p>Python'da istisnalar Exception ile yönetilir. Python üstünde Built-in olarak gelen bir sürü istisna yöntemi ve yönetimi vardır. Bunların listesine <a href="https://docs.python.org/3/library/exceptions.html">Built-in Exceptions</a> linkine tıklayarak ulaşabilirsiniz. Kod olaraksa en basit şekilde aşağıda ki gibi bir kullanımı vardır.</p>
+<div class="highlight"><pre><span></span><span class="c">try: # Çalışacak kodunuz.</span>
+<span class="c">    print(0/0)</span>
+<span class="c">except:</span>
+<span class="c">    print(&quot;Hata var&quot;)</span>
+</pre></div>
+
+
+<p>veya aşağıda ki gibi bir kullanım daha uygundur. Çünkü yukarıda ki kod bloğunda ne hata verirse versin hata var yazacaktır.</p>
+<div class="highlight"><pre><span></span><span class="k">try</span><span class="o">:</span>
+    <span class="n">print</span><span class="o">(</span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span><span class="o">)</span>
+<span class="n">except</span> <span class="n">ZeroDivisionError</span><span class="o">:</span>
+    <span class="n">print</span><span class="o">(</span><span class="s2">&quot;Sıfırı sıfıra bölüyon&quot;</span><span class="o">)</span>
+</pre></div>
+
+
+<p>Yukarıda ki kod bloğunda kullandığımız ZeroDivisionError farkettiğiniz üzere bir built-in bir istisnadır.</p>
+<p>Peki karşımıza gelecek bu istisnaları nasıl yöneteceğiz?</p>
+<p>Örnek bir kod bloğunu aşağıda görebilirsiniz.</p>
+<div class="highlight"><pre><span></span><span class="err">liste = [i for i in range(0,10)]</span>
+<span class="c">try:</span>
+<span class="c">    for i in liste:</span>
+<span class="c">        print(int(i)/0)</span>
+<span class="err">except ZeroDivisionError as hata:</span>
+<span class="err">    print(hata)</span>
+</pre></div>
+
+
+<p>Burada hatayı gördük ve bununla ilgili ekrana bastırdık. Peki bu kadarla mı sınırlıyız? Tabi ki de hayır. Bu kısımda karşımıza 3 deyim daha çıkıyor.</p>
+<p>Bu deyimler: 
+1. Raise
+2. Assert
+3. Else
+4. Finally</p>
+<p>Peki bunlar ne işe yarar? Kısaca açıklayacak olursam:</p>
+<p><strong>Raise</strong>
+Raise bize istisna çıktılarını tanımlamamızı sağlar. Nasıl yani derseniz şu şekilde. Bir yazılımın sadece stringler üzerinde işlem yaptığını düşünün buraya integer bir değer girdiğimizde bize TypeError verecektir. Fakat burada Error çıktısı son kullanıcı için anlamsız olabilir veya bunu değiştirmek isteyebilirsiniz. Base bir exception üzerinden Raise ile bunu yapabilirsiniz. Aslında raise bize istediğimiz zaman bir istisna fırlatmamıza olanak sağlar. Örnek:</p>
+<div class="highlight"><pre><span></span><span class="err">i = 5</span>
+<span class="err">if type(i) is int:</span>
+<span class="err">    raise TypeError(&quot;Integer lan bu&quot;)</span>
+</pre></div>
+
+
+<p><strong>Assert</strong>
+Bir modül yazdınız mesela bu modül sadece Linux'da çalışsın. Bunun kontrolünü assert ile kontrol ederek gerekli bir istisnayı sağlayabilirsiniz. Yazacağınız 1 satırlık assert ile bu kontrolü sağlayabilirsiniz. Örnek kod:</p>
+<div class="highlight"><pre><span></span><span class="err">def meminfo():</span>
+<span class="err">    assert (&#39;linux&#39; in sys.platform)</span>
+<span class="err">    ac = open(&quot;/proc/meminfo&quot;)</span>
+<span class="err">meminfo()</span>
+</pre></div>
+
+
+<p>Şimdi yukarıda ki kod da eğer sisteminiz Linuxsa bu kodu çalıştıracaktır. Fakat sisteminiz linux değilse sizlere istisna olarak AssertionError dönecektir. Peki bu durumda biz ne yapacağız?</p>
+<div class="highlight"><pre><span></span><span class="k">try</span><span class="o">:</span>
+    <span class="n">meminfo</span><span class="o">()</span>
+<span class="n">except</span> <span class="n">AssertionError</span><span class="o">:</span>
+    <span class="n">print</span><span class="o">(</span><span class="s2">&quot;Windows haram&quot;</span><span class="o">)</span>
+</pre></div>
+
+
+<p>Gördüğünüz gibi işletim sistemi kontrolünü sağlamış olduk.</p>
+<p><strong>Else</strong></p>
+<p>Else ise muazzam bir özelliğe sahiptir. Nedir bu ? Bir üst örnekte yapmış olduğumuz kodu hatırlayın. Eğer Linux sisteminde çalıştırıyorsak bize hata vermeyecekti. Peki hata vermedi o zaman? Finally kullanabiliriz evet haklısınız fakat farklı bir istisna yönetimi de koymak istiyorum. Mesela hata vermedi ve ben bu dosyayı okudum ama daha sonra parse etmek istiyorum? İşte burada else koşulunun içerisine yazdığımız kod ile bunu kontrol edebiliyoruz. </p>
+<div class="highlight"><pre><span></span><span class="k">try</span><span class="o">:</span>
+    <span class="n">meminfo</span><span class="o">()</span>
+<span class="n">except</span> <span class="n">AssertionError</span><span class="o">:</span>
+    <span class="n">print</span><span class="o">(</span><span class="s2">&quot;Windows haram&quot;</span><span class="o">)</span>
+<span class="k">else</span><span class="o">:</span>
+    <span class="k">try</span><span class="o">:</span>
+        <span class="n">dosya</span> <span class="o">=</span> <span class="n">open</span><span class="o">(</span><span class="s2">&quot;memoryokuyucu.txt&quot;</span><span class="o">,</span><span class="s2">&quot;a&quot;</span><span class="o">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">meminfo</span><span class="o">():</span>
+            <span class="n">i</span> <span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="na">replace</span><span class="o">(</span><span class="s2">&quot;kb&quot;</span><span class="o">,</span><span class="s2">&quot;kilobayt&quot;</span><span class="o">)</span>
+            <span class="n">dosya</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+    <span class="n">except</span> <span class="n">FileNotFoundError</span><span class="o">:</span>
+        <span class="n">print</span><span class="o">(</span><span class="s2">&quot;Memory okuyucu diye bir dosya yok&quot;</span><span class="o">)</span>
+</pre></div>
+
+
+<p>Örnek sanırım yeterince açıklayıcı olmuştur.</p>
+<p><strong> Finally </strong></p>
+<p>İşte geldik en güzel terime Finally. Finally şu işe yaramaktadır. İstisna yönetimlerinden sonra kodumuza ne yapacağımızı söyler. Yani her istisnayı geçti bu kod artık ne yapalım demektir? Burada hiç bir hata almadım veya sürekli çalışsın dediğiniz kodlarınız durabilir.</p>
+<p>Finally konusunda örnek yazmadım zaten yeterince açık olduğu için.</p>
+<p>Yazımı okuduğunuz için teşekkür ederim. Bir hatam veya yanlışım olmuş ise yeşillendirirseniz sevinirim.
+<strong>Unutmadan</strong> bu haftanın şarkısını aşağıda paylaşıyorum.</p>
+<p><a href="https://www.youtube.com/watch?v=nPglNjxVHiM"><img alt="Skunk Anansie - Weak" src="https://img.youtube.com/vi/nPglNjxVHiM/0.jpg"></a></p>
+        </article>
+
+        <footer>
+            <p>This entry is posted in <a href="https://enesergun.net/category/python.html">python</a>.</p>
+        </footer>
+
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = '0x656e';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+
+
+<footer class="blog-footer">
+
+    <ul class="nav">
+            <li><a href="www.twitter.com/0x656e">Twitter</a></li>
+            <li><a href="info@enesergun.net">Mail</a></li>
+    </ul>
+
+    <p class="disclaimer">
+    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/hdra/Pelican-Cid">Cid</a> theme.
+    </p>
+</footer>
+            </div>
+<script>
+    var _gaq=[['_setAccount','UA-44262671-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    </body>
+</html>

