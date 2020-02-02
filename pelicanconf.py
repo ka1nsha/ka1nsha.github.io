@@ -30,7 +30,7 @@ LINKS = (('Mertcan Gökgöz', 'https://mertcangokgoz.com/'),
          ('Berk İmran', 'https://berkimran.com.tr'),
          ('Ali Gören', 'https://aligoren.com'),
          ('Emir Kurt', 'https://0xf61.gitlab.io/'),
-         ('1v3m', 'https://cybersaxostiger.github.io/'),)
+         ('1v3m', 'https://cybersaxostiger.github.io/'))
 
 # Social widget
 CONTACTS = (('twitter', 'www.twitter.com/0x656e'),
