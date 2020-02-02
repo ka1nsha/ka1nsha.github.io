@@ -1,5 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - linux</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/linux.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2019-05-03T20:00:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>Linux Üzerinde Kullandığım ve Tavsiye Ettiğim Uygulamalar</title><link href="https://enesergun.net/linux-uzerinde-kullandigim-uygulamalar.html" rel="alternate"></link><published>2019-05-03T20:00:00+03:00</published><updated>2019-05-03T20:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-05-03:/linux-uzerinde-kullandigim-uygulamalar.html</id><summary type="html">&lt;p&gt;Selamlar, &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - linux</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/linux.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2020-02-02T14:00:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>Linux Capabilities API</title><link href="https://enesergun.net/linux-capabilities-api.html" rel="alternate"></link><published>2020-02-02T14:00:00+03:00</published><updated>2020-02-02T14:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2020-02-02:/linux-capabilities-api.html</id><summary type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
+&lt;p&gt;Günlük olarak RSS feedlerimi takip etmeye özen gösteren birisiyim(Feedly). Bu feedler arasında bolca HTB(HackTheBox)  write-up kaynağı da bulunuyor doğal olarak. İşte yine bir HTB makinesi ile ilgili write-up'ı okurken bunca yıldır Linux(End-User olarak) kullanan biri olarak karşılaşmadığım ve karşılaştığımda şaşırdığım bir komut gördüm. Neydi bu komut …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
+&lt;p&gt;Günlük olarak RSS feedlerimi takip etmeye özen gösteren birisiyim(Feedly). Bu feedler arasında bolca HTB(HackTheBox)  write-up kaynağı da bulunuyor doğal olarak. İşte yine bir HTB makinesi ile ilgili write-up'ı okurken bunca yıldır Linux(End-User olarak) kullanan biri olarak karşılaşmadığım ve karşılaştığımda şaşırdığım bir komut gördüm. Neydi bu komut?&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;getcap -r / &lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/dev/null
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Komutu anlatmak gerekirse recursive bir biçimde &lt;code&gt;/&lt;/code&gt; yani en üst dizinden başlayarak tüm dosyaların kabiliyetlerini kontrol edecek ve eğer return code olarak &lt;code&gt;2&lt;/code&gt; kodu dönülüyorsa bunu &lt;code&gt;/dev/null&lt;/code&gt; uzayına gönderecek.&lt;/p&gt;
+&lt;h2&gt;Linux Yetkilendirme Sistemleri&lt;/h2&gt;
+&lt;p&gt;Bu zamana kadar genelde dosya yetkilerini kontrol ederken, sadece sembolik olan yetkilendirme sistemini kontrol ederdim. Bu sembolik yetkilendirme sistemi nedir derseniz, kendisi &lt;code&gt;chmod, chown&lt;/code&gt; komutları ile birlikte kullandığınız &lt;code&gt;octal&lt;/code&gt; numerik olarak belirtilen(sembolik) dosya yetkilendirme sistemidir.&lt;/p&gt;
+&lt;p&gt;Eğer bu konu hakkında bilgi sahibi değilseniz aşağıda vermiş olduğum kaynağı, kaynağın tümünü tüketebilirsiniz. Çok güzel bir kaynaktır.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://demirten.gitbooks.io/linux-sistem-programlama/content/users/"&gt;Linux Sistem Programlama&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Peki Enes Bunlar Ne İşe Yarayacak&lt;/h2&gt;
+&lt;p&gt;Öncelikle bir hacker olduğunuzu düşünün, bir linux sistemi ele geçirdiniz fakat o da ne? Sistem üzerinde Nginx'in tüm işlemleri özel bir kullanıcı ile yürütülüyor ve siz bu sistemde at koşturamıyorsunuz. Ne yapmamız gerek? Sistem üzerinde yetkimizi yükseltebileceğimiz bir şeyler aramamız gerekmekte.&lt;/p&gt;
+&lt;p&gt;Ne yapabiliriz? Mesela SUID Bit içeren dosyaları arayabiliriz.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;find / -perm -4000 -type f &lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/dev/null
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Tamam bir executable dosya bulduk ama bunu nasıl kullanacağımızı bilmiyoruz? İster Google üzerinde aratın ya da bu iş için çok güzel bir site hazırlamışlar ona bakabilirsiniz.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://gtfobins.github.io/"&gt;GTFOBins&lt;/a&gt; (Linux)&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://lolbas-project.github.io/#"&gt;LOLBAS&lt;/a&gt; (Windows)&lt;/p&gt;
+&lt;p&gt;vs.vs bir sürü senaryo üretilebilir fakat hiç dosya kapasiteleri(capabilities) aklınıza gelmiş miydi? Benim şahsen böyle bir şey olduğundan bile haberim yoktu. Zaten bu yüzden bu blog yazısının konusu bu.&lt;/p&gt;
+&lt;h2&gt;Capabilities API'a Neden İhtiyaç Var&lt;/h2&gt;
+&lt;p&gt;Eski kernel sürümlerinde Linux üzerinde yetkilendirme sistemi bu kadar gelişmiş değildi ve bazı kısıtlamalar yüzünden siber güvenlik açısından büyük riskler barındıran işlemler gerçekleştiriliyordu. &lt;/p&gt;
+&lt;p&gt;Örnek: Linux üzerinde Port olarak 1024'ün altında bir portta socket açacaksanız &lt;code&gt;root&lt;/code&gt; kullanıcısı olmak zorundasınız. Peki sunucunuza Nginx kurdunuz ve web servisi yayınlayacaksınız. Bunu &lt;code&gt;root&lt;/code&gt; kullanıcısı olarak kurup çalıştırdığınızda geçmiş olsun. &lt;/p&gt;
+&lt;p&gt;Örnek1: 1024 altında port açmak için &lt;code&gt;root&lt;/code&gt; kullanıcısına ihtiyacınız var demiştik. Peki günlük olarak troubleshooting için kullandığımız &lt;code&gt;ping&lt;/code&gt; komutu? Ping bildiğiniz üzere port kullanan bir yapıda değil ki zaten farklı bir protokol. Bknz: ICMP. Ping atabilmek için raw_socket açmak zorundasınız ve bu sadece &lt;code&gt;root&lt;/code&gt; kullanıcısına özgü bir yetki. Takılıp kaldık mı? Hayır.&lt;/p&gt;
+&lt;p&gt;Bu arada ICMP temelli çalışan fakat işletim sistemine göre değişen &lt;code&gt;traceroute&lt;/code&gt; ile ilgili aşağıya güzel bir link iliştiriyorum.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://medium.com/@gokhansengun/ping-ve-traceroute-nas%C4%B1l-%C3%A7al%C4%B1%C5%9F%C4%B1r-146e151ff83b"&gt;ping ve traceroute nasıl çalışır&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Neyse devam. İşte bu kısımda takılıp kalmıyoruz SUID Bit devreye giriyor. Bu da ayrı bir yazı konusu aslında o yüzden direkt olarak size konu ile ilgili link vereceğim.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.syslogs.org/suid-ve-sgid-bitler-ve-bu-bitlere-sahip-dosyalarin-bulunmasi/"&gt;SUID ve SGID Bit&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Tamam bunu okuduk ama diğer taraftan aşağıdakini de okumakta fayda var.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://canyoupwn.me/tr-suid-bit-istismari/"&gt;SUID Bit İstismarı&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Evet zararlı kısmını da gösterdik. Şimdi konu gerçekten Capabilities API'a geldi. Şu an kullandığınız distroda ping komutunun nasıl çalıştığına(yetkisiz kullanıcı ile) baktınız mı hiç?&lt;/p&gt;
+&lt;p&gt;Hadi yetkilerine bakalım. Direkt olarak komutları ve çıktılarını aşağıya kopyalıyorum. Sonra üstünde konuşacağız.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;➜  /bin ls -la &lt;span class="p"&gt;|&lt;/span&gt; grep ping
+-rwxr-xr-x  &lt;span class="m"&gt;1&lt;/span&gt; root root          &lt;span class="m"&gt;75760&lt;/span&gt; Jan  &lt;span class="m"&gt;5&lt;/span&gt;  &lt;span class="m"&gt;2019&lt;/span&gt; atk6-thcping6
+-rwxr-xr-x  &lt;span class="m"&gt;1&lt;/span&gt; root root          &lt;span class="m"&gt;48032&lt;/span&gt; Aug  &lt;span class="m"&gt;7&lt;/span&gt; &lt;span class="m"&gt;02&lt;/span&gt;:48 fping
+lrwxrwxrwx  &lt;span class="m"&gt;1&lt;/span&gt; root root              &lt;span class="m"&gt;5&lt;/span&gt; Jan  &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;18&lt;/span&gt;:47 fping6 -&amp;gt; fping
+-rwxr-xr-x  &lt;span class="m"&gt;1&lt;/span&gt; root root         &lt;span class="m"&gt;106344&lt;/span&gt; Jul &lt;span class="m"&gt;14&lt;/span&gt;  &lt;span class="m"&gt;2019&lt;/span&gt; l2ping
+-rwxr-xr-x  &lt;span class="m"&gt;1&lt;/span&gt; root root          &lt;span class="m"&gt;43248&lt;/span&gt; Oct &lt;span class="m"&gt;23&lt;/span&gt; &lt;span class="m"&gt;15&lt;/span&gt;:53 mate-typing-monitor
+-rwxr-xr-x  &lt;span class="m"&gt;1&lt;/span&gt; root root         &lt;span class="m"&gt;752656&lt;/span&gt; Nov &lt;span class="m"&gt;26&lt;/span&gt; &lt;span class="m"&gt;12&lt;/span&gt;:21 nping
+-rwxr-xr-x  &lt;span class="m"&gt;1&lt;/span&gt; root root          &lt;span class="m"&gt;73496&lt;/span&gt; Oct  &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="m"&gt;17&lt;/span&gt;:34 ping
+lrwxrwxrwx  &lt;span class="m"&gt;1&lt;/span&gt; root root              &lt;span class="m"&gt;4&lt;/span&gt; Oct  &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="m"&gt;17&lt;/span&gt;:34 ping4 -&amp;gt; ping
+lrwxrwxrwx  &lt;span class="m"&gt;1&lt;/span&gt; root root              &lt;span class="m"&gt;4&lt;/span&gt; Oct  &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="m"&gt;17&lt;/span&gt;:34 ping6 -&amp;gt; ping
+-rwxr-xr-x  &lt;span class="m"&gt;1&lt;/span&gt; root root           &lt;span class="m"&gt;6773&lt;/span&gt; May &lt;span class="m"&gt;21&lt;/span&gt;  &lt;span class="m"&gt;2019&lt;/span&gt; wifiping
+➜  /bin id
+&lt;span class="nv"&gt;uid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1000&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;ka1&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;gid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1000&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;ka1&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nv"&gt;groups&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1000&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;ka1&lt;span class="o"&gt;)&lt;/span&gt;,20&lt;span class="o"&gt;(&lt;/span&gt;dialout&lt;span class="o"&gt;)&lt;/span&gt;,24&lt;span class="o"&gt;(&lt;/span&gt;cdrom&lt;span class="o"&gt;)&lt;/span&gt;,25&lt;span class="o"&gt;(&lt;/span&gt;floppy&lt;span class="o"&gt;)&lt;/span&gt;,27&lt;span class="o"&gt;(&lt;/span&gt;sudo&lt;span class="o"&gt;)&lt;/span&gt;,29&lt;span class="o"&gt;(&lt;/span&gt;audio&lt;span class="o"&gt;)&lt;/span&gt;,30&lt;span class="o"&gt;(&lt;/span&gt;dip&lt;span class="o"&gt;)&lt;/span&gt;,44&lt;span class="o"&gt;(&lt;/span&gt;video&lt;span class="o"&gt;)&lt;/span&gt;,46&lt;span class="o"&gt;(&lt;/span&gt;plugdev&lt;span class="o"&gt;)&lt;/span&gt;,109&lt;span class="o"&gt;(&lt;/span&gt;netdev&lt;span class="o"&gt;)&lt;/span&gt;,119&lt;span class="o"&gt;(&lt;/span&gt;debian-tor&lt;span class="o"&gt;)&lt;/span&gt;,126&lt;span class="o"&gt;(&lt;/span&gt;bluetooth&lt;span class="o"&gt;)&lt;/span&gt;,136&lt;span class="o"&gt;(&lt;/span&gt;scanner&lt;span class="o"&gt;)&lt;/span&gt;,998&lt;span class="o"&gt;(&lt;/span&gt;docker&lt;span class="o"&gt;)&lt;/span&gt;
+➜  /bin ping &lt;span class="m"&gt;8&lt;/span&gt;.8.8.8
+PING &lt;span class="m"&gt;8&lt;/span&gt;.8.8.8 &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&gt;.8.8.8&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;56&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;84&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; bytes of data.
+&lt;span class="m"&gt;64&lt;/span&gt; bytes from &lt;span class="m"&gt;8&lt;/span&gt;.8.8.8: &lt;span class="nv"&gt;icmp_seq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nv"&gt;ttl&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;54&lt;/span&gt; &lt;span class="nv"&gt;time&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;15&lt;/span&gt;.4 ms
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Gördüğünüz gibi ping komutu &lt;code&gt;root:root&lt;/code&gt; olarak yetkilendirilmiş bir biçimde üstelik herhangi bir &lt;code&gt;SUID Bit vb.&lt;/code&gt; bir şey de yok fakat ben nasıl çalıştırabiliyorum?&lt;/p&gt;
+&lt;p&gt;Yine terminal çıktısı atayım.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;bash
+➜  /bin sudo getcap /usr/bin/ping
+/usr/bin/ping = cap_net_raw+ep
+➜  /bin&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Gördüğünüz gibi &lt;code&gt;ping&lt;/code&gt; çalıştırılabilir dosyasında bir kapasite sınırı sonunda + olarak belirtilmiş bir yetkilendirme biçimi var.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Not:&lt;/strong&gt; Ping komutunun artık kullanıcı tarafında çalıştırılabilmesi için herhangi bir izne ihtiyacı yok. Sebebi ping socketinin direkt olarak kernela eklenmesi.(Ben öyle anladım?)&lt;/p&gt;
+&lt;p&gt;Kaynak: &lt;a href="https://github.com/torvalds/linux/commit/c319b4d76b9e583a5d88d6bf190e079c4e43213d"&gt;      net: ipv4: add IPPROTO_ICMP socket kind    &lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Capabilities API&lt;/h2&gt;
+&lt;p&gt;Öncelik olarak Kernel sürümümüze özel olarak sistem üzerinde ne kadar farklı yetkilendirme yapabileceğimize bakalım. (Tüm Capabilities Yetkilerine)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;➜  ~ sudo capsh --print
+Current: &lt;span class="o"&gt;=&lt;/span&gt; cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read+ep
+Bounding &lt;span class="nb"&gt;set&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read
+Ambient &lt;span class="nb"&gt;set&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+Securebits: &lt;span class="m"&gt;00&lt;/span&gt;/0x0/1&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;b0
+ secure-noroot: no &lt;span class="o"&gt;(&lt;/span&gt;unlocked&lt;span class="o"&gt;)&lt;/span&gt;
+ secure-no-suid-fixup: no &lt;span class="o"&gt;(&lt;/span&gt;unlocked&lt;span class="o"&gt;)&lt;/span&gt;
+ secure-keep-caps: no &lt;span class="o"&gt;(&lt;/span&gt;unlocked&lt;span class="o"&gt;)&lt;/span&gt;
+ secure-no-ambient-raise: no &lt;span class="o"&gt;(&lt;/span&gt;unlocked&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nv"&gt;uid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;root&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nv"&gt;gid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;root&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nv"&gt;groups&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;root&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Gördüğünüz gibi yetkileri görmek için &lt;code&gt;capsh --print&lt;/code&gt; komutunu kullanabilirsiniz. Daha detaylı bir kullanım için: &lt;/p&gt;
+&lt;p&gt;&lt;a href="http://man7.org/linux/man-pages/man1/capsh.1.html"&gt;Capsh manpages&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Bir dosyaya ait kapasiteyi öğrenmek için de&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo getcap dosya&lt;/code&gt; komutunu kullanabilirsiniz. &lt;/p&gt;
+&lt;p&gt;Ping komutuna getcap ile baktığımızda yetkilendirme sonrasında +ep olarak bir şey görmüştük peki bu ifadeler neydi diye görmek isterseniz aşağıdaki tabloya bakabilirsiniz. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Not:&lt;/strong&gt; Direkt olarak &lt;a href="https://demirten.gitbooks.io/linux-sistem-programlama/content/capabilities/"&gt;buradan&lt;/a&gt; kopyalanmıştır.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align="center"&gt;Capability&lt;/th&gt;
+&lt;th align="left"&gt;Açıklama&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;&lt;strong&gt;permitted&lt;/strong&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Bu kümede ilgili process'in izin verilen ek  capability listesi bulunur. İzin verilmesi o an aktif olarak  kullanılabileceği anlamına gelmeyebilir, ek bir işlemle buradaki  yetkilerin etkin (effective) capability kümesine dahil edilmesi  mümkündür.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;&lt;strong&gt;effective&lt;/strong&gt;&lt;/td&gt;
+&lt;td align="left"&gt;İlgili process'in o anki etkin capability  listesini gösterir. Capability sistemini düzenleyen yardımcı  fonksiyonlarla bir capability'den vazgeçilebileceği gibi tekrar geri de  alınabilir. Ancak her durumda bu işlem sadece &lt;em&gt;permitted&lt;/em&gt; grubunda zaten izin verilmiş olanlar arasından yapılabilir.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;&lt;strong&gt;inheritable&lt;/strong&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Process tarafından yeni bir process çalıştırıldığında, yeni çalıştırılan process'in &lt;em&gt;permitted&lt;/em&gt; listesine miras yoluyla aktarılacak capability listesini gösterir.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;code&gt;capsh&lt;/code&gt; ile gördüğümüz bir sürü yetkilendirme ne işe yarıyor peki derseniz onunla ilgili de aşağıdaki sayfayı kullanabilirsiniz.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://man7.org/linux/man-pages/man7/capabilities.7.html"&gt;Capabilities man pages&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Bitiş&lt;/h2&gt;
+&lt;p&gt;Bu yazıda amacım derin bir biçimde &lt;code&gt;Capabilities API&lt;/code&gt; ı incelemek değildi bu sebeple ilgili yazıyı yetersiz bulmuş olabilirsiniz. Amacım tamamen bakın böyle bir şey de varmış. Şuraya, buraya bakabilirsiniz veya hacklediğiniz bir sistemde bakabileceğiniz bir kapı daha açabilmektedir. Yorumlarınızı site üzerinden (Disqus) veya Twitter üzerinden &lt;a href="https://twitter.com/0x656e"&gt;0x656e&lt;/a&gt; yapabilirsiniz. Olumlu olumsuz benim için farketmez.&lt;/p&gt;
+&lt;p&gt;Yazı sonuna geldik. Evet bu yazının hazırlanmasında okuduğum, kullandığım linkleri aşağıda referanslar olarak görebilirsiniz. Bir klasik olarak yazı sonu şarkı paylaşımlarıma da aşağıdan ulaşabilirsiniz.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.youtube.com/watch?v=DdcusOXh_f8" title=""&gt;&lt;img alt="" src="http://img.youtube.com/vi/DdcusOXh_f8/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.youtube.com/watch?v=iIwNthexyNM" title=""&gt;&lt;img alt="" src="http://img.youtube.com/vi/iIwNthexyNM/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Referanslar:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://linux-audit.com/linux-capabilities-101/"&gt;Linux Capabilities 101&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://demirten.gitbooks.io/linux-sistem-programlama/content/capabilities/"&gt;Linux Sistem Programlama Capabilities&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://0xrick.github.io/hack-the-box/waldo/"&gt;HTB Waldo Writeup&lt;/a&gt;&lt;/p&gt;</content><category term="linux"></category><category term="Capabilities API Türkçe"></category><category term="Linux Yetkilendirme"></category><category term="SUID Bit İstismarı"></category><category term="Linux Yetki Yükseltme"></category><category term="Capabilities Nedir"></category><category term="Linux Capabilities Nedir"></category><category term="Linux Yetkilendirme Sistemleri"></category></entry><entry><title>Linux Üzerinde Kullandığım ve Tavsiye Ettiğim Uygulamalar</title><link href="https://enesergun.net/linux-uzerinde-kullandigim-uygulamalar.html" rel="alternate"></link><published>2019-05-03T20:00:00+03:00</published><updated>2019-05-03T20:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-05-03:/linux-uzerinde-kullandigim-uygulamalar.html</id><summary type="html">&lt;p&gt;Selamlar, &lt;/p&gt;
 &lt;p&gt;Uzun süredir kendimi oyunlara verdiğimden dolayı kendimi geliştirmek adına bir şey yapmadığımı farkettim, belki de daha önce farkettim ama ihtiyacım vardı bilemiyorum. Bu sebeple 3 gün önce radikal bir karar alarak Windows sistemimi geri gelmeyecek şekilde (diskimi 0 ile dolduracak şekilde) sildim. Hoş SSD için böyle bir data destruction'a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar, &lt;/p&gt;
 &lt;p&gt;Uzun süredir kendimi oyunlara verdiğimden dolayı kendimi geliştirmek adına bir şey yapmadığımı farkettim, belki de daha önce farkettim ama ihtiyacım vardı bilemiyorum. Bu sebeple 3 gün önce radikal bir karar alarak Windows sistemimi geri gelmeyecek şekilde (diskimi 0 ile dolduracak şekilde) sildim. Hoş SSD için böyle bir data destruction'a gerek var mı bilmiyorum fakat yaptım. Hatta öyle bir radikal karar ki şuan kullandığım sisteme Steam'e dair herhangi bir şey kurmadım.&lt;/p&gt;
 &lt;p&gt;Velhasılkelam. Sistem olarak herkes tarafından linç yediğim bir dağıtım kurdum(Kali). Tabi gerekli ayarlamaları yaparak. Neden kali kurdum sorusuna gelirsek:&lt;/p&gt;

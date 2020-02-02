@@ -50,7 +50,7 @@
 <p>Burada username kısmına yazılacak herhangi bir tırnak hacker'ın database üzerinde hatta daha ileri aşamalarda sistem üzerinde kod çalıştırabileceği anlamına gelmektedir.</p>
 <p>Peki güvenlisi?</p>
 <p>O da şöyle:</p>
-<div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT password FROM users WHERE username=&#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT password FROM users WHERE username=&#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
 <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
 </pre></div>
 
@@ -60,7 +60,7 @@
 <h3>Aslında Güvenli Değilmiş</h3>
 <p>Evet format güvenli diye biliyorduk ama okuduğum makaleye göre güvenli değilmiş. Bunun sebebi ise format değeri ile birlikte kod üzerinde ki başka özellikleri çağırıp ekrana yazdırabilirmişiz.</p>
 <p>Hemen örnek ile göstereyim:</p>
-<div class="highlight"><pre><span></span><span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Selamlar </span><span class="si">{0}</span><span class="s2"> </span><span class="si">{0.__contains__}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Enes&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Selamlar {0} {0.__contains__}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Enes&#39;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -143,9 +143,9 @@
 
 <span class="n">Now</span> <span class="n">you</span> <span class="n">can</span> <span class="n">use</span> <span class="n">the</span> <span class="n">safe_format</span> <span class="n">method</span> <span class="k">as</span> <span class="n">a</span> <span class="n">replacement</span> <span class="k">for</span> <span class="nb">str</span><span class="o">.</span><span class="n">format</span><span class="p">:</span>
 
-<span class="o">&gt;&gt;&gt;</span> <span class="s1">&#39;</span><span class="si">{0.__class__}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s1">&#39;{0.__class__}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="s2">&quot;&lt;type &#39;int&#39;&gt;&quot;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">safe_format</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0.__class__}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">safe_format</span><span class="p">(</span><span class="s1">&#39;{0.__class__}&#39;</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
   <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="ne">AttributeError</span><span class="p">:</span> <span class="vm">__class__</span>

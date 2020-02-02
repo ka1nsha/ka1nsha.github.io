@@ -78,7 +78,7 @@
 <p>Evet artık her şeyimiz tamamlandı, sistem yöneticimiz ne zaman Putty'yi açarsa bize Reverse Shell düşecektir. Metasploit üzerinde Multi handler açıp sürekli dinleyerek nurtopu gibi bir meterpreter shell'e sahip olabilirsiniz. </p>
 <h2>Arayüz Olmadan Enjekte Etmek</h2>
 <p>Bunun için CLI üzerinden aşağıdaki komutunu girmeniz yeterli olacaktır.</p>
-<div class="highlight"><pre><span></span><span class="err">sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe</span>
+<div class="highlight"><pre><span></span>sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe
 </pre></div>
 
 
@@ -97,8 +97,8 @@ Uzun cevap:</p>
 <h2>Tespit etmek</h2>
 <p>Registry değişikliklerini veya dosya konumlarını izlemek bunun için bir yöntemdir. Takip edilecek Registry ve dosya konumları aşağıda verilmiştir. Oluşturulacak yeni bir key SysMon üzerinde <code>12</code> event ID ile tetiklenecektir. </p>
 <p>Registry konumları:</p>
-<div class="highlight"><pre><span></span><span class="err">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\</span>
-<span class="err">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\</span>
+<div class="highlight"><pre><span></span>HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\
 </pre></div>
 
 

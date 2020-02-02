@@ -70,7 +70,7 @@
 </ol>
 <p>Tabi siz bunları Tür,Yayıncı vs olarak çoğaltabilirsiniz. Amaç mantığı anlamak.</p>
 <p>Kodlara geçelim.</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlalchemy</span> <span class="k">as</span> <span class="nn">sa</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlalchemy</span> <span class="kn">as</span> <span class="nn">sa</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy.ext.declarative</span> <span class="kn">import</span> <span class="n">declarative_base</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">scoped_session</span><span class="p">,</span> <span class="n">sessionmaker</span><span class="p">,</span> <span class="n">relationship</span><span class="p">,</span> <span class="n">backref</span>
 
@@ -81,16 +81,16 @@
 
 <span class="k">class</span> <span class="nc">Author</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;authors&#39;</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">String</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;&lt;Author(name=</span><span class="si">{self.name!r}</span><span class="s1">)&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;&lt;Author(name={self.name!r})&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">Book</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;books&#39;</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">title</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">String</span><span class="p">)</span>
     <span class="n">author_id</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">sa</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;authors.id&#39;</span><span class="p">))</span>
     <span class="n">author</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="s2">&quot;Author&quot;</span><span class="p">,</span> <span class="n">backref</span><span class="o">=</span><span class="n">backref</span><span class="p">(</span><span class="s1">&#39;books&#39;</span><span class="p">))</span>
@@ -139,7 +139,7 @@
 <h3>Main Dosyamız</h3>
 <p>Hemen kodları yapıştırıp açıklamayı kodların üstünde yapacağım.</p>
 <div class="highlight"><pre><span></span><span class="c1">#-*- coding:utf-8 -*-</span>
-<span class="kn">import</span> <span class="nn">sqlalchemy</span> <span class="k">as</span> <span class="nn">sa</span>
+<span class="kn">import</span> <span class="nn">sqlalchemy</span> <span class="kn">as</span> <span class="nn">sa</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span>
 <span class="kn">from</span> <span class="nn">models</span> <span class="kn">import</span> <span class="n">Author</span><span class="p">,</span><span class="n">Book</span><span class="p">,</span><span class="n">Base</span> <span class="c1"># Modellerimizi import ediyoruz.</span>
 <span class="kn">from</span> <span class="nn">schemas</span> <span class="kn">import</span> <span class="n">AuthorSchema</span><span class="p">,</span><span class="n">BookSchema</span> <span class="c1">#Şemalarımızı import ediyoruz.</span>
@@ -155,24 +155,24 @@
 
 
 
-<span class="nd">@hug</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/books&#39;</span><span class="p">)</span> <span class="c1"># /books/ adresine get isteği yapıldığında aşağısı çalışsın diyoruz.</span>
+<span class="nd">@hug.get</span><span class="p">(</span><span class="s1">&#39;/books&#39;</span><span class="p">)</span> <span class="c1"># /books/ adresine get isteği yapıldığında aşağısı çalışsın diyoruz.</span>
 <span class="k">def</span> <span class="nf">getbooks</span><span class="p">(</span><span class="n">response</span><span class="p">):</span> 
     <span class="n">books</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Book</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="c1"># ORM olarak bütün Book tablosunu alıyoruz.</span>
-    <span class="n">bookschema</span> <span class="o">=</span> <span class="n">BookSchema</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># Buradan da Book şemamızı alıyoruz.</span>
+    <span class="n">bookschema</span> <span class="o">=</span> <span class="n">BookSchema</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1"># Buradan da Book şemamızı alıyoruz.</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">bookschema</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">books</span><span class="p">)</span><span class="o">.</span><span class="n">data</span> <span class="c1"># Book şemamızı book tablosu ile bağdaştırıp dataları alıyoruz.</span>
     <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">HTTP_404</span> <span class="c1"># 404 Döndürüyoruz. Açıklayacağım.</span>
     <span class="k">return</span> <span class="n">data</span> <span class="c1">#Datamızı Döndürüyoruz.</span>
 
 
-<span class="nd">@hug</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/books&#39;</span><span class="p">)</span> <span class="c1"># /books/ adresine post isteği yapıldığında aşağısını çalıştır babuş.</span>
+<span class="nd">@hug.post</span><span class="p">(</span><span class="s1">&#39;/books&#39;</span><span class="p">)</span> <span class="c1"># /books/ adresine post isteği yapıldığında aşağısını çalıştır babuş.</span>
 <span class="k">def</span> <span class="nf">addbooks</span><span class="p">(</span><span class="n">body</span><span class="p">,</span><span class="n">response</span><span class="p">):</span> <span class="c1"># body isteğin body&#39;sini belirtir.</span>
     <span class="n">authorid</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s1">&#39;author_id&#39;</span><span class="p">]</span> <span class="c1"># body içerisinde ki author_id yi değişkene atadım.</span>
     <span class="n">bookname</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s1">&#39;bookname&#39;</span><span class="p">]</span> <span class="c1"># body içerisinde ki bookname&#39;i değişkene atadım.</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">bookname</span><span class="p">,</span> <span class="n">authorid</span> <span class="o">=</span> <span class="n">bookname</span><span class="o">.</span><span class="n">decode</span><span class="p">(),</span> <span class="n">authorid</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
         <span class="n">checkauthor</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Author</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">authorid</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span> <span class="c1"># gelen id&#39;ye sahip yazar var mı kontrol ediyorum.</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">checkauthor</span><span class="p">)</span> <span class="c1"># kontrol için koydum.</span>
-        <span class="k">if</span> <span class="n">checkauthor</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span> 
+        <span class="k">print</span><span class="p">(</span><span class="n">checkauthor</span><span class="p">)</span> <span class="c1"># kontrol için koydum.</span>
+        <span class="k">if</span> <span class="n">checkauthor</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span> 
             <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">HTTP_404</span> <span class="c1"># Eğer yazar yoksa 404 döndür diyorum.</span>
             <span class="k">return</span> <span class="n">HTTP_404</span>
         <span class="k">else</span><span class="p">:</span>
@@ -185,7 +185,7 @@
     <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
         <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">HTTP_404</span>
         <span class="k">return</span> <span class="n">falcon</span><span class="o">.</span><span class="n">HTTP_404</span>
-<span class="nd">@hug</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/authors&#39;</span><span class="p">)</span>
+<span class="nd">@hug.post</span><span class="p">(</span><span class="s1">&#39;/authors&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">addauthors</span><span class="p">(</span><span class="n">body</span><span class="p">,</span><span class="n">response</span><span class="p">):</span>
     <span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
     <span class="n">author_name</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s1">&#39;author_name&#39;</span><span class="p">]</span>
@@ -194,10 +194,10 @@
     <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
     <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">HTTP_202</span>
     <span class="k">return</span> <span class="n">falcon</span><span class="o">.</span><span class="n">HTTP_202</span>
-<span class="nd">@hug</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/authors&#39;</span><span class="p">)</span>
+<span class="nd">@hug.get</span><span class="p">(</span><span class="s1">&#39;/authors&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">getauthors</span><span class="p">():</span>
     <span class="n">authors</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Author</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-    <span class="n">authorschema</span> <span class="o">=</span> <span class="n">AuthorSchema</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">authorschema</span> <span class="o">=</span> <span class="n">AuthorSchema</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">authorschema</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">authors</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
     <span class="k">return</span> <span class="n">data</span>
 </pre></div>

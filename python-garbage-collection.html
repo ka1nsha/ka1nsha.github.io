@@ -55,12 +55,12 @@
 3. Cyclical Reference'ları tanımlayamıyor. 
 Örnek:</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
 <span class="n">a</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
 <span class="k">del</span> <span class="n">a</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
 <span class="n">Output</span><span class="p">:</span>
 <span class="mi">69</span>
 <span class="mi">71</span>
@@ -107,8 +107,8 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi <code>Gen0
 <p>Kod olarak açıklarsak eğer:</p>
 <div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mi">500</span>
 <span class="n">b</span> <span class="o">=</span> <span class="mi">500</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> 
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> 
 <span class="n">output</span><span class="p">:</span>
 <span class="mi">49670448</span>
 <span class="mi">49670448</span> <span class="mi">49670448</span>
@@ -117,14 +117,14 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi <code>Gen0
 
 <p>Gördüğünüz gibi iki farklı değişkenim, hatta bir integer'ım var ve aslında hepsi temelde memorydeki 500 değerini barındıran PyObject'e referans veriyor. Bir de aşağıdaki koda bakalım.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
 <span class="n">a</span> <span class="o">=</span> <span class="mi">500</span>
 <span class="n">b</span> <span class="o">=</span> <span class="mi">500</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
 </pre></div>
 
 

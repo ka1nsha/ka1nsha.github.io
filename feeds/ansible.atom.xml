@@ -69,26 +69,26 @@ ayrı bir role yazmaktayım. Bahsetmeden olmaz test sunucumda Centos kullanmakta
 
 &lt;p&gt;Burada açıklanacak çok fazla birşey yok sanırım. Siz buraya istediğiniz kadar ip ekleyebilirsiniz. Ansible bu yazdığınız tüm IP'leri gezerek kurulumları sağlayacaktır.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt; Site.yml Dosyamızı Oluşturalım &lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;---&lt;/span&gt;
-&lt;span class="err"&gt;    - include dbplaybook.yml&lt;/span&gt;
-&lt;span class="err"&gt;    - include webplaybook.yml&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;---
+    - include dbplaybook.yml
+    - include webplaybook.yml
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;İki tane ansible dosyamı include ettim. DBPlaybook'una daha sonra bakacağız.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt; Webplaybook.yml Dosyamızı oluşturalım &lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;---&lt;/span&gt;
-&lt;span class="err"&gt;- name: Create a Web Server and ETC&lt;/span&gt;
-&lt;span class="err"&gt;  hosts: web&lt;/span&gt;
-&lt;span class="err"&gt;  become: yes&lt;/span&gt;
-&lt;span class="err"&gt;  become_user: root&lt;/span&gt;
-&lt;span class="err"&gt;  remote_user: root&lt;/span&gt;
-&lt;span class="err"&gt;  vars_files:&lt;/span&gt;
-&lt;span class="err"&gt;    - vars/main.yml&lt;/span&gt;
-&lt;span class="err"&gt;  roles:&lt;/span&gt;
-&lt;span class="err"&gt;    - base&lt;/span&gt;
-&lt;span class="err"&gt;    - web&lt;/span&gt;
-&lt;span class="err"&gt;    - nginx&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;---
+- name: Create a Web Server and ETC
+  hosts: web
+  become: yes
+  become_user: root
+  remote_user: root
+  vars_files:
+    - vars/main.yml
+  roles:
+    - base
+    - web
+    - nginx
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -149,11 +149,11 @@ Daha sonra ise döngüye soktuğumuz itemları sırası ile kurdurmak. with_item
 &lt;p&gt;Kalan kısımlarda command ile direk olarak shell'e komutu bir döngü sayesinde basmaktayız.
 Notify kısmı ise bizim handlers kısmında ismini verdiğimiz görevleri yerine getirir.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt; Handlers dosyasına bir göz atalım. &lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;---&lt;/span&gt;
-&lt;span class="err"&gt;- name: restart firewall&lt;/span&gt;
-&lt;span class="err"&gt;  service: name=firewalld state=restarted&lt;/span&gt;
-&lt;span class="err"&gt;- name: restart nginx&lt;/span&gt;
-&lt;span class="err"&gt;  service: name=nginx state=restarted&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;---
+- name: restart firewall
+  service: name=firewalld state=restarted
+- name: restart nginx
+  service: name=nginx state=restarted
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -197,11 +197,11 @@ Notify kısmı ise bizim handlers kısmında ismini verdiğimiz görevleri yerin
 
 &lt;p&gt;Burada nginx için kullanıcı ve grup eklemekteyiz.&lt;/p&gt;
 &lt;h2&gt;Vars Dosyamız&lt;/h2&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;---&lt;/span&gt;
-&lt;span class="err"&gt;    # Nginx&lt;/span&gt;
-&lt;span class="err"&gt;    project_domain: 0x656e.com&lt;/span&gt;
-&lt;span class="err"&gt;    nginx_group: webapps&lt;/span&gt;
-&lt;span class="err"&gt;    nginx_user: project&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;---
+    # Nginx
+    project_domain: 0x656e.com
+    nginx_group: webapps
+    nginx_user: project
 &lt;/pre&gt;&lt;/div&gt;
 
 

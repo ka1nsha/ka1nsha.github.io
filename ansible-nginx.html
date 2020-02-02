@@ -101,26 +101,26 @@ ayrı bir role yazmaktayım. Bahsetmeden olmaz test sunucumda Centos kullanmakta
 
 <p>Burada açıklanacak çok fazla birşey yok sanırım. Siz buraya istediğiniz kadar ip ekleyebilirsiniz. Ansible bu yazdığınız tüm IP'leri gezerek kurulumları sağlayacaktır.</p>
 <p><strong> Site.yml Dosyamızı Oluşturalım </strong></p>
-<div class="highlight"><pre><span></span><span class="err">---</span>
-<span class="err">    - include dbplaybook.yml</span>
-<span class="err">    - include webplaybook.yml</span>
+<div class="highlight"><pre><span></span>---
+    - include dbplaybook.yml
+    - include webplaybook.yml
 </pre></div>
 
 
 <p>İki tane ansible dosyamı include ettim. DBPlaybook'una daha sonra bakacağız.</p>
 <p><strong> Webplaybook.yml Dosyamızı oluşturalım </strong></p>
-<div class="highlight"><pre><span></span><span class="err">---</span>
-<span class="err">- name: Create a Web Server and ETC</span>
-<span class="err">  hosts: web</span>
-<span class="err">  become: yes</span>
-<span class="err">  become_user: root</span>
-<span class="err">  remote_user: root</span>
-<span class="err">  vars_files:</span>
-<span class="err">    - vars/main.yml</span>
-<span class="err">  roles:</span>
-<span class="err">    - base</span>
-<span class="err">    - web</span>
-<span class="err">    - nginx</span>
+<div class="highlight"><pre><span></span>---
+- name: Create a Web Server and ETC
+  hosts: web
+  become: yes
+  become_user: root
+  remote_user: root
+  vars_files:
+    - vars/main.yml
+  roles:
+    - base
+    - web
+    - nginx
 </pre></div>
 
 
@@ -181,11 +181,11 @@ Daha sonra ise döngüye soktuğumuz itemları sırası ile kurdurmak. with_item
 <p>Kalan kısımlarda command ile direk olarak shell'e komutu bir döngü sayesinde basmaktayız.
 Notify kısmı ise bizim handlers kısmında ismini verdiğimiz görevleri yerine getirir.</p>
 <p><strong> Handlers dosyasına bir göz atalım. </strong></p>
-<div class="highlight"><pre><span></span><span class="err">---</span>
-<span class="err">- name: restart firewall</span>
-<span class="err">  service: name=firewalld state=restarted</span>
-<span class="err">- name: restart nginx</span>
-<span class="err">  service: name=nginx state=restarted</span>
+<div class="highlight"><pre><span></span>---
+- name: restart firewall
+  service: name=firewalld state=restarted
+- name: restart nginx
+  service: name=nginx state=restarted
 </pre></div>
 
 
@@ -229,11 +229,11 @@ Notify kısmı ise bizim handlers kısmında ismini verdiğimiz görevleri yerin
 
 <p>Burada nginx için kullanıcı ve grup eklemekteyiz.</p>
 <h2>Vars Dosyamız</h2>
-<div class="highlight"><pre><span></span><span class="err">---</span>
-<span class="err">    # Nginx</span>
-<span class="err">    project_domain: 0x656e.com</span>
-<span class="err">    nginx_group: webapps</span>
-<span class="err">    nginx_user: project</span>
+<div class="highlight"><pre><span></span>---
+    # Nginx
+    project_domain: 0x656e.com
+    nginx_group: webapps
+    nginx_user: project
 </pre></div>
 
 

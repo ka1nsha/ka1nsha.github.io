@@ -39,12 +39,12 @@
 
         <article>
             <p>Daha önceden yazmış olduğum bu scripti bugün güncellemek zorunda kaldım.Nedeni vulnhub önceden her türlü bağlantıyı kabul etsede bugün etmiyordu.Bende scripte Chrome Dev Tools'dan kopyaladığım header bilgilerini çaktım script şimdi bağlantı kuruyordu fakat regex patterni boş olarak dönüyordu.İlk scriptte</p>
-<div class="highlight"><pre><span></span><span class="err">urllib.request.urlopen(url).read()</span>
+<div class="highlight"><pre><span></span>urllib.request.urlopen(url).read()
 </pre></div>
 
 
 <p>şeklinde bir yapı vardı ve bu yapı response'u byte code olarak döndürüyordu.Byte code döndüren response içinde regex ile arama yapmak için basit bir harf argüman var hemen onu da göstereyim.</p>
-<div class="highlight"><pre><span></span><span class="err">rp = re.findall(b&#39;pattern&#39;,text)</span>
+<div class="highlight"><pre><span></span>rp = re.findall(b&#39;pattern&#39;,text)
 </pre></div>
 
 
