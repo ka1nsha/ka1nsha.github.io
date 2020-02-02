@@ -48,7 +48,6 @@ DISQUS_LOAD_LATER = True
 GOOGLE_ANALYTICS = "UA-44262671-1"
 THEME = '/home/ka1/Pelican-Cid'
 OUTPUT_PATH = '/home/ka1/blogyazilari'
-PATH = 'content'
 DISPLAY_PAGES_ON_MENU = True
 DISPLAY_CATEGORIES_ON_MENU = True
 SHARE = True
