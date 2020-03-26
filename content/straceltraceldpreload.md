@@ -335,10 +335,10 @@ Biraz modum düşsün böyle şarkılar istiyorum diyen varsa aşağıda spotify
 
 **Kullandığım linkler**:
 
-https://stackoverflow.com/questions/1124571/get-list-of-static-libraries-used-in-an-executable
+<https://stackoverflow.com/questions/1124571/get-list-of-static-libraries-used-in-an-executable>
 
-http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html
+<http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html>
 
-http://man7.org/linux/man-pages/man8/ld.so.8.html
+<http://man7.org/linux/man-pages/man8/ld.so.8.html>
 
-https://demirten.gitbooks.io/gomulu-linux/misc/strace.html
+<https://demirten.gitbooks.io/gomulu-linux/misc/strace.html>
