@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>    AS-Rep Roasting Saldırısı, Saldırıyı anlamak ve Tespiti
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href='https://fonts.googleapis.com/css?family=Gentium+Book+Basic|Merriweather:400,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://enesergun.net/theme/css/cid.css">
+        <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+            <div class="container">
+
+<header class="blog-header">
+    <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
+    <p> Personel homepage about of my Profession </p>
+    <nav>
+        <a href="https://enesergun.net/">INDEX</a>
+        <a href="https://enesergun.net/archives">ARCHIVES</a>
+        <a href="https://enesergun.net/categories">CATEGORIES</a>
+    </nav>
+</header>
+
+    <div class="post">
+
+        <header>
+            <h1>AS-Rep Roasting Saldırısı, Saldırıyı anlamak ve Tespiti</h1>
+            <p class="date">Written on <time datetime="2020-08-14T18:32:00+03:00">Aug 14, 2020</time></p>
+        </header>
+
+        <article>
+            <h1>Giriş</h1>
+<p>Selamlar, bu aralar Active Directory tarafında ki saldırı vektörleri veya bunların tespiti ilgimi oldukça fazla çekiyor. Bazı kişi ve yayınları liste dışı tutarak bizim sektörde genel kitlenin hep Linux'a yönlendirildiğini görüyorum/uz bana göre bu biraz hatalı bir yönlendirme gibi geliyor. Çünkü ileride Internal Pentester/Red Team olacak kişi birden kurumsal ortamı görünce kelimenin tam anlamıyla <code>sudan çıkmış balığa</code> dönüyor (Like me). Çoğu zaman da feed listemde benzer yazılar görüyorum fakat bu yazıları <code>Türkçe</code> kaynaklarda arattığımda herhangi bir sonuca ulaşamıyorum. Bu sebeple ilgili yazıyı biraz çeviri biraz araştırma biraz da kendimin kattığı şeyler ile hazırlamak istedim. Aslında işin teknik kısmı çok da uzun değil fakat öncesinde bilinmesi gerekenler uzun sanırım :)</p>
+<p><strong>Bir hata vs. görürseniz bildirmekten çekinmezseniz sevinirim. Hadi başlayalım.</strong></p>
+<p>Direkt olarak AS-REP Roasting'i göstermek yerine nasıl tespit edebileceğimizi, nasıl sömürebileceğimizi göstermek istedim. Bu sebeple öncelikle öğrenmemiz gereken bir kaç şey bulunuyor.  </p>
+<h1>Kerberos Nedir?</h1>
+<p>Basit bir anlatımla network üzerinden yetkilendirme yapan bir sistemdir. Kendisi bu yetkilendirmeyi client-server ilişkisi içerisinde yapar. Simetrik anahtar şifreleme kullanır ve  güvenilir bir 3. doğrulayıcıya ihtiyaç duyar. Ticket bazlı bir sistemdir. Ağ üzerinde gerçekleşen trafikte parolalar değil ticketlar kullanılır. Ayrıca ticketlar için Windows ve Linux tarafında farklı implementasyonlar kullanır. </p>
+<p>Ek bilgi:</p>
+<blockquote>
+<p>Kerberos ticketları OS'lar genelinde farklı implementasyonlara sahiptir. Windows tarafında KIRBI denilen bir format kullanılırken Linux tarafında CCACHE formatı kullanılmaktadır. Eski linux sistemlerde bu keyler /tmp dizini altında tutulurken modern RedHat sistemlerde SSSD tarafından yönetilmekte olup, Kerberos Cache Manager tarafından şifrelenmiş bir biçimde /var/lib/sss/secrets/secrets.ldb altında durmaktadır. Key ise bu klasör altında gizli dosya içerisindedir.</p>
+</blockquote>
+<p><strong>Not:</strong> Ana konumuz kerberos olmadığı için bu kısım kısa tutulmuştur. </p>
+<p><strong>Not 2:</strong> Daha fazla Türkçe bilgi için @mdisec(Mehmet İnce)'nin yayınlarına katılan üstad @BarknKilic 'ın anlatımına <a href="https://github.com/mdisec/mdisec-twitch-yayinlari">MDISEC Github</a> linki altında Network hacker kısmından ulaşabilirsiniz.</p>
+<p>Daha fazla detay için: </p>
+<p><a href="https://tr.wikipedia.org/wiki/Kerberos_(ileti%C5%9Fim_kural%C4%B1)">TR | Kerberos Wikipedia</a></p>
+<p><a href="https://ldapwiki.com/wiki/Kerberos">EN | Kerberos</a></p>
+<h2>Kerberos Pre Authentication Nedir</h2>
+<p>Kendisi Kerberos içerisinde ki bir kavramdır. Aşağıda belirtilen 6113 RFC'si ile tanımlanmıştır. </p>
+<p>Temelde kendisinin çıkış amacı aslında bir güvenlik özelliğidir. Parola tahmin etme saldırılarından etkilenmemek için çıkartılmıştır. Bunu da şöyle sağlar. KDC(Key Distribution Center)'a düz metin olarak bir AS_REQ isteği gönderir. Eğer konumuz olan Pre Authentication değeri Enabled(Default olan ve güvenli olan) ise trafik aşağıdaki şekilde gerçekleşmektedir.</p>
+<p><img alt="kerberos" src="https://www.kerberos.org/images/krbmsg.gif"></p>
+<p><a href="https://tools.ietf.org/html/rfc6113">Generalized Framework for Kerberos Pre-Authentication</a></p>
+<p><a href="https://tools.ietf.org/html/rfc4120">The Kerberos Network Authentication Service (V5)</a></p>
+<h2>Kapalı Kullanıcıların Tespiti</h2>
+<p>Eğer bir kullanıcının <code>Pre Authentication Required</code> seçeneği disable'a çekilmişse aşağıda ki gibi bir log üretmektedir. <code>0x10</code> değeri disabled hali <code>0x10010</code> değeri ise enabled halidir. Bizim burada yakalamamız gereken değer <code>Enabled</code> olduğunda kural üretmektir. </p>
+<div class="highlight"><pre><span></span>Old UAC Value:      0x10
+
+    New UAC Value:      0x10010
+
+    User Account Control:   
+
+        &#39;Don&#39;t Require Preauth&#39; - Enabled
+
+    User Parameters:    -
+
+    SID History:        -
+
+    Logon Hours:        -
+</pre></div>
+
+
+<p><img alt="DC Log" src="images/dclog.png"></p>
+<p>Eğer loglardan değil de bulunduğunuz bir sistem üzerinde tespit etmek isterseniz de 2 seçeneğimiz bulunuyor.</p>
+<p>LDAP Toolkit indirerek DC üzerinde aşağıdaki sorgu ile kontrol edebilirsiniz. Burada PreauthNoRequired kısmını sorgulayan asıl kod <code>userAccountControl:1.2.840.113556.1.4.803:=4194304</code> kısmıdır.
+LDAP:</p>
+<div class="highlight"><pre><span></span>searchBase=&quot;DC=EXAMPLE,DC=COM&quot; filer=&quot;(&amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&quot; scope=&quot;SUBTREE&quot; timeLimit=&quot;0&quot; countLimit=&quot;1000&quot; aliasesDereferencingMethod=&quot;ALWAYS&quot; referralsHandlingMethod=&quot;IGNORE&quot;
+</pre></div>
+
+
+<p>PowerShell üzerinde ise <code>Get-DomainUser -PreauthNoRequired</code> sorgusu ile domain üzerinde ki kullanıcıları listeleyebilirsiniz.</p>
+<p><img alt="Domain User" src="images/GetDomainUser.png"></p>
+<p>Daha fazlası için: <a href="https://ldapwiki.com/wiki/Active%20Directory%20RISK%20Related%20Searches">LDAPWiki Risks Pre-Authentication</a></p>
+<div class="highlight"><pre><span></span>searchBase=&quot;DC=EXAMPLE,DC=COM&quot; filer=&quot;(&amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&quot; scope=&quot;SUBTREE&quot; timeLimit=&quot;0&quot; countLimit=&quot;1000&quot; aliasesDereferencingMethod=&quot;ALWAYS&quot; referralsHandlingMethod=&quot;IGNORE&quot;
+</pre></div>
+
+
+<h1>AS-REP Roasting Nedir</h1>
+<p>AD üzerinde eski versiyonlara yönelik uyumluluk veya ihtiyaçlar sebebiyle bilerek açılmış olan <code>Do not require Kerberos Pre Authentication</code> seçeneğine sahip kullanıcılara ait RC4 keylerinin direkt olarak KDC üzerinden çekilmesi ve sistemler üzerinde Brute Force dair herhangi bir iz bırakmadan <code>hashcat</code> veya <code>john</code> gibi parola kırma araçları ile offline olarak bu parolanın kırılmasına verilen isimdir.</p>
+<p>Eğer bir saldırgan olmayıp normal bir AS-REP göndermiş olsaydık network trafiğinde aşağıdaki gibi bir çıktı görecektir.</p>
+<p><img alt="AS-REP" src="images/normalasrep.png"></p>
+<p>Bunun sonucu olarak da aşağıdaki gibi bir çıktı görecektir.</p>
+<p><img alt="AS-REQ" src="images/normalpreauth.png"></p>
+<p>Fakat bir saldırgan olduğumuzdan doğal olarak işleri karıştırmak istiyoruz. AS-REP roasting için bir çok tool kullanabilirsiniz. Ben aşağıya 2 seçenek ekleyeceğim fakat 1 tanesini kullanacağım.</p>
+<ul>
+<li>Rubeus</li>
+<li>Impacket</li>
+</ul>
+<p>Öncelikle bizim bu saldırı vektörünü yapabilmemiz için bir kullanıcı listesine ihtiyacımız var. Bu sebeple bir dosya yaratıp ben içerisinde 2-3 tane user ekliyorum. Ekliyorum çünkü neden olmasın? Evet bu kadar. Saldırı vektörümüzü çalıştırmaya hazırız. Bunun için aşağıdaki gibi bir komut yeterli olacaktır.</p>
+<p><strong>Impacket examples içerisinde bulabilirsiniz</strong></p>
+<div class="highlight"><pre><span></span>python3 GetNPUsers.py windomain.local -usersfile usernames.txt -format hashcat -outputfile hash.asrep
+</pre></div>
+
+
+<p>Aşağıda ekran görüntüsünde göreceğiniz üzere bazılarında hata aldık çünkü Kerberos DB üzerinde ilgili kullanıcıları bulamadı fakat bizim 3 tane kullanıcımız vardı. Bize 2 tane hata çıkartılmış o sebeple diyebiliriz ki 1  tanesine ait hash'i elde ettik.</p>
+<p><img alt="IMpacket As-REP" src="images/asrepimpacket.png"></p>
+<p>Şimdi bu trafiğin WireShark üzerinde nasıl gözüktüğüne bakalım.</p>
+<p><img alt="AS-REP WireShark Not Legal" src="images/asrepwireshark.png"></p>
+<p>Evet <code>Impacket</code> ile yaptığımız saldırı sonucunda elimizde bir hashimiz var ve bu hashi kırmak için elimizde tam da ona uygun çıktısıyla bir araç var ismi <code>hashcat</code>. Kendisi ile ilgili bir çok yazı bulabilirsiniz. AS-REP isteğimiz sonucu dönen değeri kırabilmek için kendisi üzerinde öntanımlı bir hash tipi ve ID'si bulunmaktadır.</p>
+<p>Hashcat üzerinde 18200 ID'li hash tipi ile kırabilirsiniz.
+<code>.\hashcat.exe --help | findstr 18200</code></p>
+<div class="highlight"><pre><span></span>18200 | Kerberos 5, etype 23, AS-REP                     | Network Protocols
+</pre></div>
+
+
+<p>Normal AS-REP ve zararlı AS-REP trafiğini görebileceğiniz network trafiğine ait PCAP dosyasını aşağıdan indirebilirsiniz.</p>
+<p><a href="https://drive.google.com/file/d/1AYdLDlWcImlNxXia4ptu17jxOvZJIFZF/view?usp=sharing">AS-REP PCAP</a></p>
+<h2>Nasıl yakalarım?</h2>
+<p>Normal yaptığım bağlantılarda <code>Ticket Encryption Type</code> olarak Windows sitesinde belirtilen <code>Encryption Type</code> değerlerini görüyor olsam da AS-REP Roasting yaptığım kullanıcılarda sadece <code>0xFFFFFFFF</code> değerini görmekteyim. Ayrıca yapılan tüm aktivitelerde Service_Name olarak loglar içerisinde <code>krbtgt/WINDOMAIN.local</code> değeri geçmektedir. Normal olanları kontrol ettiğimde ise böyle bir değer değil direkt olarak <code>krbtgt</code> servisi geçmektedir.</p>
+<p>Ekran görüntüleri:</p>
+<p><strong>Normal Kerberos Aktiviteleri</strong></p>
+<p><img alt="Splunk Normal" src="images/splunknormal.png"></p>
+<p><strong>Saldırı zamanı Kerberos Aktiviteleri</strong>
+<img alt="Splunk Normal" src="images/splunknormalolmayan.png"></p>
+<p><strong>Ticket Encryption Type</strong>
+<img alt="Ticket Encryption Type" src="images/splunk0xf.png"></p>
+<h3>Splunk MITRE ATT&amp;CK</h3>
+<p>Splunk üzerinde Threat Hunting modüle ait MITRE tarafında ben herhangi bir tanımlama veya tetiklenme göremedim(Default değerler geçerlidir.). Belki de Splunk üzerinde yeni olduğumdan olabilir fakat ekran görüntüsünü aşağıya koyuyorum.</p>
+<p><img alt="Splunk Mitre" src="images/splunkmitre.png"></p>
+<p>Fakat Default değerlerin geçerli olmadığı örnek bir yazı ile tespitini aşağıya bırakıyorum.</p>
+<p><a href="https://medium.com/@jsecurity101/ioc-differences-between-kerberoasting-and-as-rep-roasting-4ae179cdf9ec">Differences between Kerberoasting and AS-REP Roasting</a></p>
+<p><strong>Not</strong>: Tüm yazıda detection, monitoring ve DC ortamı için <a href="https://github.com/clong/DetectionLab">DetectionLab</a> kullanılmıştır.</p>
+<h1>Yazı Sonu</h1>
+<p>Umarım beğenmişsinizdir. Eğer yanlış bir bilgi varsa doğru bilgi vermekle mükellef değilim:P ama siz yine de bana geri dönüş sağlayın ki hataları en aza indirelim.</p>
+<p>Okuduğunuz için teşekkür ederim.</p>
+<p>Geleneğim olan yazı sonu şarkısı:</p>
+<p><a href="http://www.youtube.com/watch?v=MOSU_Pw7vO4" title=""><img alt="" src="http://img.youtube.com/vi/MOSU_Pw7vO4/0.jpg"></a></p>
+<hr>
+<h1>Referans ve kaynaklar:</h1>
+<p><a href="https://directory.apache.org/apacheds/kerberos-ug/4.1-authenticate-kinit.html">https://directory.apache.org/apacheds/kerberos-ug/4.1-authenticate-kinit.html</a></p>
+<p><a href="https://blog.stealthbits.com/cracking-active-directory-passwords-with-as-rep-roasting/">https://blog.stealthbits.com/cracking-active-directory-passwords-with-as-rep-roasting/</a></p>
+<p><a href="https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat">https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat</a></p>
+<p><a href="https://www.tarlogic.com/en/blog/how-to-attack-kerberos/">https://www.tarlogic.com/en/blog/how-to-attack-kerberos/</a></p>
+<p><a href="https://en.hackndo.com/kerberos-asrep-roasting/">https://en.hackndo.com/kerberos-asrep-roasting/</a></p>
+<p><a href="https://medium.com/@jsecurity101/ioc-differences-between-kerberoasting-and-as-rep-roasting-4ae179cdf9ec">https://medium.com/@jsecurity101/ioc-differences-between-kerberoasting-and-as-rep-roasting-4ae179cdf9ec</a></p>
+        </article>
+
+        <footer>
+            <p>This entry is posted in <a href="https://enesergun.net/category/siber-guvenlik.html">siber güvenlik</a>.</p>
+        </footer>
+
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = '0x656e';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+
+
+<footer class="blog-footer">
+
+    <ul class="nav">
+            <li><a href="https://mertcangokgoz.com/"> Mertcan Gökgöz</a></li>
+            <li><a href="https://onur.im/"> Onur Aslan</a></li>
+            <li><a href="http://www.omeripek.com.tr/"> Ömer İpek</a></li>
+            <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
+            <li><a href="http://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
+            <li><a href="http://ahmetgurel.com"> Ahmet Gürel</a></li>
+            <li><a href="https://berkimran.com.tr"> Berk İmran</a></li>
+            <li><a href="https://aligoren.com"> Ali Gören</a></li>
+            <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
+            <li><a href="https://cybersaxostiger.github.io/"> 1v3m</a></li>
+<br>
+            <li><a href="www.twitter.com/0x656e">Twitter</a></li>
+            <li><a href="info@enesergun.net">Mail</a></li>
+    </ul>
+
+    <p class="disclaimer">
+    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/hdra/Pelican-Cid">Cid</a> theme.
+    </p>
+</footer>
+            </div>
+<script>
+    var _gaq=[['_setAccount','UA-44262671-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    </body>
+</html>

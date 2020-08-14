@@ -1,5 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - siber güvenlik</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/siber-guvenlik.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2019-12-21T15:00:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>Application Shimming Kullanarak Windows Sistemler Üzerinde Kalıcılık</title><link href="https://enesergun.net/application-shimming-kullanarak-windows-sistemler-uzerinde-kalicilik.html" rel="alternate"></link><published>2019-12-21T15:00:00+03:00</published><updated>2019-12-21T15:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-12-21:/application-shimming-kullanarak-windows-sistemler-uzerinde-kalicilik.html</id><summary type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - siber güvenlik</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/siber-guvenlik.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2020-08-14T18:32:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>AS-Rep Roasting Saldırısı, Saldırıyı anlamak ve Tespiti</title><link href="https://enesergun.net/as-rep-roasting-saldirisi-saldiriyi-anlamak-ve-tespiti.html" rel="alternate"></link><published>2020-08-14T18:32:00+03:00</published><updated>2020-08-14T18:32:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2020-08-14:/as-rep-roasting-saldirisi-saldiriyi-anlamak-ve-tespiti.html</id><summary type="html">&lt;h1&gt;Giriş&lt;/h1&gt;
+&lt;p&gt;Selamlar, bu aralar Active Directory tarafında ki saldırı vektörleri veya bunların tespiti ilgimi oldukça fazla çekiyor. Bazı kişi ve yayınları liste dışı tutarak bizim sektörde genel kitlenin hep Linux'a yönlendirildiğini görüyorum/uz bana göre bu biraz hatalı bir yönlendirme gibi geliyor. Çünkü ileride Internal Pentester/Red Team olacak kişi …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Giriş&lt;/h1&gt;
+&lt;p&gt;Selamlar, bu aralar Active Directory tarafında ki saldırı vektörleri veya bunların tespiti ilgimi oldukça fazla çekiyor. Bazı kişi ve yayınları liste dışı tutarak bizim sektörde genel kitlenin hep Linux'a yönlendirildiğini görüyorum/uz bana göre bu biraz hatalı bir yönlendirme gibi geliyor. Çünkü ileride Internal Pentester/Red Team olacak kişi birden kurumsal ortamı görünce kelimenin tam anlamıyla &lt;code&gt;sudan çıkmış balığa&lt;/code&gt; dönüyor (Like me). Çoğu zaman da feed listemde benzer yazılar görüyorum fakat bu yazıları &lt;code&gt;Türkçe&lt;/code&gt; kaynaklarda arattığımda herhangi bir sonuca ulaşamıyorum. Bu sebeple ilgili yazıyı biraz çeviri biraz araştırma biraz da kendimin kattığı şeyler ile hazırlamak istedim. Aslında işin teknik kısmı çok da uzun değil fakat öncesinde bilinmesi gerekenler uzun sanırım :)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Bir hata vs. görürseniz bildirmekten çekinmezseniz sevinirim. Hadi başlayalım.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Direkt olarak AS-REP Roasting'i göstermek yerine nasıl tespit edebileceğimizi, nasıl sömürebileceğimizi göstermek istedim. Bu sebeple öncelikle öğrenmemiz gereken bir kaç şey bulunuyor.  &lt;/p&gt;
+&lt;h1&gt;Kerberos Nedir?&lt;/h1&gt;
+&lt;p&gt;Basit bir anlatımla network üzerinden yetkilendirme yapan bir sistemdir. Kendisi bu yetkilendirmeyi client-server ilişkisi içerisinde yapar. Simetrik anahtar şifreleme kullanır ve  güvenilir bir 3. doğrulayıcıya ihtiyaç duyar. Ticket bazlı bir sistemdir. Ağ üzerinde gerçekleşen trafikte parolalar değil ticketlar kullanılır. Ayrıca ticketlar için Windows ve Linux tarafında farklı implementasyonlar kullanır. &lt;/p&gt;
+&lt;p&gt;Ek bilgi:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Kerberos ticketları OS'lar genelinde farklı implementasyonlara sahiptir. Windows tarafında KIRBI denilen bir format kullanılırken Linux tarafında CCACHE formatı kullanılmaktadır. Eski linux sistemlerde bu keyler /tmp dizini altında tutulurken modern RedHat sistemlerde SSSD tarafından yönetilmekte olup, Kerberos Cache Manager tarafından şifrelenmiş bir biçimde /var/lib/sss/secrets/secrets.ldb altında durmaktadır. Key ise bu klasör altında gizli dosya içerisindedir.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Not:&lt;/strong&gt; Ana konumuz kerberos olmadığı için bu kısım kısa tutulmuştur. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Not 2:&lt;/strong&gt; Daha fazla Türkçe bilgi için @mdisec(Mehmet İnce)'nin yayınlarına katılan üstad @BarknKilic 'ın anlatımına &lt;a href="https://github.com/mdisec/mdisec-twitch-yayinlari"&gt;MDISEC Github&lt;/a&gt; linki altında Network hacker kısmından ulaşabilirsiniz.&lt;/p&gt;
+&lt;p&gt;Daha fazla detay için: &lt;/p&gt;
+&lt;p&gt;&lt;a href="https://tr.wikipedia.org/wiki/Kerberos_(ileti%C5%9Fim_kural%C4%B1)"&gt;TR | Kerberos Wikipedia&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://ldapwiki.com/wiki/Kerberos"&gt;EN | Kerberos&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Kerberos Pre Authentication Nedir&lt;/h2&gt;
+&lt;p&gt;Kendisi Kerberos içerisinde ki bir kavramdır. Aşağıda belirtilen 6113 RFC'si ile tanımlanmıştır. &lt;/p&gt;
+&lt;p&gt;Temelde kendisinin çıkış amacı aslında bir güvenlik özelliğidir. Parola tahmin etme saldırılarından etkilenmemek için çıkartılmıştır. Bunu da şöyle sağlar. KDC(Key Distribution Center)'a düz metin olarak bir AS_REQ isteği gönderir. Eğer konumuz olan Pre Authentication değeri Enabled(Default olan ve güvenli olan) ise trafik aşağıdaki şekilde gerçekleşmektedir.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="kerberos" src="https://www.kerberos.org/images/krbmsg.gif"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://tools.ietf.org/html/rfc6113"&gt;Generalized Framework for Kerberos Pre-Authentication&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://tools.ietf.org/html/rfc4120"&gt;The Kerberos Network Authentication Service (V5)&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Kapalı Kullanıcıların Tespiti&lt;/h2&gt;
+&lt;p&gt;Eğer bir kullanıcının &lt;code&gt;Pre Authentication Required&lt;/code&gt; seçeneği disable'a çekilmişse aşağıda ki gibi bir log üretmektedir. &lt;code&gt;0x10&lt;/code&gt; değeri disabled hali &lt;code&gt;0x10010&lt;/code&gt; değeri ise enabled halidir. Bizim burada yakalamamız gereken değer &lt;code&gt;Enabled&lt;/code&gt; olduğunda kural üretmektir. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Old UAC Value:      0x10
+
+    New UAC Value:      0x10010
+
+    User Account Control:   
+
+        &amp;#39;Don&amp;#39;t Require Preauth&amp;#39; - Enabled
+
+    User Parameters:    -
+
+    SID History:        -
+
+    Logon Hours:        -
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="DC Log" src="images/dclog.png"&gt;&lt;/p&gt;
+&lt;p&gt;Eğer loglardan değil de bulunduğunuz bir sistem üzerinde tespit etmek isterseniz de 2 seçeneğimiz bulunuyor.&lt;/p&gt;
+&lt;p&gt;LDAP Toolkit indirerek DC üzerinde aşağıdaki sorgu ile kontrol edebilirsiniz. Burada PreauthNoRequired kısmını sorgulayan asıl kod &lt;code&gt;userAccountControl:1.2.840.113556.1.4.803:=4194304&lt;/code&gt; kısmıdır.
+LDAP:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;searchBase=&amp;quot;DC=EXAMPLE,DC=COM&amp;quot; filer=&amp;quot;(&amp;amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&amp;quot; scope=&amp;quot;SUBTREE&amp;quot; timeLimit=&amp;quot;0&amp;quot; countLimit=&amp;quot;1000&amp;quot; aliasesDereferencingMethod=&amp;quot;ALWAYS&amp;quot; referralsHandlingMethod=&amp;quot;IGNORE&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;PowerShell üzerinde ise &lt;code&gt;Get-DomainUser -PreauthNoRequired&lt;/code&gt; sorgusu ile domain üzerinde ki kullanıcıları listeleyebilirsiniz.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Domain User" src="images/GetDomainUser.png"&gt;&lt;/p&gt;
+&lt;p&gt;Daha fazlası için: &lt;a href="https://ldapwiki.com/wiki/Active%20Directory%20RISK%20Related%20Searches"&gt;LDAPWiki Risks Pre-Authentication&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;searchBase=&amp;quot;DC=EXAMPLE,DC=COM&amp;quot; filer=&amp;quot;(&amp;amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&amp;quot; scope=&amp;quot;SUBTREE&amp;quot; timeLimit=&amp;quot;0&amp;quot; countLimit=&amp;quot;1000&amp;quot; aliasesDereferencingMethod=&amp;quot;ALWAYS&amp;quot; referralsHandlingMethod=&amp;quot;IGNORE&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;AS-REP Roasting Nedir&lt;/h1&gt;
+&lt;p&gt;AD üzerinde eski versiyonlara yönelik uyumluluk veya ihtiyaçlar sebebiyle bilerek açılmış olan &lt;code&gt;Do not require Kerberos Pre Authentication&lt;/code&gt; seçeneğine sahip kullanıcılara ait RC4 keylerinin direkt olarak KDC üzerinden çekilmesi ve sistemler üzerinde Brute Force dair herhangi bir iz bırakmadan &lt;code&gt;hashcat&lt;/code&gt; veya &lt;code&gt;john&lt;/code&gt; gibi parola kırma araçları ile offline olarak bu parolanın kırılmasına verilen isimdir.&lt;/p&gt;
+&lt;p&gt;Eğer bir saldırgan olmayıp normal bir AS-REP göndermiş olsaydık network trafiğinde aşağıdaki gibi bir çıktı görecektir.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="AS-REP" src="images/normalasrep.png"&gt;&lt;/p&gt;
+&lt;p&gt;Bunun sonucu olarak da aşağıdaki gibi bir çıktı görecektir.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="AS-REQ" src="images/normalpreauth.png"&gt;&lt;/p&gt;
+&lt;p&gt;Fakat bir saldırgan olduğumuzdan doğal olarak işleri karıştırmak istiyoruz. AS-REP roasting için bir çok tool kullanabilirsiniz. Ben aşağıya 2 seçenek ekleyeceğim fakat 1 tanesini kullanacağım.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Rubeus&lt;/li&gt;
+&lt;li&gt;Impacket&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Öncelikle bizim bu saldırı vektörünü yapabilmemiz için bir kullanıcı listesine ihtiyacımız var. Bu sebeple bir dosya yaratıp ben içerisinde 2-3 tane user ekliyorum. Ekliyorum çünkü neden olmasın? Evet bu kadar. Saldırı vektörümüzü çalıştırmaya hazırız. Bunun için aşağıdaki gibi bir komut yeterli olacaktır.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Impacket examples içerisinde bulabilirsiniz&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python3 GetNPUsers.py windomain.local -usersfile usernames.txt -format hashcat -outputfile hash.asrep
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Aşağıda ekran görüntüsünde göreceğiniz üzere bazılarında hata aldık çünkü Kerberos DB üzerinde ilgili kullanıcıları bulamadı fakat bizim 3 tane kullanıcımız vardı. Bize 2 tane hata çıkartılmış o sebeple diyebiliriz ki 1  tanesine ait hash'i elde ettik.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="IMpacket As-REP" src="images/asrepimpacket.png"&gt;&lt;/p&gt;
+&lt;p&gt;Şimdi bu trafiğin WireShark üzerinde nasıl gözüktüğüne bakalım.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="AS-REP WireShark Not Legal" src="images/asrepwireshark.png"&gt;&lt;/p&gt;
+&lt;p&gt;Evet &lt;code&gt;Impacket&lt;/code&gt; ile yaptığımız saldırı sonucunda elimizde bir hashimiz var ve bu hashi kırmak için elimizde tam da ona uygun çıktısıyla bir araç var ismi &lt;code&gt;hashcat&lt;/code&gt;. Kendisi ile ilgili bir çok yazı bulabilirsiniz. AS-REP isteğimiz sonucu dönen değeri kırabilmek için kendisi üzerinde öntanımlı bir hash tipi ve ID'si bulunmaktadır.&lt;/p&gt;
+&lt;p&gt;Hashcat üzerinde 18200 ID'li hash tipi ile kırabilirsiniz.
+&lt;code&gt;.\hashcat.exe --help | findstr 18200&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;18200 | Kerberos 5, etype 23, AS-REP                     | Network Protocols
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Normal AS-REP ve zararlı AS-REP trafiğini görebileceğiniz network trafiğine ait PCAP dosyasını aşağıdan indirebilirsiniz.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://drive.google.com/file/d/1AYdLDlWcImlNxXia4ptu17jxOvZJIFZF/view?usp=sharing"&gt;AS-REP PCAP&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Nasıl yakalarım?&lt;/h2&gt;
+&lt;p&gt;Normal yaptığım bağlantılarda &lt;code&gt;Ticket Encryption Type&lt;/code&gt; olarak Windows sitesinde belirtilen &lt;code&gt;Encryption Type&lt;/code&gt; değerlerini görüyor olsam da AS-REP Roasting yaptığım kullanıcılarda sadece &lt;code&gt;0xFFFFFFFF&lt;/code&gt; değerini görmekteyim. Ayrıca yapılan tüm aktivitelerde Service_Name olarak loglar içerisinde &lt;code&gt;krbtgt/WINDOMAIN.local&lt;/code&gt; değeri geçmektedir. Normal olanları kontrol ettiğimde ise böyle bir değer değil direkt olarak &lt;code&gt;krbtgt&lt;/code&gt; servisi geçmektedir.&lt;/p&gt;
+&lt;p&gt;Ekran görüntüleri:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Normal Kerberos Aktiviteleri&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Splunk Normal" src="images/splunknormal.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Saldırı zamanı Kerberos Aktiviteleri&lt;/strong&gt;
+&lt;img alt="Splunk Normal" src="images/splunknormalolmayan.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Ticket Encryption Type&lt;/strong&gt;
+&lt;img alt="Ticket Encryption Type" src="images/splunk0xf.png"&gt;&lt;/p&gt;
+&lt;h3&gt;Splunk MITRE ATT&amp;amp;CK&lt;/h3&gt;
+&lt;p&gt;Splunk üzerinde Threat Hunting modüle ait MITRE tarafında ben herhangi bir tanımlama veya tetiklenme göremedim(Default değerler geçerlidir.). Belki de Splunk üzerinde yeni olduğumdan olabilir fakat ekran görüntüsünü aşağıya koyuyorum.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Splunk Mitre" src="images/splunkmitre.png"&gt;&lt;/p&gt;
+&lt;p&gt;Fakat Default değerlerin geçerli olmadığı örnek bir yazı ile tespitini aşağıya bırakıyorum.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://medium.com/@jsecurity101/ioc-differences-between-kerberoasting-and-as-rep-roasting-4ae179cdf9ec"&gt;Differences between Kerberoasting and AS-REP Roasting&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Not&lt;/strong&gt;: Tüm yazıda detection, monitoring ve DC ortamı için &lt;a href="https://github.com/clong/DetectionLab"&gt;DetectionLab&lt;/a&gt; kullanılmıştır.&lt;/p&gt;
+&lt;h1&gt;Yazı Sonu&lt;/h1&gt;
+&lt;p&gt;Umarım beğenmişsinizdir. Eğer yanlış bir bilgi varsa doğru bilgi vermekle mükellef değilim:P ama siz yine de bana geri dönüş sağlayın ki hataları en aza indirelim.&lt;/p&gt;
+&lt;p&gt;Okuduğunuz için teşekkür ederim.&lt;/p&gt;
+&lt;p&gt;Geleneğim olan yazı sonu şarkısı:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.youtube.com/watch?v=MOSU_Pw7vO4" title=""&gt;&lt;img alt="" src="http://img.youtube.com/vi/MOSU_Pw7vO4/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1&gt;Referans ve kaynaklar:&lt;/h1&gt;
+&lt;p&gt;&lt;a href="https://directory.apache.org/apacheds/kerberos-ug/4.1-authenticate-kinit.html"&gt;https://directory.apache.org/apacheds/kerberos-ug/4.1-authenticate-kinit.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.stealthbits.com/cracking-active-directory-passwords-with-as-rep-roasting/"&gt;https://blog.stealthbits.com/cracking-active-directory-passwords-with-as-rep-roasting/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat"&gt;https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.tarlogic.com/en/blog/how-to-attack-kerberos/"&gt;https://www.tarlogic.com/en/blog/how-to-attack-kerberos/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://en.hackndo.com/kerberos-asrep-roasting/"&gt;https://en.hackndo.com/kerberos-asrep-roasting/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://medium.com/@jsecurity101/ioc-differences-between-kerberoasting-and-as-rep-roasting-4ae179cdf9ec"&gt;https://medium.com/@jsecurity101/ioc-differences-between-kerberoasting-and-as-rep-roasting-4ae179cdf9ec&lt;/a&gt;&lt;/p&gt;</content><category term="siber güvenlik"></category><category term="AS-REP Roasting"></category><category term="Red Team türkçe"></category><category term="Kerberos saldırıları"></category><category term="Kerberos Türkçe"></category><category term="Domain saldırıları"></category><category term="Windows Pentest"></category><category term="Windows Red Team"></category><category term="SIEM"></category><category term="SIEM üzerinde saldırıları yakalamak"></category><category term="Red Team aktivitelerini yakalamak"></category><category term="Kırmızı takım"></category></entry><entry><title>Application Shimming Kullanarak Windows Sistemler Üzerinde Kalıcılık</title><link href="https://enesergun.net/application-shimming-kullanarak-windows-sistemler-uzerinde-kalicilik.html" rel="alternate"></link><published>2019-12-21T15:00:00+03:00</published><updated>2019-12-21T15:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-12-21:/application-shimming-kullanarak-windows-sistemler-uzerinde-kalicilik.html</id><summary type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
 &lt;p&gt;Başlık bilgisinde geçen Application Shimming'i Türkçeye çevirmek oldukça zor bunun yerine anladığımı çevirdiğim yazıya ek olarak Shimming'in ne olduğunu/benim nasıl anladığımı yazmaya çalışacağım.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Not:&lt;/strong&gt; Yazı benim araştırmış olduğum bir yazı olmayıp, okuyup beğendiğim, anladığımı düşündüğüm bir konu üzerinde aşağıdaki link üzerinden kendi halinde çevirilmiş bir yazıdır. Birebir ana …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
 &lt;p&gt;Başlık bilgisinde geçen Application Shimming'i Türkçeye çevirmek oldukça zor bunun yerine anladığımı çevirdiğim yazıya ek olarak Shimming'in ne olduğunu/benim nasıl anladığımı yazmaya çalışacağım.&lt;/p&gt;
