@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -48,27 +48,25 @@
 <p><strong> Provision </strong> : Sistem kurulduktan sonra çalıştırılacak script vs şeyleri yazdığımız yer ( en azından benim anladığım :D )</p>
 <h3>Next, Next, Next</h3>
 <p>Debian based sistemler üzerinde</p>
-<div class="highlight"><pre><span></span>apt install vagrant
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>apt install vagrant
+</code></pre></div>
 
 <p>Tabi ki sadece <strong>vagrant</strong> kurmak yetmeyecektir. Kullanacağınız provider'ı da sisteminize indirmeniz gerekmektedir. Ben <strong>virtualbox</strong> kullanacağım.</p>
 <h3>Hadi Başlayalım.</h3>
 <p>Projeyi oluşturacağınız klasöre gittiğinizde burada vagrant init yaparsanız sizin için bir <em><strong>vagrantfile</strong></em> oluşacaktır.
 İçerisini temizleyerek aşağıda ki satırları ekleyelim.</p>
-<div class="highlight"><pre><span></span>Vagrant.configure<span class="o">(</span><span class="m">2</span><span class="o">)</span> <span class="k">do</span> <span class="p">|</span>config<span class="p">|</span>
+<div class="highlight"><pre><span></span><code>Vagrant.configure<span class="o">(</span><span class="m">2</span><span class="o">)</span> <span class="k">do</span> <span class="p">|</span>config<span class="p">|</span>
         config.vm.define <span class="s2">&quot;nebuvagrantya&quot;</span> <span class="k">do</span> <span class="p">|</span>nbv<span class="p">|</span>
         nbv.vm.box <span class="o">=</span> <span class="s2">&quot;ubuntu/trusty64&quot;</span>
         nbv.vm.network :private_network, ip: <span class="s2">&quot;10.0.0.2&quot;</span>
         nbv.vm.hostname <span class="o">=</span> <span class="s2">&quot;nebuvagrantya&quot;</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Burada ki kodları açıklamak gerekirse Vagrant.configure(2) do <strong>|config|</strong> yazdığımızda kalın yazdığım kısım aslında bir değişken olarak davranıyor.</p>
 <p>Altında Vagrant üzerinde bir makine açacağımızı ve bunu kısaltma olarak nbv olarak çağıracağımızı belirtiyoruz. ( nbv )</p>
 <p>Diğer satırlarda bu makinemizin ubuntu kutusunu kullanacağını belirtiyoruz. Bu kutunun hangi ip alacağını ve private networkde olacağını belirtiyoruz. Ayrıca bu makinenin Virtualbox üzerinde ki ismini de belirtmiş oluyoruz. Fakat bu bize yetiyor mu tabi ki yetmiyor. Hadi biraz daha sanal makinemizin ayarları ile oynayalım.</p>
 <p>Projemize provider olarak <strong>virtualbox</strong> ekleyelim. </p>
-<div class="highlight"><pre><span></span>Vagrant.configure<span class="o">(</span><span class="m">2</span><span class="o">)</span> <span class="k">do</span> <span class="p">|</span>config<span class="p">|</span>
+<div class="highlight"><pre><span></span><code>Vagrant.configure<span class="o">(</span><span class="m">2</span><span class="o">)</span> <span class="k">do</span> <span class="p">|</span>config<span class="p">|</span>
     config.vm.define <span class="s2">&quot;nebuvagrantya&quot;</span> <span class="k">do</span> <span class="p">|</span>nbv<span class="p">|</span>
     nbv.vm.box <span class="o">=</span> <span class="s2">&quot;ubuntu/trusty64&quot;</span>
     nbv.vm.network :private_network, ip: <span class="s2">&quot;10.0.0.2&quot;</span>
@@ -81,22 +79,20 @@
         vb.cpus <span class="o">=</span> <span class="s2">&quot;2&quot;</span>
         vb.customize <span class="o">[</span><span class="s2">&quot;modifyvm&quot;</span>, :id, <span class="s2">&quot;--vram&quot;</span>, <span class="s2">&quot;32&quot;</span><span class="o">]</span>
         end
-</pre></div>
-
+</code></pre></div>
 
 <p>Burada VBoxmanage kullanarak sanal makinemizin ismini, ram miktarını, ekran kartı ram miktarını ve işlemci sayısını belirttik. Ayrıca provision kısmında shell üzerinde proje klasörümüzde bulunan <strong>nginxyukle.sh</strong> dosyasını çalıştıracağız.
 İsterseniz provisioning kısmında isterseniz direkt olarak ansible çalıştırabilirsiniz.</p>
 <p>Örnek kod:</p>
-<div class="highlight"><pre><span></span>    vb.vm.provision <span class="s2">&quot;ansible&quot;</span> <span class="k">do</span> <span class="p">|</span>ansible<span class="p">|</span>
+<div class="highlight"><pre><span></span><code>    vb.vm.provision <span class="s2">&quot;ansible&quot;</span> <span class="k">do</span> <span class="p">|</span>ansible<span class="p">|</span>
         ansible.playbook <span class="o">=</span> <span class="s2">&quot;nginxyukle.yml&quot;</span>
         ansible.verbose <span class="o">=</span> <span class="s2">&quot;v&quot;</span>
 end
-</pre></div>
-
+</code></pre></div>
 
 <p>Sanal makinenizin çok daha fazla ayarını değiştirmek isterseniz eğer aşağıya referans sayfasını ekleyeceğim.</p>
 <p>Vagrant dosyamızın son hali </p>
-<div class="highlight"><pre><span></span>Vagrant.configure<span class="o">(</span><span class="m">2</span><span class="o">)</span> <span class="k">do</span> <span class="p">|</span>config<span class="p">|</span>
+<div class="highlight"><pre><span></span><code>Vagrant.configure<span class="o">(</span><span class="m">2</span><span class="o">)</span> <span class="k">do</span> <span class="p">|</span>config<span class="p">|</span>
     config.vm.define <span class="s2">&quot;nebuvagrantya&quot;</span> <span class="k">do</span> <span class="p">|</span>nbv<span class="p">|</span>
     nbv.vm.box <span class="o">=</span> <span class="s2">&quot;ubuntu/trusty64&quot;</span>
     nbv.vm.network :private_network, ip: <span class="s2">&quot;10.0.0.2&quot;</span>
@@ -112,14 +108,12 @@ end
     nbv.vm.provision :shell, path: <span class="s2">&quot;nginxyukle.sh&quot;</span>
         end
         end
-</pre></div>
-
+</code></pre></div>
 
 <p>Hadi çalıştıralım artık.
 Terminalinize </p>
-<div class="highlight"><pre><span></span>vagrant up
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>vagrant up
+</code></pre></div>
 
 <p>Yazarsanız eğer daha önce aynı box'ı indirmemişseniz aşağıda ki gibi bir ekran göreceksiniz.</p>
 <p><strong>Not:</strong> Nginxyukle.sh dosyanızı oluşturmayı unutmayın :)

@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -59,50 +59,43 @@
 </ul>
 <p><strong>Linux için kurulum</strong></p>
 <p>Ben debian based bir sistem kullandığımdan dolayı aşağıda ki gereksinimleri kuracağım sizler işletim sisteminize göre bunları kurmalısınız.</p>
-<div class="highlight"><pre><span></span>sudo apt-get install gcc git wget make libncurses-dev flex bison gperf python python-serial
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>sudo apt-get install gcc git wget make libncurses-dev flex bison gperf python python-serial
+</code></pre></div>
 
 <p><a href="https://esp-idf.readthedocs.io/en/latest/get-started/linux-setup.html">Diğer Linux Sistemler İçin</a></p>
 <p><a href="https://esp-idf.readthedocs.io/en/latest/get-started/windows-setup.html">Windows İçin</a></p>
 <p><a href="https://esp-idf.readthedocs.io/en/latest/get-started/macos-setup.html">MAC İçin</a></p>
 <p><strong>Xtense-ESP32 Paketini Kuralım</strong></p>
 <p>Herhangi bir yerde esp adında veya farklı bir ad ile klasör oluşturunuz. Ben örneğe sadık kalacağım için home dizini üzerinde esp adında bir klasör oluşturdum. Daha sonra burada aşağıda ki komutu girdim.</p>
-<div class="highlight"><pre><span></span>wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>wget https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz
+</code></pre></div>
 
 <p>Şimdi paketimiz indikten sonra bu sıkıştırılmış dosyayı bir klasöre açalım.</p>
-<div class="highlight"><pre><span></span>tar -xzf xtensa<span class="o">[</span>tab-tab<span class="o">]</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>tar -xzf xtensa<span class="o">[</span>tab-tab<span class="o">]</span>
+</code></pre></div>
 
 <p>Açtığımız klasör içerisinde bin klasörüne gidip isterseniz burada <code>pwd</code> yazabilirsiniz. Buna neden ihtiyacımız var? Çünkü kullandığımız sisteme environment olarak eklememiz gerekmekte.</p>
 <p>Ben ZSH kullandığımdan dolayı .zshrc dosyasına ekledim fakat siz BASH kullanıyorsanız .bashrc veya hepsinden bağımsız olarak <code>/etc/profile</code> dosyasına aşağıda ki kodu ekleyelim.</p>
-<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">:</span><span class="nv">$HOME</span><span class="s2">/espdizininiz/xtensa[tab-tab]/bin&quot;</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">:</span><span class="nv">$HOME</span><span class="s2">/espdizininiz/xtensa[tab-tab]/bin&quot;</span>
+</code></pre></div>
 
 <p>Environment ne diye soracak olursanız sizi <a href="http://www.belgeler.org/lis/archive-tlkg-lis-6.4.html">şuraya alalım</a></p>
 <p>Evet burayı tamamladıysak şimdi ESP-IDF kuralım. ESP-IDF içerisinde bize başlangıç aşamasında lazım olacak her şey var. Örnek vermek gerekirse Hello World uygulaması, Bluetooth Scanner, Wireless Scanner gibi amacımıza uygun kod blokları hali hazırda içerisinde bulunuyor.</p>
 <p><strong>ESP-IDF Kuralım</strong></p>
 <p>İstediğimiz bir yere Github üzerinden aşağıda ki komut ile repomuzu indirelim.</p>
-<div class="highlight"><pre><span></span>git clone --recursive https://github.com/espressif/esp-idf.git
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>git clone --recursive https://github.com/espressif/esp-idf.git
+</code></pre></div>
 
 <p>İndirdikten sonra içerisine girip <code>git submodule update --init</code> yapalım. Yukarıda Environment olarak tanımlama yapmıştık hatırlarsanız aynısını ESP-IDF içinde yapalım.</p>
-<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">IDF_PATH</span><span class="o">=</span>~/esp/esp-idf
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">IDF_PATH</span><span class="o">=</span>~/esp/esp-idf
+</code></pre></div>
 
 <h4>Merhaba ESP32</h4>
 <p>Kurulumlarımız tamamlandıktan sonra bir şeye başlarken her zaman yaptığımız gibi bir hello world yazdıralım. Bu yazma ekranı tabi ki bizim terminalimizde fakat ESP32 tarafından yazılmış olacak.</p>
 <p>ESP-IDF içerisinde examples/get-started içerisinde hello_world adlı klasöre gidelim. </p>
 <p>Aşağıda ki komutu girelim.</p>
-<div class="highlight"><pre><span></span>make menuconfig
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>make menuconfig
+</code></pre></div>
 
 <p>Bu komutu girdikten sonra sizi terminal üzerinde bir arayüz karşılayacak burada kartımıza ait bilgileri değiştirebileceğiz. ( bende default tanımlı geldiği için değiştirmedim ).</p>
 <p>Aşağıda ki resmi direk referans sayfasından alıyorum.</p>
@@ -112,28 +105,24 @@
 <p>Serial Flasher Config kısmından Serial Portumuzu girdikten sonra Save yapıyoruz.</p>
 <h4>Hadi uygulamayı ESP32'ye atalım</h4>
 <p>Bir üst kısımda uygulamamızın ayarlarını kayıt etmiştik hatırlarsanız. Şimdi bu uygulamayı ESP32 üzerine atmamız gerekecek. Bunun için yapmamız gereken tek şey aşağıda ki komutu girmek.</p>
-<div class="highlight"><pre><span></span>make flash
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>make flash
+</code></pre></div>
 
 <p>Bu komutu girdikten sonra yazılımınız ESP32 üzerine atılacaktır. Eğer Connect kısmında benim gibi hata alıyorsanız bu kısımda yapmanız gerken şey ESP32 üzerinde ki BOOT tuşuna basılı tutmanız veya 1 kere basmanız bunu zaten deneyerek görebileceksiniz.</p>
 <h4>Hadi uygulama çalışıyor mu bakalım</h4>
 <p>Attığımız uygulamanın çalışıp çalışmadığını veya ne çıktı ürettiğini görmek isterseniz bunun için terminale aşağıda ki komutu yazmanız yeterlidir.</p>
-<div class="highlight"><pre><span></span>make monitor
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>make monitor
+</code></pre></div>
 
 <p><strong>Not:</strong>  Hello World uygulamasından sonra terminalden çıkamayabilirsiniz. Bunun için klavye kısayolu : CTRL + ] (Köşeli Parantez)</p>
 <h4>Bağlantı problemi yaşıyorum?</h4>
 <p>Cihazınızın sağlam olup olmadığını test etmek için ve bağlantı kontrolleri yapmak için ESP-IDF içerisinde Components kısmında esptool diye bir klasör bulunuyor. Bu klasörün içerisinde ki esptool.py dosyasını aşağıda ki komutla çalıştırırsanız eğer bağlanabilirse size ESP32'niz hakkında bilgiler verecektir. Bu komutu girdikten sonra üzerinde ki tuşları deneyerek hangisine bastıktan sonra Connect olduğuna bakarsanız da olur. (Ben gece 4 de yaptığımdan dolayı hatırlamıyorum sanırım rastgele basmıştım.)</p>
-<div class="highlight"><pre><span></span>python esptool.py --chip esp32 -b <span class="m">115200</span> -p /dev/ttyUSB0 flash_id
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>python esptool.py --chip esp32 -b <span class="m">115200</span> -p /dev/ttyUSB0 flash_id
+</code></pre></div>
 
 <p>veya</p>
-<div class="highlight"><pre><span></span>python esptool.py --chip esp32 -b <span class="m">115200</span> -p /dev/ttyUSB0 chip_id
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>python esptool.py --chip esp32 -b <span class="m">115200</span> -p /dev/ttyUSB0 chip_id
+</code></pre></div>
 
 <p>Aşağıda ki ekran görüntüsünü de kendi ekranımdan aldım.</p>
 <p><img alt="esp32 Başlamak" src="images/esp32nemicya.jpg"></p>

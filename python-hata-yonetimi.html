@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -47,32 +47,29 @@
 <p>Şu anlık aklıma gelen bu kadar ama eminim fazlası da vardır. Bu konu hakkında beni yeşillendirebilirsiniz. Evet istisna yönetimi bu kadar önemliyken ben de bu konu hakkında yazmak istedim. Peki Python'da istisnalar nedir? Nasıl yönetilir? Hadi başlayalım.</p>
 <h2>Python'da istisnalar</h2>
 <p>Python'da istisnalar Exception ile yönetilir. Python üstünde Built-in olarak gelen bir sürü istisna yöntemi ve yönetimi vardır. Bunların listesine <a href="https://docs.python.org/3/library/exceptions.html">Built-in Exceptions</a> linkine tıklayarak ulaşabilirsiniz. Kod olaraksa en basit şekilde aşağıda ki gibi bir kullanımı vardır.</p>
-<div class="highlight"><pre><span></span>try: # Çalışacak kodunuz.
-    print(0/0)
-except:
-    print(&quot;Hata var&quot;)
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">try</span><span class="p">:</span> <span class="c1"># Çalışacak kodunuz.</span>
+    <span class="nb">print</span><span class="p">(</span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hata var&quot;</span><span class="p">)</span>
+</code></pre></div>
 
 <p>veya aşağıda ki gibi bir kullanım daha uygundur. Çünkü yukarıda ki kod bloğunda ne hata verirse versin hata var yazacaktır.</p>
-<div class="highlight"><pre><span></span><span class="k">try</span><span class="o">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">try</span><span class="o">:</span>
     <span class="n">print</span><span class="o">(</span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span><span class="o">)</span>
 <span class="n">except</span> <span class="n">ZeroDivisionError</span><span class="o">:</span>
     <span class="n">print</span><span class="o">(</span><span class="s2">&quot;Sıfırı sıfıra bölüyon&quot;</span><span class="o">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Yukarıda ki kod bloğunda kullandığımız ZeroDivisionError farkettiğiniz üzere bir built-in bir istisnadır.</p>
 <p>Peki karşımıza gelecek bu istisnaları nasıl yöneteceğiz?</p>
 <p>Örnek bir kod bloğunu aşağıda görebilirsiniz.</p>
-<div class="highlight"><pre><span></span>liste = [i for i in range(0,10)]
-try:
-    for i in liste:
-        print(int(i)/0)
-except ZeroDivisionError as hata:
-    print(hata)
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">liste = [i for i in range(0,10)]</span>
+<span class="c">try:</span>
+<span class="c">    for i in liste:</span>
+<span class="c">        print(int(i)/0)</span>
+<span class="err">except ZeroDivisionError as hata:</span>
+<span class="err">    print(hata)</span>
+</code></pre></div>
 
 <p>Burada hatayı gördük ve bununla ilgili ekrana bastırdık. Peki bu kadarla mı sınırlıyız? Tabi ki de hayır. Bu kısımda karşımıza 3 deyim daha çıkıyor.</p>
 <p>Bu deyimler: 
@@ -83,33 +80,30 @@ except ZeroDivisionError as hata:
 <p>Peki bunlar ne işe yarar? Kısaca açıklayacak olursam:</p>
 <p><strong>Raise</strong>
 Raise bize istisna çıktılarını tanımlamamızı sağlar. Nasıl yani derseniz şu şekilde. Bir yazılımın sadece stringler üzerinde işlem yaptığını düşünün buraya integer bir değer girdiğimizde bize TypeError verecektir. Fakat burada Error çıktısı son kullanıcı için anlamsız olabilir veya bunu değiştirmek isteyebilirsiniz. Base bir exception üzerinden Raise ile bunu yapabilirsiniz. Aslında raise bize istediğimiz zaman bir istisna fırlatmamıza olanak sağlar. Örnek:</p>
-<div class="highlight"><pre><span></span>i = 5
-if type(i) is int:
-    raise TypeError(&quot;Integer lan bu&quot;)
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">i = 5</span>
+<span class="err">if type(i) is int:</span>
+<span class="err">    raise TypeError(&quot;Integer lan bu&quot;)</span>
+</code></pre></div>
 
 <p><strong>Assert</strong>
 Bir modül yazdınız mesela bu modül sadece Linux'da çalışsın. Bunun kontrolünü assert ile kontrol ederek gerekli bir istisnayı sağlayabilirsiniz. Yazacağınız 1 satırlık assert ile bu kontrolü sağlayabilirsiniz. Örnek kod:</p>
-<div class="highlight"><pre><span></span>def meminfo():
-    assert (&#39;linux&#39; in sys.platform)
-    ac = open(&quot;/proc/meminfo&quot;)
-meminfo()
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">def meminfo():</span>
+<span class="err">    assert (&#39;linux&#39; in sys.platform)</span>
+<span class="err">    ac = open(&quot;/proc/meminfo&quot;)</span>
+<span class="err">meminfo()</span>
+</code></pre></div>
 
 <p>Şimdi yukarıda ki kod da eğer sisteminiz Linuxsa bu kodu çalıştıracaktır. Fakat sisteminiz linux değilse sizlere istisna olarak AssertionError dönecektir. Peki bu durumda biz ne yapacağız?</p>
-<div class="highlight"><pre><span></span><span class="k">try</span><span class="o">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">try</span><span class="o">:</span>
     <span class="n">meminfo</span><span class="o">()</span>
 <span class="n">except</span> <span class="n">AssertionError</span><span class="o">:</span>
     <span class="n">print</span><span class="o">(</span><span class="s2">&quot;Windows haram&quot;</span><span class="o">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Gördüğünüz gibi işletim sistemi kontrolünü sağlamış olduk.</p>
 <p><strong>Else</strong></p>
 <p>Else ise muazzam bir özelliğe sahiptir. Nedir bu ? Bir üst örnekte yapmış olduğumuz kodu hatırlayın. Eğer Linux sisteminde çalıştırıyorsak bize hata vermeyecekti. Peki hata vermedi o zaman? Finally kullanabiliriz evet haklısınız fakat farklı bir istisna yönetimi de koymak istiyorum. Mesela hata vermedi ve ben bu dosyayı okudum ama daha sonra parse etmek istiyorum? İşte burada else koşulunun içerisine yazdığımız kod ile bunu kontrol edebiliyoruz. </p>
-<div class="highlight"><pre><span></span><span class="k">try</span><span class="o">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">try</span><span class="o">:</span>
     <span class="n">meminfo</span><span class="o">()</span>
 <span class="n">except</span> <span class="n">AssertionError</span><span class="o">:</span>
     <span class="n">print</span><span class="o">(</span><span class="s2">&quot;Windows haram&quot;</span><span class="o">)</span>
@@ -121,8 +115,7 @@ meminfo()
             <span class="n">dosya</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
     <span class="n">except</span> <span class="n">FileNotFoundError</span><span class="o">:</span>
         <span class="n">print</span><span class="o">(</span><span class="s2">&quot;Memory okuyucu diye bir dosya yok&quot;</span><span class="o">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Örnek sanırım yeterince açıklayıcı olmuştur.</p>
 <p><strong> Finally </strong></p>

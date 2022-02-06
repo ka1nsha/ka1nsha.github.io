@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - linux</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/linux.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2020-03-26T10:22:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>Linux Kütüphaneler ve Tipleri, LD_PRELOAD Değişkeni, Strace ve Ltrace.</title><link href="https://enesergun.net/linux-kutuphaneler-ve-tipleri-ld_preload-degiskeni-strace-ve-ltrace.html" rel="alternate"></link><published>2020-03-26T10:22:00+03:00</published><updated>2020-03-26T10:22:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2020-03-26:/linux-kutuphaneler-ve-tipleri-ld_preload-degiskeni-strace-ve-ltrace.html</id><summary type="html">&lt;p&gt;Selamlar, &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - linux</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/linux.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2020-03-26T10:22:00+03:00</updated><subtitle>Personel homepage</subtitle><entry><title>Linux Kütüphaneler ve Tipleri, LD_PRELOAD Değişkeni, Strace ve Ltrace.</title><link href="https://enesergun.net/linux-kutuphaneler-ve-tipleri-ld_preload-degiskeni-strace-ve-ltrace.html" rel="alternate"></link><published>2020-03-26T10:22:00+03:00</published><updated>2020-03-26T10:22:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2020-03-26:/linux-kutuphaneler-ve-tipleri-ld_preload-degiskeni-strace-ve-ltrace.html</id><summary type="html">&lt;p&gt;Selamlar, &lt;/p&gt;
 &lt;p&gt;Aslında bu yazıda ana konu olarak strace ve ltrace komutlarını kısa olarak açıklayıp örnek çıktılarını koyup anlatmayı düşünüyordum fakat bu komutlar hakkında okuduğum yazılarda bir çok farklı kavram(benim bilmediğim/bildiğim) geçiyordu ki bu konulardan bahsetmezsem yazı eksik kalır diye düşündüm. Bu sebeple bu konular hakkında da bilgi vereyim …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar, &lt;/p&gt;
 &lt;p&gt;Aslında bu yazıda ana konu olarak strace ve ltrace komutlarını kısa olarak açıklayıp örnek çıktılarını koyup anlatmayı düşünüyordum fakat bu komutlar hakkında okuduğum yazılarda bir çok farklı kavram(benim bilmediğim/bildiğim) geçiyordu ki bu konulardan bahsetmezsem yazı eksik kalır diye düşündüm. Bu sebeple bu konular hakkında da bilgi vereyim derken strace ve ltrace yazının yan konusu olup çıktı. Zaten altı üstü bir komut diye düşünülebilir fakat arkaplanda dönen olaylar daha ilgi çekici. Bu sebeple konuya nasıl başlayabileceğimi bulamadım ve aşağıdaki gibi başladım. Direkt olarak konuya dalmış gibi oldu bu sebeple okuyucalardan şimdiden özür dilerim.&lt;/p&gt;
 &lt;p&gt;Strace ve Ltrace'in çalışma mantığı, nasıl çalıştığını daha iyi anlayabilmek adına aşağıdaki konular hakkında da bilgi sahibi olmalıyız. (Derinlemesine değil, eğer derinlemesine gireceksek hem ben bilmiyorum hem de bu konu hakkında kitap yazılır.)&lt;/p&gt;
@@ -34,17 +34,16 @@
 &lt;p&gt;Derleme esnasında linklenen bu libraryler artık kodumuzun bir parçası olmaktadırlar. Örnek olarak: Yazdığımız scriptin sadece 1 çalıştırılabilir dosya olduğunu düşünün(ELF, PE). Yazılımı çalıştırmak için gereksinim kurmamıza gerek yok. Tek tıkla çalıştır.&lt;/p&gt;
 &lt;p&gt;Aşağıda dinamik libraryleri kullanan herhangi bir çalıştırılabilir dosyaya ait bilgileri gösteren &lt;code&gt;ldd&lt;/code&gt; ve &lt;code&gt;objdump&lt;/code&gt; komutundan bahsettim fakat bu komutlar sadece shared olanları gösteriyor. Eğer statik librarylere ait bilgi görmek istiyorsak bazı sıkıntılarımız var demektir. Çünkü kodlarımız içerisinde kullandığımız librarylerin isimleri derleme esnasında göz ardı edilir. Bu sebeple eğer görmek istiyorsak derleme esnasında &lt;code&gt;-g&lt;/code&gt; parametresini kullanmalı veya kodumuzun bir map dosyasını çıkartmalıyız. Görebilmek adına kullanacağımız komut &lt;code&gt;nm&lt;/code&gt; komutudur. Detaylı bilgi için manpages veya &lt;a href="https://www.tutorialspoint.com/unix_commands/nm.htm"&gt;TutorialsPoint&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Örn kullanım:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;nm python
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;nm python
 nm: python: no symbols
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h4&gt;Dinamik Libraryler(.so)&lt;/h4&gt;
 &lt;p&gt;Bu kısımda ise libraryler derlenme esnasında kod içerisinde linklenerek sistem üzerinde ki konumlarından runtime esnasında çağırılarak/yüklenerek kullanılmaktadır. &lt;/p&gt;
 &lt;p&gt;Bir örnek ile bakalım. Tüm linux dağıtımları içerisinde Python diline ait interpreter(yorumlayıcı) yüklü olarak gelmektedir ve hali hazırda bir çok shared kütüphane kullanmaktadır. Şimdi bunlara bakalım.&lt;/p&gt;
 &lt;p&gt;Bunun için ilk örnekte ldd komutunu kullanacağım.&lt;/p&gt;
 &lt;p&gt;Python3.7'a ait shared olarak kullanılan libraryler:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ldd python3.7
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ldd python3.7
         linux-vdso.so.1 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fff5814e000&lt;span class="o"&gt;)&lt;/span&gt;
         libc.so.6 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libc.so.6 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fcaef7ec000&lt;span class="o"&gt;)&lt;/span&gt;
         libpthread.so.0 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libpthread.so.0 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fcaef7cb000&lt;span class="o"&gt;)&lt;/span&gt;
@@ -54,11 +53,10 @@ nm: python: no symbols
         libz.so.1 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libz.so.1 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fcaef777000&lt;span class="o"&gt;)&lt;/span&gt;
         libm.so.6 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libm.so.6 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fcaef630000&lt;span class="o"&gt;)&lt;/span&gt;
         /lib64/ld-linux-x86-64.so.2 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fcaef9dc000&lt;span class="o"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Python'a ait shared olarak kullanılan libraryler:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ldd python
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ldd python
         linux-vdso.so.1 &lt;span class="o"&gt;(&lt;/span&gt;0x00007ffdb49b3000&lt;span class="o"&gt;)&lt;/span&gt;
         libc.so.6 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libc.so.6 &lt;span class="o"&gt;(&lt;/span&gt;0x00007f4e56dbe000&lt;span class="o"&gt;)&lt;/span&gt;
         libpthread.so.0 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libpthread.so.0 &lt;span class="o"&gt;(&lt;/span&gt;0x00007f4e56d9d000&lt;span class="o"&gt;)&lt;/span&gt;
@@ -67,14 +65,13 @@ nm: python: no symbols
         libz.so.1 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libz.so.1 &lt;span class="o"&gt;(&lt;/span&gt;0x00007f4e56d76000&lt;span class="o"&gt;)&lt;/span&gt;
         libm.so.6 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libm.so.6 &lt;span class="o"&gt;(&lt;/span&gt;0x00007f4e56c31000&lt;span class="o"&gt;)&lt;/span&gt;
         /lib64/ld-linux-x86-64.so.2 &lt;span class="o"&gt;(&lt;/span&gt;0x00007f4e57358000&lt;span class="o"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;LDD komutu linux sistemler üzerinde çalıştırılabilir scriptinize ait shared object(.so?) bağımlılıklarını gösteren bir komuttur.&lt;/p&gt;
 &lt;p&gt;Birde objdump ile bakalım. Bu arada objdump komutu ise obje dosyalarına ait bilgileri gösteren bir komuttur.&lt;/p&gt;
 &lt;p&gt;Çıktı olarak uzun bir çıktı verecektir. Bu sebeple küçük ve sadece python3.7'ye ait kısmını koyuyorum.&lt;/p&gt;
 &lt;p&gt;Python3.7'a ait çıktı:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Dynamic Section:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Dynamic Section:
   NEEDED               libc.so.6
   NEEDED               libpthread.so.0
   NEEDED               libdl.so.2
@@ -133,8 +130,7 @@ Version References:
     0x09691972 0x00 &lt;span class="m"&gt;06&lt;/span&gt; GLIBC_2.3.2
     0x0d696919 0x00 &lt;span class="m"&gt;04&lt;/span&gt; GLIBC_2.9
     0x09691a75 0x00 &lt;span class="m"&gt;02&lt;/span&gt; GLIBC_2.2.5
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Daha şimdiden konunun çok fazla dışına çıktık.&lt;/p&gt;
 &lt;p&gt;Daha detaylı bilgiler için: &lt;a href="https://demirten.gitbooks.io/linux-sistem-programlama/content/shared-libraries/"&gt;Paylaşımlı Kütüphaneler&lt;/a&gt;&lt;/p&gt;
@@ -150,7 +146,7 @@ Version References:
 &lt;p&gt;Bu komut linux sistemler üzerinde çalıştırmış olduğumuz uygulamaların yapmış olduğu sistem çağrılarını gösteren bir komuttur. Ben komutun açılımı olarak aklımda &lt;code&gt;system trace&lt;/code&gt; bir açılım canlandırdım fakat yanlış olabilir. &lt;/p&gt;
 &lt;p&gt;Derlenmiş bir uygulama/kodda troubleshooting veya debugging için kullanılan komutlardandır. &lt;/p&gt;
 &lt;p&gt;Örnek bir çıktı:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;strace ls ./Desktop
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;strace ls ./Desktop
 execve&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/bin/ls&amp;quot;&lt;/span&gt;, &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ls&amp;quot;&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;./Desktop&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;, 0x7ffecc44f368 /* &lt;span class="m"&gt;67&lt;/span&gt; vars */&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
 brk&lt;span class="o"&gt;(&lt;/span&gt;NULL&lt;span class="o"&gt;)&lt;/span&gt;                               &lt;span class="o"&gt;=&lt;/span&gt; 0x5582a178e000
 access&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/etc/ld.so.preload&amp;quot;&lt;/span&gt;, R_OK&lt;span class="o"&gt;)&lt;/span&gt;      &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
@@ -164,8 +160,7 @@ close&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt
 openat&lt;span class="o"&gt;(&lt;/span&gt;AT_FDCWD, &lt;span class="s2"&gt;&amp;quot;/lib/x86_64-linux-gnu/libselinux.so.1&amp;quot;&lt;/span&gt;, O_RDONLY&lt;span class="p"&gt;|&lt;/span&gt;O_CLOEXEC&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt;
 read&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0&amp;gt;\0\1\0\0\0\0|\0\0\0\0\0\0&amp;quot;&lt;/span&gt;..., &lt;span class="m"&gt;832&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;832&lt;/span&gt;
 fstat&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;, &lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;st_mode&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;S_IFREG&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="m"&gt;0644&lt;/span&gt;, &lt;span class="nv"&gt;st_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;163520&lt;/span&gt;, ...&lt;span class="o"&gt;})&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Daha detaylı bir açıklama için:&lt;/p&gt;
 &lt;p&gt;[TR] &lt;a href="https://demirten.gitbooks.io/gomulu-linux/misc/strace.html"&gt;Strace kullanımı&lt;/a&gt;&lt;/p&gt;
@@ -178,7 +173,7 @@ fstat&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;, &
 &lt;h2&gt;Ltrace&lt;/h2&gt;
 &lt;p&gt;Kendisi strace benzeri bir komut olmakla birlikte paylaşımlı(shared) librarylerden çağrılan fonksiyonları izlemeye yarar. Ayrıca &lt;code&gt;strace&lt;/code&gt; komutunda olduğu gibi sistem çağrılarını da gösterebilir. Ben yine kafamda &lt;code&gt;library trace&lt;/code&gt; olarak çevirdim.&lt;/p&gt;
 &lt;p&gt;Örnek bir çıktıyı aşağıya ekliyorum.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ltrace ls ./Desktop        
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ltrace ls ./Desktop        
 strrchr&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ls&amp;quot;&lt;/span&gt;, &lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                      &lt;span class="o"&gt;=&lt;/span&gt; nil
 setlocale&lt;span class="o"&gt;(&lt;/span&gt;LC_ALL, &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                   &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;en_US.UTF-8&amp;quot;&lt;/span&gt;
 bindtextdomain&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;coreutils&amp;quot;&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;/usr/share/locale&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                        &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;/usr/share/locale&amp;quot;&lt;/span&gt;
@@ -225,16 +220,14 @@ __ctype_get_mb_cur_max&lt;span class="o"&gt;()&lt;/span&gt;                     
 strlen&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;steam.desktop&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                 &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;13&lt;/span&gt;
 strlen&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;steam.desktop&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                 &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;13&lt;/span&gt;
 memcpy&lt;span class="o"&gt;(&lt;/span&gt;0x55a149da5a10, &lt;span class="s2"&gt;&amp;quot;steam.desktop\0&amp;quot;&lt;/span&gt;, &lt;span class="m"&gt;14&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                           &lt;span class="o"&gt;=&lt;/span&gt; 0x55a149da5a10
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2&gt;Ekstra Bilgi&lt;/h2&gt;
 &lt;p&gt;Linux sistemler üzerinde herhangi bir process'in memory üzerinde maplediği alanları görmek isterseniz aşağıdaki gibi bir komut kullanabilirsiniz.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cat /proc/&lt;span class="o"&gt;[&lt;/span&gt;PID numarası&lt;span class="o"&gt;]&lt;/span&gt;/maps
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;cat /proc/&lt;span class="o"&gt;[&lt;/span&gt;PID numarası&lt;span class="o"&gt;]&lt;/span&gt;/maps
 veya
 cat /proc/&lt;span class="k"&gt;$(&lt;/span&gt;pidof &lt;span class="o"&gt;[&lt;/span&gt;Process ismi&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;/maps
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Bu komutları çalıştırdığınızda devasa bir çıktı görebilir ve memory üzerinde processin aynı library ile birden fazla yer ayırdığını vs görebilirsiniz. Örnek vermek gerekirse 4 tane libgl.so (attım bu ismi) ismi görebilirsiniz. Bunun temel sebebi hepsinin farklı &lt;code&gt;permission&lt;/code&gt; 'a sahip olmasıdır. &lt;/p&gt;
 &lt;p&gt;Proc file systemi hakkındaki manuel'e ulaşmak için: &lt;a href="https://www.kernel.org/doc/Documentation/filesystems/proc.txt"&gt;Tıklayın&lt;/a&gt;&lt;/p&gt;
@@ -253,9 +246,8 @@ cat /proc/&lt;span class="k"&gt;$(&lt;/span&gt;pidof &lt;span class="o"&gt;[&lt;
 &lt;p&gt;&lt;a href="https://demirten.gitbooks.io/gomulu-linux/misc/strace.html"&gt;https://demirten.gitbooks.io/gomulu-linux/misc/strace.html&lt;/a&gt;&lt;/p&gt;</content><category term="linux"></category><category term="LD_PRELOAD Türkçe"></category><category term="LD_PRELOAD"></category><category term="Strace kullanımı"></category><category term="ltrace kullanımı"></category><category term="linux dinamik kütüphaneler"></category><category term="ldd türkçe"></category><category term="objdump"></category><category term="objdump türkçe"></category><category term="linux kütüphaneler"></category><category term="linux sistem çağrıları"></category><category term="nm komutu"></category><category term="ldd komutu"></category><category term="strace komutu"></category><category term="ltrace komutu"></category><category term="ptrace komutu"></category></entry><entry><title>Linux Capabilities API</title><link href="https://enesergun.net/linux-capabilities-api.html" rel="alternate"></link><published>2020-02-02T14:00:00+03:00</published><updated>2020-02-02T14:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2020-02-02:/linux-capabilities-api.html</id><summary type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
 &lt;p&gt;Günlük olarak RSS feedlerimi takip etmeye özen gösteren birisiyim(Feedly). Bu feedler arasında bolca HTB(HackTheBox)  write-up kaynağı da bulunuyor doğal olarak. İşte yine bir HTB makinesi ile ilgili write-up'ı okurken bunca yıldır Linux(End-User olarak) kullanan biri olarak karşılaşmadığım ve karşılaştığımda şaşırdığım bir komut gördüm. Neydi bu komut …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
 &lt;p&gt;Günlük olarak RSS feedlerimi takip etmeye özen gösteren birisiyim(Feedly). Bu feedler arasında bolca HTB(HackTheBox)  write-up kaynağı da bulunuyor doğal olarak. İşte yine bir HTB makinesi ile ilgili write-up'ı okurken bunca yıldır Linux(End-User olarak) kullanan biri olarak karşılaşmadığım ve karşılaştığımda şaşırdığım bir komut gördüm. Neydi bu komut?&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;getcap -r / &lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/dev/null
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;getcap -r / &lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/dev/null
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Komutu anlatmak gerekirse recursive bir biçimde &lt;code&gt;/&lt;/code&gt; yani en üst dizinden başlayarak tüm dosyaların kabiliyetlerini kontrol edecek ve eğer return code olarak &lt;code&gt;2&lt;/code&gt; kodu dönülüyorsa bunu &lt;code&gt;/dev/null&lt;/code&gt; uzayına gönderecek.&lt;/p&gt;
 &lt;h2&gt;Linux Yetkilendirme Sistemleri&lt;/h2&gt;
@@ -265,9 +257,8 @@ cat /proc/&lt;span class="k"&gt;$(&lt;/span&gt;pidof &lt;span class="o"&gt;[&lt;
 &lt;h2&gt;Peki Enes Bunlar Ne İşe Yarayacak&lt;/h2&gt;
 &lt;p&gt;Öncelikle bir hacker olduğunuzu düşünün, bir linux sistemi ele geçirdiniz fakat o da ne? Sistem üzerinde Nginx'in tüm işlemleri özel bir kullanıcı ile yürütülüyor ve siz bu sistemde at koşturamıyorsunuz. Ne yapmamız gerek? Sistem üzerinde yetkimizi yükseltebileceğimiz bir şeyler aramamız gerekmekte.&lt;/p&gt;
 &lt;p&gt;Ne yapabiliriz? Mesela SUID Bit içeren dosyaları arayabiliriz.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;find / -perm -4000 -type f &lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/dev/null
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;find / -perm -4000 -type f &lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/dev/null
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Tamam bir executable dosya bulduk ama bunu nasıl kullanacağımızı bilmiyoruz? İster Google üzerinde aratın ya da bu iş için çok güzel bir site hazırlamışlar ona bakabilirsiniz.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://gtfobins.github.io/"&gt;GTFOBins&lt;/a&gt; (Linux)&lt;/p&gt;
@@ -285,7 +276,7 @@ cat /proc/&lt;span class="k"&gt;$(&lt;/span&gt;pidof &lt;span class="o"&gt;[&lt;
 &lt;p&gt;&lt;a href="https://canyoupwn.me/tr-suid-bit-istismari/"&gt;SUID Bit İstismarı&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Evet zararlı kısmını da gösterdik. Şimdi konu gerçekten Capabilities API'a geldi. Şu an kullandığınız distroda ping komutunun nasıl çalıştığına(yetkisiz kullanıcı ile) baktınız mı hiç?&lt;/p&gt;
 &lt;p&gt;Hadi yetkilerine bakalım. Direkt olarak komutları ve çıktılarını aşağıya kopyalıyorum. Sonra üstünde konuşacağız.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;➜  /bin ls -la &lt;span class="p"&gt;|&lt;/span&gt; grep ping
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;➜  /bin ls -la &lt;span class="p"&gt;|&lt;/span&gt; grep ping
 -rwxr-xr-x  &lt;span class="m"&gt;1&lt;/span&gt; root root          &lt;span class="m"&gt;75760&lt;/span&gt; Jan  &lt;span class="m"&gt;5&lt;/span&gt;  &lt;span class="m"&gt;2019&lt;/span&gt; atk6-thcping6
 -rwxr-xr-x  &lt;span class="m"&gt;1&lt;/span&gt; root root          &lt;span class="m"&gt;48032&lt;/span&gt; Aug  &lt;span class="m"&gt;7&lt;/span&gt; &lt;span class="m"&gt;02&lt;/span&gt;:48 fping
 lrwxrwxrwx  &lt;span class="m"&gt;1&lt;/span&gt; root root              &lt;span class="m"&gt;5&lt;/span&gt; Jan  &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;18&lt;/span&gt;:47 fping6 -&amp;gt; fping
@@ -301,8 +292,7 @@ lrwxrwxrwx  &lt;span class="m"&gt;1&lt;/span&gt; root root              &lt;span
 ➜  /bin ping &lt;span class="m"&gt;8&lt;/span&gt;.8.8.8
 PING &lt;span class="m"&gt;8&lt;/span&gt;.8.8.8 &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&gt;.8.8.8&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;56&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;84&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; bytes of data.
 &lt;span class="m"&gt;64&lt;/span&gt; bytes from &lt;span class="m"&gt;8&lt;/span&gt;.8.8.8: &lt;span class="nv"&gt;icmp_seq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nv"&gt;ttl&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;54&lt;/span&gt; &lt;span class="nv"&gt;time&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;15&lt;/span&gt;.4 ms
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Gördüğünüz gibi ping komutu &lt;code&gt;root:root&lt;/code&gt; olarak yetkilendirilmiş bir biçimde üstelik herhangi bir &lt;code&gt;SUID Bit vb.&lt;/code&gt; bir şey de yok fakat ben nasıl çalıştırabiliyorum?&lt;/p&gt;
 &lt;p&gt;Yine terminal çıktısı atayım.&lt;/p&gt;
@@ -315,7 +305,7 @@ PING &lt;span class="m"&gt;8&lt;/span&gt;.8.8.8 &lt;span class="o"&gt;(&lt;/span
 &lt;p&gt;Kaynak: &lt;a href="https://github.com/torvalds/linux/commit/c319b4d76b9e583a5d88d6bf190e079c4e43213d"&gt;      net: ipv4: add IPPROTO_ICMP socket kind    &lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;Capabilities API&lt;/h2&gt;
 &lt;p&gt;Öncelik olarak Kernel sürümümüze özel olarak sistem üzerinde ne kadar farklı yetkilendirme yapabileceğimize bakalım. (Tüm Capabilities Yetkilerine)&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;➜  ~ sudo capsh --print
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;➜  ~ sudo capsh --print
 Current: &lt;span class="o"&gt;=&lt;/span&gt; cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read+ep
 Bounding &lt;span class="nb"&gt;set&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read
 Ambient &lt;span class="nb"&gt;set&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
@@ -327,8 +317,7 @@ Securebits: &lt;span class="m"&gt;00&lt;/span&gt;/0x0/1&lt;span class="err"&gt;&
 &lt;span class="nv"&gt;uid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;root&lt;span class="o"&gt;)&lt;/span&gt;
 &lt;span class="nv"&gt;gid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;root&lt;span class="o"&gt;)&lt;/span&gt;
 &lt;span class="nv"&gt;groups&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;root&lt;span class="o"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Gördüğünüz gibi yetkileri görmek için &lt;code&gt;capsh --print&lt;/code&gt; komutunu kullanabilirsiniz. Daha detaylı bir kullanım için: &lt;/p&gt;
 &lt;p&gt;&lt;a href="http://man7.org/linux/man-pages/man1/capsh.1.html"&gt;Capsh manpages&lt;/a&gt;&lt;/p&gt;
@@ -457,26 +446,23 @@ Securebits: &lt;span class="m"&gt;00&lt;/span&gt;/0x0/1&lt;span class="err"&gt;&
 &lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=J-KUtPPlUqs" title="saian &amp;lt;3"&gt;&lt;img alt="Saian K&amp;quot;st Uçurum Çiçeği" src="http://img.youtube.com/vi/J-KUtPPlUqs/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="linux"></category><category term="linux kurulum sonrası"></category><category term="linux tavsiye uygulamalar"></category><category term="yazılımcılar için linux"></category><category term="en güzel linux uygualamaları"></category></entry><entry><title>PS Komutunun Alabildiği Argümanlar</title><link href="https://enesergun.net/ps-command-arguments.html" rel="alternate"></link><published>2018-02-10T22:19:00+03:00</published><updated>2018-02-10T22:19:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-02-10:/ps-command-arguments.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;PS&lt;/strong&gt; komutu linux üzerinde processleri ( çalışan işlemleri ) monitoring edebileceğimiz bir komuttur. Pek tabi ki bir çok argüman almaktadır. Şimdi bu argümanların en çok kullanılanlarına aşağıda bahsedeceğiz. PS komutu çıktıları bir çok formatta olabiliyor. İyi okumalar.&lt;/p&gt;
 &lt;h3&gt;Let's go&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;NOT&lt;/strong&gt;: Önce komutu gösterip daha sonra komutu açıklayacağım bilginize.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -A
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -A
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;PS&lt;/strong&gt; komutu linux üzerinde processleri ( çalışan işlemleri ) monitoring edebileceğimiz bir komuttur. Pek tabi ki bir çok argüman almaktadır. Şimdi bu argümanların en çok kullanılanlarına aşağıda bahsedeceğiz. PS komutu çıktıları bir çok formatta olabiliyor. İyi okumalar.&lt;/p&gt;
 &lt;h3&gt;Let's go&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;NOT&lt;/strong&gt;: Önce komutu gösterip daha sonra komutu açıklayacağım bilginize.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -A
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -A
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut varsayılan olarak &lt;strong&gt;Linux formatında&lt;/strong&gt; çalışan processleri bizlere döndürür. Bu processlerde bizlere PID, hangi TTY'de çalıştığını, zamanını  ve hangi processin çalıştığını bizlere gösterir. Mesela benim ekran görüntümde tty7'de Xorg çalışıyor.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="" src="/images/psa1.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps au
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps au
 ps axu
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Yukarıda ki komutun çıktıları &lt;strong&gt;BSD&lt;/strong&gt;  formatında olur. Bu formatta Kullanıcı, PID numarası, kullandığı işlemci yüzdesi, kullandığı ram yüzdesi, VSZ değeri, RSS değeri, TTY değeri, İşlemin durumu, zamanını ve komutunun çıktısını verir.&lt;/li&gt;
@@ -484,69 +470,60 @@ ps axu
 &lt;p&gt;&lt;strong&gt;VSZ&lt;/strong&gt; : Bir işlemin kullanacağı, kullanabileceği sanal bellek miktarıdır.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;RSS&lt;/strong&gt; : Bu işleme tahsis edilen fiziksel bellek miktarıdır.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="" src="/images/psaux1.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -eF
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -eF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Yukarıda ki komut full çıktı modudur. Bu çıktıda sizlere UID, PID, PPID, C, SZ, RSS, PSR, STIME, TTY, TIME, CMD değerleri döner.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -fU ka1
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -fU ka1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile adını verdiğiniz kullanıcıya ait processleri görebilirsiniz.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="" src="/images/psfu1.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -U root -u root
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -U root -u root
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile root kullanıcı tarafından çalıştırılan tüm processleri görebilirsiniz.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -fG postgres
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -fG postgres
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile bir gruba ait tüm çalışan processleri görebilirsiniz. Bu ne demektir? Mesela web diye bir kullanıcı grubunuz var ve bunun altında nginx/gunicorn/celery bulunuyor. Siz direkt olarak bu şekilde çalışan processleri görebilirsiniz.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="" src="/images/psfg1.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -fp PID
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -fp PID
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile PID değerini verdiğiniz process veya processleri görebilirsiniz. Burada tekli veya çoklu seçim yapabilirsiniz.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -ft tty1
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -ft tty1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile o TTY'de çalıştırılan komutları görebilirsiniz.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -aux --forest
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -aux --forest
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile yukarıda bahsetmiş olduğumuz &lt;strong&gt;BSD&lt;/strong&gt; tarzında bir çıktı alırsınız fakat burada ki tek fark processlerin parent-child ( aslında forest/treeview )  ilişkileri bu çıktı içerisinde gösterilir.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="" src="/images/psforest1.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -eo user,%cpu
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -eo user,%cpu
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile PS çıktısını kendinize göre özelleştirebilirsiniz. Ben yukarıda ki komutta processin hangi kullanıcı tarafından çalıştırıldığını ve yüzde kaç CPU kullandığını görmek istedim.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="" src="/images/pschangeoutput1.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -eo user,%cpu,command,%mem --sort&lt;span class="o"&gt;=&lt;/span&gt;-%mem &lt;span class="p"&gt;|&lt;/span&gt;  head
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -eo user,%cpu,command,%mem --sort&lt;span class="o"&gt;=&lt;/span&gt;-%mem &lt;span class="p"&gt;|&lt;/span&gt;  head
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile ps komutu çıktısını sıralayabilirsiniz. Burada -%mem en fazla RAM Kullanan processleri ekrana yazdıracaktır. En az kullananları isterseniz %mem yazabilirsiniz.&lt;/li&gt;

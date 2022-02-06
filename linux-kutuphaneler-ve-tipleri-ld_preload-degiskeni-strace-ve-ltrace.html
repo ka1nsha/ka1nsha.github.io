@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -72,17 +72,16 @@
 <p>Derleme esnasında linklenen bu libraryler artık kodumuzun bir parçası olmaktadırlar. Örnek olarak: Yazdığımız scriptin sadece 1 çalıştırılabilir dosya olduğunu düşünün(ELF, PE). Yazılımı çalıştırmak için gereksinim kurmamıza gerek yok. Tek tıkla çalıştır.</p>
 <p>Aşağıda dinamik libraryleri kullanan herhangi bir çalıştırılabilir dosyaya ait bilgileri gösteren <code>ldd</code> ve <code>objdump</code> komutundan bahsettim fakat bu komutlar sadece shared olanları gösteriyor. Eğer statik librarylere ait bilgi görmek istiyorsak bazı sıkıntılarımız var demektir. Çünkü kodlarımız içerisinde kullandığımız librarylerin isimleri derleme esnasında göz ardı edilir. Bu sebeple eğer görmek istiyorsak derleme esnasında <code>-g</code> parametresini kullanmalı veya kodumuzun bir map dosyasını çıkartmalıyız. Görebilmek adına kullanacağımız komut <code>nm</code> komutudur. Detaylı bilgi için manpages veya <a href="https://www.tutorialspoint.com/unix_commands/nm.htm">TutorialsPoint</a></p>
 <p>Örn kullanım:</p>
-<div class="highlight"><pre><span></span>nm python
+<div class="highlight"><pre><span></span><code>nm python
 nm: python: no symbols
-</pre></div>
-
+</code></pre></div>
 
 <h4>Dinamik Libraryler(.so)</h4>
 <p>Bu kısımda ise libraryler derlenme esnasında kod içerisinde linklenerek sistem üzerinde ki konumlarından runtime esnasında çağırılarak/yüklenerek kullanılmaktadır. </p>
 <p>Bir örnek ile bakalım. Tüm linux dağıtımları içerisinde Python diline ait interpreter(yorumlayıcı) yüklü olarak gelmektedir ve hali hazırda bir çok shared kütüphane kullanmaktadır. Şimdi bunlara bakalım.</p>
 <p>Bunun için ilk örnekte ldd komutunu kullanacağım.</p>
 <p>Python3.7'a ait shared olarak kullanılan libraryler:</p>
-<div class="highlight"><pre><span></span>ldd python3.7
+<div class="highlight"><pre><span></span><code>ldd python3.7
         linux-vdso.so.1 <span class="o">(</span>0x00007fff5814e000<span class="o">)</span>
         libc.so.6 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libc.so.6 <span class="o">(</span>0x00007fcaef7ec000<span class="o">)</span>
         libpthread.so.0 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libpthread.so.0 <span class="o">(</span>0x00007fcaef7cb000<span class="o">)</span>
@@ -92,11 +91,10 @@ nm: python: no symbols
         libz.so.1 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libz.so.1 <span class="o">(</span>0x00007fcaef777000<span class="o">)</span>
         libm.so.6 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libm.so.6 <span class="o">(</span>0x00007fcaef630000<span class="o">)</span>
         /lib64/ld-linux-x86-64.so.2 <span class="o">(</span>0x00007fcaef9dc000<span class="o">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Python'a ait shared olarak kullanılan libraryler:</p>
-<div class="highlight"><pre><span></span>ldd python
+<div class="highlight"><pre><span></span><code>ldd python
         linux-vdso.so.1 <span class="o">(</span>0x00007ffdb49b3000<span class="o">)</span>
         libc.so.6 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libc.so.6 <span class="o">(</span>0x00007f4e56dbe000<span class="o">)</span>
         libpthread.so.0 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libpthread.so.0 <span class="o">(</span>0x00007f4e56d9d000<span class="o">)</span>
@@ -105,14 +103,13 @@ nm: python: no symbols
         libz.so.1 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libz.so.1 <span class="o">(</span>0x00007f4e56d76000<span class="o">)</span>
         libm.so.6 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libm.so.6 <span class="o">(</span>0x00007f4e56c31000<span class="o">)</span>
         /lib64/ld-linux-x86-64.so.2 <span class="o">(</span>0x00007f4e57358000<span class="o">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>LDD komutu linux sistemler üzerinde çalıştırılabilir scriptinize ait shared object(.so?) bağımlılıklarını gösteren bir komuttur.</p>
 <p>Birde objdump ile bakalım. Bu arada objdump komutu ise obje dosyalarına ait bilgileri gösteren bir komuttur.</p>
 <p>Çıktı olarak uzun bir çıktı verecektir. Bu sebeple küçük ve sadece python3.7'ye ait kısmını koyuyorum.</p>
 <p>Python3.7'a ait çıktı:</p>
-<div class="highlight"><pre><span></span>Dynamic Section:
+<div class="highlight"><pre><span></span><code>Dynamic Section:
   NEEDED               libc.so.6
   NEEDED               libpthread.so.0
   NEEDED               libdl.so.2
@@ -171,8 +168,7 @@ Version References:
     0x09691972 0x00 <span class="m">06</span> GLIBC_2.3.2
     0x0d696919 0x00 <span class="m">04</span> GLIBC_2.9
     0x09691a75 0x00 <span class="m">02</span> GLIBC_2.2.5
-</pre></div>
-
+</code></pre></div>
 
 <p>Daha şimdiden konunun çok fazla dışına çıktık.</p>
 <p>Daha detaylı bilgiler için: <a href="https://demirten.gitbooks.io/linux-sistem-programlama/content/shared-libraries/">Paylaşımlı Kütüphaneler</a></p>
@@ -188,7 +184,7 @@ Version References:
 <p>Bu komut linux sistemler üzerinde çalıştırmış olduğumuz uygulamaların yapmış olduğu sistem çağrılarını gösteren bir komuttur. Ben komutun açılımı olarak aklımda <code>system trace</code> bir açılım canlandırdım fakat yanlış olabilir. </p>
 <p>Derlenmiş bir uygulama/kodda troubleshooting veya debugging için kullanılan komutlardandır. </p>
 <p>Örnek bir çıktı:</p>
-<div class="highlight"><pre><span></span>strace ls ./Desktop
+<div class="highlight"><pre><span></span><code>strace ls ./Desktop
 execve<span class="o">(</span><span class="s2">&quot;/usr/bin/ls&quot;</span>, <span class="o">[</span><span class="s2">&quot;ls&quot;</span>, <span class="s2">&quot;./Desktop&quot;</span><span class="o">]</span>, 0x7ffecc44f368 /* <span class="m">67</span> vars */<span class="o">)</span> <span class="o">=</span> <span class="m">0</span>
 brk<span class="o">(</span>NULL<span class="o">)</span>                               <span class="o">=</span> 0x5582a178e000
 access<span class="o">(</span><span class="s2">&quot;/etc/ld.so.preload&quot;</span>, R_OK<span class="o">)</span>      <span class="o">=</span> <span class="m">0</span>
@@ -202,8 +198,7 @@ close<span class="o">(</span><span class="m">3</span><span class="o">)</span>   
 openat<span class="o">(</span>AT_FDCWD, <span class="s2">&quot;/lib/x86_64-linux-gnu/libselinux.so.1&quot;</span>, O_RDONLY<span class="p">|</span>O_CLOEXEC<span class="o">)</span> <span class="o">=</span> <span class="m">3</span>
 read<span class="o">(</span><span class="m">3</span>, <span class="s2">&quot;\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0&gt;\0\1\0\0\0\0|\0\0\0\0\0\0&quot;</span>..., <span class="m">832</span><span class="o">)</span> <span class="o">=</span> <span class="m">832</span>
 fstat<span class="o">(</span><span class="m">3</span>, <span class="o">{</span><span class="nv">st_mode</span><span class="o">=</span>S_IFREG<span class="p">|</span><span class="m">0644</span>, <span class="nv">st_size</span><span class="o">=</span><span class="m">163520</span>, ...<span class="o">})</span> <span class="o">=</span> <span class="m">0</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Daha detaylı bir açıklama için:</p>
 <p>[TR] <a href="https://demirten.gitbooks.io/gomulu-linux/misc/strace.html">Strace kullanımı</a></p>
@@ -216,7 +211,7 @@ fstat<span class="o">(</span><span class="m">3</span>, <span class="o">{</span><
 <h2>Ltrace</h2>
 <p>Kendisi strace benzeri bir komut olmakla birlikte paylaşımlı(shared) librarylerden çağrılan fonksiyonları izlemeye yarar. Ayrıca <code>strace</code> komutunda olduğu gibi sistem çağrılarını da gösterebilir. Ben yine kafamda <code>library trace</code> olarak çevirdim.</p>
 <p>Örnek bir çıktıyı aşağıya ekliyorum.</p>
-<div class="highlight"><pre><span></span>ltrace ls ./Desktop        
+<div class="highlight"><pre><span></span><code>ltrace ls ./Desktop        
 strrchr<span class="o">(</span><span class="s2">&quot;ls&quot;</span>, <span class="s1">&#39;/&#39;</span><span class="o">)</span>                                                      <span class="o">=</span> nil
 setlocale<span class="o">(</span>LC_ALL, <span class="s2">&quot;&quot;</span><span class="o">)</span>                                                   <span class="o">=</span> <span class="s2">&quot;en_US.UTF-8&quot;</span>
 bindtextdomain<span class="o">(</span><span class="s2">&quot;coreutils&quot;</span>, <span class="s2">&quot;/usr/share/locale&quot;</span><span class="o">)</span>                        <span class="o">=</span> <span class="s2">&quot;/usr/share/locale&quot;</span>
@@ -263,16 +258,14 @@ __ctype_get_mb_cur_max<span class="o">()</span>                                 
 strlen<span class="o">(</span><span class="s2">&quot;steam.desktop&quot;</span><span class="o">)</span>                                                 <span class="o">=</span> <span class="m">13</span>
 strlen<span class="o">(</span><span class="s2">&quot;steam.desktop&quot;</span><span class="o">)</span>                                                 <span class="o">=</span> <span class="m">13</span>
 memcpy<span class="o">(</span>0x55a149da5a10, <span class="s2">&quot;steam.desktop\0&quot;</span>, <span class="m">14</span><span class="o">)</span>                           <span class="o">=</span> 0x55a149da5a10
-</pre></div>
-
+</code></pre></div>
 
 <h2>Ekstra Bilgi</h2>
 <p>Linux sistemler üzerinde herhangi bir process'in memory üzerinde maplediği alanları görmek isterseniz aşağıdaki gibi bir komut kullanabilirsiniz.</p>
-<div class="highlight"><pre><span></span>cat /proc/<span class="o">[</span>PID numarası<span class="o">]</span>/maps
+<div class="highlight"><pre><span></span><code>cat /proc/<span class="o">[</span>PID numarası<span class="o">]</span>/maps
 veya
 cat /proc/<span class="k">$(</span>pidof <span class="o">[</span>Process ismi<span class="o">]</span><span class="k">)</span>/maps
-</pre></div>
-
+</code></pre></div>
 
 <p>Bu komutları çalıştırdığınızda devasa bir çıktı görebilir ve memory üzerinde processin aynı library ile birden fazla yer ayırdığını vs görebilirsiniz. Örnek vermek gerekirse 4 tane libgl.so (attım bu ismi) ismi görebilirsiniz. Bunun temel sebebi hepsinin farklı <code>permission</code> 'a sahip olmasıdır. </p>
 <p>Proc file systemi hakkındaki manuel'e ulaşmak için: <a href="https://www.kernel.org/doc/Documentation/filesystems/proc.txt">Tıklayın</a></p>

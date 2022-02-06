@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - vagrant</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/vagrant.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2018-01-08T23:12:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>Vagrant Komutları ( Cheatsheet )</title><link href="https://enesergun.net/vagrant-komutlari.html" rel="alternate"></link><published>2018-01-08T23:12:00+03:00</published><updated>2018-01-08T23:12:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-01-08:/vagrant-komutlari.html</id><summary type="html">&lt;h2&gt;Vagrant Komutları&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - vagrant</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/vagrant.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2018-01-08T23:12:00+03:00</updated><subtitle>Personel homepage</subtitle><entry><title>Vagrant Komutları ( Cheatsheet )</title><link href="https://enesergun.net/vagrant-komutlari.html" rel="alternate"></link><published>2018-01-08T23:12:00+03:00</published><updated>2018-01-08T23:12:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-01-08:/vagrant-komutlari.html</id><summary type="html">&lt;h2&gt;Vagrant Komutları&lt;/h2&gt;
 &lt;p&gt;Selamlar, geçtiğimiz hafta Vagrant ile ilgili bir blog post yayınlamıştım hatırlarsanız. Biraz daha üzerine gitmek istedim. Bu yazıda Vagrant komutlarının kısa açıklamalarına değineceğim.&lt;/p&gt;
 &lt;p&gt;Sayfayı print ederek elinize güzel bir döküman geçmesini amaçlamaktayım.&lt;/p&gt;
 &lt;table&gt;
@@ -115,7 +115,7 @@
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;vagrant plugin install &lt;/td&gt;
+&lt;td&gt;vagrant plugin install {}&lt;/td&gt;
 &lt;td&gt;Ismını verdiğiniz plugini kurar.&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
@@ -130,17 +130,17 @@
 &lt;td&gt;Eğer onarma işe yaramaz ise expunge komutuna --reinstall parametresi vererek deneyiniz.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;vagrant plugin uninstall &lt;/td&gt;
+&lt;td&gt;vagrant plugin uninstall {}&lt;/td&gt;
 &lt;td&gt;Ismını vermiş olduğunuz plugini siler.&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;vagrant plugin update &lt;/td&gt;
+&lt;td&gt;vagrant plugin update {}&lt;/td&gt;
 &lt;td&gt;Ismını vermiş olduğunuz plugini günceller.&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;vagrant port &lt;/td&gt;
+&lt;td&gt;vagrant port {}&lt;/td&gt;
 &lt;td&gt;Ismını veya id'sini vermiş olduğunuz makinenizin açık portlarını gösterir&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
@@ -227,9 +227,10 @@
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h2&gt;1.1 Vagrant box add&lt;/h2&gt;
-&lt;p&gt;&lt;pre&gt;Vagrant public reposunda bulunan kutuların kısa isimlerini kabul etmektedir. Örn: ubuntu/precise64
+&lt;pre&gt;Vagrant public reposunda bulunan kutuların kısa isimlerini kabul etmektedir. Örn: ubuntu/precise64
 Dosya yolu veya HTTP URL kabul etmektedir. HTTP/S desteği bulunmaktadır. HTTP üzerinden basic authentication desteklemektedir. 
-URL üzerinden direkt olarak bir kutu eklenebilmektedir.&lt;/pre&gt;&lt;/p&gt;
+URL üzerinden direkt olarak bir kutu eklenebilmektedir.&lt;/pre&gt;
+
 &lt;p&gt;Ayrıca bu komutun alabileceği options parametleri vardır.
 &lt;strong&gt; --box-version {} &lt;/strong&gt; : süslü parantezler arasına yazacağınız özel bir versionu indirecektir.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt; --clean &lt;/strong&gt; : Eğer bu komutu verirseniz daha önce eğer varsa önbelleğe alınmış verileri, yarım kalmış indirme işlemlerini siler ve yeniden indirmeye başlar. &lt;/p&gt;
@@ -276,27 +277,25 @@ URL üzerinden direkt olarak bir kutu eklenebilmektedir.&lt;/pre&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt; Provision &lt;/strong&gt; : Sistem kurulduktan sonra çalıştırılacak script vs şeyleri yazdığımız yer ( en azından benim anladığım :D )&lt;/p&gt;
 &lt;h3&gt;Next, Next, Next&lt;/h3&gt;
 &lt;p&gt;Debian based sistemler üzerinde&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt install vagrant
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt install vagrant
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Tabi ki sadece &lt;strong&gt;vagrant&lt;/strong&gt; kurmak yetmeyecektir. Kullanacağınız provider'ı da sisteminize indirmeniz gerekmektedir. Ben &lt;strong&gt;virtualbox&lt;/strong&gt; kullanacağım.&lt;/p&gt;
 &lt;h3&gt;Hadi Başlayalım.&lt;/h3&gt;
 &lt;p&gt;Projeyi oluşturacağınız klasöre gittiğinizde burada vagrant init yaparsanız sizin için bir &lt;em&gt;&lt;strong&gt;vagrantfile&lt;/strong&gt;&lt;/em&gt; oluşacaktır.
 İçerisini temizleyerek aşağıda ki satırları ekleyelim.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Vagrant.configure&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;config&lt;span class="p"&gt;|&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Vagrant.configure&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;config&lt;span class="p"&gt;|&lt;/span&gt;
         config.vm.define &lt;span class="s2"&gt;&amp;quot;nebuvagrantya&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;nbv&lt;span class="p"&gt;|&lt;/span&gt;
         nbv.vm.box &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ubuntu/trusty64&amp;quot;&lt;/span&gt;
         nbv.vm.network :private_network, ip: &lt;span class="s2"&gt;&amp;quot;10.0.0.2&amp;quot;&lt;/span&gt;
         nbv.vm.hostname &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;nebuvagrantya&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Burada ki kodları açıklamak gerekirse Vagrant.configure(2) do &lt;strong&gt;|config|&lt;/strong&gt; yazdığımızda kalın yazdığım kısım aslında bir değişken olarak davranıyor.&lt;/p&gt;
 &lt;p&gt;Altında Vagrant üzerinde bir makine açacağımızı ve bunu kısaltma olarak nbv olarak çağıracağımızı belirtiyoruz. ( nbv )&lt;/p&gt;
 &lt;p&gt;Diğer satırlarda bu makinemizin ubuntu kutusunu kullanacağını belirtiyoruz. Bu kutunun hangi ip alacağını ve private networkde olacağını belirtiyoruz. Ayrıca bu makinenin Virtualbox üzerinde ki ismini de belirtmiş oluyoruz. Fakat bu bize yetiyor mu tabi ki yetmiyor. Hadi biraz daha sanal makinemizin ayarları ile oynayalım.&lt;/p&gt;
 &lt;p&gt;Projemize provider olarak &lt;strong&gt;virtualbox&lt;/strong&gt; ekleyelim. &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Vagrant.configure&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;config&lt;span class="p"&gt;|&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Vagrant.configure&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;config&lt;span class="p"&gt;|&lt;/span&gt;
     config.vm.define &lt;span class="s2"&gt;&amp;quot;nebuvagrantya&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;nbv&lt;span class="p"&gt;|&lt;/span&gt;
     nbv.vm.box &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ubuntu/trusty64&amp;quot;&lt;/span&gt;
     nbv.vm.network :private_network, ip: &lt;span class="s2"&gt;&amp;quot;10.0.0.2&amp;quot;&lt;/span&gt;
@@ -309,22 +308,20 @@ URL üzerinden direkt olarak bir kutu eklenebilmektedir.&lt;/pre&gt;&lt;/p&gt;
         vb.cpus &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;2&amp;quot;&lt;/span&gt;
         vb.customize &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;modifyvm&amp;quot;&lt;/span&gt;, :id, &lt;span class="s2"&gt;&amp;quot;--vram&amp;quot;&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;32&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
         end
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Burada VBoxmanage kullanarak sanal makinemizin ismini, ram miktarını, ekran kartı ram miktarını ve işlemci sayısını belirttik. Ayrıca provision kısmında shell üzerinde proje klasörümüzde bulunan &lt;strong&gt;nginxyukle.sh&lt;/strong&gt; dosyasını çalıştıracağız.
 İsterseniz provisioning kısmında isterseniz direkt olarak ansible çalıştırabilirsiniz.&lt;/p&gt;
 &lt;p&gt;Örnek kod:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    vb.vm.provision &lt;span class="s2"&gt;&amp;quot;ansible&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;ansible&lt;span class="p"&gt;|&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    vb.vm.provision &lt;span class="s2"&gt;&amp;quot;ansible&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;ansible&lt;span class="p"&gt;|&lt;/span&gt;
         ansible.playbook &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;nginxyukle.yml&amp;quot;&lt;/span&gt;
         ansible.verbose &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;v&amp;quot;&lt;/span&gt;
 end
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Sanal makinenizin çok daha fazla ayarını değiştirmek isterseniz eğer aşağıya referans sayfasını ekleyeceğim.&lt;/p&gt;
 &lt;p&gt;Vagrant dosyamızın son hali &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Vagrant.configure&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;config&lt;span class="p"&gt;|&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Vagrant.configure&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;config&lt;span class="p"&gt;|&lt;/span&gt;
     config.vm.define &lt;span class="s2"&gt;&amp;quot;nebuvagrantya&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;nbv&lt;span class="p"&gt;|&lt;/span&gt;
     nbv.vm.box &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ubuntu/trusty64&amp;quot;&lt;/span&gt;
     nbv.vm.network :private_network, ip: &lt;span class="s2"&gt;&amp;quot;10.0.0.2&amp;quot;&lt;/span&gt;
@@ -340,14 +337,12 @@ end
     nbv.vm.provision :shell, path: &lt;span class="s2"&gt;&amp;quot;nginxyukle.sh&amp;quot;&lt;/span&gt;
         end
         end
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Hadi çalıştıralım artık.
 Terminalinize &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;vagrant up
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;vagrant up
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Yazarsanız eğer daha önce aynı box'ı indirmemişseniz aşağıda ki gibi bir ekran göreceksiniz.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Not:&lt;/strong&gt; Nginxyukle.sh dosyanızı oluşturmayı unutmayın :)

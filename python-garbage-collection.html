@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -54,19 +54,18 @@
 2. Her obje için bir referans count değeri oluşturuyor. Bu da memoryde fazladan alan demek.
 3. Cyclical Reference'ları tanımlayamıyor. 
 Örnek:</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
 <span class="n">a</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
-<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
 <span class="k">del</span> <span class="n">a</span>
-<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
 <span class="n">Output</span><span class="p">:</span>
 <span class="mi">69</span>
 <span class="mi">71</span>
 <span class="mi">70</span>
-</pre></div>
-
+</code></pre></div>
 
 <h3>Tracing Garbage Collector</h3>
 <p>En fazla kullanılan yöntemdir.
@@ -105,37 +104,34 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi <code>Gen0
 |refcount|2|
 |value|500|</p>
 <p>Kod olarak açıklarsak eğer:</p>
-<div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mi">500</span>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="mi">500</span>
 <span class="n">b</span> <span class="o">=</span> <span class="mi">500</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> 
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> 
 <span class="n">output</span><span class="p">:</span>
 <span class="mi">49670448</span>
 <span class="mi">49670448</span> <span class="mi">49670448</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Gördüğünüz gibi iki farklı değişkenim, hatta bir integer'ım var ve aslında hepsi temelde memorydeki 500 değerini barındıran PyObject'e referans veriyor. Bir de aşağıdaki koda bakalım.</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
 <span class="n">a</span> <span class="o">=</span> <span class="mi">500</span>
 <span class="n">b</span> <span class="o">=</span> <span class="mi">500</span>
-<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
-</pre></div>
-
+<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+</code></pre></div>
 
 <p>Çıktısı aşağıdaki gibi olacaktır.</p>
-<div class="highlight"><pre><span></span><span class="mi">2</span>
+<div class="highlight"><pre><span></span><code><span class="mi">2</span>
 <span class="mi">4</span>
 <span class="mi">49671840</span>
 <span class="mi">49671840</span> <span class="mi">49671840</span>
 <span class="mi">4</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>ID'lerini bir kenara bırakırsak başlangıçta 500 değerini tutan Objemizin <code>count'u</code> 2 olarak gözükmekte biz bu değeri <code>a</code> ve <code>b</code> değişkenlerine verdiğimizde <code>refcount</code> 4 oluyor fakat <code>print</code> ile yazdırdığımız 500 değeri <code>refcountu</code> etkilemiyor. Bunun nedeni herhangi bir referans vermeden direkt yazdırmamızdan dolayıdır. </p>
 <p>Aslında yazıyı biraz daha uzatıp <code>__slots__</code>dan ve Python üzerindeki veri tipleri ve bu veri tiplerinin kapladıkları alan gibi konulardan bahsetmek istiyordum fakat bir baktım ki zaten sevgili <code>Mazlum Ağar</code> bu konudan bahsetmiş. İlgili yazının linkini hemen aşağıya iliştiriyorum.</p>

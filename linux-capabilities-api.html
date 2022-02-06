@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -40,9 +40,8 @@
         <article>
             <p>Selamlar,</p>
 <p>Günlük olarak RSS feedlerimi takip etmeye özen gösteren birisiyim(Feedly). Bu feedler arasında bolca HTB(HackTheBox)  write-up kaynağı da bulunuyor doğal olarak. İşte yine bir HTB makinesi ile ilgili write-up'ı okurken bunca yıldır Linux(End-User olarak) kullanan biri olarak karşılaşmadığım ve karşılaştığımda şaşırdığım bir komut gördüm. Neydi bu komut?</p>
-<div class="highlight"><pre><span></span>getcap -r / <span class="m">2</span>&gt;/dev/null
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>getcap -r / <span class="m">2</span>&gt;/dev/null
+</code></pre></div>
 
 <p>Komutu anlatmak gerekirse recursive bir biçimde <code>/</code> yani en üst dizinden başlayarak tüm dosyaların kabiliyetlerini kontrol edecek ve eğer return code olarak <code>2</code> kodu dönülüyorsa bunu <code>/dev/null</code> uzayına gönderecek.</p>
 <h2>Linux Yetkilendirme Sistemleri</h2>
@@ -52,9 +51,8 @@
 <h2>Peki Enes Bunlar Ne İşe Yarayacak</h2>
 <p>Öncelikle bir hacker olduğunuzu düşünün, bir linux sistemi ele geçirdiniz fakat o da ne? Sistem üzerinde Nginx'in tüm işlemleri özel bir kullanıcı ile yürütülüyor ve siz bu sistemde at koşturamıyorsunuz. Ne yapmamız gerek? Sistem üzerinde yetkimizi yükseltebileceğimiz bir şeyler aramamız gerekmekte.</p>
 <p>Ne yapabiliriz? Mesela SUID Bit içeren dosyaları arayabiliriz.</p>
-<div class="highlight"><pre><span></span>find / -perm -4000 -type f <span class="m">2</span>&gt;/dev/null
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>find / -perm -4000 -type f <span class="m">2</span>&gt;/dev/null
+</code></pre></div>
 
 <p>Tamam bir executable dosya bulduk ama bunu nasıl kullanacağımızı bilmiyoruz? İster Google üzerinde aratın ya da bu iş için çok güzel bir site hazırlamışlar ona bakabilirsiniz.</p>
 <p><a href="https://gtfobins.github.io/">GTFOBins</a> (Linux)</p>
@@ -72,7 +70,7 @@
 <p><a href="https://canyoupwn.me/tr-suid-bit-istismari/">SUID Bit İstismarı</a></p>
 <p>Evet zararlı kısmını da gösterdik. Şimdi konu gerçekten Capabilities API'a geldi. Şu an kullandığınız distroda ping komutunun nasıl çalıştığına(yetkisiz kullanıcı ile) baktınız mı hiç?</p>
 <p>Hadi yetkilerine bakalım. Direkt olarak komutları ve çıktılarını aşağıya kopyalıyorum. Sonra üstünde konuşacağız.</p>
-<div class="highlight"><pre><span></span>➜  /bin ls -la <span class="p">|</span> grep ping
+<div class="highlight"><pre><span></span><code>➜  /bin ls -la <span class="p">|</span> grep ping
 -rwxr-xr-x  <span class="m">1</span> root root          <span class="m">75760</span> Jan  <span class="m">5</span>  <span class="m">2019</span> atk6-thcping6
 -rwxr-xr-x  <span class="m">1</span> root root          <span class="m">48032</span> Aug  <span class="m">7</span> <span class="m">02</span>:48 fping
 lrwxrwxrwx  <span class="m">1</span> root root              <span class="m">5</span> Jan  <span class="m">4</span> <span class="m">18</span>:47 fping6 -&gt; fping
@@ -88,8 +86,7 @@ lrwxrwxrwx  <span class="m">1</span> root root              <span class="m">4</s
 ➜  /bin ping <span class="m">8</span>.8.8.8
 PING <span class="m">8</span>.8.8.8 <span class="o">(</span><span class="m">8</span>.8.8.8<span class="o">)</span> <span class="m">56</span><span class="o">(</span><span class="m">84</span><span class="o">)</span> bytes of data.
 <span class="m">64</span> bytes from <span class="m">8</span>.8.8.8: <span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span> <span class="nv">ttl</span><span class="o">=</span><span class="m">54</span> <span class="nv">time</span><span class="o">=</span><span class="m">15</span>.4 ms
-</pre></div>
-
+</code></pre></div>
 
 <p>Gördüğünüz gibi ping komutu <code>root:root</code> olarak yetkilendirilmiş bir biçimde üstelik herhangi bir <code>SUID Bit vb.</code> bir şey de yok fakat ben nasıl çalıştırabiliyorum?</p>
 <p>Yine terminal çıktısı atayım.</p>
@@ -102,7 +99,7 @@ PING <span class="m">8</span>.8.8.8 <span class="o">(</span><span class="m">8</s
 <p>Kaynak: <a href="https://github.com/torvalds/linux/commit/c319b4d76b9e583a5d88d6bf190e079c4e43213d">      net: ipv4: add IPPROTO_ICMP socket kind    </a></p>
 <h2>Capabilities API</h2>
 <p>Öncelik olarak Kernel sürümümüze özel olarak sistem üzerinde ne kadar farklı yetkilendirme yapabileceğimize bakalım. (Tüm Capabilities Yetkilerine)</p>
-<div class="highlight"><pre><span></span>➜  ~ sudo capsh --print
+<div class="highlight"><pre><span></span><code>➜  ~ sudo capsh --print
 Current: <span class="o">=</span> cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read+ep
 Bounding <span class="nb">set</span> <span class="o">=</span>cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read
 Ambient <span class="nb">set</span> <span class="o">=</span>
@@ -114,8 +111,7 @@ Securebits: <span class="m">00</span>/0x0/1<span class="err">&#39;</span>b0
 <span class="nv">uid</span><span class="o">=</span><span class="m">0</span><span class="o">(</span>root<span class="o">)</span>
 <span class="nv">gid</span><span class="o">=</span><span class="m">0</span><span class="o">(</span>root<span class="o">)</span>
 <span class="nv">groups</span><span class="o">=</span><span class="m">0</span><span class="o">(</span>root<span class="o">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Gördüğünüz gibi yetkileri görmek için <code>capsh --print</code> komutunu kullanabilirsiniz. Daha detaylı bir kullanım için: </p>
 <p><a href="http://man7.org/linux/man-pages/man1/capsh.1.html">Capsh manpages</a></p>

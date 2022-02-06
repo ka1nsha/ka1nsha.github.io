@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -42,7 +42,7 @@
 <p>Bende xpath ile o açılır menüde ki kulüplerin id lerini ve isimlerini aldım.Daha sonra bi def içinde gerekli olan sayfayı bulup ona göre döngüye devam ediyordu.</p>
 <p>Fakat bu büyük bir soruna yol açtı bunu sadece 1 kere yapıyordu.Yani 25 sayfa aldıysa sonradan yeniden sayfalar açılırsa ( <strong> Ki bazı kulüpler 2600 sayfa  </strong>) bunu es geçiyordu.</p>
 <p>Neyse kodumuzun ilk haline bakalım.(  <strong>Hataları olabilir bir süre sonra elleşmedim oraya hiç  </strong>)</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">html</span>
 <span class="kn">import</span> <span class="nn">adddb</span>
 
@@ -97,12 +97,11 @@
 
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">disct</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">adddb</span><span class="o">.</span><span class="n">dbadd</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Gördüğünüz gibi burada analiz ettikten sonra artık değişen birşey olmuyordu. Üstelik bütün siteyi parse ettikten sonra db ye ekliyordu bu da herhangi bir hata da hiç bir verinin kaydedilemeyeceği anlamına geliyordu.</p>
 <p>Ama bundan önce bütün listelerin parse edilip tekrar aynı id ile birleştirilmesi koddan anlayabilirsiniz zaten buda bir sürü soruna sebep oldu.Verilerin tam kaydedilmemesi üst üste gelmesi yani verilerde eksik bulunuyordu. Neyse kod şu hale update edildi ( En sorunsuz sürüm sanırım )</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">html</span>
 <span class="kn">import</span> <span class="nn">adddb</span>
 <span class="k">def</span> <span class="nf">multiplelist</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">number</span><span class="p">):</span>
@@ -146,12 +145,11 @@
 
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">u</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span><span class="n">sayfasayisi</span><span class="p">):</span>
     <span class="n">multiplelist</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">u</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Bu da iyi hoştu ama netim sağlam olmadığı için arkadaşlarda çalıştırdığımızda verileri tam olarak çekmiyordu toplamda 9000 küsür veri çekiyordu.Büyük ihtimal sunucumuz belli bir request den sonra bizi drop ediyordu ve bizde çok az veri yazabiliyorduk.</p>
 <p>Neyse buna da bir çözüm bulduk.Daha önce Robin Dimyan bilmem ne :D adlı arkadaşın kodunda kullandığı tor reload kullandım.Test ettiğimde sorunsuz gözüküyordu fakat siteyi tam olarak çekemedim ne yazık ki.</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span><span class="o">,</span><span class="nn">socks</span><span class="o">,</span><span class="nn">socket</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span><span class="o">,</span><span class="nn">socks</span><span class="o">,</span><span class="nn">socket</span>
 <span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">call</span>
 <span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">html</span>
 
@@ -210,21 +208,19 @@
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">u</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span><span class="n">sayfasayisi</span><span class="p">):</span>
     <span class="n">multiplelist</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">u</span><span class="p">)</span>
     <span class="n">tor_reload</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Bu arada burada kodda sayfa sayısını toplamsporcu//15+1 ile alıyorum.Hiç değilse daha sağlıklı oluyor.</p>
 <p>Scriptte kullandığım diğer kodlar şu şekildedir.</p>
 <p>adddb.py'ın dosya içeriği : </p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sqlite3</span>
 <span class="k">def</span> <span class="nf">dbadd</span><span class="p">(</span><span class="n">isim</span><span class="p">,</span><span class="n">yil</span><span class="p">,</span><span class="n">il</span><span class="p">):</span>
     <span class="n">op</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;tsf.db&quot;</span><span class="p">)</span>
     <span class="n">cs</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
     <span class="n">cs</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO tsflicense(isim,dyil,il) VALUES (?,?,?)&quot;</span><span class="p">,(</span><span class="n">isim</span><span class="p">,</span><span class="n">yil</span><span class="p">,</span><span class="n">il</span><span class="p">,))</span>
     <span class="n">op</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
     <span class="n">op</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Not : Burada ki kodlar tamamen eğitim amaçlıdır.Kullanımınızdan doğan herhangi bir yasal sorunda mesuliyet kabul etmem.Yazı hakkında ki yasal sorunlar vs iletişime geçmek için : <a href="emailto:r4wn3ss@gmail.com">Email</a> </p>
         </article>

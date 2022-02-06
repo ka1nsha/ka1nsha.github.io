@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -52,7 +52,7 @@
 <p>Python programlama dilinde yıldız işareti ilk olarak karşımıza <strong>Matematiksel Operatorler</strong> konusunda çıkmaktadır.</p>
 <p>Bu işaret ile vermiş olduğumuz değişkenleri çarpabilir veya bu işareti iki kere kullanarak vermiş olduğumuz integer değerlerinin kuvvetini,üssünü(Power) alabiliriz.</p>
 <p>Örnekle açıklamak gerekirse:</p>
-<div class="highlight"><pre><span></span><span class="c1"># Çarpma</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Çarpma</span>
 <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="mi">2</span> <span class="c1"># A değişkenine tanımlanmış olan liste veri tipini 2 ile çarpıyoruz.</span>
 <span class="o">&gt;</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
@@ -60,18 +60,16 @@
 <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="c1"># Eğer bu şekilde yaparsak listenin kuvvetini alamayacağından dolayı zaten hata verecektir.</span>
 <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">**</span><span class="mi">4</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">a</span><span class="p">]</span> <span class="c1"># A değişkenini for döngüsüne sokarak tüm sonuçları c değişkenine atadım.</span>
 <span class="o">&gt;</span> <span class="p">[</span><span class="mi">625</span><span class="p">,</span> <span class="mi">256</span><span class="p">]</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Yukarıdaki örnekte  farketmiş olacağınız üzere "çarpma" örneğininde bize içinde ki karakterleri değil değişkene tanımlamış olduğumuz değeri 2 ile çarpacaktır. </p>
-<div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="s2">&quot;enes&quot;</span>
-<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="s2">&quot;enes&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
 <span class="o">&gt;</span> <span class="n">enesenes</span>
 <span class="n">a</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
 <span class="o">&gt;</span><span class="mi">6</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Yine yukarıdaki örneklere ait benzer bir işlem yaptık fakat burada liste değil string veri tipinde bir değer tanımladık. İlk çarpma işlemimizde gördüğünüz gibi stringi iki kere çarparak yan yana yazdı. İkinci işlemimizde ise direkt olarak integer değer verdiğimizden dolayı matematiksel bir işleme sokup bize çıktısını üretti.</p>
 <h2>Gelelim Yıldız İşaretinin Gelişmiş Kullanımlarına</h2>
@@ -80,32 +78,29 @@
 <p><strong>R.I.P Aaron Swartz</strong></p>
 <p><a href="https://eksisozluk.com/iterable--5154245">İterable</a></p>
 <p><strong>Örnek 1 </strong></p>
-<div class="highlight"><pre><span></span><span class="n">isimler</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Enes&#39;</span><span class="p">,</span><span class="s1">&#39;Yasin&#39;</span><span class="p">,</span><span class="s1">&#39;Emir&#39;</span><span class="p">,</span><span class="s1">&#39;Basri&#39;</span><span class="p">,</span><span class="s1">&#39;Mustafa&#39;</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">isimler</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Enes&#39;</span><span class="p">,</span><span class="s1">&#39;Yasin&#39;</span><span class="p">,</span><span class="s1">&#39;Emir&#39;</span><span class="p">,</span><span class="s1">&#39;Basri&#39;</span><span class="p">,</span><span class="s1">&#39;Mustafa&#39;</span><span class="p">]</span>
 <span class="c1"># Burada isimleri yazdırabilmek için string&#39;e çevirip yazdırabiliriz pek tabii fakat konumuz &quot;*&quot; ve bu yolun pekte efektif olduğu söylenemez.</span>
-<span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">isimler</span><span class="p">)</span> <span class="c1">#Unpacking </span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">isimler</span><span class="p">))</span> <span class="c1"># List to str</span>
-</pre></div>
-
+<span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">isimler</span><span class="p">)</span> <span class="c1">#Unpacking </span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">isimler</span><span class="p">))</span> <span class="c1"># List to str</span>
+</code></pre></div>
 
 <p>Yukarıdaki örnekte eğer bir listeyi yazdıracaksak bize cidden büyük bir kolaylık sağlıyor. Şimdi diğer örneklerle ve açıklamalarıyla birlikte devam edelim.</p>
 <p><strong>Örnek 2</strong></p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">yazdir</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">yazdir</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="n">ogrenci</span>  <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;İsim&#39;</span><span class="p">:</span><span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;Soyisim&#39;</span><span class="p">:</span><span class="s1">&#39;Ergün&#39;</span><span class="p">,</span> <span class="s1">&#39;Okul No&#39;</span><span class="p">:</span> <span class="s1">&#39;1234&#39;</span><span class="p">}</span>
 <span class="n">yazdir</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s2">&quot;Enes&quot;</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="s2">&quot;0x656e&quot;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="n">ogrenci</span><span class="p">)</span>
 <span class="o">&gt;</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="s1">&#39;0x656e&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;İsim&#39;</span><span class="p">:</span> <span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;Soyisim&#39;</span><span class="p">:</span> <span class="s1">&#39;Ergün&#39;</span><span class="p">,</span> <span class="s1">&#39;Okul No&#39;</span><span class="p">:</span> <span class="s1">&#39;1234&#39;</span><span class="p">}}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p><strong>Örnek 2.1</strong></p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">yazdir</span><span class="p">(</span><span class="o">*</span><span class="n">utanırım</span><span class="p">,</span><span class="o">**</span><span class="n">ben</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">utanırım</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">ben</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">yazdir</span><span class="p">(</span><span class="o">*</span><span class="n">utanırım</span><span class="p">,</span><span class="o">**</span><span class="n">ben</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">utanırım</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ben</span><span class="p">)</span>
 <span class="n">ogrenci</span>  <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;İsim&#39;</span><span class="p">:</span><span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;Soyisim&#39;</span><span class="p">:</span><span class="s1">&#39;Ergün&#39;</span><span class="p">,</span> <span class="s1">&#39;Okul No&#39;</span><span class="p">:</span> <span class="s1">&#39;1234&#39;</span><span class="p">}</span>
 <span class="n">yazdir</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s2">&quot;Enes&quot;</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="s2">&quot;0x656e&quot;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="n">ogrenci</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Burada ki kullanımda bir fonksiyonu çağırırken alabileceği tüm argümanları yakalamak için yıldız karakterini kullanıyoruz ama örnekte 2 farklı kullanım görmekteyiz. Bunları açıklamak istersek eğer:</p>
 <ol>
@@ -113,12 +108,11 @@
 <li>Kwargs değerinde kullandığımız 2 yıldız ise buradaki unpacking işleminin keyworded arguments ile olacağını belirtiyor. Bu ne demek? Fonksiyona göndermiş olduğumuz parametrelerin anahtar kelimelere sahip parametreler olacağını söylüyor.</li>
 </ol>
 <p><strong>Örnek 3</strong></p>
-<div class="highlight"><pre><span></span><span class="n">ogrenci</span>  <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;İsim&#39;</span><span class="p">:</span><span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;Soyisim&#39;</span><span class="p">:</span><span class="s1">&#39;Ergün&#39;</span><span class="p">,</span> <span class="s1">&#39;Okul No&#39;</span><span class="p">:</span> <span class="s1">&#39;1234&#39;</span><span class="p">}</span>
-<span class="n">ogrenci_karnenotu</span> <span class="o">=</span> <span class="s2">&quot;Okulumuz öğrencilerinden {Okul No} okul numarasına sahip {İsim} {Soyisim} adlı öğrenci mezun olmaya hak kazanmıştır.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">ogrenci</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">ogrenci_karnenotu</span><span class="p">)</span>
-<span class="o">&gt;</span> <span class="n">Okulumuz</span> <span class="err">öğ</span><span class="n">rencilerinden</span> <span class="mi">1234</span> <span class="n">okul</span> <span class="n">numarasına</span> <span class="n">sahip</span> <span class="n">Enes</span> <span class="n">Ergünadlı</span> <span class="err">öğ</span><span class="n">renci</span> <span class="n">mezun</span> <span class="n">olmaya</span> <span class="n">hak</span> <span class="n">kazanmıştır</span><span class="o">.</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">ogrenci</span>  <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;İsim&#39;</span><span class="p">:</span><span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;Soyisim&#39;</span><span class="p">:</span><span class="s1">&#39;Ergün&#39;</span><span class="p">,</span> <span class="s1">&#39;Okul No&#39;</span><span class="p">:</span> <span class="s1">&#39;1234&#39;</span><span class="p">}</span>
+<span class="n">ogrenci_karnenotu</span> <span class="o">=</span> <span class="s2">&quot;Okulumuz öğrencilerinden {Okul No} okul numarasına sahip </span><span class="si">{İsim}</span><span class="s2"> </span><span class="si">{Soyisim}</span><span class="s2"> adlı öğrenci mezun olmaya hak kazanmıştır.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">ogrenci</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ogrenci_karnenotu</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">Okulumuz</span> <span class="n">öğrencilerinden</span> <span class="mi">1234</span> <span class="n">okul</span> <span class="n">numarasına</span> <span class="n">sahip</span> <span class="n">Enes</span> <span class="n">Ergünadlı</span> <span class="n">öğrenci</span> <span class="n">mezun</span> <span class="n">olmaya</span> <span class="n">hak</span> <span class="n">kazanmıştır</span><span class="o">.</span>
+</code></pre></div>
 
 <p>Buradaki kullanımda yine bir unpacking ile karşı karşıyayız. Bu örnekte Sözlük veri tipindeki bir değişkeni string formatting işlemi sırasında açıyoruz. Burada tek tek <code>ogrenci['İsim']</code> yazmaktansa bu şekilde bir kullanım bize büyük kolaylıklar sağlayabilir.</p>
 <h2>Kapanış</h2>

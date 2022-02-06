@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -92,37 +92,34 @@ ayrı bir role yazmaktayım. Bahsetmeden olmaz test sunucumda Centos kullanmakta
     Daha sonra ekleyeceğimiz roller için ayrı playbookları include etmek daha kolay.</p>
 <p>Daha sonra ki makalelerimde zaten bu dosyaların üzerinde geliştirmeler yapacağız.</p>
 <p>Şimdi hosts dosyamızı oluşturduk içerisine bağlanacağımız sunucuları yazalım.</p>
-<div class="highlight"><pre><span></span><span class="k">[web]</span>
+<div class="highlight"><pre><span></span><code><span class="k">[web]</span>
 <span class="na">192.168.1.53 ansible_connection</span><span class="o">=</span><span class="s">ssh ansible_ssh_user=root ansible_ssh_pass=369874125</span>
 <span class="k">[database]</span>
 <span class="na">192.168.1.53 ansible_ssh_user</span><span class="o">=</span><span class="s">root ansible_ssh_pass=369874125 #Database&#39;i sonra kullanacağız</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Burada açıklanacak çok fazla birşey yok sanırım. Siz buraya istediğiniz kadar ip ekleyebilirsiniz. Ansible bu yazdığınız tüm IP'leri gezerek kurulumları sağlayacaktır.</p>
 <p><strong> Site.yml Dosyamızı Oluşturalım </strong></p>
-<div class="highlight"><pre><span></span>---
-    - include dbplaybook.yml
-    - include webplaybook.yml
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">---</span>
+<span class="err">    - include dbplaybook.yml</span>
+<span class="err">    - include webplaybook.yml</span>
+</code></pre></div>
 
 <p>İki tane ansible dosyamı include ettim. DBPlaybook'una daha sonra bakacağız.</p>
 <p><strong> Webplaybook.yml Dosyamızı oluşturalım </strong></p>
-<div class="highlight"><pre><span></span>---
-- name: Create a Web Server and ETC
-  hosts: web
-  become: yes
-  become_user: root
-  remote_user: root
-  vars_files:
-    - vars/main.yml
-  roles:
-    - base
-    - web
-    - nginx
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="o">---</span>
+<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">Create</span> <span class="n">a</span> <span class="n">Web</span> <span class="n">Server</span> <span class="ow">and</span> <span class="n">ETC</span>
+  <span class="n">hosts</span><span class="p">:</span> <span class="n">web</span>
+  <span class="n">become</span><span class="p">:</span> <span class="n">yes</span>
+  <span class="n">become_user</span><span class="p">:</span> <span class="n">root</span>
+  <span class="n">remote_user</span><span class="p">:</span> <span class="n">root</span>
+  <span class="n">vars_files</span><span class="p">:</span>
+    <span class="o">-</span> <span class="n">vars</span><span class="o">/</span><span class="n">main</span><span class="o">.</span><span class="n">yml</span>
+  <span class="n">roles</span><span class="p">:</span>
+    <span class="o">-</span> <span class="n">base</span>
+    <span class="o">-</span> <span class="n">web</span>
+    <span class="o">-</span> <span class="n">nginx</span>
+</code></pre></div>
 
 <p>Burada name olarak istediğinizi yazabilirsiniz sadece bu görevi tanımlamak amacı ile yazılmıştır.</p>
 <p>Hosts: Bu kısımda hosts dosyamızdan hangi IP adresine bağlanacağını belirttik.</p>
@@ -131,7 +128,7 @@ ayrı bir role yazmaktayım. Bahsetmeden olmaz test sunucumda Centos kullanmakta
 <p>Roles: Bu kısımda ise bu playbook'un hangi rolleri kapsadığını belirttik.</p>
 <h2>Role'leri hazırlamak</h2>
 <h3>Base Role</h3>
-<div class="highlight"><pre><span></span><span class="x">---</span>
+<div class="highlight"><pre><span></span><code><span class="x">---</span>
 <span class="x">- name: Upgrade Yum</span>
 <span class="x">  yum: update_cache=yes name=* state=latest</span>
 <span class="x">  tags: packages</span>
@@ -141,14 +138,13 @@ ayrı bir role yazmaktayım. Bahsetmeden olmaz test sunucumda Centos kullanmakta
 <span class="x">    - htop</span>
 <span class="x">    - fail2ban</span>
 <span class="x">    - openssl</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Burada her bağlandığımız sunucuda yapmamız gerekenleri belirttik. Bunlar nedir ?</p>
 <p>Yum package manager'ı update etmek.
 Daha sonra ise döngüye soktuğumuz itemları sırası ile kurdurmak. with_items içerisinde belirtilen tüm itemlar yum komutuna gönderilerek kurulumu sağlanmaktadır.</p>
 <h2>Nginx Role</h2>
-<div class="highlight"><pre><span></span><span class="x">---</span>
+<div class="highlight"><pre><span></span><code><span class="x">---</span>
 <span class="x">- name: Nginx Installing on RPM Repo</span>
 <span class="x">  yum: name=http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm</span>
 
@@ -172,8 +168,7 @@ Daha sonra ise döngüye soktuğumuz itemları sırası ile kurdurmak. with_item
 <span class="x">  notify:</span>
 <span class="x">    - restart firewall</span>
 <span class="x">    - restart nginx</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Burada ilk önce Nginx RPM dosyasını yum reposuna tanıtıyoruz. Daha sonra ise Nginx'i kuruyoruz.</p>
 <p>Bir sonra ki kısım yabancı gelebilir burada file ile bir klasörün oluşturulacağını belirtip bu klasörün yetkilerini vermekteyiz. ( Tabi ki döngüye sokarak 2 klasör oluşturuyoruz kim tek tek yazar ki ? )</p>
@@ -181,17 +176,16 @@ Daha sonra ise döngüye soktuğumuz itemları sırası ile kurdurmak. with_item
 <p>Kalan kısımlarda command ile direk olarak shell'e komutu bir döngü sayesinde basmaktayız.
 Notify kısmı ise bizim handlers kısmında ismini verdiğimiz görevleri yerine getirir.</p>
 <p><strong> Handlers dosyasına bir göz atalım. </strong></p>
-<div class="highlight"><pre><span></span>---
-- name: restart firewall
-  service: name=firewalld state=restarted
-- name: restart nginx
-  service: name=nginx state=restarted
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">---</span>
+<span class="err">- name: restart firewall</span>
+<span class="err">  service: name=firewalld state=restarted</span>
+<span class="err">- name: restart nginx</span>
+<span class="err">  service: name=nginx state=restarted</span>
+</code></pre></div>
 
 <p>Burada name olarak verdiğimiz isimleri Role içerisinde handlers'a yazmaktayız.</p>
 <p><strong> Templates dosyamıza bakalım. </strong></p>
-<div class="highlight"><pre><span></span><span class="x">server {</span>
+<div class="highlight"><pre><span></span><code><span class="x">server {</span>
 <span class="x">       listen       80 </span><span class="cp">{{</span> <span class="nv">project_domain</span> <span class="cp">}}</span><span class="x">;</span>
 <span class="x">       listen       [::]:80 </span><span class="cp">{{</span> <span class="nv">project_domain</span> <span class="cp">}}</span><span class="x">;</span>
 <span class="x">       server_name  _;</span>
@@ -211,40 +205,36 @@ Notify kısmı ise bizim handlers kısmında ismini verdiğimiz görevleri yerin
 <span class="x">           location = /50x.html {</span>
 <span class="x">       }</span>
 <span class="x">   }</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Gördüğünüz gibi burada project_domain şeklinde bir değişkenimiz bulunuyor işte burada ansible bu değişkeni /vars/main.yml dosyasında aramaktadır.</p>
 <h2>Web Role</h2>
 <p>Burayı aslında kalabalık gözüksün diye yaptım. Daha sonra geliştireceğiz hazır da dursun.</p>
 <p>Çok birşey yaptığımız yok sadece yeni komutlar bulunmakta asıl amaç o yani.</p>
-<div class="highlight"><pre><span></span><span class="x">---</span>
+<div class="highlight"><pre><span></span><code><span class="x">---</span>
 <span class="x">    - name: Add Group for Nginx</span>
 <span class="x">      group: name=</span><span class="cp">{{</span> <span class="nv">nginx_group</span> <span class="cp">}}</span><span class="x"> state=present</span>
 
 <span class="x">    - name : Add User for Nginx</span>
 <span class="x">      user: name=</span><span class="cp">{{</span> <span class="nv">nginx_user</span> <span class="cp">}}</span><span class="x"></span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Burada nginx için kullanıcı ve grup eklemekteyiz.</p>
 <h2>Vars Dosyamız</h2>
-<div class="highlight"><pre><span></span>---
-    # Nginx
-    project_domain: 0x656e.com
-    nginx_group: webapps
-    nginx_user: project
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">---</span>
+<span class="err">    # Nginx</span>
+<span class="err">    project_domain: 0x656e.com</span>
+<span class="err">    nginx_group: webapps</span>
+<span class="err">    nginx_user: project</span>
+</code></pre></div>
 
 <p>Değişkenlerimizi tanımladık.</p>
 <p>Hadi gazlayalım.</p>
 <h2>Run Forest Run</h2>
 <p>Ansible çalıştırmak için ansible-playbook komutunu girip playbooklarımızı argüman olarak bu komuta göndermeliyiz.</p>
 <p>Komutumuzu yazalım.</p>
-<div class="highlight"><pre><span></span>ansible-playbook webplaybook.yml -i hosts
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>ansible-playbook webplaybook.yml -i hosts
+</code></pre></div>
 
 <p>Vol 2 de bu dosyaların üstüne bir çok şey ekleyerek devam edeceğiz.
 Şuan yapılan çalışmanın kodlarına erişmek isterseniz.</p>

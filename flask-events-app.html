@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -43,57 +43,53 @@
 <p>Flask bir hayat biçi.... :)</p>
 <p>Flask bir Python frameworküdür. Tabi genelde en fazla Django bilinir. Django gerçekten her şeyiyle tam bir web frameworkdür fakat bazen bazı işleriniz için daha minimal frameworkler isteyebilirsiniz işte bu gibi durumlar için micro frameworkler ortaya çıkmaktadır. Flask ise micro frameworkdür. Hızlıca kod yazarak prototipleme yapabilirsiniz üstelik bunları MVC  yazılım mimarisi ile yapabiliyorsunuz. Flask'i kurmak için</p>
 <p>terminalinize:</p>
-<div class="highlight"><pre><span></span>pip install flask
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>pip install flask
+</code></pre></div>
 
 <p>yazmanız yeterlidir. Ben bu yazıda ve projede SQLite kullanacağım. Siz dilerseniz PostgreSQL veya başka bir DBMS kullanabilirsiniz. Tabi ki SQLite ile birlikte SQLAlchemy kullanmaktan da çekinmeyeceğim. Ben aşağıda ki gibi bir database şeması düşündüm.</p>
 <p><img alt="" src="images/dbschema.png"></p>
 <h3>Let's go</h3>
 <p>Proje klasörünüzü oluşturduğunuzu varsayıyorum. Proje klasörünü oluşturduktan sonra modelleri yazacağımız bir models.py dosyası oluşturalım. Routingleri main.py dosyasında yapacağız.</p>
 <p>models.py:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="k">import</span> <span class="n">Flask</span>
-<span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="k">import</span> <span class="n">SQLAlchemy</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+<span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="kn">import</span> <span class="n">SQLAlchemy</span>
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sqlite:///events.db&quot;</span>
 <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;SQLALCHEMY_TRACK_MODIFICATIONS&quot;] = False</span>
 
 <span class="n">db</span> <span class="o">=</span> <span class="n">SQLAlchemy</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Şimdi burada ne yaptığımızı anlatayım. Python dosyamıza Flask modülünü kullanacağımızı söyleyerek import ettik. Daha sonra SQLALchemy'i kullanabilmek için Flask_SQLAlchemy modülünü de import ettik. Burada ben direkt olarak pure SQLAlchemy kullanmadım, flask için yazılmış olanını kullandım. Eğer direkt pure SQLAlchemy kullansaydım database kısmında declarative_base ve session fonksiyonlarını kullanmak zorunda kalacaktım. Bu şekilde bana daha kolay geliyor.</p>
 <p>App değişkeninde Flask ile bir uygulama başlatıyoruz ve bu Flask uygulamasının adını <strong>name</strong> veriyoruz. <strong>app.config</strong> kısmında ise <em>SQLALCHEMY_DATABASE_URI</em> kısmında database'imizin <strong>connection_uri</strong> 'sini yazıyoruz. Bu DBMS'inize göre değişmektedir. PostgreSQL için örn: </p>
-<div class="highlight"><pre><span></span><span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">kullaniciadi</span><span class="p">:</span><span class="n">password</span><span class="nd">@ip</span><span class="p">:</span><span class="n">port</span><span class="o">/</span><span class="n">databasename</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">postgresql</span><span class="p">:</span><span class="o">//</span><span class="n">kullaniciadi</span><span class="p">:</span><span class="n">password</span><span class="nd">@ip</span><span class="p">:</span><span class="n">port</span><span class="o">/</span><span class="n">databasename</span>
+</code></pre></div>
 
 <p>Aşağıda da değişikliklerin takip edilmesini False olarak veriyoruz.</p>
 <h3>Hadi artık modellerimizi yazalım</h3>
 <p>Burada direk olarak kodları aşağıya koyacağım, kod bloğunun altına ise açıklamalarını gireceğim.</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">events</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">event_name</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span><span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">slug</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Text</span><span class="p">,</span><span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">events</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">event_name</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span><span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">slug</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Text</span><span class="p">,</span><span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">organizator</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span><span class="n">db</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;organization.id&#39;</span><span class="p">))</span>
 
 <span class="k">class</span> <span class="nc">organization</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">organization_name</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span><span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">organization_desc</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="mi">500</span><span class="p">),</span><span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">organization_name</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span><span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">organization_desc</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="mi">500</span><span class="p">),</span><span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">organization_img</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Text</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">users</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">usermail</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Text</span><span class="p">,</span><span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">password</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Text</span><span class="p">,</span><span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">usermail</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Text</span><span class="p">,</span><span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Text</span><span class="p">,</span><span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">eventspeople</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">event_id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span><span class="n">db</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;events.id&#39;</span><span class="p">))</span>
     <span class="n">users_id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span><span class="n">db</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;users.id&#39;</span><span class="p">))</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Kod bloğunda ki her class database üzerinde bir tablodur ve Flask üzerinde her biri bir Modeldir. Hepsinin zaten database modeli olduğunu class tanımlarken belirttik.</p>
 <p>Burada özel değerler göreceksiniz. Bunlar:</p>
@@ -105,9 +101,8 @@
 <p><strong>db.Text(500)</strong>: Bu fonksiyon ise bu sütunun değerlerinin text olacağını ( aslında herşeyi kabul edebileceğini ) gösteriyor. Yanına yazılan 500 rakamı ise o sütunun maksimum değerinin 500 olabileceğini belirtir.</p>
 <p><strong>db.ForeignKey()</strong> : Bu fonksiyon aslında tablolar arası ilişki kurmaya yarar terimsel anlamı Relationdır. Bir çok türü vardır. Bunlardan bir kaçı : Foreign Key, ManyToMany, OneToMany . Bu sütuna gelecek değerin aslında diğer bir tabloda ki başka bir veriyi işaret ettiğini belirtir.</p>
 <p>Sanırım bu kodda açıklayabileceklerim bu kadar, şimdi sıra geldi database'i oluşturmaya. Kodumuzun en altına </p>
-<div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
+</code></pre></div>
 
 <p>yazarak kodu çalıştırırsanız artık database'iniz oluşturulacak ve işlem yapmaya hazır hale gelecektir.</p>
 <p><img alt="" src="images/database.png"></p>

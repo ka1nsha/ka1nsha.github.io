@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -61,36 +61,33 @@
 <p><a href="https://tools.ietf.org/html/rfc4120">The Kerberos Network Authentication Service (V5)</a></p>
 <h2>Kapalı Kullanıcıların Tespiti</h2>
 <p>Eğer bir kullanıcının <code>Pre Authentication Required</code> seçeneği disable'a çekilmişse aşağıda ki gibi bir log üretmektedir. <code>0x10</code> değeri disabled hali <code>0x10010</code> değeri ise enabled halidir. Bizim burada yakalamamız gereken değer <code>Enabled</code> olduğunda kural üretmektir. </p>
-<div class="highlight"><pre><span></span>Old UAC Value:      0x10
+<div class="highlight"><pre><span></span><code><span class="k">Old</span> <span class="n">UAC</span> <span class="n">Value</span><span class="p">:</span>      <span class="mi">0</span><span class="n">x10</span>
 
-    New UAC Value:      0x10010
+    <span class="k">New</span> <span class="n">UAC</span> <span class="n">Value</span><span class="p">:</span>      <span class="mi">0</span><span class="n">x10010</span>
 
-    User Account Control:   
+    <span class="k">User</span> <span class="n">Account</span> <span class="n">Control</span><span class="p">:</span>   
 
-        &#39;Don&#39;t Require Preauth&#39; - Enabled
+        <span class="s1">&#39;Don&#39;</span><span class="n">t</span> <span class="n">Require</span> <span class="n">Preauth</span><span class="err">&#39;</span> <span class="o">-</span> <span class="n">Enabled</span>
 
-    User Parameters:    -
+    <span class="k">User</span> <span class="k">Parameters</span><span class="p">:</span>    <span class="o">-</span>
 
-    SID History:        -
+    <span class="n">SID</span> <span class="n">History</span><span class="p">:</span>        <span class="o">-</span>
 
-    Logon Hours:        -
-</pre></div>
-
+    <span class="n">Logon</span> <span class="n">Hours</span><span class="p">:</span>        <span class="o">-</span>
+</code></pre></div>
 
 <p><img alt="DC Log" src="images/dclog.png"></p>
 <p>Eğer loglardan değil de bulunduğunuz bir sistem üzerinde tespit etmek isterseniz de 2 seçeneğimiz bulunuyor.</p>
 <p>LDAP Toolkit indirerek DC üzerinde aşağıdaki sorgu ile kontrol edebilirsiniz. Burada PreauthNoRequired kısmını sorgulayan asıl kod <code>userAccountControl:1.2.840.113556.1.4.803:=4194304</code> kısmıdır.
 LDAP:</p>
-<div class="highlight"><pre><span></span>searchBase=&quot;DC=EXAMPLE,DC=COM&quot; filer=&quot;(&amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&quot; scope=&quot;SUBTREE&quot; timeLimit=&quot;0&quot; countLimit=&quot;1000&quot; aliasesDereferencingMethod=&quot;ALWAYS&quot; referralsHandlingMethod=&quot;IGNORE&quot;
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">searchBase=&quot;DC=EXAMPLE,DC=COM&quot; filer=&quot;(&amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&quot; scope=&quot;SUBTREE&quot; timeLimit=&quot;0&quot; countLimit=&quot;1000&quot; aliasesDereferencingMethod=&quot;ALWAYS&quot; referralsHandlingMethod=&quot;IGNORE&quot;</span>
+</code></pre></div>
 
 <p>PowerShell üzerinde ise <code>Get-DomainUser -PreauthNoRequired</code> sorgusu ile domain üzerinde ki kullanıcıları listeleyebilirsiniz.</p>
 <p><img alt="Domain User" src="images/GetDomainUser.png"></p>
 <p>Daha fazlası için: <a href="https://ldapwiki.com/wiki/Active%20Directory%20RISK%20Related%20Searches">LDAPWiki Risks Pre-Authentication</a></p>
-<div class="highlight"><pre><span></span>searchBase=&quot;DC=EXAMPLE,DC=COM&quot; filer=&quot;(&amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&quot; scope=&quot;SUBTREE&quot; timeLimit=&quot;0&quot; countLimit=&quot;1000&quot; aliasesDereferencingMethod=&quot;ALWAYS&quot; referralsHandlingMethod=&quot;IGNORE&quot;
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">searchBase=&quot;DC=EXAMPLE,DC=COM&quot; filer=&quot;(&amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&quot; scope=&quot;SUBTREE&quot; timeLimit=&quot;0&quot; countLimit=&quot;1000&quot; aliasesDereferencingMethod=&quot;ALWAYS&quot; referralsHandlingMethod=&quot;IGNORE&quot;</span>
+</code></pre></div>
 
 <h1>AS-REP Roasting Nedir</h1>
 <p>AD üzerinde eski versiyonlara yönelik uyumluluk veya ihtiyaçlar sebebiyle bilerek açılmış olan <code>Do not require Kerberos Pre Authentication</code> seçeneğine sahip kullanıcılara ait RC4 keylerinin direkt olarak KDC üzerinden çekilmesi ve sistemler üzerinde Brute Force dair herhangi bir iz bırakmadan <code>hashcat</code> veya <code>john</code> gibi parola kırma araçları ile offline olarak bu parolanın kırılmasına verilen isimdir.</p>
@@ -105,9 +102,8 @@ LDAP:</p>
 </ul>
 <p>Öncelikle bizim bu saldırı vektörünü yapabilmemiz için bir kullanıcı listesine ihtiyacımız var. Bu sebeple bir dosya yaratıp ben içerisinde 2-3 tane user ekliyorum. Ekliyorum çünkü neden olmasın? Evet bu kadar. Saldırı vektörümüzü çalıştırmaya hazırız. Bunun için aşağıdaki gibi bir komut yeterli olacaktır.</p>
 <p><strong>Impacket examples içerisinde bulabilirsiniz</strong></p>
-<div class="highlight"><pre><span></span>python3 GetNPUsers.py windomain.local -usersfile usernames.txt -format hashcat -outputfile hash.asrep
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">python3 GetNPUsers.py windomain.local -usersfile usernames.txt -format hashcat -outputfile hash.asrep</span>
+</code></pre></div>
 
 <p>Aşağıda ekran görüntüsünde göreceğiniz üzere bazılarında hata aldık çünkü Kerberos DB üzerinde ilgili kullanıcıları bulamadı fakat bizim 3 tane kullanıcımız vardı. Bize 2 tane hata çıkartılmış o sebeple diyebiliriz ki 1  tanesine ait hash'i elde ettik.</p>
 <p><img alt="IMpacket As-REP" src="images/asrepimpacket.png"></p>
@@ -116,9 +112,8 @@ LDAP:</p>
 <p>Evet <code>Impacket</code> ile yaptığımız saldırı sonucunda elimizde bir hashimiz var ve bu hashi kırmak için elimizde tam da ona uygun çıktısıyla bir araç var ismi <code>hashcat</code>. Kendisi ile ilgili bir çok yazı bulabilirsiniz. AS-REP isteğimiz sonucu dönen değeri kırabilmek için kendisi üzerinde öntanımlı bir hash tipi ve ID'si bulunmaktadır.</p>
 <p>Hashcat üzerinde 18200 ID'li hash tipi ile kırabilirsiniz.
 <code>.\hashcat.exe --help | findstr 18200</code></p>
-<div class="highlight"><pre><span></span>18200 | Kerberos 5, etype 23, AS-REP                     | Network Protocols
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">18200 | Kerberos 5, etype 23, AS-REP                     | Network Protocols</span>
+</code></pre></div>
 
 <p>Normal AS-REP ve zararlı AS-REP trafiğini görebileceğiniz network trafiğine ait PCAP dosyasını aşağıdan indirebilirsiniz.</p>
 <p><a href="https://drive.google.com/file/d/1AYdLDlWcImlNxXia4ptu17jxOvZJIFZF/view?usp=sharing">AS-REP PCAP</a></p>

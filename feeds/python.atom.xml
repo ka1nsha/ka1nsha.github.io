@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - python</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/python.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2019-03-06T13:30:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>Python Hafıza Yönetimi ve Garbage Collection Hakkında</title><link href="https://enesergun.net/python-garbage-collection.html" rel="alternate"></link><published>2019-03-06T13:30:00+03:00</published><updated>2019-03-06T13:30:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-03-06:/python-garbage-collection.html</id><summary type="html">&lt;h1&gt;Python Garbage Collector&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - python</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/python.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2019-03-06T13:30:00+03:00</updated><subtitle>Personel homepage</subtitle><entry><title>Python Hafıza Yönetimi ve Garbage Collection Hakkında</title><link href="https://enesergun.net/python-garbage-collection.html" rel="alternate"></link><published>2019-03-06T13:30:00+03:00</published><updated>2019-03-06T13:30:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2019-03-06:/python-garbage-collection.html</id><summary type="html">&lt;h1&gt;Python Garbage Collector&lt;/h1&gt;
 &lt;h2&gt;Garbage Collector Neymiş?&lt;/h2&gt;
 &lt;p&gt;Garbage collector Türkçe'ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerindeki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory'de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C'de 32bit bir integer değişkeni …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Python Garbage Collector&lt;/h1&gt;
 &lt;h2&gt;Garbage Collector Neymiş?&lt;/h2&gt;
@@ -17,19 +17,18 @@
 2. Her obje için bir referans count değeri oluşturuyor. Bu da memoryde fazladan alan demek.
 3. Cyclical Reference'ları tanımlayamıyor. 
 Örnek:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
 &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="k"&gt;del&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;Output&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 &lt;span class="mi"&gt;69&lt;/span&gt;
 &lt;span class="mi"&gt;71&lt;/span&gt;
 &lt;span class="mi"&gt;70&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3&gt;Tracing Garbage Collector&lt;/h3&gt;
 &lt;p&gt;En fazla kullanılan yöntemdir.
@@ -68,37 +67,34 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 |refcount|2|
 |value|500|&lt;/p&gt;
 &lt;p&gt;Kod olarak açıklarsak eğer:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;500&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;500&lt;/span&gt;
 &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;500&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; 
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; 
 &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 &lt;span class="mi"&gt;49670448&lt;/span&gt;
 &lt;span class="mi"&gt;49670448&lt;/span&gt; &lt;span class="mi"&gt;49670448&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Gördüğünüz gibi iki farklı değişkenim, hatta bir integer'ım var ve aslında hepsi temelde memorydeki 500 değerini barındıran PyObject'e referans veriyor. Bir de aşağıdaki koda bakalım.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;500&lt;/span&gt;
 &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;500&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getrefcount&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;500&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Çıktısı aşağıdaki gibi olacaktır.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="mi"&gt;2&lt;/span&gt;
 &lt;span class="mi"&gt;4&lt;/span&gt;
 &lt;span class="mi"&gt;49671840&lt;/span&gt;
 &lt;span class="mi"&gt;49671840&lt;/span&gt; &lt;span class="mi"&gt;49671840&lt;/span&gt;
 &lt;span class="mi"&gt;4&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;ID'lerini bir kenara bırakırsak başlangıçta 500 değerini tutan Objemizin &lt;code&gt;count'u&lt;/code&gt; 2 olarak gözükmekte biz bu değeri &lt;code&gt;a&lt;/code&gt; ve &lt;code&gt;b&lt;/code&gt; değişkenlerine verdiğimizde &lt;code&gt;refcount&lt;/code&gt; 4 oluyor fakat &lt;code&gt;print&lt;/code&gt; ile yazdırdığımız 500 değeri &lt;code&gt;refcountu&lt;/code&gt; etkilemiyor. Bunun nedeni herhangi bir referans vermeden direkt yazdırmamızdan dolayıdır. &lt;/p&gt;
 &lt;p&gt;Aslında yazıyı biraz daha uzatıp &lt;code&gt;__slots__&lt;/code&gt;dan ve Python üzerindeki veri tipleri ve bu veri tiplerinin kapladıkları alan gibi konulardan bahsetmek istiyordum fakat bir baktım ki zaten sevgili &lt;code&gt;Mazlum Ağar&lt;/code&gt; bu konudan bahsetmiş. İlgili yazının linkini hemen aşağıya iliştiriyorum.&lt;/p&gt;
@@ -121,7 +117,7 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 &lt;p&gt;Python programlama dilinde yıldız işareti ilk olarak karşımıza &lt;strong&gt;Matematiksel Operatorler&lt;/strong&gt; konusunda çıkmaktadır.&lt;/p&gt;
 &lt;p&gt;Bu işaret ile vermiş olduğumuz değişkenleri çarpabilir veya bu işareti iki kere kullanarak vermiş olduğumuz integer değerlerinin kuvvetini,üssünü(Power) alabiliriz.&lt;/p&gt;
 &lt;p&gt;Örnekle açıklamak gerekirse:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Çarpma&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Çarpma&lt;/span&gt;
 &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="c1"&gt;# A değişkenine tanımlanmış olan liste veri tipini 2 ile çarpıyoruz.&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -129,18 +125,16 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="c1"&gt;# Eğer bu şekilde yaparsak listenin kuvvetini alamayacağından dolayı zaten hata verecektir.&lt;/span&gt;
 &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="c1"&gt;# A değişkenini for döngüsüne sokarak tüm sonuçları c değişkenine atadım.&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;625&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;256&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Yukarıdaki örnekte  farketmiş olacağınız üzere "çarpma" örneğininde bize içinde ki karakterleri değil değişkene tanımlamış olduğumuz değeri 2 ile çarpacaktır. &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;enes&amp;quot;&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;enes&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;enesenes&lt;/span&gt;
 &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Yine yukarıdaki örneklere ait benzer bir işlem yaptık fakat burada liste değil string veri tipinde bir değer tanımladık. İlk çarpma işlemimizde gördüğünüz gibi stringi iki kere çarparak yan yana yazdı. İkinci işlemimizde ise direkt olarak integer değer verdiğimizden dolayı matematiksel bir işleme sokup bize çıktısını üretti.&lt;/p&gt;
 &lt;h2&gt;Gelelim Yıldız İşaretinin Gelişmiş Kullanımlarına&lt;/h2&gt;
@@ -149,32 +143,29 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 &lt;p&gt;&lt;strong&gt;R.I.P Aaron Swartz&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://eksisozluk.com/iterable--5154245"&gt;İterable&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Örnek 1 &lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;isimler&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Yasin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Emir&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Basri&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Mustafa&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;isimler&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Yasin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Emir&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Basri&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Mustafa&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;span class="c1"&gt;# Burada isimleri yazdırabilmek için string&amp;#39;e çevirip yazdırabiliriz pek tabii fakat konumuz &amp;quot;*&amp;quot; ve bu yolun pekte efektif olduğu söylenemez.&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;isimler&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;#Unpacking &lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;isimler&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="c1"&gt;# List to str&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;isimler&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;#Unpacking &lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;isimler&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="c1"&gt;# List to str&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Yukarıdaki örnekte eğer bir listeyi yazdıracaksak bize cidden büyük bir kolaylık sağlıyor. Şimdi diğer örneklerle ve açıklamalarıyla birlikte devam edelim.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Örnek 2&lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;yazdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;yazdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;ogrenci&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;İsim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Soyisim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Ergün&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Okul No&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="n"&gt;yazdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Enes&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;0x656e&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ogrenci&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;b&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;0x656e&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;c&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;İsim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Soyisim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Ergün&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Okul No&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Örnek 2.1&lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;yazdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;utanırım&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;ben&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;utanırım&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ben&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;yazdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;utanırım&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;ben&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;utanırım&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ben&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;ogrenci&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;İsim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Soyisim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Ergün&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Okul No&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="n"&gt;yazdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Enes&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;0x656e&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ogrenci&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Burada ki kullanımda bir fonksiyonu çağırırken alabileceği tüm argümanları yakalamak için yıldız karakterini kullanıyoruz ama örnekte 2 farklı kullanım görmekteyiz. Bunları açıklamak istersek eğer:&lt;/p&gt;
 &lt;ol&gt;
@@ -182,12 +173,11 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 &lt;li&gt;Kwargs değerinde kullandığımız 2 yıldız ise buradaki unpacking işleminin keyworded arguments ile olacağını belirtiyor. Bu ne demek? Fonksiyona göndermiş olduğumuz parametrelerin anahtar kelimelere sahip parametreler olacağını söylüyor.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;&lt;strong&gt;Örnek 3&lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;ogrenci&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;İsim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Soyisim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Ergün&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Okul No&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="n"&gt;ogrenci_karnenotu&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Okulumuz öğrencilerinden {Okul No} okul numarasına sahip {İsim} {Soyisim} adlı öğrenci mezun olmaya hak kazanmıştır.&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;ogrenci&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ogrenci_karnenotu&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Okulumuz&lt;/span&gt; &lt;span class="err"&gt;öğ&lt;/span&gt;&lt;span class="n"&gt;rencilerinden&lt;/span&gt; &lt;span class="mi"&gt;1234&lt;/span&gt; &lt;span class="n"&gt;okul&lt;/span&gt; &lt;span class="n"&gt;numarasına&lt;/span&gt; &lt;span class="n"&gt;sahip&lt;/span&gt; &lt;span class="n"&gt;Enes&lt;/span&gt; &lt;span class="n"&gt;Ergünadlı&lt;/span&gt; &lt;span class="err"&gt;öğ&lt;/span&gt;&lt;span class="n"&gt;renci&lt;/span&gt; &lt;span class="n"&gt;mezun&lt;/span&gt; &lt;span class="n"&gt;olmaya&lt;/span&gt; &lt;span class="n"&gt;hak&lt;/span&gt; &lt;span class="n"&gt;kazanmıştır&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;ogrenci&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;İsim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Soyisim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Ergün&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Okul No&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;1234&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;ogrenci_karnenotu&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Okulumuz öğrencilerinden {Okul No} okul numarasına sahip &lt;/span&gt;&lt;span class="si"&gt;{İsim}&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;{Soyisim}&lt;/span&gt;&lt;span class="s2"&gt; adlı öğrenci mezun olmaya hak kazanmıştır.&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;ogrenci&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ogrenci_karnenotu&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Okulumuz&lt;/span&gt; &lt;span class="n"&gt;öğrencilerinden&lt;/span&gt; &lt;span class="mi"&gt;1234&lt;/span&gt; &lt;span class="n"&gt;okul&lt;/span&gt; &lt;span class="n"&gt;numarasına&lt;/span&gt; &lt;span class="n"&gt;sahip&lt;/span&gt; &lt;span class="n"&gt;Enes&lt;/span&gt; &lt;span class="n"&gt;Ergünadlı&lt;/span&gt; &lt;span class="n"&gt;öğrenci&lt;/span&gt; &lt;span class="n"&gt;mezun&lt;/span&gt; &lt;span class="n"&gt;olmaya&lt;/span&gt; &lt;span class="n"&gt;hak&lt;/span&gt; &lt;span class="n"&gt;kazanmıştır&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Buradaki kullanımda yine bir unpacking ile karşı karşıyayız. Bu örnekte Sözlük veri tipindeki bir değişkeni string formatting işlemi sırasında açıyoruz. Burada tek tek &lt;code&gt;ogrenci['İsim']&lt;/code&gt; yazmaktansa bu şekilde bir kullanım bize büyük kolaylıklar sağlayabilir.&lt;/p&gt;
 &lt;h2&gt;Kapanış&lt;/h2&gt;
@@ -199,38 +189,34 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 &lt;h3&gt;Python'da Güvenli Girdi Almak&lt;/h3&gt;
 &lt;p&gt;Python'da girdi almak için input fonksiyonu kullanılmaktadır. Yanlış hatırlamıyorsam Python2'de ki input fonksiyonu da yukarıda bahsettiğim gibi güvenli hale getirilmediğinden dolayı sistem üzerinde kod çalıştırılabiliyordu. Tıpkı eval fonksiyonu gibi. Python3 de ise herhangi bir sorun yok gözüküyor. Peki kullanıcı girdisini yaptı buraya kadar her şey güvenli. Peki ya sonra?&lt;/p&gt;
 &lt;p&gt;Örnek üzerinden gitmek gerekirse login formu üzerinde kullanıcı adı aldığımızı düşünelim. Buraya yazılan kullanıcı adı için aşağıda ki yöntem uygulanırsa sisteminizde açık oluşacaktır.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;execute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;SELECT password FROM users WHERE username=&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="p"&gt;,))&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;execute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;SELECT password FROM users WHERE username=&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="p"&gt;,))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Burada username kısmına yazılacak herhangi bir tırnak hacker'ın database üzerinde hatta daha ileri aşamalarda sistem üzerinde kod çalıştırabileceği anlamına gelmektedir.&lt;/p&gt;
 &lt;p&gt;Peki güvenlisi?&lt;/p&gt;
 &lt;p&gt;O da şöyle:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;SELECT password FROM users WHERE username=&amp;#39;{}&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;query&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;SELECT password FROM users WHERE username=&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;{}&lt;/span&gt;&lt;span class="s2"&gt;&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;execute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Not: Ben bu şekilde güvenli olduğunu düşünüyorum ama hatam olabilir. Eğer bir hata varsa okuyucuları bilgilendirmek adına hiç çekinmeden yazabilirsiniz. Yanlış göstermek istemem.&lt;/p&gt;
 &lt;p&gt;Evet yukarıda ki örneğimiz daha güvenli(?!)&lt;/p&gt;
 &lt;h3&gt;Aslında Güvenli Değilmiş&lt;/h3&gt;
 &lt;p&gt;Evet format güvenli diye biliyorduk ama okuduğum makaleye göre güvenli değilmiş. Bunun sebebi ise format değeri ile birlikte kod üzerinde ki başka özellikleri çağırıp ekrana yazdırabilirmişiz.&lt;/p&gt;
 &lt;p&gt;Hemen örnek ile göstereyim:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Selamlar {0} {0.__contains__}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Selamlar &lt;/span&gt;&lt;span class="si"&gt;{0}&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;{0.__contains__}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Enes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Bunu yazdığımızda çıktısı aşağıda ki gibi olacaktır:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Selamlar Enes &amp;lt;method-wrapper &amp;#39;__contains__&amp;#39; of str object at 0x7f4f4a9f5c70&amp;gt;&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="s2"&gt;&amp;quot;Selamlar Enes &amp;lt;method-wrapper &amp;#39;__contains__&amp;#39; of str object at 0x7f4f4a9f5c70&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3&gt;Neden Böyle Oluyor?&lt;/h3&gt;
 &lt;p&gt;Aslında bu bir bug değil feature. Şaka değil gerçekten. Python3 ile birlikte format ile değerlere ve öğelere ulaşabilir duruma gelmekteyiz. Fakat burada öğelere ve bu öğelerin değerlerine erişmek işte karşımıza bu sorunu çıkartmaktadır.&lt;/p&gt;
 &lt;p&gt;Peki bunda ne var diyebilirsiniz. Bir hacker eğer kullanıcı girdinize bu şekilde injection yapabiliyorsa kod bloğunuz içerisinde ki örnek vermek gerekirse &lt;code&gt;db_password&lt;/code&gt; gibi değerlere ulaşabilecektir.&lt;/p&gt;
 &lt;h3&gt;Nasıl Engelleriz&lt;/h3&gt;
 &lt;p&gt;Engellemek amacıyla bu yazıyı referans aldığım adreste aşağıda ki şekilde bir fonksiyon ve sınıf verilmiştir. &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;string&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Formatter&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;string&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Formatter&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Mapping&lt;/span&gt;
 
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MagicFormatMapping&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Mapping&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -299,14 +285,13 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 
 &lt;span class="n"&gt;Now&lt;/span&gt; &lt;span class="n"&gt;you&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="n"&gt;use&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;safe_format&lt;/span&gt; &lt;span class="n"&gt;method&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;replacement&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 
-&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;{0.__class__}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;{0.__class__}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="s2"&gt;&amp;quot;&amp;lt;type &amp;#39;int&amp;#39;&amp;gt;&amp;quot;&lt;/span&gt;
-&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;safe_format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;{0.__class__}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;safe_format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;{0.__class__}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;Traceback&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;most&lt;/span&gt; &lt;span class="n"&gt;recent&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt; &lt;span class="n"&gt;last&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
   &lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;module&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
 &lt;span class="ne"&gt;AttributeError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="vm"&gt;__class__&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Yazımızın da sonuna geldik. Bu yazıyı okuduğum bir makale üzerinden aldım. Alıntı diyebiliriz isterseniz çalıntıda diyebilirsiniz fakat en azından bildirmeyi görevim bildiğimden dolayı bu yazıyı okumaktasınız. &lt;/p&gt;
 &lt;p&gt;Yazının orjinali: &lt;a href="http://lucumr.pocoo.org/2016/12/29/careful-with-str-format/"&gt;Careful with STR Format&lt;/a&gt;&lt;/p&gt;
@@ -320,32 +305,29 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi &lt;code&g
 &lt;p&gt;Şu anlık aklıma gelen bu kadar ama eminim fazlası da vardır. Bu konu hakkında beni yeşillendirebilirsiniz. Evet istisna yönetimi bu kadar önemliyken ben de bu konu hakkında yazmak istedim. Peki Python'da istisnalar nedir? Nasıl yönetilir? Hadi başlayalım.&lt;/p&gt;
 &lt;h2&gt;Python'da istisnalar&lt;/h2&gt;
 &lt;p&gt;Python'da istisnalar Exception ile yönetilir. Python üstünde Built-in olarak gelen bir sürü istisna yöntemi ve yönetimi vardır. Bunların listesine &lt;a href="https://docs.python.org/3/library/exceptions.html"&gt;Built-in Exceptions&lt;/a&gt; linkine tıklayarak ulaşabilirsiniz. Kod olaraksa en basit şekilde aşağıda ki gibi bir kullanımı vardır.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;try: # Çalışacak kodunuz.
-    print(0/0)
-except:
-    print(&amp;quot;Hata var&amp;quot;)
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="c1"&gt;# Çalışacak kodunuz.&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;except&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Hata var&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;veya aşağıda ki gibi bir kullanım daha uygundur. Çünkü yukarıda ki kod bloğunda ne hata verirse versin hata var yazacaktır.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;except&lt;/span&gt; &lt;span class="n"&gt;ZeroDivisionError&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Sıfırı sıfıra bölüyon&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Yukarıda ki kod bloğunda kullandığımız ZeroDivisionError farkettiğiniz üzere bir built-in bir istisnadır.&lt;/p&gt;
 &lt;p&gt;Peki karşımıza gelecek bu istisnaları nasıl yöneteceğiz?&lt;/p&gt;
 &lt;p&gt;Örnek bir kod bloğunu aşağıda görebilirsiniz.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;liste = [i for i in range(0,10)]
-try:
-    for i in liste:
-        print(int(i)/0)
-except ZeroDivisionError as hata:
-    print(hata)
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;liste = [i for i in range(0,10)]&lt;/span&gt;
+&lt;span class="c"&gt;try:&lt;/span&gt;
+&lt;span class="c"&gt;    for i in liste:&lt;/span&gt;
+&lt;span class="c"&gt;        print(int(i)/0)&lt;/span&gt;
+&lt;span class="err"&gt;except ZeroDivisionError as hata:&lt;/span&gt;
+&lt;span class="err"&gt;    print(hata)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Burada hatayı gördük ve bununla ilgili ekrana bastırdık. Peki bu kadarla mı sınırlıyız? Tabi ki de hayır. Bu kısımda karşımıza 3 deyim daha çıkıyor.&lt;/p&gt;
 &lt;p&gt;Bu deyimler: 
@@ -356,33 +338,30 @@ except ZeroDivisionError as hata:
 &lt;p&gt;Peki bunlar ne işe yarar? Kısaca açıklayacak olursam:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Raise&lt;/strong&gt;
 Raise bize istisna çıktılarını tanımlamamızı sağlar. Nasıl yani derseniz şu şekilde. Bir yazılımın sadece stringler üzerinde işlem yaptığını düşünün buraya integer bir değer girdiğimizde bize TypeError verecektir. Fakat burada Error çıktısı son kullanıcı için anlamsız olabilir veya bunu değiştirmek isteyebilirsiniz. Base bir exception üzerinden Raise ile bunu yapabilirsiniz. Aslında raise bize istediğimiz zaman bir istisna fırlatmamıza olanak sağlar. Örnek:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;i = 5
-if type(i) is int:
-    raise TypeError(&amp;quot;Integer lan bu&amp;quot;)
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;i = 5&lt;/span&gt;
+&lt;span class="err"&gt;if type(i) is int:&lt;/span&gt;
+&lt;span class="err"&gt;    raise TypeError(&amp;quot;Integer lan bu&amp;quot;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Assert&lt;/strong&gt;
 Bir modül yazdınız mesela bu modül sadece Linux'da çalışsın. Bunun kontrolünü assert ile kontrol ederek gerekli bir istisnayı sağlayabilirsiniz. Yazacağınız 1 satırlık assert ile bu kontrolü sağlayabilirsiniz. Örnek kod:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def meminfo():
-    assert (&amp;#39;linux&amp;#39; in sys.platform)
-    ac = open(&amp;quot;/proc/meminfo&amp;quot;)
-meminfo()
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;def meminfo():&lt;/span&gt;
+&lt;span class="err"&gt;    assert (&amp;#39;linux&amp;#39; in sys.platform)&lt;/span&gt;
+&lt;span class="err"&gt;    ac = open(&amp;quot;/proc/meminfo&amp;quot;)&lt;/span&gt;
+&lt;span class="err"&gt;meminfo()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Şimdi yukarıda ki kod da eğer sisteminiz Linuxsa bu kodu çalıştıracaktır. Fakat sisteminiz linux değilse sizlere istisna olarak AssertionError dönecektir. Peki bu durumda biz ne yapacağız?&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;meminfo&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
 &lt;span class="n"&gt;except&lt;/span&gt; &lt;span class="n"&gt;AssertionError&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Windows haram&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Gördüğünüz gibi işletim sistemi kontrolünü sağlamış olduk.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Else&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Else ise muazzam bir özelliğe sahiptir. Nedir bu ? Bir üst örnekte yapmış olduğumuz kodu hatırlayın. Eğer Linux sisteminde çalıştırıyorsak bize hata vermeyecekti. Peki hata vermedi o zaman? Finally kullanabiliriz evet haklısınız fakat farklı bir istisna yönetimi de koymak istiyorum. Mesela hata vermedi ve ben bu dosyayı okudum ama daha sonra parse etmek istiyorum? İşte burada else koşulunun içerisine yazdığımız kod ile bunu kontrol edebiliyoruz. &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;meminfo&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
 &lt;span class="n"&gt;except&lt;/span&gt; &lt;span class="n"&gt;AssertionError&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Windows haram&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
@@ -394,8 +373,7 @@ meminfo()
             &lt;span class="n"&gt;dosya&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;write&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;except&lt;/span&gt; &lt;span class="n"&gt;FileNotFoundError&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
         &lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Memory okuyucu diye bir dosya yok&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Örnek sanırım yeterince açıklayıcı olmuştur.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt; Finally &lt;/strong&gt;&lt;/p&gt;
@@ -445,7 +423,6 @@ meminfo()
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Bir modülü yıldız ile importladığınızda yazdığınız fonksiyonun import olmamasını yani private bir fonksiyon olmasını isterseniz sınıfınızı/fonksiyonunuzu bu şekilde yazabilirsiniz. Referans: &lt;/p&gt;
-&lt;p&gt;[Python Classes]: https://docs.python.org/3/tutorial/classes.html#private-variables-and-class-local-references "Python Classes"&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Bir uygulamada kullanıcının dilini önceden program üzerinde belirtiyorsanız. Kullanıcıya döndüreceğiniz mesajlarda localization/internationalization dosyanızda ki bir texti aşağıda ki şekilde yazmanız yeterlidir.&lt;/p&gt;
@@ -482,7 +459,7 @@ meminfo()
 &lt;p&gt;&lt;a href="https://github.com/squeaky-pl/japronto/tree/master/benchmarks"&gt;Benchmarks&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;Basit Bir Web Uygulaması&lt;/h4&gt;
 &lt;p&gt;En basit halde bir web uygulaması yazabilmek için:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;japronto&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Application&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;japronto&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Application&lt;/span&gt;
 
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;hello&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -491,9 +468,8 @@ meminfo()
 
 &lt;span class="n"&gt;app&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Application&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;router&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hello&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h4&gt;Özellikler&lt;/h4&gt;
 &lt;p&gt;HTTP 1.x Parçalı yüklemeleri destekliyor. ( Chunk Upload ) : &lt;a href="https://gist.github.com/CMCDragonkai/6bfade6431e9ffb7fe88"&gt;[Ayrıntı]&lt;/a&gt;&lt;/p&gt;
@@ -547,7 +523,7 @@ meminfo()
 &lt;/ol&gt;
 &lt;p&gt;Tabi siz bunları Tür,Yayıncı vs olarak çoğaltabilirsiniz. Amaç mantığı anlamak.&lt;/p&gt;
 &lt;p&gt;Kodlara geçelim.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sqlalchemy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;sa&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sqlalchemy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;sa&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sqlalchemy.ext.declarative&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;declarative_base&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sqlalchemy.orm&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;scoped_session&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sessionmaker&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;relationship&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;backref&lt;/span&gt;
 
@@ -558,30 +534,28 @@ meminfo()
 
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Author&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Base&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;__tablename__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;authors&amp;#39;&lt;/span&gt;
-    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__repr__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;lt;Author(name={self.name!r})&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;lt;Author(name=&lt;/span&gt;&lt;span class="si"&gt;{self.name!r}&lt;/span&gt;&lt;span class="s1"&gt;)&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Book&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Base&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;__tablename__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;books&amp;#39;&lt;/span&gt;
-    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;primary_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;author_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sa&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ForeignKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;authors.id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
     &lt;span class="n"&gt;author&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;relationship&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Author&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;backref&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;backref&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;books&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 
 &lt;span class="n"&gt;Base&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;metadata&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;engine&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Modüllerimizi, fonksiyonlarını impor ettik bu kısmı hızlı geçiyorum.&lt;/p&gt;
 &lt;p&gt;Şimdi burada engine değişkenine  bizim hangi database'i kullanacağımızı belirtmemiz gerekmekte.&lt;/p&gt;
 &lt;p&gt;Ben burada sqlite belirttim fakat sizler Postgresql gibi bir çok database belirtebilirsiniz. Onlarında connection_uri'leri genelde benzerdir. Mesela postgresql connection_uri:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;postgresql&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="nd"&gt;@password&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;postgresql&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="nd"&gt;@password&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;gibidir. ( Yanlış hatırlamıyorsam. )&lt;/p&gt;
 &lt;p&gt;session değişkenine orm için kullanacağımız bind'ı koyuyoruz. Neden böyle yapıyoruz bilmiyorum benimde ezberimden gidiyor bu olay. Aynı şekilde base değişkenini de ezberden kullanıyorum.&lt;/p&gt;
@@ -596,7 +570,7 @@ meminfo()
 &lt;p&gt;&lt;img alt="Database yapısı" src="images/databaseyapisi.png"&gt;&lt;/p&gt;
 &lt;h2&gt;Schema Dosyamız&lt;/h2&gt;
 &lt;p&gt;Burada asıl amacımız bu modeller çağrıldığında modellerin içinde ki tüm alanları şema olarak bize geri döndürmesidir.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;marshmallow_sqlalchemy&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ModelSchema&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;marshmallow_sqlalchemy&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ModelSchema&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;models&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Author&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;Book&lt;/span&gt;
 
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;BookSchema&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ModelSchema&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -608,15 +582,14 @@ meminfo()
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;AuthorSchema&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ModelSchema&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Meta&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Author&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Burada iki şemamıza da hangi modeli baz alacağını gösteriyoruz.&lt;/p&gt;
 &lt;p&gt;Gelelim zurnanın zırt dediği yere.&lt;/p&gt;
 &lt;h3&gt;Main Dosyamız&lt;/h3&gt;
 &lt;p&gt;Hemen kodları yapıştırıp açıklamayı kodların üstünde yapacağım.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#-*- coding:utf-8 -*-&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sqlalchemy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;sa&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#-*- coding:utf-8 -*-&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sqlalchemy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;sa&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sqlalchemy.orm&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;sessionmaker&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;models&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Author&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;Book&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;Base&lt;/span&gt; &lt;span class="c1"&gt;# Modellerimizi import ediyoruz.&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;schemas&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;AuthorSchema&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;BookSchema&lt;/span&gt; &lt;span class="c1"&gt;#Şemalarımızı import ediyoruz.&lt;/span&gt;
@@ -632,24 +605,24 @@ meminfo()
 
 
 
-&lt;span class="nd"&gt;@hug.get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/books&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# /books/ adresine get isteği yapıldığında aşağısı çalışsın diyoruz.&lt;/span&gt;
+&lt;span class="nd"&gt;@hug&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/books&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# /books/ adresine get isteği yapıldığında aşağısı çalışsın diyoruz.&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;getbooks&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt; 
     &lt;span class="n"&gt;books&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;session&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Book&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;all&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="c1"&gt;# ORM olarak bütün Book tablosunu alıyoruz.&lt;/span&gt;
-    &lt;span class="n"&gt;bookschema&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;BookSchema&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;many&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# Buradan da Book şemamızı alıyoruz.&lt;/span&gt;
+    &lt;span class="n"&gt;bookschema&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;BookSchema&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;many&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# Buradan da Book şemamızı alıyoruz.&lt;/span&gt;
     &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;bookschema&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dump&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;books&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="c1"&gt;# Book şemamızı book tablosu ile bağdaştırıp dataları alıyoruz.&lt;/span&gt;
     &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;HTTP_404&lt;/span&gt; &lt;span class="c1"&gt;# 404 Döndürüyoruz. Açıklayacağım.&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="c1"&gt;#Datamızı Döndürüyoruz.&lt;/span&gt;
 
 
-&lt;span class="nd"&gt;@hug.post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/books&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# /books/ adresine post isteği yapıldığında aşağısını çalıştır babuş.&lt;/span&gt;
+&lt;span class="nd"&gt;@hug&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/books&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# /books/ adresine post isteği yapıldığında aşağısını çalıştır babuş.&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;addbooks&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt; &lt;span class="c1"&gt;# body isteğin body&amp;#39;sini belirtir.&lt;/span&gt;
     &lt;span class="n"&gt;authorid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;author_id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="c1"&gt;# body içerisinde ki author_id yi değişkene atadım.&lt;/span&gt;
     &lt;span class="n"&gt;bookname&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;bookname&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="c1"&gt;# body içerisinde ki bookname&amp;#39;i değişkene atadım.&lt;/span&gt;
     &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="n"&gt;bookname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;authorid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;bookname&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;authorid&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
         &lt;span class="n"&gt;checkauthor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;session&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Author&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;authorid&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="c1"&gt;# gelen id&amp;#39;ye sahip yazar var mı kontrol ediyorum.&lt;/span&gt;
-        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;checkauthor&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# kontrol için koydum.&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;checkauthor&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; 
+        &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;checkauthor&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# kontrol için koydum.&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;checkauthor&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; 
             &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;HTTP_404&lt;/span&gt; &lt;span class="c1"&gt;# Eğer yazar yoksa 404 döndür diyorum.&lt;/span&gt;
             &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;HTTP_404&lt;/span&gt;
         &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
@@ -662,7 +635,7 @@ meminfo()
     &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;TypeError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;HTTP_404&lt;/span&gt;
         &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;falcon&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_404&lt;/span&gt;
-&lt;span class="nd"&gt;@hug.post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/authors&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nd"&gt;@hug&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/authors&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;addauthors&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;session&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rollback&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="n"&gt;author_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;author_name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -671,33 +644,29 @@ meminfo()
     &lt;span class="n"&gt;session&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;commit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;HTTP_202&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;falcon&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HTTP_202&lt;/span&gt;
-&lt;span class="nd"&gt;@hug.get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/authors&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nd"&gt;@hug&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/authors&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;getauthors&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="n"&gt;authors&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;session&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Author&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;all&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-    &lt;span class="n"&gt;authorschema&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;AuthorSchema&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;many&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;authorschema&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;AuthorSchema&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;many&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;authorschema&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dumps&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;authors&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Gerisini yazmadım zaten gerisi birbirini tekrar ediyor.&lt;/p&gt;
 &lt;p&gt;Şimdi burada açıklamam gereken şey eğer aşağıda ki gibi yaparsanız.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;HTTP_200&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;HTTP_200&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;return olarak sayfa 200 dönecektir. Ayrıca response body olarak da 200 dönecektir.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;HTTP_404&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;HTTP_404&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;yaptığımızda ise response body olarak 404 dönecek fakat istek 200 dönecektir. Gerçekte böyle birşey görürseniz ne olur ? WTF bu developer kafayı yemiş dersiniz.&lt;/p&gt;
 &lt;p&gt;İşte o yüzden bazı route'larda response.status olarak HTTP status code'unu değiştirdim ki yukarıda ki gibi bir durum olmasın diye.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="404dondurdum" src="images/404dondurdum.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;HTTP_404&lt;/span&gt; &lt;span class="c1"&gt;# 404 Döndürüyoruz. Açıklayacağım.&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;HTTP_404&lt;/span&gt; &lt;span class="c1"&gt;# 404 Döndürüyoruz. Açıklayacağım.&lt;/span&gt;
 &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="c1"&gt;#Datamızı Döndürüyoruz.&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Bilerek gözünüze takılsın diye böyle yazdım yani.&lt;/p&gt;
 &lt;p&gt;Evet şimdi istek yapalım.&lt;/p&gt;
@@ -710,7 +679,7 @@ meminfo()
 &lt;p&gt;Bende xpath ile o açılır menüde ki kulüplerin id lerini ve isimlerini aldım.Daha sonra bi def içinde gerekli olan sayfayı bulup ona göre döngüye devam ediyordu.&lt;/p&gt;
 &lt;p&gt;Fakat bu büyük bir soruna yol açtı bunu sadece 1 kere yapıyordu.Yani 25 sayfa aldıysa sonradan yeniden sayfalar açılırsa ( &lt;strong&gt; Ki bazı kulüpler 2600 sayfa  &lt;/strong&gt;) bunu es geçiyordu.&lt;/p&gt;
 &lt;p&gt;Neyse kodumuzun ilk haline bakalım.(  &lt;strong&gt;Hataları olabilir bir süre sonra elleşmedim oraya hiç  &lt;/strong&gt;)&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;requests&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;requests&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;lxml&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;html&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;adddb&lt;/span&gt;
 
@@ -765,12 +734,11 @@ meminfo()
 
 &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;disct&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="n"&gt;adddb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dbadd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Gördüğünüz gibi burada analiz ettikten sonra artık değişen birşey olmuyordu. Üstelik bütün siteyi parse ettikten sonra db ye ekliyordu bu da herhangi bir hata da hiç bir verinin kaydedilemeyeceği anlamına geliyordu.&lt;/p&gt;
 &lt;p&gt;Ama bundan önce bütün listelerin parse edilip tekrar aynı id ile birleştirilmesi koddan anlayabilirsiniz zaten buda bir sürü soruna sebep oldu.Verilerin tam kaydedilmemesi üst üste gelmesi yani verilerde eksik bulunuyordu. Neyse kod şu hale update edildi ( En sorunsuz sürüm sanırım )&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;requests&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;requests&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;lxml&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;html&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;adddb&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;multiplelist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -814,12 +782,11 @@ meminfo()
 
 &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;u&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;sayfasayisi&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;multiplelist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;u&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Bu da iyi hoştu ama netim sağlam olmadığı için arkadaşlarda çalıştırdığımızda verileri tam olarak çekmiyordu toplamda 9000 küsür veri çekiyordu.Büyük ihtimal sunucumuz belli bir request den sonra bizi drop ediyordu ve bizde çok az veri yazabiliyorduk.&lt;/p&gt;
 &lt;p&gt;Neyse buna da bir çözüm bulduk.Daha önce Robin Dimyan bilmem ne :D adlı arkadaşın kodunda kullandığı tor reload kullandım.Test ettiğimde sorunsuz gözüküyordu fakat siteyi tam olarak çekemedim ne yazık ki.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;requests&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nn"&gt;socks&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nn"&gt;socket&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;requests&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nn"&gt;socks&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nn"&gt;socket&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;subprocess&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;lxml&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;html&lt;/span&gt;
 
@@ -878,21 +845,19 @@ meminfo()
 &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;u&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;sayfasayisi&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;multiplelist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;u&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;tor_reload&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Bu arada burada kodda sayfa sayısını toplamsporcu//15+1 ile alıyorum.Hiç değilse daha sağlıklı oluyor.&lt;/p&gt;
 &lt;p&gt;Scriptte kullandığım diğer kodlar şu şekildedir.&lt;/p&gt;
 &lt;p&gt;adddb.py'ın dosya içeriği : &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sqlite3&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sqlite3&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;dbadd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;isim&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;yil&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;il&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;op&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sqlite3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;tsf.db&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;cs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;op&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="n"&gt;cs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;execute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;INSERT INTO tsflicense(isim,dyil,il) VALUES (?,?,?)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,(&lt;/span&gt;&lt;span class="n"&gt;isim&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;yil&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;il&lt;/span&gt;&lt;span class="p"&gt;,))&lt;/span&gt;
     &lt;span class="n"&gt;op&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;commit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="n"&gt;op&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Not : Burada ki kodlar tamamen eğitim amaçlıdır.Kullanımınızdan doğan herhangi bir yasal sorunda mesuliyet kabul etmem.Yazı hakkında ki yasal sorunlar vs iletişime geçmek için : &lt;a href="emailto:r4wn3ss@gmail.com"&gt;Email&lt;/a&gt; &lt;/p&gt;</content><category term="python"></category><category term="python"></category><category term="requests"></category><category term="parser"></category><category term="lxml"></category></entry><entry><title>Zone-H Parser</title><link href="https://enesergun.net/zone-h-parser.html" rel="alternate"></link><published>2016-06-21T10:20:00+03:00</published><updated>2016-06-21T10:20:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2016-06-21:/zone-h-parser.html</id><summary type="html">&lt;p&gt;Zone-H.com'u bilmeyen yoktur herhalde.Kısaca bahsetmek gerekirse blackhat hackerların deface ettikleri sitelerin bir nevi screenshot/snapshot'unu alan bir site.Çok güzel bilgiler barındırabiliyor.Örnek vermek gerekirse Turkiye'de bu site üzerinde kayıtlı kaç blackhat hacker grub/kişi var veya bunlar kaç defacement yapmış şeklinde güzel datalar sağlanabilir.&lt;/p&gt;
 &lt;p&gt;Bende parse etmeye …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Zone-H.com'u bilmeyen yoktur herhalde.Kısaca bahsetmek gerekirse blackhat hackerların deface ettikleri sitelerin bir nevi screenshot/snapshot'unu alan bir site.Çok güzel bilgiler barındırabiliyor.Örnek vermek gerekirse Turkiye'de bu site üzerinde kayıtlı kaç blackhat hacker grub/kişi var veya bunlar kaç defacement yapmış şeklinde güzel datalar sağlanabilir.&lt;/p&gt;
@@ -909,7 +874,7 @@ Gördüğünüz gibi googlebots vs sitemap i otomatik oluşturulan xml lerden ç
 Bu şekilde ilk id den başlayıp sonuna kadar gidecektim.Projemde selenium kullandım.(Çünkü captcha ve bazı mirrorlarda hata oluyor.)&lt;br&gt;
 &lt;a href="www.zone-h.com/mirror/id/40?zh=1"&gt;Hatalı bir mirror örneği&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Neyse kodlara geçelim.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nn"&gt;sqlite3&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nn"&gt;sqlite3&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;selenium&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;webdriver&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;selenium.common.exceptions&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;NoSuchElementException&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;selenium.webdriver.chrome.options&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Options&lt;/span&gt;
@@ -965,35 +930,30 @@ Bu şekilde ilk id den başlayıp sonuna kadar gidecektim.Projemde selenium kull
     &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="nb"&gt;id&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
         &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Alt kısmıda db oluşturmak için kullandım.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sqlite3&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sqlite3&lt;/span&gt;
 &lt;span class="n"&gt;op&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sqlite3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;zone-h.db&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;cs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;op&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 
 &lt;span class="n"&gt;cs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;execute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;CREATE TABLE teams(id integer primary key AUTOINCREMENT,teamname TEXT,teamurl TEXT)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;op&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;commit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;span class="n"&gt;op&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Kod da plugin olarak zenmate kullandım.Captcha vs gelirse eğer kodun içinde input kısmı bulunuyor.Captchayı girdikten sonra 1 e basarsanız captchalı id den devam edecektir.Github'a koymayı düşünüyorum.Commitlerinizi beklerim.Eğer tüm siteyi çeken olursa datayı da isterim daha farklı projelerimde kullanmak için.&lt;/p&gt;
 &lt;p&gt;Kodlarla ilgili bir sorunuz olursa yorum veya mail ile belirtebilir/sorabilirsiniz.&lt;/p&gt;</content><category term="python"></category><category term="python"></category><category term="requests"></category><category term="parser"></category><category term="lxml"></category></entry><entry><title>Python ile basit vulnhub yazarlarını çeken bot</title><link href="https://enesergun.net/python-vulnhub-author-scraper.html" rel="alternate"></link><published>2016-06-17T10:20:00+03:00</published><updated>2016-06-17T10:20:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2016-06-17:/python-vulnhub-author-scraper.html</id><summary type="html">&lt;p&gt;Daha önceden yazmış olduğum bu scripti bugün güncellemek zorunda kaldım.Nedeni vulnhub önceden her türlü bağlantıyı kabul etsede bugün etmiyordu.Bende scripte Chrome Dev Tools'dan kopyaladığım header bilgilerini çaktım script şimdi bağlantı kuruyordu fakat regex patterni boş olarak dönüyordu.İlk scriptte&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;urllib.request.urlopen(url).read()
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;urllib.request.urlopen(url).read()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;şeklinde bir yapı vardı …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Daha önceden yazmış olduğum bu scripti bugün güncellemek zorunda kaldım.Nedeni vulnhub önceden her türlü bağlantıyı kabul etsede bugün etmiyordu.Bende scripte Chrome Dev Tools'dan kopyaladığım header bilgilerini çaktım script şimdi bağlantı kuruyordu fakat regex patterni boş olarak dönüyordu.İlk scriptte&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;urllib.request.urlopen(url).read()
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;urllib.request.urlopen(url).read()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;şeklinde bir yapı vardı ve bu yapı response'u byte code olarak döndürüyordu.Byte code döndüren response içinde regex ile arama yapmak için basit bir harf argüman var hemen onu da göstereyim.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;rp = re.findall(b&amp;#39;pattern&amp;#39;,text)
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;rp = re.findall(b&amp;#39;pattern&amp;#39;,text)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;şeklinde bir argüman ile bytecode olarak arama yapıyor fakat bu debug yaparken sorun nerde ? veya pattern neden bulmuyor şeklinde ki sorunlarınızı çözerken zorluk çıkartıyordu.Bende kodu bu yüzden güncelledim.&lt;/p&gt;
 &lt;p&gt;urllib yerine artık requests kullanıyorum.(Respect david beazley)&lt;/p&gt;
@@ -1072,7 +1032,7 @@ Bu şekilde ilk id den başlayıp sonuna kadar gidecektim.Projemde selenium kull
 70
 71
 72
-73&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/python3&lt;/span&gt;
+73&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/usr/bin/python3&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;requests&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nn"&gt;re&lt;/span&gt;
 &lt;span class="n"&gt;headers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="s1"&gt;&amp;#39;:authority&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;www.vulnhub.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -1145,5 +1105,5 @@ Bu şekilde ilk id den başlayıp sonuna kadar gidecektim.Projemde selenium kull
 &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;liste&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;
     &lt;span class="n"&gt;git&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</content><category term="python"></category><category term="python"></category><category term="requests"></category><category term="parser"></category><category term="lxml"></category><category term="vulnhub"></category></entry></feed>

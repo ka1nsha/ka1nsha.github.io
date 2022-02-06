@@ -22,7 +22,7 @@
 
 <header class="blog-header">
     <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage about of my Profession </p>
+    <p> Personel homepage </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -39,14 +39,12 @@
 
         <article>
             <p>Daha önceden yazmış olduğum bu scripti bugün güncellemek zorunda kaldım.Nedeni vulnhub önceden her türlü bağlantıyı kabul etsede bugün etmiyordu.Bende scripte Chrome Dev Tools'dan kopyaladığım header bilgilerini çaktım script şimdi bağlantı kuruyordu fakat regex patterni boş olarak dönüyordu.İlk scriptte</p>
-<div class="highlight"><pre><span></span>urllib.request.urlopen(url).read()
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">urllib.request.urlopen(url).read()</span>
+</code></pre></div>
 
 <p>şeklinde bir yapı vardı ve bu yapı response'u byte code olarak döndürüyordu.Byte code döndüren response içinde regex ile arama yapmak için basit bir harf argüman var hemen onu da göstereyim.</p>
-<div class="highlight"><pre><span></span>rp = re.findall(b&#39;pattern&#39;,text)
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">rp = re.findall(b&#39;pattern&#39;,text)</span>
+</code></pre></div>
 
 <p>şeklinde bir argüman ile bytecode olarak arama yapıyor fakat bu debug yaparken sorun nerde ? veya pattern neden bulmuyor şeklinde ki sorunlarınızı çözerken zorluk çıkartıyordu.Bende kodu bu yüzden güncelledim.</p>
 <p>urllib yerine artık requests kullanıyorum.(Respect david beazley)</p>
@@ -125,7 +123,7 @@
 70
 71
 72
-73</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python3</span>
+73</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/python3</span>
 <span class="kn">import</span> <span class="nn">requests</span><span class="o">,</span><span class="nn">re</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
 <span class="s1">&#39;:authority&#39;</span><span class="p">:</span><span class="s1">&#39;www.vulnhub.com&#39;</span><span class="p">,</span>
@@ -198,7 +196,7 @@
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">liste</span><span class="p">:</span>
     <span class="n">i</span> <span class="o">=</span> <span class="n">i</span>
     <span class="n">git</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
         </article>
 
