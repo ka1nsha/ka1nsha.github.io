@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = u'0x656e'
 SITENAME = u'Enes Ergün'
-SITESUBTITLE = u"Personel homepage about of my Profession"
+SITESUBTITLE = u"Personel homepage"
 SITEURL = 'https://enesergun.net'
 
 PATH = 'content'
@@ -53,4 +53,4 @@ DISPLAY_CATEGORIES_ON_MENU = True
 SHARE = True
 USE_CUSTOM_MENU = False
 PLUGIN_PATHS = ['/home/ka1/Pelican-Cid/plugins']
-PLUGINS = ['cid_filters']
+PLUGINS = ['cid_filters','extract_toc']
