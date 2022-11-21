@@ -1,10 +1,468 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - linux</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/linux.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2020-02-02T14:00:00+03:00</updated><subtitle>Personel homepage about of my Profession</subtitle><entry><title>Linux Capabilities API</title><link href="https://enesergun.net/linux-capabilities-api.html" rel="alternate"></link><published>2020-02-02T14:00:00+03:00</published><updated>2020-02-02T14:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2020-02-02:/linux-capabilities-api.html</id><summary type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün - linux</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/linux.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2022-11-21T15:00:00+03:00</updated><subtitle>Personel homepage</subtitle><entry><title>eBPF Diye Bir Şey Varmış</title><link href="https://enesergun.net/ebpf-diye-bir-sey-varmis.html" rel="alternate"></link><published>2022-11-21T15:00:00+03:00</published><updated>2022-11-21T15:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2022-11-21:/ebpf-diye-bir-sey-varmis.html</id><summary type="html">&lt;h1&gt;eBPF Diye Bir Şey Varmış&lt;/h1&gt;
+&lt;p&gt;Not: Yazının altı Awesome gibi oldu amacım asla böyle bir şey değil fakat ekstra bilgi göz çıkartmaz diye. Hem de kendime not sonuçta.&lt;/p&gt;
+&lt;p&gt;Konuya nasıl girsem bilemedim. Aslında yazılarımda genel olarak giriş/girizgah için konunun ana hatlarıyla ne olduğundan bahsederim ama burada farklı mevzular da …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;eBPF Diye Bir Şey Varmış&lt;/h1&gt;
+&lt;p&gt;Not: Yazının altı Awesome gibi oldu amacım asla böyle bir şey değil fakat ekstra bilgi göz çıkartmaz diye. Hem de kendime not sonuçta.&lt;/p&gt;
+&lt;p&gt;Konuya nasıl girsem bilemedim. Aslında yazılarımda genel olarak giriş/girizgah için konunun ana hatlarıyla ne olduğundan bahsederim ama burada farklı mevzular da karşımıza çıktığı için sanırım işin temelinden almak gerekiyor. &lt;/p&gt;
+&lt;p&gt;Bu yazı içerisinde çalışırken aldığım notlar ve çıkarımlardan bahsedeceğim. Hali hazırda uzmanı olduğum bir konu değil ve öğrenirken bahsetmek veya bahsetmek(blog yazısı) için öğrenme taraftarıyım. Benim açımdan bu daha efektif bir öğrenme biçimi oluyor. Her neyse. Ana odak noktamız eBPF olacak. eBPF’i anlatabilmek için kıyısından köşesinden user space ve kernel space, BPF ve tarihinden bahsedeceğim. &lt;/p&gt;
+&lt;h2&gt;User Space ve Kernel Space&lt;/h2&gt;
+&lt;p&gt;Bildiğiniz üzere günümüz modern işletim sistemlerinde işlemler “virtual memory” üzerinden işletilmektedir. İlgili “virtual memory sistemleri” sistem üzerinde çalışan processlerin memory üzerindeki adreslerini sanal bir adres üzerinden fiziksel sanal adresten ayırır. İlgili yöntem dolayısıyla biz processlere RAM üzerinde paging veya swapping yaptırtabiliyoruz. Konumuz memory management olmadığı için detaylı aramayı Google üzerinden yapabilirsiniz. Keywordler: Memory Management, Dynamic Allocation, Virtual Memory. &lt;/p&gt;
+&lt;p&gt;Bir üst paragrafta bahsedilen “virtual memory” üzerinde de işlemler aslında ayrılmıştır. Günümüzde işletim sistemleri genellikle “virtual memory’i” user space ve kernel space olarak ayırmaktadır. Bunun temel sebeplerinden en önemlisi güvenlik kaygısı ve donanım güvenliğidir. “Kernel Space” işletim sisteminin kernelini, kernel eklentilerini ve genellikle donanım sürücüleri tarafından kullanılmaktadır. Kernel space’in donanıma sınırsız bir erişimi vardır ve bilin bakalım eğer 2 ana bölgeye ayrılmasaydı donanımlarımızın hali nice olurdu? User space de ise bizim günlük kullandığımız uygulamalara ayrılmıştır bunlar nadiren hardware ile konuşur ve yetkileri de (donanıma erişim) kısıtlanmıştır. Bu ana 2 bölgeye ayrılması sonucu aslında karşımıza bir farklı terim çıkmaktadır bu da “protection ring” olarak tanımlanmaktadır.&lt;/p&gt;
+&lt;p&gt;Bknz:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Untitled" src="images/ring0.png"&gt;&lt;/p&gt;
+&lt;h2&gt;eBPF’e Geçmede Önce BPF&lt;/h2&gt;
+&lt;p&gt;İlk olarak 1992 yılında BSD OS için geliştirmiştir. Linux içinse 2.1.75 içerisinde duyurulmuştur. Açılımı Berkeley Packet Filter’dır. Temel amacı data paketlerini filtrelemek ve bunu kernel içerisine gömmektir. Aslında güvenlik katmanlarıyla birlikte verilere ve programlara arayüz sunmaktadır. Bizim yazmış olduğumuz filtrelere göre herhangi bir paketin kabul veya red edileceğine karar verebiliyor ve karşılaştırmasını yapabilmektedir. &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Untitled" src="images/bpf.png"&gt;&lt;/p&gt;
+&lt;h2&gt;BPF Nasıl Çalışır&lt;/h2&gt;
+&lt;p&gt;BPF sanal makineni bir parçası olarak makine diline bir yorumlayıcı olarak yerleştirilmiştir. Önceden tanımlanmış “instructionları” yürüterek paketleri, dataları okur analiz eder ve adım adım çalıştırır. Yazılan “instructionlar” makine diline çevrilerek ve kernel içerisinde doğrudan çalıştılır. Bu sayede önemli bir hesaplama gücü elde edilmiş olur. &lt;strong&gt;tcpdump&lt;/strong&gt; da tam olarak BPF’i kullanmaktadır. Yüksek seviyede bizim yazdığımız filtreleri bu şekilde çalıştırır. Tabi ki BPF sadece paket filtreleme için değil ayrıca Secure Computing için de kullanılmaktadır. Daha detaylı bilgi için: &lt;strong&gt;seccomp&lt;/strong&gt; keywordünü kullanabilirsiniz. &lt;/p&gt;
+&lt;p&gt;Gerisi için:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://man7.org/linux/man-pages/man2/bpf.2.html"&gt;https://man7.org/linux/man-pages/man2/bpf.2.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.kernel.org/doc/html/latest/networking/filter.html"&gt;https://www.kernel.org/doc/html/latest/networking/filter.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Örnek bir BPF Syntax:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/socket.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/types.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;arpa/inet.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;linux/if_ether.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;span class="cm"&gt;/* ... */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* From the example above: tcpdump -i em1 port 22 -dd */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="k"&gt;struct&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;sock_filter&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x28&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x0000000c&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x000086dd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x30&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000014&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000084&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000006&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;17&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000011&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x28&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000036&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;14&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000016&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x28&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000038&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;13&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000016&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000800&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x30&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000017&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000084&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000006&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000011&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x28&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000014&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x45&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00001fff&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0xb1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x0000000e&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x48&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x0000000e&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000016&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x48&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000010&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000016&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x06&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x0000ffff&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x06&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mh"&gt;0x00000000&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;struct&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;sock_fprog&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bpf&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;len&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ARRAY_SIZE&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="n"&gt;sock&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;socket&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PF_PACKET&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;SOCK_RAW&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;htons&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ETH_P_ALL&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sock&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="cm"&gt;/* ... bail out ... */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="n"&gt;ret&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;setsockopt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sock&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;SOL_SOCKET&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;SO_ATTACH_FILTER&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;bpf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bpf&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ret&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="cm"&gt;/* ... bail out ... */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* ... */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sock&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Gelelim eBPF’e&lt;/h2&gt;
+&lt;p&gt;Ortaya çıkış amacı aslıda küçük bir ekibin BPF’i dtrace benzeri kullanılabilirliğe eriştirebilmesi içindir. Zaten Solaris ve BSD üzerinde dinamik takip için kullanılan “dtrace’den” etkilendikleri belirtilmektedir.&lt;/p&gt;
+&lt;p&gt;Bknz: Referanslar[6]&lt;/p&gt;
+&lt;p&gt;eBPF ilk olarak kısıtlı bir kapasiteyle Linux 3.18 kernelinde release edilmiştir. Tam bir kullanım için en düşük Linux 4.4 Kernel’ına sahip olmalısınız. Kendisi Kernel Space üzerinde networking, debugging, tracing, firewall ve daha fazlası için kullanılabilmektedir. Zaten kendisi kernel sistem çağrılarına ve fonksiyonlarına hook atabilmenizi sağlamaktadır. &lt;/p&gt;
+&lt;p&gt;Bir eBPF programı yazdığımızda ilgili kod &lt;strong&gt;BCC&lt;/strong&gt; ile compile edilir ve ilgili program önemli bir çok ciddi denetimden geçer. &lt;/p&gt;
+&lt;p&gt;İlgili denetimler için: &lt;a href="https://github.com/torvalds/linux/blob/master/kernel/bpf/verifier.c"&gt;https://github.com/torvalds/linux/blob/master/kernel/bpf/verifier.c&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Çünkü ilgili kod direkt olarak kernel space de çalışacaktır. Bu sebeple ilgili kodun herhangi bir döngüde kernel lockup durumuna düşürmemesi gerekmekte ve bazı güvenlik endişelerini barındırmaması gerekmektedir. &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Untitled" src="images/ebpfschema.png"&gt;&lt;/p&gt;
+&lt;p&gt;Linux sistemler üzerinde &lt;strong&gt;kernel.unprivileged_bpf_disabled&lt;/strong&gt; ayarı (sysctl) yetkisiz kullanıcıların, eBPF programlarını çalıştırıp çalıştıramayacağını kontrol eder. &lt;/p&gt;
+&lt;p&gt;Tamam hadi eBPF programımızı yazdık her şey güzel ama bizim bu programları birbiriyle iletişim kurdurmamız gerekirse ne olacak diyebilirsiniz. Bunun için eBPF’de &lt;strong&gt;Maps&lt;/strong&gt; denilen kavram vardır. Basit olarak key/value şeklinde bir veri yapısına sahip olmakla birlikte programların birbiriyle etkileşime girmesine izin verir. eBPF Maps &lt;strong&gt;BPF_MAP_CREATE&lt;/strong&gt; sistem çağrısıyla oluşturulup &lt;strong&gt;BPF_MAP_UPDATE_ELEM&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;komutuyla güncellenir. Yani maps’lerle ilgili sistem çağrılarına &lt;strong&gt;BPF_MAP_* &lt;/strong&gt; ile bakabilirsiniz. &lt;/p&gt;
+&lt;p&gt;Buradan yararlanabilirsiniz: &lt;a href="https://prototype-kernel.readthedocs.io/en/latest/bpf/ebpf_maps.html"&gt;https://prototype-kernel.readthedocs.io/en/latest/bpf/ebpf_maps.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Untitled" src="images/ebpf.png"&gt;&lt;/p&gt;
+&lt;p&gt;Yukarıdaki görsel de zaten eBPF’i ana hatlarıyla göstermektedir. En üst kısımda use-caseslarımız yeterince açıklayıcıdır umarım. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Ekstra not&lt;/strong&gt;: Sitenin ismini tam olarak hatırlamıyorum fakat, site önünde bulunan load-balancer yapısını eBPF based bir load balancer’a geçiren yönetim sistemin data çıkışında 2x bir artış, CPU kullanımında ise 72x bir düşüş görmüş. Bu neden önemli? Eğer bir cloud provider ile çalışıyorsanız ve hesaplama başına ücret ödüyorsanız bu size mükemmel bir geri dönüş sağlayacaktır. Örnek bir load balancer olarak Open Source Katran incelenebilir.&lt;/p&gt;
+&lt;h2&gt;eBPF ile Python&lt;/h2&gt;
+&lt;p&gt;Çok fazla efektif olmasa da aslında Python için bir wrapper bulunmaktadır. Temel bPF ile ilgili işlemleri yine &lt;strong&gt;C&lt;/strong&gt; ile yapıp geri kalan işlemleri örneğin stringleri işlemek veya işleme tabi tutmak gibi kısımlar sadece Python ile yapılabilmektedir. Aşağıda bir kod bloğu örneği koyacağım bu kod bloğu örneğine veya daha fazlasına erişebileceğiniz linki de kod bloğunun altına ekleyeceğim. &lt;/p&gt;
+&lt;p&gt;Modül ismi: python3-bpfcc fakat genel olarak kurmak isterseniz debian sistemlerde &lt;strong&gt;sudo apt-get install bpfcc-tools linux-headers-$(uname -r)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Aşağıdaki kod bloğu TCP IPv4 bağlantılarını trace etmek amacıyla yazılmıştır (Help textten okuyorum :) ) . İlgili kod bloğunda göreceğiniz üzere &lt;strong&gt;bpf_text&lt;/strong&gt; altında C kodumuz bulunuyor. Daha sonra ilgili kod &lt;strong&gt;b = BPF(text=bpf_text)&lt;/strong&gt; ile initialize ediliyor. Burada &lt;strong&gt;text&lt;/strong&gt; yerine isterseniz &lt;strong&gt;file&lt;/strong&gt; diyerek bir C dosyasının konumunun verebilirsiniz. Geriye kalan &lt;strong&gt;string&lt;/strong&gt; işlemlerinde &lt;strong&gt;b&lt;/strong&gt; değişkeninin &lt;strong&gt;b.trace_fields()&lt;/strong&gt; fonksiyonu kullanılıyor. Bundan sonra yapacaklarınızı tamamen pure python ile yapabiliyorsunuz. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/usr/bin/python&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# disksnoop.py  Trace block device I/O: basic version of iosnoop.&lt;/span&gt;
+&lt;span class="c1"&gt;#       For Linux, uses BCC, eBPF. Embedded C.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# Written as a basic example of tracing latency.&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# Copyright (c) 2015 Brendan Gregg.&lt;/span&gt;
+&lt;span class="c1"&gt;# Licensed under the Apache License, Version 2.0 (the &amp;quot;License&amp;quot;)&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# 11-Aug-2015   Brendan Gregg   Created this.&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;__future__&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;print_function&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bcc&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;BPF&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;bcc.utils&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;printb&lt;/span&gt;
+
+&lt;span class="n"&gt;REQ_WRITE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;       &lt;span class="c1"&gt;# from include/linux/blk_types.h&lt;/span&gt;
+
+&lt;span class="c1"&gt;# load BPF program&lt;/span&gt;
+&lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;BPF&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;#include &amp;lt;uapi/linux/ptrace.h&amp;gt;&lt;/span&gt;
+&lt;span class="s2"&gt;#include &amp;lt;linux/blk-mq.h&amp;gt;&lt;/span&gt;
+
+&lt;span class="s2"&gt;BPF_HASH(start, struct request *);&lt;/span&gt;
+
+&lt;span class="s2"&gt;void trace_start(struct pt_regs *ctx, struct request *req) {&lt;/span&gt;
+&lt;span class="s2"&gt;    // stash start timestamp by request ptr&lt;/span&gt;
+&lt;span class="s2"&gt;    u64 ts = bpf_ktime_get_ns();&lt;/span&gt;
+
+&lt;span class="s2"&gt;    start.update(&amp;amp;req, &amp;amp;ts);&lt;/span&gt;
+&lt;span class="s2"&gt;}&lt;/span&gt;
+
+&lt;span class="s2"&gt;void trace_completion(struct pt_regs *ctx, struct request *req) {&lt;/span&gt;
+&lt;span class="s2"&gt;    u64 *tsp, delta;&lt;/span&gt;
+
+&lt;span class="s2"&gt;    tsp = start.lookup(&amp;amp;req);&lt;/span&gt;
+&lt;span class="s2"&gt;    if (tsp != 0) {&lt;/span&gt;
+&lt;span class="s2"&gt;        delta = bpf_ktime_get_ns() - *tsp;&lt;/span&gt;
+&lt;span class="s2"&gt;        bpf_trace_printk(&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;%x&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="se"&gt;\\&lt;/span&gt;&lt;span class="s2"&gt;n&amp;quot;, req-&amp;gt;__data_len,&lt;/span&gt;
+&lt;span class="s2"&gt;            req-&amp;gt;cmd_flags, delta / 1000);&lt;/span&gt;
+&lt;span class="s2"&gt;        start.delete(&amp;amp;req);&lt;/span&gt;
+&lt;span class="s2"&gt;    }&lt;/span&gt;
+&lt;span class="s2"&gt;}&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;BPF&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_kprobe_functions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;b&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;blk_start_request&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attach_kprobe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;event&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;blk_start_request&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fn_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;trace_start&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attach_kprobe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;event&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;blk_mq_start_request&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fn_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;trace_start&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;BPF&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_kprobe_functions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;b&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;__blk_account_io_done&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attach_kprobe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;event&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;__blk_account_io_done&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fn_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;trace_completion&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attach_kprobe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;event&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;blk_account_io_done&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fn_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;trace_completion&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# header&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;%-18s&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;%-2s&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;%-7s&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;%8s&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;TIME(s)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;T&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;BYTES&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;LAT(ms)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="c1"&gt;# format output&lt;/span&gt;
+&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;task&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cpu&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;flags&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ts&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;trace_fields&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bytes_s&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bflags_s&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;us_s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bflags_s&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;REQ_WRITE&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;type_s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;b&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;W&amp;quot;&lt;/span&gt;
+        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;bytes_s&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;0&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;    &lt;span class="c1"&gt;# see blk_fill_rwbs() for logic&lt;/span&gt;
+            &lt;span class="n"&gt;type_s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;b&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;M&amp;quot;&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;type_s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;b&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;R&amp;quot;&lt;/span&gt;
+        &lt;span class="n"&gt;ms&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;us_s&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
+
+        &lt;span class="n"&gt;printb&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;b&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;%-18.9f&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;%-2s&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;%-7s&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;%8.2f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ts&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;type_s&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bytes_s&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ms&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;KeyboardInterrupt&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Diğer örnekler için: &lt;a href="https://github.com/iovisor/bcc/tree/master/examples"&gt;https://github.com/iovisor/bcc/tree/master/examples&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Untitled" src="images/disknoop.png"&gt;&lt;/p&gt;
+&lt;p&gt;Örnekler üzerinden ilerleyerek ufkunuzu daha da genişletebilirsiniz fakat bu kısımda önemli bir vurgu yapmak istiyorum. Bazı örnekleri eğer çalıştıramazsanız bu genelde kernel ve bcc-tools uyumsuzluğundan kaynaklanıyor olabilir. Bunun için bpfcc-tools'u baştan derlemeniz gerekiyor. Aşağıdaki bunun için bir cheatsheet şeklinde kod bloğu paylaşıyorum.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt purge bpfcc-tools libbpfcc python3-bpfcc
+wget https://github.com/iovisor/bcc/releases/download/v0.25.0/bcc-src-with-submodule.tar.gz
+tar xf bcc-src-with-submodule.tar.gz
+&lt;span class="nb"&gt;cd&lt;/span&gt; bcc/
+apt install -y python-is-python3
+apt install -y bison build-essential cmake flex git libedit-dev   libllvm11 llvm-11-dev libclang-11-dev zlib1g-dev libelf-dev libfl-dev python3-distutils
+apt install -y checkinstall
+mkdir build
+&lt;span class="nb"&gt;cd&lt;/span&gt; build/
+cmake -DCMAKE_INSTALL_PREFIX&lt;span class="o"&gt;=&lt;/span&gt;/usr -DPYTHON_CMD&lt;span class="o"&gt;=&lt;/span&gt;python3 ..
+make
+checkinstall
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;eBPF’e Farklı Açılardan Bakmak:&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://github.com/citronneur/pamspy"&gt;https://github.com/citronneur/pamspy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://doublepulsar.com/bpfdoor-an-active-chinese-global-surveillance-tool-54b078f1a896"&gt;https://doublepulsar.com/bpfdoor-an-active-chinese-global-surveillance-tool-54b078f1a896&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Yazı sonu&lt;/h2&gt;
+&lt;p&gt;Genel hatlarıyla bahsettiğimi düşünüyorum zaten devam etmek isteyen aşağıdaki kaynaklardan devam edecektir. Bunu oku eBPF bitmiştir gibi bir amacım bulunmuyor. Yazı sonuna yine şarkımı iliştiriyorum. Umarım keyif almışsınızdır. &lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.youtube.com/watch?v=KZg3CrPuuWI"&gt;&lt;img alt="Video" src="http://img.youtube.com/vi/KZg3CrPuuWI/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Ekstra kaynaklar (Bunlara da bakarsanız iyi olur):&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3490"&gt;https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3490&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Üstteki CVE’nin Root Cause’nu açıklayan yazı: &lt;a href="https://www.graplsecurity.com/post/kernel-pwning-with-ebpf-a-love-story"&gt;https://www.graplsecurity.com/post/kernel-pwning-with-ebpf-a-love-story&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/chompie1337/Linux_LPE_eBPF_CVE-2021-3490"&gt;https://github.com/chompie1337/Linux_LPE_eBPF_CVE-2021-3490&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ebpf.io/"&gt;https://ebpf.io/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://stackoverflow.com/questions/tagged/ebpf+or+bpf+or+xdp-bpf"&gt;https://stackoverflow.com/questions/tagged/ebpf+or+bpf+or+xdp-bpf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/isovalent/eCHO"&gt;https://github.com/isovalent/eCHO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://qmonnet.github.io/whirl-offload/2016/09/01/dive-into-bpf/"&gt;https://qmonnet.github.io/whirl-offload/2016/09/01/dive-into-bpf/&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://github.com/iovisor/bpf-docs/"&gt;https://github.com/iovisor/bpf-docs/&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://twitter.com/krisnova"&gt;https://twitter.com/krisnova&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.containiq.com/"&gt;https://www.containiq.com/&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2&gt;Referanslar:&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Memory_management"&gt;https://en.wikipedia.org/wiki/Memory_management&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/User_space_and_kernel_space"&gt;https://en.wikipedia.org/wiki/User_space_and_kernel_space&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Protection_ring"&gt;https://en.wikipedia.org/wiki/Protection_ring&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://amslaurea.unibo.it/19622/1/berkeleypacketfilter_distefano.pdf"&gt;https://amslaurea.unibo.it/19622/1/berkeleypacketfilter_distefano.pdf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.kernel.org/doc/html/latest/networking/filter.html"&gt;https://www.kernel.org/doc/html/latest/networking/filter.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://illumos.org/books/dtrace/chp-intro.html"&gt;https://illumos.org/books/dtrace/chp-intro.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><category term="linux"></category><category term="ebpf"></category><category term="ebpf türkçe"></category><category term="ebpf nedir"></category><category term="linux"></category><category term="ring0"></category><category term="user space"></category><category term="kernel space"></category><category term="bpf"></category><category term="python ebpf"></category></entry><entry><title>Linux Kütüphaneler ve Tipleri, LD_PRELOAD Değişkeni, Strace ve Ltrace.</title><link href="https://enesergun.net/linux-kutuphaneler-ve-tipleri-ld_preload-degiskeni-strace-ve-ltrace.html" rel="alternate"></link><published>2020-03-26T10:22:00+03:00</published><updated>2020-03-26T10:22:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2020-03-26:/linux-kutuphaneler-ve-tipleri-ld_preload-degiskeni-strace-ve-ltrace.html</id><summary type="html">&lt;p&gt;Selamlar, &lt;/p&gt;
+&lt;p&gt;Aslında bu yazıda ana konu olarak strace ve ltrace komutlarını kısa olarak açıklayıp örnek çıktılarını koyup anlatmayı düşünüyordum fakat bu komutlar hakkında okuduğum yazılarda bir çok farklı kavram(benim bilmediğim/bildiğim) geçiyordu ki bu konulardan bahsetmezsem yazı eksik kalır diye düşündüm. Bu sebeple bu konular hakkında da bilgi vereyim …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar, &lt;/p&gt;
+&lt;p&gt;Aslında bu yazıda ana konu olarak strace ve ltrace komutlarını kısa olarak açıklayıp örnek çıktılarını koyup anlatmayı düşünüyordum fakat bu komutlar hakkında okuduğum yazılarda bir çok farklı kavram(benim bilmediğim/bildiğim) geçiyordu ki bu konulardan bahsetmezsem yazı eksik kalır diye düşündüm. Bu sebeple bu konular hakkında da bilgi vereyim derken strace ve ltrace yazının yan konusu olup çıktı. Zaten altı üstü bir komut diye düşünülebilir fakat arkaplanda dönen olaylar daha ilgi çekici. Bu sebeple konuya nasıl başlayabileceğimi bulamadım ve aşağıdaki gibi başladım. Direkt olarak konuya dalmış gibi oldu bu sebeple okuyucalardan şimdiden özür dilerim.&lt;/p&gt;
+&lt;p&gt;Strace ve Ltrace'in çalışma mantığı, nasıl çalıştığını daha iyi anlayabilmek adına aşağıdaki konular hakkında da bilgi sahibi olmalıyız. (Derinlemesine değil, eğer derinlemesine gireceksek hem ben bilmiyorum hem de bu konu hakkında kitap yazılır.)&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Linux Kütüphaneleri&lt;/li&gt;
+&lt;li&gt;LDD, NM Komutları&lt;/li&gt;
+&lt;li&gt;LD_PRELOAD Değişkeni&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Kütüphaneler ve Linux Kütüphane Tipleri&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Öncelikle yazının devamında kütüphaneler kelimesini değil orjinali olan library kelimesini kullanacağım. &lt;/strong&gt;&lt;/p&gt;
+&lt;h3&gt;Libraryler neden kullanılır ve nedir?&lt;/h3&gt;
+&lt;p&gt;Bir script yazdığımızı düşünelim; bu script bir websitesine giderek site üzerinde link verilmiş olan tüm PDF dosyalarını indirmeye yarayan bir script olsun. Bu script içerisinde bir çok fonksiyon yazmalıyız. Basitçe Websitesine bağlantı kurmalı, websitesini tarayarak pdf linklerini bulmalı ve son olarak bu bulduğu dosyaları indirmeli değil mi? Evet. Scriptimizi yazdık ve çalışıyor. Devam.&lt;/p&gt;
+&lt;p&gt;2 ay sonra bize bir istek geldi. Bir websitesine bağlanarak burada bulunan JPG dosyalarını indirmemiz isteniyor. Tüm kodu tekrardan mı yazacağız? Hayır.&lt;/p&gt;
+&lt;p&gt;İşte library kavramı tam burada karşımıza çıkıyor. Şimdi 2.proje için 1.projede bulunan işimize yarayacak fonksiyonları alarak sadece farklı 1 adet fonksiyon yazarak(hatta 1.scriptteki fonksiyonu değiştirerek) bu scripti çok hızlı bir şekilde yapabiliriz. &lt;/p&gt;
+&lt;p&gt;Library kavramı da  böyle bir şey aslında.(Umarım kafanızda canlanmıştır. Çünkü benim canlandı.)&lt;/p&gt;
+&lt;p&gt;Ee tam olarak böyle bir şey de değil aslında. Şimdi tekrar düşünelim.&lt;/p&gt;
+&lt;p&gt;1 ve 2. projelerimiz cepte ve bunları yazalı 3 yıl olmuş. Biz bu süre zarfında 300(!) adet proje çıkartmış ve bu projelerin 150 adetinde bu kod parçacıklarını kullandığımızı düşünelim. Gel zaman git zaman bizim 1. projede bir güvenlik açığı çıktığını duyuyoruz. Ne yapmalıyız? Şimdi bütün bu projelerdeki kodları tek tek değiştirmekle kim uğraşır? Kimse. Çünkü biz library olarak kullanıyoruz zaten. Tek bir dosyayı 150 projede kullandık. O zaman tek bir dosyayı değiştirerek ilgili projelerde ki tüm güvenlik açıklarını kapatabiliriz. Böyle de bir güzelliği var. Tabi bir de her projede ayrı ayrı aynı kodları yazmadığımız için bolca da disk üzerinde yer kazanmış olduk (Patron alkışlar).&lt;/p&gt;
+&lt;p&gt;(Terimsel anlam vs.den çok kafamızda canlanması adına bu şekilde yazdım. Hata ettiysem affola.)&lt;/p&gt;
+&lt;p&gt;Sanırım artık library meselesi kafamızda oturmuştur.&lt;/p&gt;
+&lt;h2&gt;Linux Kütüphane Tipleri&lt;/h2&gt;
+&lt;p&gt;Yukarıda basit (tamam hadi zor olsun) projelerde yazdığımız kütüphaneleri kullandık. Peki ya bunu işletim sistemi seviyesinde yapacak olsaydık? Bu kısımda bildiğim kadarıyla! mantık olarak aynı işleyişe sahip.&lt;/p&gt;
+&lt;p&gt;Konumuz olan linux sistemler üzerinde 2 farklı tipte library tipi bulunuyor. Bunlar:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Statik Libraryler&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Dinamik Libraryler&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Statik Libraryler(.a)&lt;/h4&gt;
+&lt;p&gt;Derleme esnasında linklenen bu libraryler artık kodumuzun bir parçası olmaktadırlar. Örnek olarak: Yazdığımız scriptin sadece 1 çalıştırılabilir dosya olduğunu düşünün(ELF, PE). Yazılımı çalıştırmak için gereksinim kurmamıza gerek yok. Tek tıkla çalıştır.&lt;/p&gt;
+&lt;p&gt;Aşağıda dinamik libraryleri kullanan herhangi bir çalıştırılabilir dosyaya ait bilgileri gösteren &lt;code&gt;ldd&lt;/code&gt; ve &lt;code&gt;objdump&lt;/code&gt; komutundan bahsettim fakat bu komutlar sadece shared olanları gösteriyor. Eğer statik librarylere ait bilgi görmek istiyorsak bazı sıkıntılarımız var demektir. Çünkü kodlarımız içerisinde kullandığımız librarylerin isimleri derleme esnasında göz ardı edilir. Bu sebeple eğer görmek istiyorsak derleme esnasında &lt;code&gt;-g&lt;/code&gt; parametresini kullanmalı veya kodumuzun bir map dosyasını çıkartmalıyız. Görebilmek adına kullanacağımız komut &lt;code&gt;nm&lt;/code&gt; komutudur. Detaylı bilgi için manpages veya &lt;a href="https://www.tutorialspoint.com/unix_commands/nm.htm"&gt;TutorialsPoint&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Örn kullanım:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;nm python
+nm: python: no symbols
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;Dinamik Libraryler(.so)&lt;/h4&gt;
+&lt;p&gt;Bu kısımda ise libraryler derlenme esnasında kod içerisinde linklenerek sistem üzerinde ki konumlarından runtime esnasında çağırılarak/yüklenerek kullanılmaktadır. &lt;/p&gt;
+&lt;p&gt;Bir örnek ile bakalım. Tüm linux dağıtımları içerisinde Python diline ait interpreter(yorumlayıcı) yüklü olarak gelmektedir ve hali hazırda bir çok shared kütüphane kullanmaktadır. Şimdi bunlara bakalım.&lt;/p&gt;
+&lt;p&gt;Bunun için ilk örnekte ldd komutunu kullanacağım.&lt;/p&gt;
+&lt;p&gt;Python3.7'a ait shared olarak kullanılan libraryler:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ldd python3.7
+        linux-vdso.so.1 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fff5814e000&lt;span class="o"&gt;)&lt;/span&gt;
+        libc.so.6 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libc.so.6 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fcaef7ec000&lt;span class="o"&gt;)&lt;/span&gt;
+        libpthread.so.0 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libpthread.so.0 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fcaef7cb000&lt;span class="o"&gt;)&lt;/span&gt;
+        libdl.so.2 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libdl.so.2 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fcaef7c6000&lt;span class="o"&gt;)&lt;/span&gt;
+        libutil.so.1 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libutil.so.1 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fcaef7c1000&lt;span class="o"&gt;)&lt;/span&gt;
+        libexpat.so.1 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libexpat.so.1 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fcaef794000&lt;span class="o"&gt;)&lt;/span&gt;
+        libz.so.1 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libz.so.1 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fcaef777000&lt;span class="o"&gt;)&lt;/span&gt;
+        libm.so.6 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libm.so.6 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fcaef630000&lt;span class="o"&gt;)&lt;/span&gt;
+        /lib64/ld-linux-x86-64.so.2 &lt;span class="o"&gt;(&lt;/span&gt;0x00007fcaef9dc000&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Python'a ait shared olarak kullanılan libraryler:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ldd python
+        linux-vdso.so.1 &lt;span class="o"&gt;(&lt;/span&gt;0x00007ffdb49b3000&lt;span class="o"&gt;)&lt;/span&gt;
+        libc.so.6 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libc.so.6 &lt;span class="o"&gt;(&lt;/span&gt;0x00007f4e56dbe000&lt;span class="o"&gt;)&lt;/span&gt;
+        libpthread.so.0 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libpthread.so.0 &lt;span class="o"&gt;(&lt;/span&gt;0x00007f4e56d9d000&lt;span class="o"&gt;)&lt;/span&gt;
+        libdl.so.2 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libdl.so.2 &lt;span class="o"&gt;(&lt;/span&gt;0x00007f4e56d98000&lt;span class="o"&gt;)&lt;/span&gt;
+        libutil.so.1 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libutil.so.1 &lt;span class="o"&gt;(&lt;/span&gt;0x00007f4e56d93000&lt;span class="o"&gt;)&lt;/span&gt;
+        libz.so.1 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libz.so.1 &lt;span class="o"&gt;(&lt;/span&gt;0x00007f4e56d76000&lt;span class="o"&gt;)&lt;/span&gt;
+        libm.so.6 &lt;span class="o"&gt;=&lt;/span&gt;&amp;gt; /lib/x86_64-linux-gnu/libm.so.6 &lt;span class="o"&gt;(&lt;/span&gt;0x00007f4e56c31000&lt;span class="o"&gt;)&lt;/span&gt;
+        /lib64/ld-linux-x86-64.so.2 &lt;span class="o"&gt;(&lt;/span&gt;0x00007f4e57358000&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;LDD komutu linux sistemler üzerinde çalıştırılabilir scriptinize ait shared object(.so?) bağımlılıklarını gösteren bir komuttur.&lt;/p&gt;
+&lt;p&gt;Birde objdump ile bakalım. Bu arada objdump komutu ise obje dosyalarına ait bilgileri gösteren bir komuttur.&lt;/p&gt;
+&lt;p&gt;Çıktı olarak uzun bir çıktı verecektir. Bu sebeple küçük ve sadece python3.7'ye ait kısmını koyuyorum.&lt;/p&gt;
+&lt;p&gt;Python3.7'a ait çıktı:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Dynamic Section:
+  NEEDED               libc.so.6
+  NEEDED               libpthread.so.0
+  NEEDED               libdl.so.2
+  NEEDED               libutil.so.1
+  NEEDED               libexpat.so.1
+  NEEDED               libz.so.1
+  NEEDED               libm.so.6
+  INIT                 0x0000000000421000
+  FINI                 0x0000000000679794
+  INIT_ARRAY           0x0000000000838db0
+  INIT_ARRAYSZ         0x0000000000000008
+  FINI_ARRAY           0x0000000000838db8
+  FINI_ARRAYSZ         0x0000000000000008
+  GNU_HASH             0x0000000000400308
+  STRTAB               0x0000000000411d28
+  SYMTAB               0x00000000004039e8
+  STRSZ                0x000000000000aae8
+  SYMENT               0x0000000000000018
+  DEBUG                0x0000000000000000
+  PLTGOT               0x0000000000839000
+  PLTRELSZ             0x0000000000002bc8
+  PLTREL               0x0000000000000007
+  JMPREL               0x000000000041df08
+  RELA                 0x000000000041dcb0
+  RELASZ               0x0000000000000258
+  RELAENT              0x0000000000000018
+  VERNEED              0x000000000041db00
+  VERNEEDNUM           0x0000000000000006
+  VERSYM               0x000000000041c810
+
+Version References:
+  required from libz.so.1:
+    0x0827e5c0 0x00 &lt;span class="m"&gt;21&lt;/span&gt; ZLIB_1.2.0
+  required from libdl.so.2:
+    0x09691a75 0x00 &lt;span class="m"&gt;15&lt;/span&gt; GLIBC_2.2.5
+  required from libutil.so.1:
+    0x09691a75 0x00 &lt;span class="m"&gt;12&lt;/span&gt; GLIBC_2.2.5
+  required from libpthread.so.0:
+    0x09691a75 0x00 &lt;span class="m"&gt;05&lt;/span&gt; GLIBC_2.2.5
+  required from libm.so.6:
+    0x06969189 0x00 &lt;span class="m"&gt;07&lt;/span&gt; GLIBC_2.29
+    0x09691a75 0x00 &lt;span class="m"&gt;03&lt;/span&gt; GLIBC_2.2.5
+  required from libc.so.6:
+    0x06969195 0x00 &lt;span class="m"&gt;22&lt;/span&gt; GLIBC_2.15
+    0x06969194 0x00 &lt;span class="m"&gt;20&lt;/span&gt; GLIBC_2.14
+    0x06969190 0x00 &lt;span class="m"&gt;19&lt;/span&gt; GLIBC_2.10
+    0x0d696916 0x00 &lt;span class="m"&gt;18&lt;/span&gt; GLIBC_2.6
+    0x06969188 0x00 &lt;span class="m"&gt;17&lt;/span&gt; GLIBC_2.28
+    0x06969185 0x00 &lt;span class="m"&gt;16&lt;/span&gt; GLIBC_2.25
+    0x06969186 0x00 &lt;span class="m"&gt;14&lt;/span&gt; GLIBC_2.26
+    0x0d696914 0x00 &lt;span class="m"&gt;13&lt;/span&gt; GLIBC_2.4
+    0x0d696913 0x00 &lt;span class="m"&gt;11&lt;/span&gt; GLIBC_2.3
+    0x0d696917 0x00 &lt;span class="m"&gt;10&lt;/span&gt; GLIBC_2.7
+    0x09691974 0x00 &lt;span class="m"&gt;09&lt;/span&gt; GLIBC_2.3.4
+    0x06969197 0x00 &lt;span class="m"&gt;08&lt;/span&gt; GLIBC_2.17
+    0x09691972 0x00 &lt;span class="m"&gt;06&lt;/span&gt; GLIBC_2.3.2
+    0x0d696919 0x00 &lt;span class="m"&gt;04&lt;/span&gt; GLIBC_2.9
+    0x09691a75 0x00 &lt;span class="m"&gt;02&lt;/span&gt; GLIBC_2.2.5
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Daha şimdiden konunun çok fazla dışına çıktık.&lt;/p&gt;
+&lt;p&gt;Daha detaylı bilgiler için: &lt;a href="https://demirten.gitbooks.io/linux-sistem-programlama/content/shared-libraries/"&gt;Paylaşımlı Kütüphaneler&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Siber Güvenlik Açısından Dinamik Libraryler&lt;/h4&gt;
+&lt;p&gt;Linux üzerinde dinamik olarak libraryleri linkleyen veya yükleyen bir library(?) bulunmaktadır. Bunun adı da &lt;code&gt;ld.so&lt;/code&gt; dur. Bu library içerisinde bizi ilgilendiren(şuanlık) bir fonksiyon bulunmaktadır. Bu fonksiyonun ismi &lt;code&gt;LD_PRELOAD&lt;/code&gt; . Kendisi environment variable(ortam değişkeni) olarak çalışmaktadır ve uygulamalarımızda kullanıcı tanımlı &lt;code&gt;.so&lt;/code&gt; dosyalarını değiştirmemize olanak verir. Bu değişkene vermiş olduğumuz libraryler adından anlaşılacağı gibi preload yani her şeyden önce yüklenir veya linklenir.&lt;/p&gt;
+&lt;p&gt;Şimdi senaryoyu biraz canlandırıp detaylandıralım.&lt;/p&gt;
+&lt;p&gt;Linux sistem üzerinde güzelce çalışan bir programımız(ELF) var ve &lt;code&gt;benimadimenes.so&lt;/code&gt; diye bir paylaşılan dinamik bir library kullanıyor. Bu uygulama ayrıca yaptığı işlerden dolayı &lt;code&gt;root&lt;/code&gt; kullanıcısı ile çalışıyor. Buraya kadar her şey tamam. Bu sistemi ele geçirdiğimizi düşünelim ama kullanıcımız yetkisiz bir kullanıcı(örn:www). Aşağıdaki kısmı çok hızlı geçeceğim. Daha detaylı bir örnek için link vereceğim.&lt;/p&gt;
+&lt;p&gt;Biz bu yetkisiz kullanıcının izinlerini kontrol ettiğimizde LD_PRELOAD değişkenini değiştirebildiğini görüyoruz.  LD_PRELOAD değişkenini değiştirerek &lt;code&gt;benimadimenes.so&lt;/code&gt; librarysinin pathini değiştiriyoruz. Bu değişimden sonra &lt;code&gt;root&lt;/code&gt; kullanıcısı ile çalışan uygulamamız ilk olarak bizim manipüle ettiğimiz libraryi çalıştıracağı için artık &lt;code&gt;root&lt;/code&gt; kullanıcısı ile her şeyi yapabiliriz.&lt;/p&gt;
+&lt;p&gt;Daha detaylı bir örnekler için:&lt;/p&gt;
+&lt;p&gt;[EN] &lt;a href="https://www.boiteaklou.fr/Abusing-Shared-Libraries.html"&gt;Abusing Shared Libraries&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[TR] &lt;a href="https://www.siberportal.org/red-team/linux-penetration-tests/linux-sizma-testlerinde-ld_preload-degiskeni-kullaniminin-istismar-edilerek-hak-yukseltilmesi/"&gt;LD_PRELOAD Değişkeni Kullanımının İstismar Edilerek Hak Yükseltilmesi&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Strace&lt;/h2&gt;
+&lt;p&gt;Bu komut linux sistemler üzerinde çalıştırmış olduğumuz uygulamaların yapmış olduğu sistem çağrılarını gösteren bir komuttur. Ben komutun açılımı olarak aklımda &lt;code&gt;system trace&lt;/code&gt; bir açılım canlandırdım fakat yanlış olabilir. &lt;/p&gt;
+&lt;p&gt;Derlenmiş bir uygulama/kodda troubleshooting veya debugging için kullanılan komutlardandır. &lt;/p&gt;
+&lt;p&gt;Örnek bir çıktı:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;strace ls ./Desktop
+execve&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/bin/ls&amp;quot;&lt;/span&gt;, &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ls&amp;quot;&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;./Desktop&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;, 0x7ffecc44f368 /* &lt;span class="m"&gt;67&lt;/span&gt; vars */&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+brk&lt;span class="o"&gt;(&lt;/span&gt;NULL&lt;span class="o"&gt;)&lt;/span&gt;                               &lt;span class="o"&gt;=&lt;/span&gt; 0x5582a178e000
+access&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/etc/ld.so.preload&amp;quot;&lt;/span&gt;, R_OK&lt;span class="o"&gt;)&lt;/span&gt;      &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+openat&lt;span class="o"&gt;(&lt;/span&gt;AT_FDCWD, &lt;span class="s2"&gt;&amp;quot;/etc/ld.so.preload&amp;quot;&lt;/span&gt;, O_RDONLY&lt;span class="p"&gt;|&lt;/span&gt;O_CLOEXEC&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt;
+fstat&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;, &lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;st_mode&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;S_IFREG&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="m"&gt;0644&lt;/span&gt;, &lt;span class="nv"&gt;st_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;, ...&lt;span class="o"&gt;})&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+close&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+openat&lt;span class="o"&gt;(&lt;/span&gt;AT_FDCWD, &lt;span class="s2"&gt;&amp;quot;/etc/ld.so.cache&amp;quot;&lt;/span&gt;, O_RDONLY&lt;span class="p"&gt;|&lt;/span&gt;O_CLOEXEC&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt;
+fstat&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;, &lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;st_mode&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;S_IFREG&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="m"&gt;0644&lt;/span&gt;, &lt;span class="nv"&gt;st_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;184716&lt;/span&gt;, ...&lt;span class="o"&gt;})&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+mmap&lt;span class="o"&gt;(&lt;/span&gt;NULL, &lt;span class="m"&gt;184716&lt;/span&gt;, PROT_READ, MAP_PRIVATE, &lt;span class="m"&gt;3&lt;/span&gt;, &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 0x7f5ccb9b2000
+close&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+openat&lt;span class="o"&gt;(&lt;/span&gt;AT_FDCWD, &lt;span class="s2"&gt;&amp;quot;/lib/x86_64-linux-gnu/libselinux.so.1&amp;quot;&lt;/span&gt;, O_RDONLY&lt;span class="p"&gt;|&lt;/span&gt;O_CLOEXEC&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt;
+read&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0&amp;gt;\0\1\0\0\0\0|\0\0\0\0\0\0&amp;quot;&lt;/span&gt;..., &lt;span class="m"&gt;832&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;832&lt;/span&gt;
+fstat&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;, &lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;st_mode&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;S_IFREG&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="m"&gt;0644&lt;/span&gt;, &lt;span class="nv"&gt;st_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;163520&lt;/span&gt;, ...&lt;span class="o"&gt;})&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Daha detaylı bir açıklama için:&lt;/p&gt;
+&lt;p&gt;[TR] &lt;a href="https://demirten.gitbooks.io/gomulu-linux/misc/strace.html"&gt;Strace kullanımı&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[TR] &lt;a href="https://medium.com/@gokhansengun/strace-ne-i%C5%9Fe-yarar-ve-nas%C4%B1l-kullan%C4%B1l%C4%B1r-c46036ffa0"&gt;Strace ne işe yarar ve nasıl kullanılır&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[EN] &lt;a href="https://medium.com/@adminstoolbox/debugging-using-strace-efda7d65be1d"&gt;Debugging using strace&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;[EN] &lt;a href="https://opensource.com/article/19/10/strace"&gt;Understanding System Calls on Linux with Strace&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Ayrıca Sistem çağrılarına kanca atma konusunda 2 adet yazı[Siber Güvenlik]&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://alp.run/2019/10/16/linux_system_call_hooking.html"&gt;Linux System Call Hooking&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blacknbunny.github.io/2019/05/07/linux-system-call-hooking.html"&gt;Linux System Call Hooking&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Ltrace&lt;/h2&gt;
+&lt;p&gt;Kendisi strace benzeri bir komut olmakla birlikte paylaşımlı(shared) librarylerden çağrılan fonksiyonları izlemeye yarar. Ayrıca &lt;code&gt;strace&lt;/code&gt; komutunda olduğu gibi sistem çağrılarını da gösterebilir. Ben yine kafamda &lt;code&gt;library trace&lt;/code&gt; olarak çevirdim.&lt;/p&gt;
+&lt;p&gt;Örnek bir çıktıyı aşağıya ekliyorum.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ltrace ls ./Desktop        
+strrchr&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ls&amp;quot;&lt;/span&gt;, &lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                      &lt;span class="o"&gt;=&lt;/span&gt; nil
+setlocale&lt;span class="o"&gt;(&lt;/span&gt;LC_ALL, &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                   &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;en_US.UTF-8&amp;quot;&lt;/span&gt;
+bindtextdomain&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;coreutils&amp;quot;&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;/usr/share/locale&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                        &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;/usr/share/locale&amp;quot;&lt;/span&gt;
+textdomain&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;coreutils&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                 &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;coreutils&amp;quot;&lt;/span&gt;
+__cxa_atexit&lt;span class="o"&gt;(&lt;/span&gt;0x55a148528740, &lt;span class="m"&gt;0&lt;/span&gt;, 0x55a14853d388, &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                      &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+isatty&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                               &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+getenv&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;QUOTING_STYLE&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                 &lt;span class="o"&gt;=&lt;/span&gt; nil
+getenv&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;COLUMNS&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                       &lt;span class="o"&gt;=&lt;/span&gt; nil
+ioctl&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;, &lt;span class="m"&gt;21523&lt;/span&gt;, 0x7ffeae0ce350&lt;span class="o"&gt;)&lt;/span&gt;                                         &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+getenv&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;TABSIZE&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                       &lt;span class="o"&gt;=&lt;/span&gt; nil
+getopt_long&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;, 0x7ffeae0ce488, &lt;span class="s2"&gt;&amp;quot;abcdfghiklmnopqrstuvw:xABCDFGHI:&amp;quot;&lt;/span&gt;..., 0x55a14853c680, -1&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; -1
+getenv&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;LS_BLOCK_SIZE&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                 &lt;span class="o"&gt;=&lt;/span&gt; nil
+getenv&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;BLOCK_SIZE&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                    &lt;span class="o"&gt;=&lt;/span&gt; nil
+getenv&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;BLOCKSIZE&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                     &lt;span class="o"&gt;=&lt;/span&gt; nil
+getenv&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;POSIXLY_CORRECT&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                               &lt;span class="o"&gt;=&lt;/span&gt; nil
+getenv&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;BLOCK_SIZE&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                    &lt;span class="o"&gt;=&lt;/span&gt; nil
+__errno_location&lt;span class="o"&gt;()&lt;/span&gt;                                                      &lt;span class="o"&gt;=&lt;/span&gt; 0x7f41bcad9258
+memcpy&lt;span class="o"&gt;(&lt;/span&gt;0x55a149d98a00, &lt;span class="s2"&gt;&amp;quot;\003\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0&amp;quot;&lt;/span&gt;..., &lt;span class="m"&gt;56&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 0x55a149d98a00
+__errno_location&lt;span class="o"&gt;()&lt;/span&gt;                                                      &lt;span class="o"&gt;=&lt;/span&gt; 0x7f41bcad9258
+memcpy&lt;span class="o"&gt;(&lt;/span&gt;0x55a149d98a40, &lt;span class="s2"&gt;&amp;quot;\003\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0&amp;quot;&lt;/span&gt;..., &lt;span class="m"&gt;56&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 0x55a149d98a40
+getenv&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;TZ&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                            &lt;span class="o"&gt;=&lt;/span&gt; nil
+__errno_location&lt;span class="o"&gt;()&lt;/span&gt;                                                      &lt;span class="o"&gt;=&lt;/span&gt; 0x7f41bcad9258
+__ctype_get_mb_cur_max&lt;span class="o"&gt;()&lt;/span&gt;                                                &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;6&lt;/span&gt;
+strlen&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;./Desktop&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                     &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;9&lt;/span&gt;
+__xstat&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;./Desktop&amp;quot;&lt;/span&gt;, 0x55a149d98b28&lt;span class="o"&gt;)&lt;/span&gt;                                 &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+strlen&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;./Desktop&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                     &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;9&lt;/span&gt;
+memcpy&lt;span class="o"&gt;(&lt;/span&gt;0x55a149d9d940, &lt;span class="s2"&gt;&amp;quot;./Desktop\0&amp;quot;&lt;/span&gt;, &lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                               &lt;span class="o"&gt;=&lt;/span&gt; 0x55a149d9d940
+_setjmp&lt;span class="o"&gt;(&lt;/span&gt;0x55a14853d680, &lt;span class="m"&gt;0&lt;/span&gt;, 0x55a149d98bd8, 0x55a149d9d968&lt;span class="o"&gt;)&lt;/span&gt;              &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+strlen&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;./Desktop&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                     &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;9&lt;/span&gt;
+memcpy&lt;span class="o"&gt;(&lt;/span&gt;0x55a149d9d9b0, &lt;span class="s2"&gt;&amp;quot;./Desktop\0&amp;quot;&lt;/span&gt;, &lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                               &lt;span class="o"&gt;=&lt;/span&gt; 0x55a149d9d9b0
+freecon&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;, 0x55a149d93010, &lt;span class="m"&gt;0&lt;/span&gt;, &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                        &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+__errno_location&lt;span class="o"&gt;()&lt;/span&gt;                                                      &lt;span class="o"&gt;=&lt;/span&gt; 0x7f41bcad9258
+opendir&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;./Desktop&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                    &lt;span class="o"&gt;=&lt;/span&gt; 0x55a149d9d9d0
+readdir&lt;span class="o"&gt;(&lt;/span&gt;0x55a149d9d9d0&lt;span class="o"&gt;)&lt;/span&gt;                                                 &lt;span class="o"&gt;=&lt;/span&gt; 0x55a149d9da00
+readdir&lt;span class="o"&gt;(&lt;/span&gt;0x55a149d9d9d0&lt;span class="o"&gt;)&lt;/span&gt;                                                 &lt;span class="o"&gt;=&lt;/span&gt; 0x55a149d9da18
+__errno_location&lt;span class="o"&gt;()&lt;/span&gt;                                                      &lt;span class="o"&gt;=&lt;/span&gt; 0x7f41bcad9258
+__ctype_get_mb_cur_max&lt;span class="o"&gt;()&lt;/span&gt;                                                &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;6&lt;/span&gt;
+strlen&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;README.license&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;14&lt;/span&gt;
+strlen&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;README.license&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;14&lt;/span&gt;
+memcpy&lt;span class="o"&gt;(&lt;/span&gt;0x55a149d9d940, &lt;span class="s2"&gt;&amp;quot;README.license\0&amp;quot;&lt;/span&gt;, &lt;span class="m"&gt;15&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                          &lt;span class="o"&gt;=&lt;/span&gt; 0x55a149d9d940
+readdir&lt;span class="o"&gt;(&lt;/span&gt;0x55a149d9d9d0&lt;span class="o"&gt;)&lt;/span&gt;                                                 &lt;span class="o"&gt;=&lt;/span&gt; 0x55a149d9da40
+__errno_location&lt;span class="o"&gt;()&lt;/span&gt;                                                      &lt;span class="o"&gt;=&lt;/span&gt; 0x7f41bcad9258
+__ctype_get_mb_cur_max&lt;span class="o"&gt;()&lt;/span&gt;                                                &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;6&lt;/span&gt;
+strlen&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;steam.desktop&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                 &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;13&lt;/span&gt;
+strlen&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;steam.desktop&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                                                 &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;13&lt;/span&gt;
+memcpy&lt;span class="o"&gt;(&lt;/span&gt;0x55a149da5a10, &lt;span class="s2"&gt;&amp;quot;steam.desktop\0&amp;quot;&lt;/span&gt;, &lt;span class="m"&gt;14&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;                           &lt;span class="o"&gt;=&lt;/span&gt; 0x55a149da5a10
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Ekstra Bilgi&lt;/h2&gt;
+&lt;p&gt;Linux sistemler üzerinde herhangi bir process'in memory üzerinde maplediği alanları görmek isterseniz aşağıdaki gibi bir komut kullanabilirsiniz.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;cat /proc/&lt;span class="o"&gt;[&lt;/span&gt;PID numarası&lt;span class="o"&gt;]&lt;/span&gt;/maps
+veya
+cat /proc/&lt;span class="k"&gt;$(&lt;/span&gt;pidof &lt;span class="o"&gt;[&lt;/span&gt;Process ismi&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;/maps
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Bu komutları çalıştırdığınızda devasa bir çıktı görebilir ve memory üzerinde processin aynı library ile birden fazla yer ayırdığını vs görebilirsiniz. Örnek vermek gerekirse 4 tane libgl.so (attım bu ismi) ismi görebilirsiniz. Bunun temel sebebi hepsinin farklı &lt;code&gt;permission&lt;/code&gt; 'a sahip olmasıdır. &lt;/p&gt;
+&lt;p&gt;Proc file systemi hakkındaki manuel'e ulaşmak için: &lt;a href="https://www.kernel.org/doc/Documentation/filesystems/proc.txt"&gt;Tıklayın&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Yazı Sonu&lt;/h2&gt;
+&lt;p&gt;Benimde henüz yeni araştırmış olduğum veya derinine daldığım bir yazı olduğu için hatalar olabilir eğer hatam varsa lütfen en kısa sürede beni bilgilendirin, bilgilendirmekten çekinmeyin. Yazı ilk halinden çok farklı bir hal aldı. Araştırırken gördüğüm şeyleri de eklemek istedim. Biraz uzun oldu.&lt;/p&gt;
+&lt;p&gt;Neyse. Benim için bir gelenek olan yazı sonu şarkısını aşağıya bırakıyorum.&lt;/p&gt;
+&lt;p&gt;Okuduğunuz için teşekkürler.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.youtube.com/watch?v=TFjmvfRvjTc" title=""&gt;&lt;img alt="" src="http://img.youtube.com/vi/TFjmvfRvjTc/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Biraz modum düşsün böyle şarkılar istiyorum diyen varsa aşağıda spotify playlistimin linkini koydum.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://open.spotify.com/playlist/1YctCQhYvuQ1YVt97qsZ1p?si=L8hz-gcaSIKlsxnJQu5Qlw"&gt;hafifdertliböyle&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Kullandığım linkler&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://stackoverflow.com/questions/1124571/get-list-of-static-libraries-used-in-an-executable"&gt;https://stackoverflow.com/questions/1124571/get-list-of-static-libraries-used-in-an-executable&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html"&gt;http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://man7.org/linux/man-pages/man8/ld.so.8.html"&gt;http://man7.org/linux/man-pages/man8/ld.so.8.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://demirten.gitbooks.io/gomulu-linux/misc/strace.html"&gt;https://demirten.gitbooks.io/gomulu-linux/misc/strace.html&lt;/a&gt;&lt;/p&gt;</content><category term="linux"></category><category term="LD_PRELOAD Türkçe"></category><category term="LD_PRELOAD"></category><category term="Strace kullanımı"></category><category term="ltrace kullanımı"></category><category term="linux dinamik kütüphaneler"></category><category term="ldd türkçe"></category><category term="objdump"></category><category term="objdump türkçe"></category><category term="linux kütüphaneler"></category><category term="linux sistem çağrıları"></category><category term="nm komutu"></category><category term="ldd komutu"></category><category term="strace komutu"></category><category term="ltrace komutu"></category><category term="ptrace komutu"></category></entry><entry><title>Linux Capabilities API</title><link href="https://enesergun.net/linux-capabilities-api.html" rel="alternate"></link><published>2020-02-02T14:00:00+03:00</published><updated>2020-02-02T14:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2020-02-02:/linux-capabilities-api.html</id><summary type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
 &lt;p&gt;Günlük olarak RSS feedlerimi takip etmeye özen gösteren birisiyim(Feedly). Bu feedler arasında bolca HTB(HackTheBox)  write-up kaynağı da bulunuyor doğal olarak. İşte yine bir HTB makinesi ile ilgili write-up'ı okurken bunca yıldır Linux(End-User olarak) kullanan biri olarak karşılaşmadığım ve karşılaştığımda şaşırdığım bir komut gördüm. Neydi bu komut …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Selamlar,&lt;/p&gt;
 &lt;p&gt;Günlük olarak RSS feedlerimi takip etmeye özen gösteren birisiyim(Feedly). Bu feedler arasında bolca HTB(HackTheBox)  write-up kaynağı da bulunuyor doğal olarak. İşte yine bir HTB makinesi ile ilgili write-up'ı okurken bunca yıldır Linux(End-User olarak) kullanan biri olarak karşılaşmadığım ve karşılaştığımda şaşırdığım bir komut gördüm. Neydi bu komut?&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;getcap -r / &lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/dev/null
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;getcap -r / &lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/dev/null
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Komutu anlatmak gerekirse recursive bir biçimde &lt;code&gt;/&lt;/code&gt; yani en üst dizinden başlayarak tüm dosyaların kabiliyetlerini kontrol edecek ve eğer return code olarak &lt;code&gt;2&lt;/code&gt; kodu dönülüyorsa bunu &lt;code&gt;/dev/null&lt;/code&gt; uzayına gönderecek.&lt;/p&gt;
 &lt;h2&gt;Linux Yetkilendirme Sistemleri&lt;/h2&gt;
@@ -14,9 +472,8 @@
 &lt;h2&gt;Peki Enes Bunlar Ne İşe Yarayacak&lt;/h2&gt;
 &lt;p&gt;Öncelikle bir hacker olduğunuzu düşünün, bir linux sistemi ele geçirdiniz fakat o da ne? Sistem üzerinde Nginx'in tüm işlemleri özel bir kullanıcı ile yürütülüyor ve siz bu sistemde at koşturamıyorsunuz. Ne yapmamız gerek? Sistem üzerinde yetkimizi yükseltebileceğimiz bir şeyler aramamız gerekmekte.&lt;/p&gt;
 &lt;p&gt;Ne yapabiliriz? Mesela SUID Bit içeren dosyaları arayabiliriz.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;find / -perm -4000 -type f &lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/dev/null
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;find / -perm -4000 -type f &lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/dev/null
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Tamam bir executable dosya bulduk ama bunu nasıl kullanacağımızı bilmiyoruz? İster Google üzerinde aratın ya da bu iş için çok güzel bir site hazırlamışlar ona bakabilirsiniz.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://gtfobins.github.io/"&gt;GTFOBins&lt;/a&gt; (Linux)&lt;/p&gt;
@@ -34,7 +491,7 @@
 &lt;p&gt;&lt;a href="https://canyoupwn.me/tr-suid-bit-istismari/"&gt;SUID Bit İstismarı&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Evet zararlı kısmını da gösterdik. Şimdi konu gerçekten Capabilities API'a geldi. Şu an kullandığınız distroda ping komutunun nasıl çalıştığına(yetkisiz kullanıcı ile) baktınız mı hiç?&lt;/p&gt;
 &lt;p&gt;Hadi yetkilerine bakalım. Direkt olarak komutları ve çıktılarını aşağıya kopyalıyorum. Sonra üstünde konuşacağız.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;➜  /bin ls -la &lt;span class="p"&gt;|&lt;/span&gt; grep ping
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;➜  /bin ls -la &lt;span class="p"&gt;|&lt;/span&gt; grep ping
 -rwxr-xr-x  &lt;span class="m"&gt;1&lt;/span&gt; root root          &lt;span class="m"&gt;75760&lt;/span&gt; Jan  &lt;span class="m"&gt;5&lt;/span&gt;  &lt;span class="m"&gt;2019&lt;/span&gt; atk6-thcping6
 -rwxr-xr-x  &lt;span class="m"&gt;1&lt;/span&gt; root root          &lt;span class="m"&gt;48032&lt;/span&gt; Aug  &lt;span class="m"&gt;7&lt;/span&gt; &lt;span class="m"&gt;02&lt;/span&gt;:48 fping
 lrwxrwxrwx  &lt;span class="m"&gt;1&lt;/span&gt; root root              &lt;span class="m"&gt;5&lt;/span&gt; Jan  &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;18&lt;/span&gt;:47 fping6 -&amp;gt; fping
@@ -50,8 +507,7 @@ lrwxrwxrwx  &lt;span class="m"&gt;1&lt;/span&gt; root root              &lt;span
 ➜  /bin ping &lt;span class="m"&gt;8&lt;/span&gt;.8.8.8
 PING &lt;span class="m"&gt;8&lt;/span&gt;.8.8.8 &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&gt;.8.8.8&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="m"&gt;56&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;84&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; bytes of data.
 &lt;span class="m"&gt;64&lt;/span&gt; bytes from &lt;span class="m"&gt;8&lt;/span&gt;.8.8.8: &lt;span class="nv"&gt;icmp_seq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nv"&gt;ttl&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;54&lt;/span&gt; &lt;span class="nv"&gt;time&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;15&lt;/span&gt;.4 ms
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Gördüğünüz gibi ping komutu &lt;code&gt;root:root&lt;/code&gt; olarak yetkilendirilmiş bir biçimde üstelik herhangi bir &lt;code&gt;SUID Bit vb.&lt;/code&gt; bir şey de yok fakat ben nasıl çalıştırabiliyorum?&lt;/p&gt;
 &lt;p&gt;Yine terminal çıktısı atayım.&lt;/p&gt;
@@ -64,7 +520,7 @@ PING &lt;span class="m"&gt;8&lt;/span&gt;.8.8.8 &lt;span class="o"&gt;(&lt;/span
 &lt;p&gt;Kaynak: &lt;a href="https://github.com/torvalds/linux/commit/c319b4d76b9e583a5d88d6bf190e079c4e43213d"&gt;      net: ipv4: add IPPROTO_ICMP socket kind    &lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;Capabilities API&lt;/h2&gt;
 &lt;p&gt;Öncelik olarak Kernel sürümümüze özel olarak sistem üzerinde ne kadar farklı yetkilendirme yapabileceğimize bakalım. (Tüm Capabilities Yetkilerine)&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;➜  ~ sudo capsh --print
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;➜  ~ sudo capsh --print
 Current: &lt;span class="o"&gt;=&lt;/span&gt; cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read+ep
 Bounding &lt;span class="nb"&gt;set&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read
 Ambient &lt;span class="nb"&gt;set&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
@@ -76,8 +532,7 @@ Securebits: &lt;span class="m"&gt;00&lt;/span&gt;/0x0/1&lt;span class="err"&gt;&
 &lt;span class="nv"&gt;uid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;root&lt;span class="o"&gt;)&lt;/span&gt;
 &lt;span class="nv"&gt;gid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;root&lt;span class="o"&gt;)&lt;/span&gt;
 &lt;span class="nv"&gt;groups&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;root&lt;span class="o"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Gördüğünüz gibi yetkileri görmek için &lt;code&gt;capsh --print&lt;/code&gt; komutunu kullanabilirsiniz. Daha detaylı bir kullanım için: &lt;/p&gt;
 &lt;p&gt;&lt;a href="http://man7.org/linux/man-pages/man1/capsh.1.html"&gt;Capsh manpages&lt;/a&gt;&lt;/p&gt;
@@ -206,26 +661,23 @@ Securebits: &lt;span class="m"&gt;00&lt;/span&gt;/0x0/1&lt;span class="err"&gt;&
 &lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=J-KUtPPlUqs" title="saian &amp;lt;3"&gt;&lt;img alt="Saian K&amp;quot;st Uçurum Çiçeği" src="http://img.youtube.com/vi/J-KUtPPlUqs/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="linux"></category><category term="linux kurulum sonrası"></category><category term="linux tavsiye uygulamalar"></category><category term="yazılımcılar için linux"></category><category term="en güzel linux uygualamaları"></category></entry><entry><title>PS Komutunun Alabildiği Argümanlar</title><link href="https://enesergun.net/ps-command-arguments.html" rel="alternate"></link><published>2018-02-10T22:19:00+03:00</published><updated>2018-02-10T22:19:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2018-02-10:/ps-command-arguments.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;PS&lt;/strong&gt; komutu linux üzerinde processleri ( çalışan işlemleri ) monitoring edebileceğimiz bir komuttur. Pek tabi ki bir çok argüman almaktadır. Şimdi bu argümanların en çok kullanılanlarına aşağıda bahsedeceğiz. PS komutu çıktıları bir çok formatta olabiliyor. İyi okumalar.&lt;/p&gt;
 &lt;h3&gt;Let's go&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;NOT&lt;/strong&gt;: Önce komutu gösterip daha sonra komutu açıklayacağım bilginize.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -A
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -A
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;PS&lt;/strong&gt; komutu linux üzerinde processleri ( çalışan işlemleri ) monitoring edebileceğimiz bir komuttur. Pek tabi ki bir çok argüman almaktadır. Şimdi bu argümanların en çok kullanılanlarına aşağıda bahsedeceğiz. PS komutu çıktıları bir çok formatta olabiliyor. İyi okumalar.&lt;/p&gt;
 &lt;h3&gt;Let's go&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;NOT&lt;/strong&gt;: Önce komutu gösterip daha sonra komutu açıklayacağım bilginize.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -A
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -A
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut varsayılan olarak &lt;strong&gt;Linux formatında&lt;/strong&gt; çalışan processleri bizlere döndürür. Bu processlerde bizlere PID, hangi TTY'de çalıştığını, zamanını  ve hangi processin çalıştığını bizlere gösterir. Mesela benim ekran görüntümde tty7'de Xorg çalışıyor.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="" src="/images/psa1.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps au
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps au
 ps axu
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Yukarıda ki komutun çıktıları &lt;strong&gt;BSD&lt;/strong&gt;  formatında olur. Bu formatta Kullanıcı, PID numarası, kullandığı işlemci yüzdesi, kullandığı ram yüzdesi, VSZ değeri, RSS değeri, TTY değeri, İşlemin durumu, zamanını ve komutunun çıktısını verir.&lt;/li&gt;
@@ -233,69 +685,60 @@ ps axu
 &lt;p&gt;&lt;strong&gt;VSZ&lt;/strong&gt; : Bir işlemin kullanacağı, kullanabileceği sanal bellek miktarıdır.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;RSS&lt;/strong&gt; : Bu işleme tahsis edilen fiziksel bellek miktarıdır.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="" src="/images/psaux1.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -eF
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -eF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Yukarıda ki komut full çıktı modudur. Bu çıktıda sizlere UID, PID, PPID, C, SZ, RSS, PSR, STIME, TTY, TIME, CMD değerleri döner.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -fU ka1
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -fU ka1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile adını verdiğiniz kullanıcıya ait processleri görebilirsiniz.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="" src="/images/psfu1.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -U root -u root
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -U root -u root
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile root kullanıcı tarafından çalıştırılan tüm processleri görebilirsiniz.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -fG postgres
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -fG postgres
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile bir gruba ait tüm çalışan processleri görebilirsiniz. Bu ne demektir? Mesela web diye bir kullanıcı grubunuz var ve bunun altında nginx/gunicorn/celery bulunuyor. Siz direkt olarak bu şekilde çalışan processleri görebilirsiniz.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="" src="/images/psfg1.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -fp PID
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -fp PID
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile PID değerini verdiğiniz process veya processleri görebilirsiniz. Burada tekli veya çoklu seçim yapabilirsiniz.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -ft tty1
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -ft tty1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile o TTY'de çalıştırılan komutları görebilirsiniz.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -aux --forest
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -aux --forest
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile yukarıda bahsetmiş olduğumuz &lt;strong&gt;BSD&lt;/strong&gt; tarzında bir çıktı alırsınız fakat burada ki tek fark processlerin parent-child ( aslında forest/treeview )  ilişkileri bu çıktı içerisinde gösterilir.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="" src="/images/psforest1.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -eo user,%cpu
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -eo user,%cpu
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile PS çıktısını kendinize göre özelleştirebilirsiniz. Ben yukarıda ki komutta processin hangi kullanıcı tarafından çalıştırıldığını ve yüzde kaç CPU kullandığını görmek istedim.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="" src="/images/pschangeoutput1.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -eo user,%cpu,command,%mem --sort&lt;span class="o"&gt;=&lt;/span&gt;-%mem &lt;span class="p"&gt;|&lt;/span&gt;  head
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -eo user,%cpu,command,%mem --sort&lt;span class="o"&gt;=&lt;/span&gt;-%mem &lt;span class="p"&gt;|&lt;/span&gt;  head
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Bu komut ile ps komutu çıktısını sıralayabilirsiniz. Burada -%mem en fazla RAM Kullanan processleri ekrana yazdıracaktır. En az kullananları isterseniz %mem yazabilirsiniz.&lt;/li&gt;

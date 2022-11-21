@@ -21,21 +21,25 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Blogroll
-LINKS = (('Mertcan Gökgöz', 'https://mertcangokgoz.com/'),
+LINKS = (
+
+         ('Eşelyon','https://devilinside.me/'),
+         ('Berk Albayrak','https://medium.com/@brkalbyrk'),
+         ('Ahmet Güler','https://ahmtglr.wordpress.com/'),
+         ('Kağan Işıldak', 'https://kaganisildak.com/'),
+         ('Eybisi','https://eybisi.run/'),
          ('Onur Aslan', 'https://onur.im/'),
-         ('Ömer İpek', 'http://www.omeripek.com.tr/'),
          ('Canyoupwn.me', 'https://canyoupwn.me/'),
          ('Oğuz Özkeroğlu', 'http://www.oguzozkeroglu.com'),
-         ('Ahmet Gürel', 'http://ahmetgurel.com'),
-         ('Berk İmran', 'https://berkimran.com.tr'),
          ('Ali Gören', 'https://aligoren.com'),
          ('Emir Kurt', 'https://0xf61.gitlab.io/'),
-         ('1v3m', 'https://cybersaxostiger.github.io/'))
+         
+         )
 
 # Social widget
-CONTACTS = (('twitter', 'www.twitter.com/0x656e'),
+CONTACTS = (('twitter', 'www.twitter.com/eness_ergun'),
             ('mail', 'info@enesergun.net'))
-SOCIAL = (('0x656e', 'www.twitter.com/0x656e'),)
+SOCIAL = (('0x656e', 'www.twitter.com/eness_ergun'),)
 RECENT_POST_COUNT = 10
 DISPLAY_RECENT_POSTS_ON_MENU = 5
 
@@ -53,4 +57,5 @@ DISPLAY_CATEGORIES_ON_MENU = True
 SHARE = True
 USE_CUSTOM_MENU = False
 PLUGIN_PATHS = ['/home/ka1/Pelican-Cid/plugins']
-PLUGINS = ['cid_filters','extract_toc']
+PLUGINS = ['cid_filters']
+

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>    Ferrarisini satan ETW (Event Tracing for Windows)
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" href="theme/css/cid.css">
+        <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+        <style>
+                
+
+        pre {
+            font-family: "", "Lucida Console", monospace, Monaco;
+            font-size: 14px;
+            line-height: 1.0;
+        }
+
+        a {
+            color: #da4b6d;
+            text-decoration: none;
+        }
+
+        w {
+            color: white;
+        }
+
+        e {
+            color: #93ffd7;
+        }
+
+        /* green  */
+        k {
+            color: #ff93f1;
+        }
+
+        /* pink   */
+        l {
+            color: #f1ff93;
+        }
+
+        /* yellow */
+        o {
+            color: #93f1ff;
+        }
+
+        /* blue   */
+        r {
+            color: #fa4d57;
+        }
+
+        /* red    */
+
+        body {
+            font-family: "", "Lucida Console", monospace, Monaco
+        }
+
+        h1 {
+            color: #da4b6d !important;
+        }
+
+        .blog-header {
+            text-align: center;
+        }
+
+        header[role="banner"] {
+            #logo-main {
+                display: block;
+                margin: 20px auto;
+            }
+        }
+
+        #navbar-primary.navbar-default {
+            background: transparent;
+            border: none;
+
+            text-align: center;
+            display: inline-block;
+            float: none;
+            padding-left: 30px;
+            padding-right: 30px;
+            width: 100%;
+            border-style: groove;
+            border-color: #ff93f1;
+        }
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+            <div class="container">
+
+<header class="blog-header">
+    <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
+    <p> Personel homepage </p>
+    <nav>
+        <a href="https://enesergun.net/">INDEX</a>
+        <a href="https://enesergun.net/archives">ARCHIVES</a>
+        <a href="https://enesergun.net/categories">CATEGORIES</a>
+    </nav>
+</header>
+
+    <div class="post">
+
+        <header>
+            <h1>Ferrarisini satan ETW (Event Tracing for Windows)</h1>
+            <p class="date">Written on <time datetime="2022-02-06T18:00:00+03:00">Feb 06, 2022</time></p>
+            
+        </header>
+
+        <article>
+            <blockquote>
+<p>Satan kelimesinin gizli bir anlamı yoktur tıpkı araç plakamın sonunun 666 olması gibi.</p>
+</blockquote>
+<p>Selamlar öncelikle. Nasılsınız? Her telden çalan bir insan olduğum için bugün de (1 yıl sonra) tamamen farklı bir konu üzerinden bahsetmek istiyorum. Kendisini çeşitli mail listelerini takip ederken tanıdım. İlgimi çekti ve araştırıp bunun yazısını yazmak istedim. Birbirimizi sevebileceğimizi umuyorum. </p>
+<blockquote>
+<p>İş bu blog konusu size hiç bir uzmanlık vermeyecektir, vermeyi tahahhüd etmemektedir. Türkiye piyasasında bir kaç kişi/grup harici genelde teknolojiyi takip eden tarafta olduğumuz için(keşke Numan olsam :D) pek tabii internette okuyup özetini çıkarttığım bilgileri sizlere sağlamış olacağım diye düşünüyorum.</p>
+</blockquote>
+<p>O zaman giriş yapalım. Kağan'dan önce yazmak için bazı konuları atlamış, kaçırmış olabilirim. Affınıza sığınıyorum. (Ulan bir blog konusu yazıyorsun bari bir şeyleri tam yap diyenleri <a href="https://youtu.be/dQw4w9WgXcQ">şuraya alalım.</a> )</p>
+<h2>ETW Ne Demekti? Sevgi demekti, Emek demekti.</h2>
+<p><a href="https://docs.microsoft.com/en-us/windows/win32/etw/about-event-tracing">Bknz:About Event Tracing</a></p>
+<p>Kendisinin açılımı Event Tracing For Windowstur. Kendisi çekirdekteki veya uygulama tanımlı olayları log dosyası veya real time olarak takip etmenize olanak sağlayan verimli bir yöntemdir. Kendisi/kendileri sistemi yeniden başlatmadan tracing'i(takip, izleme) aktif veya pasif hale getirebilmenize olanak sağlayabilen oldukça kullanışlı(Belki de tehlikeli) bir özelliktir. </p>
+<p>Kıymetlilerimiz 3 ana parçaya sahiptir. Bunlar:</p>
+<ul>
+<li><strong>Controller</strong>: İzleme başlatabilen, etkinleştirebilen, devre dışı bırakabilen uygulamalardır.</li>
+<li><strong>Providers</strong>: Log oluşturan uygulamalar vs.</li>
+<li><strong>Consumers</strong>: Providerlar tarafından loglari, aktiviteleri dinleyen abone(??) olan uygulamalardır. </li>
+</ul>
+<p>Bu 3 madde harici ayrıca bilmemiz gereken bazı keyword(anahtar terimler) de var tabii. </p>
+<ul>
+<li><strong>Tracing Session</strong>: Bir veya birden fazla providerdan gelen olayları kaydeden mekanizmadır/uygulamadır.</li>
+<li><strong>Keywords</strong>: Consumerlara bilgiyi sağlayan olay türleridir. Burası önemli.</li>
+</ul>
+<p><strong>ETW üzerinde çok önemli 2 fonksiyon bulunmaktadır. Bunlar: 1.NTTraceControl(Trace fonksiyonlarını yönetiyor) 2. NtTraceEvent (Aktiviteleri/Eventleri yazıyor.)</strong></p>
+<div class="highlight"><pre><span></span><code>NTSTATUS
+NtTraceControl (
+    ULONG FunctionCode,
+    PVOID InBuffer,
+    ULONG InBufferLen,
+    PVOID OutBuffer,
+    ULONG OutBufferLen,
+    ULONG *ReturnSize);
+
+NTSTATUS
+NtTraceEvent (
+    HANDLE TraceHandle,
+    ULONG Flags,
+    ULONG FieldSize,
+    PVOID Fields);
+</code></pre></div>
+
+<p>Bu kadar teori yeter. Şimdi biraz da pratik kısmına bakalım.</p>
+<h2>ETW Providerları Görmek</h2>
+<p>Sisteminiz üzerindeki providerları görebilmek için sistem üzerinde komut istemcisine(command prompt, powershell vb.) <code>logman providers</code> yazdığınızda sistem üzerinde zibilyon tane provider görebilirsiniz. Ben PowerShell üzerinde measure dediğimde 1149 tane provider görüyorum. </p>
+<p><img alt="image-20220206165502609" src="images/image-20220206165502609.png"></p>
+<p><img alt="image-20220206165404280" src="images/image-20220206165404280.png"></p>
+<p>İlk ekran görüntüsündeki çıktıda GUID'leri görüyoruz. Bizim için asıl önemli olanlar bunlardır. Bir provider'a subscribe(kayıt/abone/hook ne derseniz artık) olurken kullanacağımız keywordleri bu GUID'i sorgulayarak yapacağız. Pek tabii bu providerları tek tek terminal üzerinden kontrol etmek istemeyebilirsiniz. Bunun için geliştirimiş bazı araçlar bulunmaktadır. Ben genel olarak makalelerde "EtwExplorer" kullanıldığını görmekteyim. Aşağıda ekran görüntülerini ekliyor olacağım.</p>
+<p><img alt="image-20220206165808464" src="images/image-20220206165746333.png"></p>
+<p><img alt="image-20220206165849819" src="images/image-20220206165849819.png"></p>
+<p><img alt="image-20220206165935681" src="images/image-20220206165935681.png"></p>
+<p>Burada işaretli alan oldukça önemli. Microsoft-Windows-Kernel-Process Provider'ına ait template'i XML biçiminde görüyorsunuz. Subscribe olduğumuzda işaretli alandan nelere subscribe olacağımızı seçeceğiz. Bu kısımda verdiğimiz değerler toplama olarak gidiyor bu arada. Mesela "0x10, 0x20, 0x40"a subscribe olacağımızı düşünrsek <code>0x70</code> yazabiliriz. </p>
+<p><strong>Uygulamayı geliştiren Pavel abimize saygılar. Kendisi Windows SysInternals kitaplarının yazarı olmakla birlikte Pentester Academyde de eğitmenlik yapmış birisi. Daha fazlasını öğrenmek isterseniz size kalmış araştırabilirsiniz.</strong></p>
+<h2>ETW üzerinde Subscribe Olmak</h2>
+<p>Şimdi işimize uygun olan provider'ı seçtik diyelim. Bu provider'a subscribe olmak için bizim bir <code>trace session</code>a ihtiyacımız var. Bu sebeple logman üzerinden bu session'ı oluşturmalıyız. Varolan sessionları listelemek için aşağıdaki komutu yazabilirsiniz.</p>
+<div class="highlight"><pre><span></span><code><span class="n">logman</span> <span class="n">query</span> <span class="n">-ets</span>
+</code></pre></div>
+
+<p>Hadi bir trace session oluşturalım.</p>
+<div class="highlight"><pre><span></span><code><span class="n">logman</span> <span class="n">create</span> <span class="n">trace</span> <span class="n">enesindnsleri</span> <span class="n">-ets</span>
+</code></pre></div>
+
+<p>Şimdi bunu yazdığımızda aşağıdaki sonuca erişmiş olmamız lazım.</p>
+<p><img alt="image-20220206171339464" src="images/image-20220206171339464.png"></p>
+<p>Ama şu an tamamen kullanışsız çünkü herhangi bir provider'a subscribe olmadık. Ben sistem üzerindeki DNS çağrılarımı görmek istiyorum. Çağrıdan kastım DNS istekleri. Bunun için önce hangi provider olduğunu bulmam lazım.</p>
+<div class="highlight"><pre><span></span><code><span class="n">logman</span> <span class="n">query</span> <span class="n">providers</span> <span class="p">|</span> <span class="nb">Select-String</span> <span class="s2">&quot;dns&quot;</span>
+</code></pre></div>
+
+<p>yazdığımda bana </p>
+<p><code>{1C95126E-7EEA-49A9-A3FE-A378B03DDB4D}</code> GUID'sini verdi. Ben buna subscribe olacağım. Herhangi bir keyword vermeyeceğim bu sebeple direkt olarak aşağıdaki gibi bir komut çalıştırarak benim trace session'ıma provider'ı subscribe edeceğim. Dilerseniz siz fazladan/başka providerlar da ekleyebilirsiniz.</p>
+<div class="highlight"><pre><span></span><code><span class="n">logman</span> <span class="n">update</span> <span class="n">enesindnsleri</span> <span class="n">-p</span> <span class="s2">&quot;Microsoft-Windows-DNS-Client&quot;</span> <span class="n">-ets</span>
+</code></pre></div>
+
+<p>Bakalım subscribe olabildik mi?</p>
+<div class="highlight"><pre><span></span><code><span class="n">logman</span> <span class="n">query</span> <span class="n">enesindnsleri</span> <span class="n">-ets</span>
+</code></pre></div>
+
+<p>Çıktımız: </p>
+<p><img alt="image-20220206173433760" src="images/image-20220206173433760.png"></p>
+<p>Burada kendisi bir output belirledi ve keyword olarak All  olarak algıladı fakat .etl dosyamda nedense hata verdi. Bende bu sebeple şöyle bir yola gittim. Siz de dilerseniz output çıktısını değiştirebilirsiniz. Daha fazlası için</p>
+<p><a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/logman">Windows Docs for Logman</a></p>
+<div class="highlight"><pre><span></span><code>logman update enesindnsleri -ow -o C:\Users\Enes\enesdns1.etl -p &quot;Microsoft-Windows-DNS-Client&quot; 0x10 -ets
+</code></pre></div>
+
+<p><img alt="image-20220206175045137" src="images/image-20220206175045137.png"></p>
+<p>Şimdi bir de çıktı dosyamıza bakalım. </p>
+<p><img alt="image-20220206180844358" src="images/image-20220206180420094.png"></p>
+<p>Gördüğünüz gibi arkada Discord açık olduğu için Discord'un CDN sunucuları için bir DNS sorgusu atmışım. Pek tabi bu görüntüler takip açısından çok verimli değil ama bu kısımda Velociraptor kullanabilirsiniz. Bununla ilgili bir linki kullanabileceğiniz kaynaklar altına ekleyeceğim. Daha doğrusu tam halini ekleyeceğim.</p>
+<p><img alt="image-20220206181901173" src="images/image-20220206181901173.png"></p>
+<p>Velociraptor VQL'i:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">System</span><span class="p">.</span><span class="k">TimeStamp</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">Timestamp</span><span class="p">,</span><span class="w"></span>
+<span class="w">       </span><span class="n">EventData</span><span class="p">.</span><span class="n">QueryName</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Query</span><span class="p">,</span><span class="w"></span>
+<span class="w">       </span><span class="n">EventData</span><span class="p">.</span><span class="n">QueryType</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">Type</span><span class="p">,</span><span class="w"></span>
+<span class="w">       </span><span class="n">EventData</span><span class="p">.</span><span class="n">QueryResults</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Answer</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">watch_etw</span><span class="p">(</span><span class="n">guid</span><span class="o">=</span><span class="ss">&quot;{1C95126E-7EEA-49A9-A3FE-A378B03DDB4D}&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">System</span><span class="p">.</span><span class="n">ID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3020</span><span class="w"></span>
+</code></pre></div>
+
+<p>Peki şimdi işin bu kısmını hallettik diyelim. Bu ne işimize yarayacak?  Bununla ilgili gördüğüm örnekler: </p>
+<ul>
+<li>USB Provider'ını kullanarak keylogger</li>
+<li>ETW kullanarak uygulamalarınızı gizleme</li>
+<li>Enumeration/Cihaz keşfi sırasında WMI'a nazaran daha az görünürlük. (Tespit edilememe)</li>
+<li>AV? AV Bypass</li>
+<li>.NET Developerlar için uygulama performans analizi</li>
+</ul>
+<p>konularına odaklanmış gibiydi. Benim de yeni öğrendiğim bir konu ve terim oldu. Hatta bu zamana kadar ETW'yi hiç duymamıştım. Ufkunuz açıldıysa ne mutlu bana!</p>
+<p>İlgili maddelerle alakalı kullanabileceğiniz, detayına inebileceğiniz veya bu bana yetmedi dediğiniz yerlerde aşağıdaki linkleri kullanabilirsiniz.</p>
+<ul>
+<li><a href="https://cyberpointllc.com/blog-posts/cp-logging-keystrokes-with-event-tracing-for-windows-etw.php">Keylogging</a></li>
+<li><a href="https://sudonull.com/post/13104-Event-Tracing-for-Windows-on-the-side-of-evil-But-it-is-not-exactly">Keylogging[1]</a></li>
+<li><a href="https://github.com/CyberPoint/ETWKeyLogger_PSE">Source code for Keylogger</a></li>
+<li><a href="https://velociraptor.velocidex.com/event-tracing-for-windows-41eb031abd69">Velociraptor Event Tracing For Windows</a></li>
+<li><a href="https://www.binarydefense.com/using-sysmon-and-etw-for-so-much-more/">Sysmon and ETW for so Much More</a></li>
+<li><a href="https://twitter.com/Arkbird_SOLG/status/1441876714246885381">Enumeration</a></li>
+<li><a href="https://i.blackhat.com/EU-21/Wednesday/EU-21-Teodorescu-Veni-No-Vidi-No-Vici-Attacks-On-ETW-Blind-EDRs.pdf">Blackhat Blind EDR</a></li>
+<li><a href="https://github.com/cobbr/SharpSploit/blob/master/SharpSploit/Evasion/ETW.cs">Sharpsploit tarafından ETW kullanarak nasıl Evasion yapıldığını görmek için</a></li>
+<li><a href="https://github.com/optiv/ScareCrow">Yine ETW kullanabilen bir Framework</a></li>
+</ul>
+<p>Bir klasik olarak yazı sonu şarkısını da aşağıya ekliyor olacağım.</p>
+<p><a href="https://www.youtube.com/watch?v=Qm7mZkEQCaY" title="Ateş Olsan - Bubituzak"><img alt="Ateş Olsan - Bubituzak" src="https://res.cloudinary.com/marcomontalbano/image/upload/v1644161493/video_to_markdown/images/youtube--Qm7mZkEQCaY-c05b58ac6eb4c4700831b2b3070cd403.jpg"></a></p>
+<hr>
+<p><strong>Referanslar</strong>:</p>
+<p><a href="https://renenyffenegger.ch/notes/Windows/ETW/index">ETW</a></p>
+<p><a href="https://www.ired.team/miscellaneous-reversing-forensics/windows-kernel-internals/etw-event-tracing-for-windows-101">ETW Event Tracing For Windows 101</a></p>
+<p><a href="https://ruxcon.org.au/assets/2016/slides/ETW_16_RUXCON_NJR_no_notes.pdf">Make ETW Great Again</a></p>
+<p><a href="http://www.irongeek.com/i.php?page=videos/derbycon7/s25-tracing-adversaries-detecting-attacks-with-etw-matt-hastings-dave-hull">Derbycon Detecting Attacks with ETW</a></p>
+        </article>
+
+        <footer>
+            <p>This entry is posted in <a href="https://enesergun.net/category/siber-guvenlik.html">siber güvenlik</a>.</p>
+        </footer>
+
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = '0x656e';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+
+
+<footer class="blog-footer">
+
+    <ul class="nav">
+            <li><a href="https://devilinside.me/"> Eşelyon</a></li>
+            <li><a href="https://medium.com/@brkalbyrk"> Berk Albayrak</a></li>
+            <li><a href="https://ahmtglr.wordpress.com/"> Ahmet Güler</a></li>
+            <li><a href="https://kaganisildak.com/"> Kağan Işıldak</a></li>
+            <li><a href="https://eybisi.run/"> Eybisi</a></li>
+            <li><a href="https://onur.im/"> Onur Aslan</a></li>
+            <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
+            <li><a href="http://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
+            <li><a href="https://aligoren.com"> Ali Gören</a></li>
+            <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
+<br>
+            <li><a href="www.twitter.com/eness_ergun">Twitter</a></li>
+            <li><a href="info@enesergun.net">Mail</a></li>
+    </ul>
+
+    <p class="disclaimer">
+    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/hdra/Pelican-Cid">Cid</a> theme.
+    </p>
+</footer>
+            </div>
+<script>
+    var _gaq=[['_setAccount','UA-44262671-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    </body>
+</html>

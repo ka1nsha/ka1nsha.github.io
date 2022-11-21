@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>    Python'da "*" Karakteri Nerede ve Nasıl Kullanılır
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" href="theme/css/cid.css">
+        <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+        <style>
+                
+
+        pre {
+            font-family: "", "Lucida Console", monospace, Monaco;
+            font-size: 14px;
+            line-height: 1.0;
+        }
+
+        a {
+            color: #da4b6d;
+            text-decoration: none;
+        }
+
+        w {
+            color: white;
+        }
+
+        e {
+            color: #93ffd7;
+        }
+
+        /* green  */
+        k {
+            color: #ff93f1;
+        }
+
+        /* pink   */
+        l {
+            color: #f1ff93;
+        }
+
+        /* yellow */
+        o {
+            color: #93f1ff;
+        }
+
+        /* blue   */
+        r {
+            color: #fa4d57;
+        }
+
+        /* red    */
+
+        body {
+            font-family: "", "Lucida Console", monospace, Monaco
+        }
+
+        h1 {
+            color: #da4b6d !important;
+        }
+
+        .blog-header {
+            text-align: center;
+        }
+
+        header[role="banner"] {
+            #logo-main {
+                display: block;
+                margin: 20px auto;
+            }
+        }
+
+        #navbar-primary.navbar-default {
+            background: transparent;
+            border: none;
+
+            text-align: center;
+            display: inline-block;
+            float: none;
+            padding-left: 30px;
+            padding-right: 30px;
+            width: 100%;
+            border-style: groove;
+            border-color: #ff93f1;
+        }
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+            <div class="container">
+
+<header class="blog-header">
+    <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
+    <p> Personel homepage </p>
+    <nav>
+        <a href="https://enesergun.net/">INDEX</a>
+        <a href="https://enesergun.net/archives">ARCHIVES</a>
+        <a href="https://enesergun.net/categories">CATEGORIES</a>
+    </nav>
+</header>
+
+    <div class="post">
+
+        <header>
+            <h1>Python'da "*" Karakteri Nerede ve Nasıl Kullanılır</h1>
+            <p class="date">Written on <time datetime="2019-01-24T18:50:00+03:00">Jan 24, 2019</time></p>
+            
+        </header>
+
+        <article>
+            <p>Merhabalar,</p>
+<p>Vardiyalı çalıştığımdan dolayı bu ay nasıl olduysa 5 gün ard arda iznim olmuş. Bu tatili çok verimli geçirmek istediğimden dolayı çalışacağım konulara çalışmaya, yazacağım kodları yazmaya, bloguma özen vermeye çalıştım. Tabi burada oyun oynamaktan da vazgeçmedim :)</p>
+<p>İşte bu sebeple bu isteklerimin 3.cüsü olan bloguma özen vermeye çalışmanın bir sonucu olarak bu yazıyı okuyucularıma veya araştırmacı arkadaşlara sunuyorum. Eksik gördüğünüz veya burası yanlış dediğiniz bir kısım var ise twitter  veya mail üzerinden belirtmekten çekinmeyin lütfen.</p>
+<p><a href="mailto:info@enesergun.net">Mail</a></p>
+<p><a href="twitter.com/0x656e">Twitter</a></p>
+<p>Bu yazıyı okumadan önce eğer Python hakkında bir fikre sahip değilseniz, henüz dün okumuş olduğum ve çok beğendiğim Fatih ERİKLİ'nin yazısını sizlere önereyim.</p>
+<p><a href="https://medium.com/@fthrkl/y%C4%B1lan-hikayesi-i%CC%87lk-b%C3%B6l%C3%BCm-869f212bb1a2">Yılan Hikayesi İlk Bölüm</a></p>
+<h2>Nedir Bu "*"  Karakteri</h2>
+<p>Yıldız işareti ingilizce de asterisk olarak geçmektedir. Eğer kodlarınızı yazarken "*" işareti ile ilgili bir problem yaşarsanız asterisk diye aratarak, diğer arama sonuçlarından daha hızlı bir arama sonucuna ulaşabilirsiniz.</p>
+<p><strong>Yıldız kelimesi İngilizce de star olarak, yıldız işareti kelimesi ise asterisk olarak geçer. </strong></p>
+<h2>İlk Yıldız İşaretimizi Ne Zaman Gördük</h2>
+<p>Python programlama dilinde yıldız işareti ilk olarak karşımıza <strong>Matematiksel Operatorler</strong> konusunda çıkmaktadır.</p>
+<p>Bu işaret ile vermiş olduğumuz değişkenleri çarpabilir veya bu işareti iki kere kullanarak vermiş olduğumuz integer değerlerinin kuvvetini,üssünü(Power) alabiliriz.</p>
+<p>Örnekle açıklamak gerekirse:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Çarpma</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="mi">2</span> <span class="c1"># A değişkenine tanımlanmış olan liste veri tipini 2 ile çarpıyoruz.</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="c1"># Kuvvet Alma</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="c1"># Eğer bu şekilde yaparsak listenin kuvvetini alamayacağından dolayı zaten hata verecektir.</span>
+<span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">**</span><span class="mi">4</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">a</span><span class="p">]</span> <span class="c1"># A değişkenini for döngüsüne sokarak tüm sonuçları c değişkenine atadım.</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="mi">625</span><span class="p">,</span> <span class="mi">256</span><span class="p">]</span>
+</code></pre></div>
+
+<p>Yukarıdaki örnekte  farketmiş olacağınız üzere "çarpma" örneğininde bize içinde ki karakterleri değil değişkene tanımlamış olduğumuz değeri 2 ile çarpacaktır. </p>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="s2">&quot;enes&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">enesenes</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">&gt;</span><span class="mi">6</span>
+</code></pre></div>
+
+<p>Yine yukarıdaki örneklere ait benzer bir işlem yaptık fakat burada liste değil string veri tipinde bir değer tanımladık. İlk çarpma işlemimizde gördüğünüz gibi stringi iki kere çarparak yan yana yazdı. İkinci işlemimizde ise direkt olarak integer değer verdiğimizden dolayı matematiksel bir işleme sokup bize çıktısını üretti.</p>
+<h2>Gelelim Yıldız İşaretinin Gelişmiş Kullanımlarına</h2>
+<p>Asterisk yani yıldız işaretini bir liste veya sözlük veri tiplerini açarken(unpacking) kullanabiliriz. Burada sözlük ve liste olarak bahsettim fakat iterable olan tüm veri tiplerinde de bu işareti kullanabiliriz. Iterable'ın türkçesi olarak direkt bir çeviri yok bildiğim kadarıyla ama bu konuda en güzel açıklamayı ekşisözlükte "aaron" kullanıcısı entry olarak girmiş. Direkt olarak yazılan entry'i aşağıda belirtiyorum.</p>
+<p>"bir döngü vasıtası ile üzerinde dönülebilen elemanların oluşturduğu bir nesnedir."</p>
+<p><strong>R.I.P Aaron Swartz</strong></p>
+<p><a href="https://eksisozluk.com/iterable--5154245">İterable</a></p>
+<p><strong>Örnek 1 </strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">isimler</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Enes&#39;</span><span class="p">,</span><span class="s1">&#39;Yasin&#39;</span><span class="p">,</span><span class="s1">&#39;Emir&#39;</span><span class="p">,</span><span class="s1">&#39;Basri&#39;</span><span class="p">,</span><span class="s1">&#39;Mustafa&#39;</span><span class="p">]</span>
+<span class="c1"># Burada isimleri yazdırabilmek için string&#39;e çevirip yazdırabiliriz pek tabii fakat konumuz &quot;*&quot; ve bu yolun pekte efektif olduğu söylenemez.</span>
+<span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">isimler</span><span class="p">)</span> <span class="c1">#Unpacking </span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">isimler</span><span class="p">))</span> <span class="c1"># List to str</span>
+</code></pre></div>
+
+<p>Yukarıdaki örnekte eğer bir listeyi yazdıracaksak bize cidden büyük bir kolaylık sağlıyor. Şimdi diğer örneklerle ve açıklamalarıyla birlikte devam edelim.</p>
+<p><strong>Örnek 2</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">yazdir</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="n">ogrenci</span>  <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;İsim&#39;</span><span class="p">:</span><span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;Soyisim&#39;</span><span class="p">:</span><span class="s1">&#39;Ergün&#39;</span><span class="p">,</span> <span class="s1">&#39;Okul No&#39;</span><span class="p">:</span> <span class="s1">&#39;1234&#39;</span><span class="p">}</span>
+<span class="n">yazdir</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s2">&quot;Enes&quot;</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="s2">&quot;0x656e&quot;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="n">ogrenci</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="s1">&#39;0x656e&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;İsim&#39;</span><span class="p">:</span> <span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;Soyisim&#39;</span><span class="p">:</span> <span class="s1">&#39;Ergün&#39;</span><span class="p">,</span> <span class="s1">&#39;Okul No&#39;</span><span class="p">:</span> <span class="s1">&#39;1234&#39;</span><span class="p">}}</span>
+</code></pre></div>
+
+<p><strong>Örnek 2.1</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">yazdir</span><span class="p">(</span><span class="o">*</span><span class="n">utanırım</span><span class="p">,</span><span class="o">**</span><span class="n">ben</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">utanırım</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ben</span><span class="p">)</span>
+<span class="n">ogrenci</span>  <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;İsim&#39;</span><span class="p">:</span><span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;Soyisim&#39;</span><span class="p">:</span><span class="s1">&#39;Ergün&#39;</span><span class="p">,</span> <span class="s1">&#39;Okul No&#39;</span><span class="p">:</span> <span class="s1">&#39;1234&#39;</span><span class="p">}</span>
+<span class="n">yazdir</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s2">&quot;Enes&quot;</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="s2">&quot;0x656e&quot;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="n">ogrenci</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Burada ki kullanımda bir fonksiyonu çağırırken alabileceği tüm argümanları yakalamak için yıldız karakterini kullanıyoruz ama örnekte 2 farklı kullanım görmekteyiz. Bunları açıklamak istersek eğer:</p>
+<ol>
+<li>Args değerinde kullandığımız tek yıldız argüman olarak vereceğimiz tüm değerleri yakalayacaktır. Burada *args kullanımı zorunlu değildir. İsterseniz <code>*selamnaber</code>  bile kullanabilirsiniz. </li>
+<li>Kwargs değerinde kullandığımız 2 yıldız ise buradaki unpacking işleminin keyworded arguments ile olacağını belirtiyor. Bu ne demek? Fonksiyona göndermiş olduğumuz parametrelerin anahtar kelimelere sahip parametreler olacağını söylüyor.</li>
+</ol>
+<p><strong>Örnek 3</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">ogrenci</span>  <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;İsim&#39;</span><span class="p">:</span><span class="s1">&#39;Enes&#39;</span><span class="p">,</span> <span class="s1">&#39;Soyisim&#39;</span><span class="p">:</span><span class="s1">&#39;Ergün&#39;</span><span class="p">,</span> <span class="s1">&#39;Okul No&#39;</span><span class="p">:</span> <span class="s1">&#39;1234&#39;</span><span class="p">}</span>
+<span class="n">ogrenci_karnenotu</span> <span class="o">=</span> <span class="s2">&quot;Okulumuz öğrencilerinden {Okul No} okul numarasına sahip </span><span class="si">{İsim}</span><span class="s2"> </span><span class="si">{Soyisim}</span><span class="s2"> adlı öğrenci mezun olmaya hak kazanmıştır.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">ogrenci</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ogrenci_karnenotu</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">Okulumuz</span> <span class="n">öğrencilerinden</span> <span class="mi">1234</span> <span class="n">okul</span> <span class="n">numarasına</span> <span class="n">sahip</span> <span class="n">Enes</span> <span class="n">Ergünadlı</span> <span class="n">öğrenci</span> <span class="n">mezun</span> <span class="n">olmaya</span> <span class="n">hak</span> <span class="n">kazanmıştır</span><span class="o">.</span>
+</code></pre></div>
+
+<p>Buradaki kullanımda yine bir unpacking ile karşı karşıyayız. Bu örnekte Sözlük veri tipindeki bir değişkeni string formatting işlemi sırasında açıyoruz. Burada tek tek <code>ogrenci['İsim']</code> yazmaktansa bu şekilde bir kullanım bize büyük kolaylıklar sağlayabilir.</p>
+<h2>Kapanış</h2>
+<p>Sanırım diğer yazılara görece daha kısa bir yazı oldu ama blogun temasını değiştirmek için bir yazı yazma fikrine ihtiyacım vardı. Bu arada yeni tema nasıl? Temayı MinimalXY ile Onur'un Medius temasını birleştirerek yaptım.</p>
+<p>Ayrıca yine bir klasiğim olan yazı sonu şarkısı paylaşmadan edemeyeceğim. Bu sefer 2 adet şarkı paylaşıyorum.</p>
+<p><a href="https://www.youtube.com/watch?v=RF0HhrwIwp0"><img alt="Kings of Leon - Sex on Fire" src="https://i.ytimg.com/vi/RF0HhrwIwp0/hqdefault.jpg"></a></p>
+<p><a href="https://www.youtube.com/watch?v=3oMb06O2wXo"><img alt="Frazey Ford - One More Cup Of Coffee" src="https://i.ytimg.com/vi/3oMb06O2wXo/hqdefault.jpg"></a></p>
+        </article>
+
+        <footer>
+            <p>This entry is posted in <a href="https://enesergun.net/category/python.html">python</a>.</p>
+        </footer>
+
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = '0x656e';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+
+
+<footer class="blog-footer">
+
+    <ul class="nav">
+            <li><a href="https://devilinside.me/"> Eşelyon</a></li>
+            <li><a href="https://medium.com/@brkalbyrk"> Berk Albayrak</a></li>
+            <li><a href="https://ahmtglr.wordpress.com/"> Ahmet Güler</a></li>
+            <li><a href="https://kaganisildak.com/"> Kağan Işıldak</a></li>
+            <li><a href="https://eybisi.run/"> Eybisi</a></li>
+            <li><a href="https://onur.im/"> Onur Aslan</a></li>
+            <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
+            <li><a href="http://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
+            <li><a href="https://aligoren.com"> Ali Gören</a></li>
+            <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
+<br>
+            <li><a href="www.twitter.com/eness_ergun">Twitter</a></li>
+            <li><a href="info@enesergun.net">Mail</a></li>
+    </ul>
+
+    <p class="disclaimer">
+    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/hdra/Pelican-Cid">Cid</a> theme.
+    </p>
+</footer>
+            </div>
+<script>
+    var _gaq=[['_setAccount','UA-44262671-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    </body>
+</html>

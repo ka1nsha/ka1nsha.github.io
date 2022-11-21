@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>    eBPF Diye Bir Şey Varmış
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" href="theme/css/cid.css">
+        <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+        <style>
+                
+
+        pre {
+            font-family: "", "Lucida Console", monospace, Monaco;
+            font-size: 14px;
+            line-height: 1.0;
+        }
+
+        a {
+            color: #da4b6d;
+            text-decoration: none;
+        }
+
+        w {
+            color: white;
+        }
+
+        e {
+            color: #93ffd7;
+        }
+
+        /* green  */
+        k {
+            color: #ff93f1;
+        }
+
+        /* pink   */
+        l {
+            color: #f1ff93;
+        }
+
+        /* yellow */
+        o {
+            color: #93f1ff;
+        }
+
+        /* blue   */
+        r {
+            color: #fa4d57;
+        }
+
+        /* red    */
+
+        body {
+            font-family: "", "Lucida Console", monospace, Monaco
+        }
+
+        h1 {
+            color: #da4b6d !important;
+        }
+
+        .blog-header {
+            text-align: center;
+        }
+
+        header[role="banner"] {
+            #logo-main {
+                display: block;
+                margin: 20px auto;
+            }
+        }
+
+        #navbar-primary.navbar-default {
+            background: transparent;
+            border: none;
+
+            text-align: center;
+            display: inline-block;
+            float: none;
+            padding-left: 30px;
+            padding-right: 30px;
+            width: 100%;
+            border-style: groove;
+            border-color: #ff93f1;
+        }
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+            <div class="container">
+
+<header class="blog-header">
+    <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
+    <p> Personel homepage </p>
+    <nav>
+        <a href="https://enesergun.net/">INDEX</a>
+        <a href="https://enesergun.net/archives">ARCHIVES</a>
+        <a href="https://enesergun.net/categories">CATEGORIES</a>
+    </nav>
+</header>
+
+    <div class="post">
+
+        <header>
+            <h1>eBPF Diye Bir Şey Varmış</h1>
+            <p class="date">Written on <time datetime="2022-11-21T15:00:00+03:00">Nov 21, 2022</time></p>
+            
+        </header>
+
+        <article>
+            <h1>eBPF Diye Bir Şey Varmış</h1>
+<p>Not: Yazının altı Awesome gibi oldu amacım asla böyle bir şey değil fakat ekstra bilgi göz çıkartmaz diye. Hem de kendime not sonuçta.</p>
+<p>Konuya nasıl girsem bilemedim. Aslında yazılarımda genel olarak giriş/girizgah için konunun ana hatlarıyla ne olduğundan bahsederim ama burada farklı mevzular da karşımıza çıktığı için sanırım işin temelinden almak gerekiyor. </p>
+<p>Bu yazı içerisinde çalışırken aldığım notlar ve çıkarımlardan bahsedeceğim. Hali hazırda uzmanı olduğum bir konu değil ve öğrenirken bahsetmek veya bahsetmek(blog yazısı) için öğrenme taraftarıyım. Benim açımdan bu daha efektif bir öğrenme biçimi oluyor. Her neyse. Ana odak noktamız eBPF olacak. eBPF’i anlatabilmek için kıyısından köşesinden user space ve kernel space, BPF ve tarihinden bahsedeceğim. </p>
+<h2>User Space ve Kernel Space</h2>
+<p>Bildiğiniz üzere günümüz modern işletim sistemlerinde işlemler “virtual memory” üzerinden işletilmektedir. İlgili “virtual memory sistemleri” sistem üzerinde çalışan processlerin memory üzerindeki adreslerini sanal bir adres üzerinden fiziksel sanal adresten ayırır. İlgili yöntem dolayısıyla biz processlere RAM üzerinde paging veya swapping yaptırtabiliyoruz. Konumuz memory management olmadığı için detaylı aramayı Google üzerinden yapabilirsiniz. Keywordler: Memory Management, Dynamic Allocation, Virtual Memory. </p>
+<p>Bir üst paragrafta bahsedilen “virtual memory” üzerinde de işlemler aslında ayrılmıştır. Günümüzde işletim sistemleri genellikle “virtual memory’i” user space ve kernel space olarak ayırmaktadır. Bunun temel sebeplerinden en önemlisi güvenlik kaygısı ve donanım güvenliğidir. “Kernel Space” işletim sisteminin kernelini, kernel eklentilerini ve genellikle donanım sürücüleri tarafından kullanılmaktadır. Kernel space’in donanıma sınırsız bir erişimi vardır ve bilin bakalım eğer 2 ana bölgeye ayrılmasaydı donanımlarımızın hali nice olurdu? User space de ise bizim günlük kullandığımız uygulamalara ayrılmıştır bunlar nadiren hardware ile konuşur ve yetkileri de (donanıma erişim) kısıtlanmıştır. Bu ana 2 bölgeye ayrılması sonucu aslında karşımıza bir farklı terim çıkmaktadır bu da “protection ring” olarak tanımlanmaktadır.</p>
+<p>Bknz:</p>
+<p><img alt="Untitled" src="images/ring0.png"></p>
+<h2>eBPF’e Geçmede Önce BPF</h2>
+<p>İlk olarak 1992 yılında BSD OS için geliştirmiştir. Linux içinse 2.1.75 içerisinde duyurulmuştur. Açılımı Berkeley Packet Filter’dır. Temel amacı data paketlerini filtrelemek ve bunu kernel içerisine gömmektir. Aslında güvenlik katmanlarıyla birlikte verilere ve programlara arayüz sunmaktadır. Bizim yazmış olduğumuz filtrelere göre herhangi bir paketin kabul veya red edileceğine karar verebiliyor ve karşılaştırmasını yapabilmektedir. </p>
+<p><img alt="Untitled" src="images/bpf.png"></p>
+<h2>BPF Nasıl Çalışır</h2>
+<p>BPF sanal makineni bir parçası olarak makine diline bir yorumlayıcı olarak yerleştirilmiştir. Önceden tanımlanmış “instructionları” yürüterek paketleri, dataları okur analiz eder ve adım adım çalıştırır. Yazılan “instructionlar” makine diline çevrilerek ve kernel içerisinde doğrudan çalıştılır. Bu sayede önemli bir hesaplama gücü elde edilmiş olur. <strong>tcpdump</strong> da tam olarak BPF’i kullanmaktadır. Yüksek seviyede bizim yazdığımız filtreleri bu şekilde çalıştırır. Tabi ki BPF sadece paket filtreleme için değil ayrıca Secure Computing için de kullanılmaktadır. Daha detaylı bilgi için: <strong>seccomp</strong> keywordünü kullanabilirsiniz. </p>
+<p>Gerisi için:</p>
+<ol>
+<li><a href="https://man7.org/linux/man-pages/man2/bpf.2.html">https://man7.org/linux/man-pages/man2/bpf.2.html</a></li>
+<li><a href="https://www.kernel.org/doc/html/latest/networking/filter.html">https://www.kernel.org/doc/html/latest/networking/filter.html</a></li>
+</ol>
+<p>Örnek bir BPF Syntax:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/socket.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/types.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;arpa/inet.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/if_ether.h&gt;</span><span class="cp"></span>
+<span class="cm">/* ... */</span><span class="w"></span>
+
+<span class="cm">/* From the example above: tcpdump -i em1 port 22 -dd */</span><span class="w"></span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">sock_filter</span><span class="w"> </span><span class="n">code</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x28</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0000000c</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x15</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mh">0x000086dd</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x30</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000014</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x15</span><span class="p">,</span><span class="w">  </span><span class="mi">2</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000084</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x15</span><span class="p">,</span><span class="w">  </span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000006</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x15</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000011</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x28</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000036</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x15</span><span class="p">,</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000016</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x28</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000038</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x15</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000016</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x15</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000800</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x30</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000017</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x15</span><span class="p">,</span><span class="w">  </span><span class="mi">2</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000084</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x15</span><span class="p">,</span><span class="w">  </span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000006</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x15</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000011</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x28</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000014</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x45</span><span class="p">,</span><span class="w">  </span><span class="mi">6</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00001fff</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0xb1</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0000000e</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x48</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0000000e</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x15</span><span class="p">,</span><span class="w">  </span><span class="mi">2</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000016</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x48</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000010</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x15</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000016</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x06</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0000ffff</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x06</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00000000</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">sock_fprog</span><span class="w"> </span><span class="n">bpf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ARRAY_SIZE</span><span class="p">(</span><span class="n">code</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">filter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">code</span><span class="p">,</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="n">sock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">socket</span><span class="p">(</span><span class="n">PF_PACKET</span><span class="p">,</span><span class="w"> </span><span class="n">SOCK_RAW</span><span class="p">,</span><span class="w"> </span><span class="n">htons</span><span class="p">(</span><span class="n">ETH_P_ALL</span><span class="p">));</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sock</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="cm">/* ... bail out ... */</span><span class="w"></span>
+
+<span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">setsockopt</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span><span class="w"> </span><span class="n">SOL_SOCKET</span><span class="p">,</span><span class="w"> </span><span class="n">SO_ATTACH_FILTER</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">bpf</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">bpf</span><span class="p">));</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ret</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="cm">/* ... bail out ... */</span><span class="w"></span>
+
+<span class="cm">/* ... */</span><span class="w"></span>
+<span class="n">close</span><span class="p">(</span><span class="n">sock</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+
+<h2>Gelelim eBPF’e</h2>
+<p>Ortaya çıkış amacı aslıda küçük bir ekibin BPF’i dtrace benzeri kullanılabilirliğe eriştirebilmesi içindir. Zaten Solaris ve BSD üzerinde dinamik takip için kullanılan “dtrace’den” etkilendikleri belirtilmektedir.</p>
+<p>Bknz: Referanslar[6]</p>
+<p>eBPF ilk olarak kısıtlı bir kapasiteyle Linux 3.18 kernelinde release edilmiştir. Tam bir kullanım için en düşük Linux 4.4 Kernel’ına sahip olmalısınız. Kendisi Kernel Space üzerinde networking, debugging, tracing, firewall ve daha fazlası için kullanılabilmektedir. Zaten kendisi kernel sistem çağrılarına ve fonksiyonlarına hook atabilmenizi sağlamaktadır. </p>
+<p>Bir eBPF programı yazdığımızda ilgili kod <strong>BCC</strong> ile compile edilir ve ilgili program önemli bir çok ciddi denetimden geçer. </p>
+<p>İlgili denetimler için: <a href="https://github.com/torvalds/linux/blob/master/kernel/bpf/verifier.c">https://github.com/torvalds/linux/blob/master/kernel/bpf/verifier.c</a></p>
+<p>Çünkü ilgili kod direkt olarak kernel space de çalışacaktır. Bu sebeple ilgili kodun herhangi bir döngüde kernel lockup durumuna düşürmemesi gerekmekte ve bazı güvenlik endişelerini barındırmaması gerekmektedir. </p>
+<p><img alt="Untitled" src="images/ebpfschema.png"></p>
+<p>Linux sistemler üzerinde <strong>kernel.unprivileged_bpf_disabled</strong> ayarı (sysctl) yetkisiz kullanıcıların, eBPF programlarını çalıştırıp çalıştıramayacağını kontrol eder. </p>
+<p>Tamam hadi eBPF programımızı yazdık her şey güzel ama bizim bu programları birbiriyle iletişim kurdurmamız gerekirse ne olacak diyebilirsiniz. Bunun için eBPF’de <strong>Maps</strong> denilen kavram vardır. Basit olarak key/value şeklinde bir veri yapısına sahip olmakla birlikte programların birbiriyle etkileşime girmesine izin verir. eBPF Maps <strong>BPF_MAP_CREATE</strong> sistem çağrısıyla oluşturulup <strong>BPF_MAP_UPDATE_ELEM</strong></p>
+<p>komutuyla güncellenir. Yani maps’lerle ilgili sistem çağrılarına <strong>BPF_MAP_* </strong> ile bakabilirsiniz. </p>
+<p>Buradan yararlanabilirsiniz: <a href="https://prototype-kernel.readthedocs.io/en/latest/bpf/ebpf_maps.html">https://prototype-kernel.readthedocs.io/en/latest/bpf/ebpf_maps.html</a></p>
+<p><img alt="Untitled" src="images/ebpf.png"></p>
+<p>Yukarıdaki görsel de zaten eBPF’i ana hatlarıyla göstermektedir. En üst kısımda use-caseslarımız yeterince açıklayıcıdır umarım. </p>
+<p><strong>Ekstra not</strong>: Sitenin ismini tam olarak hatırlamıyorum fakat, site önünde bulunan load-balancer yapısını eBPF based bir load balancer’a geçiren yönetim sistemin data çıkışında 2x bir artış, CPU kullanımında ise 72x bir düşüş görmüş. Bu neden önemli? Eğer bir cloud provider ile çalışıyorsanız ve hesaplama başına ücret ödüyorsanız bu size mükemmel bir geri dönüş sağlayacaktır. Örnek bir load balancer olarak Open Source Katran incelenebilir.</p>
+<h2>eBPF ile Python</h2>
+<p>Çok fazla efektif olmasa da aslında Python için bir wrapper bulunmaktadır. Temel bPF ile ilgili işlemleri yine <strong>C</strong> ile yapıp geri kalan işlemleri örneğin stringleri işlemek veya işleme tabi tutmak gibi kısımlar sadece Python ile yapılabilmektedir. Aşağıda bir kod bloğu örneği koyacağım bu kod bloğu örneğine veya daha fazlasına erişebileceğiniz linki de kod bloğunun altına ekleyeceğim. </p>
+<p>Modül ismi: python3-bpfcc fakat genel olarak kurmak isterseniz debian sistemlerde <strong>sudo apt-get install bpfcc-tools linux-headers-$(uname -r)</strong></p>
+<p>Aşağıdaki kod bloğu TCP IPv4 bağlantılarını trace etmek amacıyla yazılmıştır (Help textten okuyorum :) ) . İlgili kod bloğunda göreceğiniz üzere <strong>bpf_text</strong> altında C kodumuz bulunuyor. Daha sonra ilgili kod <strong>b = BPF(text=bpf_text)</strong> ile initialize ediliyor. Burada <strong>text</strong> yerine isterseniz <strong>file</strong> diyerek bir C dosyasının konumunun verebilirsiniz. Geriye kalan <strong>string</strong> işlemlerinde <strong>b</strong> değişkeninin <strong>b.trace_fields()</strong> fonksiyonu kullanılıyor. Bundan sonra yapacaklarınızı tamamen pure python ile yapabiliyorsunuz. </p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/python</span>
+<span class="c1">#</span>
+<span class="c1"># disksnoop.py  Trace block device I/O: basic version of iosnoop.</span>
+<span class="c1">#       For Linux, uses BCC, eBPF. Embedded C.</span>
+<span class="c1">#</span>
+<span class="c1"># Written as a basic example of tracing latency.</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (c) 2015 Brendan Gregg.</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;)</span>
+<span class="c1">#</span>
+<span class="c1"># 11-Aug-2015   Brendan Gregg   Created this.</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">bcc</span> <span class="kn">import</span> <span class="n">BPF</span>
+<span class="kn">from</span> <span class="nn">bcc.utils</span> <span class="kn">import</span> <span class="n">printb</span>
+
+<span class="n">REQ_WRITE</span> <span class="o">=</span> <span class="mi">1</span>       <span class="c1"># from include/linux/blk_types.h</span>
+
+<span class="c1"># load BPF program</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">BPF</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">#include &lt;uapi/linux/ptrace.h&gt;</span>
+<span class="s2">#include &lt;linux/blk-mq.h&gt;</span>
+
+<span class="s2">BPF_HASH(start, struct request *);</span>
+
+<span class="s2">void trace_start(struct pt_regs *ctx, struct request *req) {</span>
+<span class="s2">    // stash start timestamp by request ptr</span>
+<span class="s2">    u64 ts = bpf_ktime_get_ns();</span>
+
+<span class="s2">    start.update(&amp;req, &amp;ts);</span>
+<span class="s2">}</span>
+
+<span class="s2">void trace_completion(struct pt_regs *ctx, struct request *req) {</span>
+<span class="s2">    u64 *tsp, delta;</span>
+
+<span class="s2">    tsp = start.lookup(&amp;req);</span>
+<span class="s2">    if (tsp != 0) {</span>
+<span class="s2">        delta = bpf_ktime_get_ns() - *tsp;</span>
+<span class="s2">        bpf_trace_printk(&quot;</span><span class="si">%d</span><span class="s2"> </span><span class="si">%x</span><span class="s2"> </span><span class="si">%d</span><span class="se">\\</span><span class="s2">n&quot;, req-&gt;__data_len,</span>
+<span class="s2">            req-&gt;cmd_flags, delta / 1000);</span>
+<span class="s2">        start.delete(&amp;req);</span>
+<span class="s2">    }</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">BPF</span><span class="o">.</span><span class="n">get_kprobe_functions</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;blk_start_request&#39;</span><span class="p">):</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">attach_kprobe</span><span class="p">(</span><span class="n">event</span><span class="o">=</span><span class="s2">&quot;blk_start_request&quot;</span><span class="p">,</span> <span class="n">fn_name</span><span class="o">=</span><span class="s2">&quot;trace_start&quot;</span><span class="p">)</span>
+<span class="n">b</span><span class="o">.</span><span class="n">attach_kprobe</span><span class="p">(</span><span class="n">event</span><span class="o">=</span><span class="s2">&quot;blk_mq_start_request&quot;</span><span class="p">,</span> <span class="n">fn_name</span><span class="o">=</span><span class="s2">&quot;trace_start&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">BPF</span><span class="o">.</span><span class="n">get_kprobe_functions</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;__blk_account_io_done&#39;</span><span class="p">):</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">attach_kprobe</span><span class="p">(</span><span class="n">event</span><span class="o">=</span><span class="s2">&quot;__blk_account_io_done&quot;</span><span class="p">,</span> <span class="n">fn_name</span><span class="o">=</span><span class="s2">&quot;trace_completion&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">attach_kprobe</span><span class="p">(</span><span class="n">event</span><span class="o">=</span><span class="s2">&quot;blk_account_io_done&quot;</span><span class="p">,</span> <span class="n">fn_name</span><span class="o">=</span><span class="s2">&quot;trace_completion&quot;</span><span class="p">)</span>
+
+<span class="c1"># header</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%-18s</span><span class="s2"> </span><span class="si">%-2s</span><span class="s2"> </span><span class="si">%-7s</span><span class="s2"> </span><span class="si">%8s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s2">&quot;TIME(s)&quot;</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;BYTES&quot;</span><span class="p">,</span> <span class="s2">&quot;LAT(ms)&quot;</span><span class="p">))</span>
+
+<span class="c1"># format output</span>
+<span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">cpu</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">ts</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">trace_fields</span><span class="p">()</span>
+        <span class="p">(</span><span class="n">bytes_s</span><span class="p">,</span> <span class="n">bflags_s</span><span class="p">,</span> <span class="n">us_s</span><span class="p">)</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">bflags_s</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">REQ_WRITE</span><span class="p">:</span>
+            <span class="n">type_s</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;W&quot;</span>
+        <span class="k">elif</span> <span class="n">bytes_s</span> <span class="o">==</span> <span class="s2">&quot;0&quot;</span><span class="p">:</span>    <span class="c1"># see blk_fill_rwbs() for logic</span>
+            <span class="n">type_s</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;M&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">type_s</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;R&quot;</span>
+        <span class="n">ms</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">us_s</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="o">/</span> <span class="mi">1000</span>
+
+        <span class="n">printb</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="si">%-18.9f</span><span class="s2"> </span><span class="si">%-2s</span><span class="s2"> </span><span class="si">%-7s</span><span class="s2"> </span><span class="si">%8.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">type_s</span><span class="p">,</span> <span class="n">bytes_s</span><span class="p">,</span> <span class="n">ms</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="n">exit</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Diğer örnekler için: <a href="https://github.com/iovisor/bcc/tree/master/examples">https://github.com/iovisor/bcc/tree/master/examples</a></p>
+<p><img alt="Untitled" src="images/disknoop.png"></p>
+<p>Örnekler üzerinden ilerleyerek ufkunuzu daha da genişletebilirsiniz fakat bu kısımda önemli bir vurgu yapmak istiyorum. Bazı örnekleri eğer çalıştıramazsanız bu genelde kernel ve bcc-tools uyumsuzluğundan kaynaklanıyor olabilir. Bunun için bpfcc-tools'u baştan derlemeniz gerekiyor. Aşağıdaki bunun için bir cheatsheet şeklinde kod bloğu paylaşıyorum.</p>
+<div class="highlight"><pre><span></span><code>apt purge bpfcc-tools libbpfcc python3-bpfcc
+wget https://github.com/iovisor/bcc/releases/download/v0.25.0/bcc-src-with-submodule.tar.gz
+tar xf bcc-src-with-submodule.tar.gz
+<span class="nb">cd</span> bcc/
+apt install -y python-is-python3
+apt install -y bison build-essential cmake flex git libedit-dev   libllvm11 llvm-11-dev libclang-11-dev zlib1g-dev libelf-dev libfl-dev python3-distutils
+apt install -y checkinstall
+mkdir build
+<span class="nb">cd</span> build/
+cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span>/usr -DPYTHON_CMD<span class="o">=</span>python3 ..
+make
+checkinstall
+</code></pre></div>
+
+<h2>eBPF’e Farklı Açılardan Bakmak:</h2>
+<ol>
+<li><a href="https://github.com/citronneur/pamspy">https://github.com/citronneur/pamspy</a></li>
+<li><a href="https://doublepulsar.com/bpfdoor-an-active-chinese-global-surveillance-tool-54b078f1a896">https://doublepulsar.com/bpfdoor-an-active-chinese-global-surveillance-tool-54b078f1a896</a></li>
+</ol>
+<h2>Yazı sonu</h2>
+<p>Genel hatlarıyla bahsettiğimi düşünüyorum zaten devam etmek isteyen aşağıdaki kaynaklardan devam edecektir. Bunu oku eBPF bitmiştir gibi bir amacım bulunmuyor. Yazı sonuna yine şarkımı iliştiriyorum. Umarım keyif almışsınızdır. </p>
+<p><a href="http://www.youtube.com/watch?v=KZg3CrPuuWI"><img alt="Video" src="http://img.youtube.com/vi/KZg3CrPuuWI/0.jpg"></a></p>
+<hr>
+<h2>Ekstra kaynaklar (Bunlara da bakarsanız iyi olur):</h2>
+<ol>
+<li><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3490">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3490</a></li>
+<li>Üstteki CVE’nin Root Cause’nu açıklayan yazı: <a href="https://www.graplsecurity.com/post/kernel-pwning-with-ebpf-a-love-story">https://www.graplsecurity.com/post/kernel-pwning-with-ebpf-a-love-story</a></li>
+<li><a href="https://github.com/chompie1337/Linux_LPE_eBPF_CVE-2021-3490">https://github.com/chompie1337/Linux_LPE_eBPF_CVE-2021-3490</a></li>
+<li><a href="https://ebpf.io/">https://ebpf.io/</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/ebpf+or+bpf+or+xdp-bpf">https://stackoverflow.com/questions/tagged/ebpf+or+bpf+or+xdp-bpf</a></li>
+<li><a href="https://github.com/isovalent/eCHO">https://github.com/isovalent/eCHO</a></li>
+<li><strong><a href="https://qmonnet.github.io/whirl-offload/2016/09/01/dive-into-bpf/">https://qmonnet.github.io/whirl-offload/2016/09/01/dive-into-bpf/</a></strong></li>
+<li><strong><a href="https://github.com/iovisor/bpf-docs/">https://github.com/iovisor/bpf-docs/</a></strong></li>
+<li><a href="https://twitter.com/krisnova">https://twitter.com/krisnova</a></li>
+<li><a href="https://www.containiq.com/">https://www.containiq.com/</a></li>
+</ol>
+<hr>
+<h2>Referanslar:</h2>
+<ol>
+<li><a href="https://en.wikipedia.org/wiki/Memory_management">https://en.wikipedia.org/wiki/Memory_management</a></li>
+<li><a href="https://en.wikipedia.org/wiki/User_space_and_kernel_space">https://en.wikipedia.org/wiki/User_space_and_kernel_space</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Protection_ring">https://en.wikipedia.org/wiki/Protection_ring</a></li>
+<li><a href="https://amslaurea.unibo.it/19622/1/berkeleypacketfilter_distefano.pdf">https://amslaurea.unibo.it/19622/1/berkeleypacketfilter_distefano.pdf</a></li>
+<li><a href="https://www.kernel.org/doc/html/latest/networking/filter.html">https://www.kernel.org/doc/html/latest/networking/filter.html</a></li>
+<li><a href="https://illumos.org/books/dtrace/chp-intro.html">https://illumos.org/books/dtrace/chp-intro.html</a></li>
+</ol>
+        </article>
+
+        <footer>
+            <p>This entry is posted in <a href="https://enesergun.net/category/linux.html">linux</a>.</p>
+        </footer>
+
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = '0x656e';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+
+
+<footer class="blog-footer">
+
+    <ul class="nav">
+            <li><a href="https://devilinside.me/"> Eşelyon</a></li>
+            <li><a href="https://medium.com/@brkalbyrk"> Berk Albayrak</a></li>
+            <li><a href="https://ahmtglr.wordpress.com/"> Ahmet Güler</a></li>
+            <li><a href="https://kaganisildak.com/"> Kağan Işıldak</a></li>
+            <li><a href="https://eybisi.run/"> Eybisi</a></li>
+            <li><a href="https://onur.im/"> Onur Aslan</a></li>
+            <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
+            <li><a href="http://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
+            <li><a href="https://aligoren.com"> Ali Gören</a></li>
+            <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
+<br>
+            <li><a href="www.twitter.com/eness_ergun">Twitter</a></li>
+            <li><a href="info@enesergun.net">Mail</a></li>
+    </ul>
+
+    <p class="disclaimer">
+    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/hdra/Pelican-Cid">Cid</a> theme.
+    </p>
+</footer>
+            </div>
+<script>
+    var _gaq=[['_setAccount','UA-44262671-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    </body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>    Neymiş bu Vagrant
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" href="theme/css/cid.css">
+        <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+        <style>
+                
+
+        pre {
+            font-family: "", "Lucida Console", monospace, Monaco;
+            font-size: 14px;
+            line-height: 1.0;
+        }
+
+        a {
+            color: #da4b6d;
+            text-decoration: none;
+        }
+
+        w {
+            color: white;
+        }
+
+        e {
+            color: #93ffd7;
+        }
+
+        /* green  */
+        k {
+            color: #ff93f1;
+        }
+
+        /* pink   */
+        l {
+            color: #f1ff93;
+        }
+
+        /* yellow */
+        o {
+            color: #93f1ff;
+        }
+
+        /* blue   */
+        r {
+            color: #fa4d57;
+        }
+
+        /* red    */
+
+        body {
+            font-family: "", "Lucida Console", monospace, Monaco
+        }
+
+        h1 {
+            color: #da4b6d !important;
+        }
+
+        .blog-header {
+            text-align: center;
+        }
+
+        header[role="banner"] {
+            #logo-main {
+                display: block;
+                margin: 20px auto;
+            }
+        }
+
+        #navbar-primary.navbar-default {
+            background: transparent;
+            border: none;
+
+            text-align: center;
+            display: inline-block;
+            float: none;
+            padding-left: 30px;
+            padding-right: 30px;
+            width: 100%;
+            border-style: groove;
+            border-color: #ff93f1;
+        }
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+            <div class="container">
+
+<header class="blog-header">
+    <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
+    <p> Personel homepage </p>
+    <nav>
+        <a href="https://enesergun.net/">INDEX</a>
+        <a href="https://enesergun.net/archives">ARCHIVES</a>
+        <a href="https://enesergun.net/categories">CATEGORIES</a>
+    </nav>
+</header>
+
+    <div class="post">
+
+        <header>
+            <h1>Neymiş bu Vagrant</h1>
+            <p class="date">Written on <time datetime="2018-01-06T22:14:00+03:00">Jan 06, 2018</time></p>
+            
+        </header>
+
+        <article>
+            <h3>Kısaca Vagrant Nedir?</h3>
+<p>Kendi anladığım şekilde anlatmam gerekirse Vagrant hazırladığınız text scriptleri ile sanal sunucular oluşturabileceğiniz otomatize bir araçtır. </p>
+<h3>Ne İşe Yarar?</h3>
+<p>Oluşturduğunuz scriptler ile herhangi bir ortamda (Müşteri ortamı vs.) sizler için hazır bir makine inşa eder. Tabi bir de <a href="https://ka1nsha.github.io/ansible-nginx.html">ansible</a> ile birleştirirseniz tadından yenmez sanırım. Tabi ki bunda özgürsünüz projenizin içerisinde ki bir sh dosyasını da çalıştırabilirsiniz.</p>
+<h3>Birkaç Terim</h3>
+<p><strong> Provider </strong> : Sisteminizin hangi sanallaştırma platformu üzerinde çalıştırılacağını belirtir. Örn: Virtualbox, Vmware, Docker</p>
+<p><strong> Box </strong> : Binlerce kullanıcı tarafından oluşturulmuş özel kutulardır. Bu kutuları scriptiniz içerisine yazarsanız Vagrant bunu sizin için indirir ve script içerisinde belirttiğiniz özellikler üzerinden çalışmasını sağlar. Örnek vermek gerekirse pfsense box'ını indirirseniz sizlere nur topu gibi bir pfsense makinesi verecektir.</p>
+<p><strong> Provision </strong> : Sistem kurulduktan sonra çalıştırılacak script vs şeyleri yazdığımız yer ( en azından benim anladığım :D )</p>
+<h3>Next, Next, Next</h3>
+<p>Debian based sistemler üzerinde</p>
+<div class="highlight"><pre><span></span><code>apt install vagrant
+</code></pre></div>
+
+<p>Tabi ki sadece <strong>vagrant</strong> kurmak yetmeyecektir. Kullanacağınız provider'ı da sisteminize indirmeniz gerekmektedir. Ben <strong>virtualbox</strong> kullanacağım.</p>
+<h3>Hadi Başlayalım.</h3>
+<p>Projeyi oluşturacağınız klasöre gittiğinizde burada vagrant init yaparsanız sizin için bir <em><strong>vagrantfile</strong></em> oluşacaktır.
+İçerisini temizleyerek aşağıda ki satırları ekleyelim.</p>
+<div class="highlight"><pre><span></span><code>Vagrant.configure<span class="o">(</span><span class="m">2</span><span class="o">)</span> <span class="k">do</span> <span class="p">|</span>config<span class="p">|</span>
+        config.vm.define <span class="s2">&quot;nebuvagrantya&quot;</span> <span class="k">do</span> <span class="p">|</span>nbv<span class="p">|</span>
+        nbv.vm.box <span class="o">=</span> <span class="s2">&quot;ubuntu/trusty64&quot;</span>
+        nbv.vm.network :private_network, ip: <span class="s2">&quot;10.0.0.2&quot;</span>
+        nbv.vm.hostname <span class="o">=</span> <span class="s2">&quot;nebuvagrantya&quot;</span>
+</code></pre></div>
+
+<p>Burada ki kodları açıklamak gerekirse Vagrant.configure(2) do <strong>|config|</strong> yazdığımızda kalın yazdığım kısım aslında bir değişken olarak davranıyor.</p>
+<p>Altında Vagrant üzerinde bir makine açacağımızı ve bunu kısaltma olarak nbv olarak çağıracağımızı belirtiyoruz. ( nbv )</p>
+<p>Diğer satırlarda bu makinemizin ubuntu kutusunu kullanacağını belirtiyoruz. Bu kutunun hangi ip alacağını ve private networkde olacağını belirtiyoruz. Ayrıca bu makinenin Virtualbox üzerinde ki ismini de belirtmiş oluyoruz. Fakat bu bize yetiyor mu tabi ki yetmiyor. Hadi biraz daha sanal makinemizin ayarları ile oynayalım.</p>
+<p>Projemize provider olarak <strong>virtualbox</strong> ekleyelim. </p>
+<div class="highlight"><pre><span></span><code>Vagrant.configure<span class="o">(</span><span class="m">2</span><span class="o">)</span> <span class="k">do</span> <span class="p">|</span>config<span class="p">|</span>
+    config.vm.define <span class="s2">&quot;nebuvagrantya&quot;</span> <span class="k">do</span> <span class="p">|</span>nbv<span class="p">|</span>
+    nbv.vm.box <span class="o">=</span> <span class="s2">&quot;ubuntu/trusty64&quot;</span>
+    nbv.vm.network :private_network, ip: <span class="s2">&quot;10.0.0.2&quot;</span>
+    nbv.vm.hostname <span class="o">=</span> <span class="s2">&quot;nebuvagrantya&quot;</span>
+
+    nbv.vm.provider <span class="s2">&quot;virtualbox&quot;</span> <span class="k">do</span> <span class="p">|</span>vb<span class="p">|</span>
+        vb.name <span class="o">=</span> <span class="s2">&quot;Ne bu vagrant ya&quot;</span>
+        vb.name <span class="o">=</span>  <span class="s2">&quot;Ne bu vagrant ya&quot;</span>
+        vb.memory <span class="o">=</span> <span class="s2">&quot;512&quot;</span>
+        vb.cpus <span class="o">=</span> <span class="s2">&quot;2&quot;</span>
+        vb.customize <span class="o">[</span><span class="s2">&quot;modifyvm&quot;</span>, :id, <span class="s2">&quot;--vram&quot;</span>, <span class="s2">&quot;32&quot;</span><span class="o">]</span>
+        end
+</code></pre></div>
+
+<p>Burada VBoxmanage kullanarak sanal makinemizin ismini, ram miktarını, ekran kartı ram miktarını ve işlemci sayısını belirttik. Ayrıca provision kısmında shell üzerinde proje klasörümüzde bulunan <strong>nginxyukle.sh</strong> dosyasını çalıştıracağız.
+İsterseniz provisioning kısmında isterseniz direkt olarak ansible çalıştırabilirsiniz.</p>
+<p>Örnek kod:</p>
+<div class="highlight"><pre><span></span><code>    vb.vm.provision <span class="s2">&quot;ansible&quot;</span> <span class="k">do</span> <span class="p">|</span>ansible<span class="p">|</span>
+        ansible.playbook <span class="o">=</span> <span class="s2">&quot;nginxyukle.yml&quot;</span>
+        ansible.verbose <span class="o">=</span> <span class="s2">&quot;v&quot;</span>
+end
+</code></pre></div>
+
+<p>Sanal makinenizin çok daha fazla ayarını değiştirmek isterseniz eğer aşağıya referans sayfasını ekleyeceğim.</p>
+<p>Vagrant dosyamızın son hali </p>
+<div class="highlight"><pre><span></span><code>Vagrant.configure<span class="o">(</span><span class="m">2</span><span class="o">)</span> <span class="k">do</span> <span class="p">|</span>config<span class="p">|</span>
+    config.vm.define <span class="s2">&quot;nebuvagrantya&quot;</span> <span class="k">do</span> <span class="p">|</span>nbv<span class="p">|</span>
+    nbv.vm.box <span class="o">=</span> <span class="s2">&quot;ubuntu/trusty64&quot;</span>
+    nbv.vm.network :private_network, ip: <span class="s2">&quot;10.0.0.2&quot;</span>
+    nbv.vm.hostname <span class="o">=</span> <span class="s2">&quot;nebuvagrantya&quot;</span>
+
+    nbv.vm.provider <span class="s2">&quot;virtualbox&quot;</span> <span class="k">do</span> <span class="p">|</span>vb<span class="p">|</span>
+        vb.name <span class="o">=</span> <span class="s2">&quot;Ne bu vagrant ya&quot;</span>
+        vb.name <span class="o">=</span>  <span class="s2">&quot;Ne bu vagrant ya&quot;</span>
+        vb.memory <span class="o">=</span> <span class="s2">&quot;512&quot;</span>
+        vb.cpus <span class="o">=</span> <span class="s2">&quot;2&quot;</span>
+        vb.customize <span class="o">[</span><span class="s2">&quot;modifyvm&quot;</span>, :id, <span class="s2">&quot;--vram&quot;</span>, <span class="s2">&quot;32&quot;</span><span class="o">]</span>
+        end
+    nbv.vm.provision :shell, path: <span class="s2">&quot;nginxyukle.sh&quot;</span>
+        end
+        end
+</code></pre></div>
+
+<p>Hadi çalıştıralım artık.
+Terminalinize </p>
+<div class="highlight"><pre><span></span><code>vagrant up
+</code></pre></div>
+
+<p>Yazarsanız eğer daha önce aynı box'ı indirmemişseniz aşağıda ki gibi bir ekran göreceksiniz.</p>
+<p><strong>Not:</strong> Nginxyukle.sh dosyanızı oluşturmayı unutmayın :)
+<img alt="Vagrant1" src="images/vagrant1.png"> </p>
+<p>İşlemler bittikten sonra aşağıda ki gibi bir ekran göreceksiniz</p>
+<p><img alt="Vagrant2" src="images/vagrant2.png"></p>
+<p>Artık herşey hazır.</p>
+<p>Kullanabileceğiniz komutlar:</p>
+<table>
+<thead>
+<tr>
+<th>Komut</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vagrant ssh</td>
+<td>Eğer bir tane makineniz bulunuyorsa bu makineye direkt olarak ssh üzerinden erişir.</td>
+</tr>
+<tr>
+<td>vagrant destroy</td>
+<td>Makinenizi destroy eder.</td>
+</tr>
+<tr>
+<td>vagrant global-status</td>
+<td>Makineleriniz hakkında sizlere bilgi verir.</td>
+</tr>
+<tr>
+<td>vagrant reload</td>
+<td>Makinenizi update eder</td>
+</tr>
+</tbody>
+</table>
+<p>Komutlar ile ilgili aşağıda referans sayfası vereceğim.
+SSH bağlantısı yapalım ve yazıyı sonlandıralım.
+<img alt="Vagrant3" src="images/vagrant3.png"></p>
+<p>Evet artık nur topu gibi bir sanal makinemiz var.
+<img alt="Vagrant4" src="images/vagrant4.png"></p>
+<h3>Vagrant Kutuları İçin</h3>
+<p>Vagrant üzerinde kutuları kullanabileceğinizi söylemiştik.
+Kullanıcılar tarafından oluşturulmuş public kutulara ulaşmak için aşağıda ki linki kullanabilirsiniz.</p>
+<p><a href="https://app.vagrantup.com/boxes/search">Vagrant Boxes</a></p>
+<h5>Ek Linkler</h5>
+<p><a href="https://2rwky424s9rd179jmbzqsca1-wpengine.netdna-ssl.com/wp-content/uploads/2017/12/vagrant-printerfriendly.png">Vagrant CheatSheet</a></p>
+<p><a href="https://www.virtualbox.org/manual/ch08.html">VBoxManage</a></p>
+<p><a href="https://www.vagrantup.com/docs/cli/">Vagrant CLI</a></p>
+<p><a href="https://everythingshouldbevirtual.com/virtualization/vagrant-complex-vagrantfile-configurations/">Complex VagrantFile</a></p>
+        </article>
+
+        <footer>
+            <p>This entry is posted in <a href="https://enesergun.net/category/vagrant.html">vagrant</a>.</p>
+        </footer>
+
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = '0x656e';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+
+
+<footer class="blog-footer">
+
+    <ul class="nav">
+            <li><a href="https://devilinside.me/"> Eşelyon</a></li>
+            <li><a href="https://medium.com/@brkalbyrk"> Berk Albayrak</a></li>
+            <li><a href="https://ahmtglr.wordpress.com/"> Ahmet Güler</a></li>
+            <li><a href="https://kaganisildak.com/"> Kağan Işıldak</a></li>
+            <li><a href="https://eybisi.run/"> Eybisi</a></li>
+            <li><a href="https://onur.im/"> Onur Aslan</a></li>
+            <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
+            <li><a href="http://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
+            <li><a href="https://aligoren.com"> Ali Gören</a></li>
+            <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
+<br>
+            <li><a href="www.twitter.com/eness_ergun">Twitter</a></li>
+            <li><a href="info@enesergun.net">Mail</a></li>
+    </ul>
+
+    <p class="disclaimer">
+    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/hdra/Pelican-Cid">Cid</a> theme.
+    </p>
+</footer>
+            </div>
+<script>
+    var _gaq=[['_setAccount','UA-44262671-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+    </body>
+</html>
