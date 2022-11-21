@@ -9,9 +9,86 @@
 </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href='https://fonts.googleapis.com/css?family=Gentium+Book+Basic|Merriweather:400,300' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://enesergun.net/theme/css/cid.css">
+        
+        <link rel="stylesheet" href="theme/css/cid.css">
         <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+        <style>
+                
+
+        pre {
+            font-family: "", "Lucida Console", monospace, Monaco;
+            font-size: 14px;
+            line-height: 1.0;
+        }
+
+        a {
+            color: #da4b6d;
+            text-decoration: none;
+        }
+
+        w {
+            color: white;
+        }
+
+        e {
+            color: #93ffd7;
+        }
+
+        /* green  */
+        k {
+            color: #ff93f1;
+        }
+
+        /* pink   */
+        l {
+            color: #f1ff93;
+        }
+
+        /* yellow */
+        o {
+            color: #93f1ff;
+        }
+
+        /* blue   */
+        r {
+            color: #fa4d57;
+        }
+
+        /* red    */
+
+        body {
+            font-family: "", "Lucida Console", monospace, Monaco
+        }
+
+        h1 {
+            color: #da4b6d !important;
+        }
+
+        .blog-header {
+            text-align: center;
+        }
+
+        header[role="banner"] {
+            #logo-main {
+                display: block;
+                margin: 20px auto;
+            }
+        }
+
+        #navbar-primary.navbar-default {
+            background: transparent;
+            border: none;
+
+            text-align: center;
+            display: inline-block;
+            float: none;
+            padding-left: 30px;
+            padding-right: 30px;
+            width: 100%;
+            border-style: groove;
+            border-color: #ff93f1;
+        }
+        </style>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -35,15 +112,16 @@
         <header>
             <h1>Python ile basit vulnhub yazarlarını çeken bot</h1>
             <p class="date">Written on <time datetime="2016-06-17T10:20:00+03:00">Jun 17, 2016</time></p>
+            
         </header>
 
         <article>
             <p>Daha önceden yazmış olduğum bu scripti bugün güncellemek zorunda kaldım.Nedeni vulnhub önceden her türlü bağlantıyı kabul etsede bugün etmiyordu.Bende scripte Chrome Dev Tools'dan kopyaladığım header bilgilerini çaktım script şimdi bağlantı kuruyordu fakat regex patterni boş olarak dönüyordu.İlk scriptte</p>
-<div class="highlight"><pre><span></span><code><span class="err">urllib.request.urlopen(url).read()</span>
+<div class="highlight"><pre><span></span><code>urllib.request.urlopen(url).read()
 </code></pre></div>
 
 <p>şeklinde bir yapı vardı ve bu yapı response'u byte code olarak döndürüyordu.Byte code döndüren response içinde regex ile arama yapmak için basit bir harf argüman var hemen onu da göstereyim.</p>
-<div class="highlight"><pre><span></span><code><span class="err">rp = re.findall(b&#39;pattern&#39;,text)</span>
+<div class="highlight"><pre><span></span><code>rp = re.findall(b&#39;pattern&#39;,text)
 </code></pre></div>
 
 <p>şeklinde bir argüman ile bytecode olarak arama yapıyor fakat bu debug yaparken sorun nerde ? veya pattern neden bulmuyor şeklinde ki sorunlarınızı çözerken zorluk çıkartıyordu.Bende kodu bu yüzden güncelledim.</p>
@@ -51,79 +129,7 @@
 <p>Neyse lafı fazla uzatmayalım. Sonuç görüntüsü aşağıdadır.</p>
 <p><img alt="Vulnhub" src="images/vulnhub.png" title="Vulnhub"></p>
 <h3>Kodlar</h3>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/python3</span>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/python3</span>
 <span class="kn">import</span> <span class="nn">requests</span><span class="o">,</span><span class="nn">re</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
 <span class="s1">&#39;:authority&#39;</span><span class="p">:</span><span class="s1">&#39;www.vulnhub.com&#39;</span><span class="p">,</span>
@@ -197,7 +203,6 @@
     <span class="n">i</span> <span class="o">=</span> <span class="n">i</span>
     <span class="n">git</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </code></pre></div>
-</td></tr></table>
         </article>
 
         <footer>
@@ -224,18 +229,18 @@
 <footer class="blog-footer">
 
     <ul class="nav">
-            <li><a href="https://mertcangokgoz.com/"> Mertcan Gökgöz</a></li>
+            <li><a href="https://devilinside.me/"> Eşelyon</a></li>
+            <li><a href="https://medium.com/@brkalbyrk"> Berk Albayrak</a></li>
+            <li><a href="https://ahmtglr.wordpress.com/"> Ahmet Güler</a></li>
+            <li><a href="https://kaganisildak.com/"> Kağan Işıldak</a></li>
+            <li><a href="https://eybisi.run/"> Eybisi</a></li>
             <li><a href="https://onur.im/"> Onur Aslan</a></li>
-            <li><a href="http://www.omeripek.com.tr/"> Ömer İpek</a></li>
             <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
             <li><a href="http://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
-            <li><a href="http://ahmetgurel.com"> Ahmet Gürel</a></li>
-            <li><a href="https://berkimran.com.tr"> Berk İmran</a></li>
             <li><a href="https://aligoren.com"> Ali Gören</a></li>
             <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
-            <li><a href="https://cybersaxostiger.github.io/"> 1v3m</a></li>
 <br>
-            <li><a href="www.twitter.com/0x656e">Twitter</a></li>
+            <li><a href="www.twitter.com/eness_ergun">Twitter</a></li>
             <li><a href="info@enesergun.net">Mail</a></li>
     </ul>
 

@@ -9,9 +9,86 @@
 </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href='https://fonts.googleapis.com/css?family=Gentium+Book+Basic|Merriweather:400,300' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://enesergun.net/theme/css/cid.css">
+        
+        <link rel="stylesheet" href="theme/css/cid.css">
         <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+        <style>
+                
+
+        pre {
+            font-family: "", "Lucida Console", monospace, Monaco;
+            font-size: 14px;
+            line-height: 1.0;
+        }
+
+        a {
+            color: #da4b6d;
+            text-decoration: none;
+        }
+
+        w {
+            color: white;
+        }
+
+        e {
+            color: #93ffd7;
+        }
+
+        /* green  */
+        k {
+            color: #ff93f1;
+        }
+
+        /* pink   */
+        l {
+            color: #f1ff93;
+        }
+
+        /* yellow */
+        o {
+            color: #93f1ff;
+        }
+
+        /* blue   */
+        r {
+            color: #fa4d57;
+        }
+
+        /* red    */
+
+        body {
+            font-family: "", "Lucida Console", monospace, Monaco
+        }
+
+        h1 {
+            color: #da4b6d !important;
+        }
+
+        .blog-header {
+            text-align: center;
+        }
+
+        header[role="banner"] {
+            #logo-main {
+                display: block;
+                margin: 20px auto;
+            }
+        }
+
+        #navbar-primary.navbar-default {
+            background: transparent;
+            border: none;
+
+            text-align: center;
+            display: inline-block;
+            float: none;
+            padding-left: 30px;
+            padding-right: 30px;
+            width: 100%;
+            border-style: groove;
+            border-color: #ff93f1;
+        }
+        </style>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -35,6 +112,7 @@
         <header>
             <h1>Ferrarisini satan ETW (Event Tracing for Windows)</h1>
             <p class="date">Written on <time datetime="2022-02-06T18:00:00+03:00">Feb 06, 2022</time></p>
+            
         </header>
 
         <article>
@@ -61,21 +139,21 @@
 <li><strong>Keywords</strong>: Consumerlara bilgiyi sağlayan olay türleridir. Burası önemli.</li>
 </ul>
 <p><strong>ETW üzerinde çok önemli 2 fonksiyon bulunmaktadır. Bunlar: 1.NTTraceControl(Trace fonksiyonlarını yönetiyor) 2. NtTraceEvent (Aktiviteleri/Eventleri yazıyor.)</strong></p>
-<div class="highlight"><pre><span></span><code><span class="n">NTSTATUS</span>
-<span class="n">NtTraceControl</span> <span class="p">(</span>
-    <span class="n">ULONG</span> <span class="n">FunctionCode</span><span class="p">,</span>
-    <span class="n">PVOID</span> <span class="n">InBuffer</span><span class="p">,</span>
-    <span class="n">ULONG</span> <span class="n">InBufferLen</span><span class="p">,</span>
-    <span class="n">PVOID</span> <span class="n">OutBuffer</span><span class="p">,</span>
-    <span class="n">ULONG</span> <span class="n">OutBufferLen</span><span class="p">,</span>
-    <span class="n">ULONG</span> <span class="o">*</span><span class="n">ReturnSize</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code>NTSTATUS
+NtTraceControl (
+    ULONG FunctionCode,
+    PVOID InBuffer,
+    ULONG InBufferLen,
+    PVOID OutBuffer,
+    ULONG OutBufferLen,
+    ULONG *ReturnSize);
 
-<span class="n">NTSTATUS</span>
-<span class="n">NtTraceEvent</span> <span class="p">(</span>
-    <span class="n">HANDLE</span> <span class="n">TraceHandle</span><span class="p">,</span>
-    <span class="n">ULONG</span> <span class="n">Flags</span><span class="p">,</span>
-    <span class="n">ULONG</span> <span class="n">FieldSize</span><span class="p">,</span>
-    <span class="n">PVOID</span> <span class="n">Fields</span><span class="p">);</span>
+NTSTATUS
+NtTraceEvent (
+    HANDLE TraceHandle,
+    ULONG Flags,
+    ULONG FieldSize,
+    PVOID Fields);
 </code></pre></div>
 
 <p>Bu kadar teori yeter. Şimdi biraz da pratik kısmına bakalım.</p>
@@ -117,7 +195,7 @@
 <p><img alt="image-20220206173433760" src="images/image-20220206173433760.png"></p>
 <p>Burada kendisi bir output belirledi ve keyword olarak All  olarak algıladı fakat .etl dosyamda nedense hata verdi. Bende bu sebeple şöyle bir yola gittim. Siz de dilerseniz output çıktısını değiştirebilirsiniz. Daha fazlası için</p>
 <p><a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/logman">Windows Docs for Logman</a></p>
-<div class="highlight"><pre><span></span><code><span class="err">logman update enesindnsleri -ow -o C:\Users\Enes\enesdns1.etl -p &quot;Microsoft-Windows-DNS-Client&quot; 0x10 -ets</span>
+<div class="highlight"><pre><span></span><code>logman update enesindnsleri -ow -o C:\Users\Enes\enesdns1.etl -p &quot;Microsoft-Windows-DNS-Client&quot; 0x10 -ets
 </code></pre></div>
 
 <p><img alt="image-20220206175045137" src="images/image-20220206175045137.png"></p>
@@ -126,12 +204,12 @@
 <p>Gördüğünüz gibi arkada Discord açık olduğu için Discord'un CDN sunucuları için bir DNS sorgusu atmışım. Pek tabi bu görüntüler takip açısından çok verimli değil ama bu kısımda Velociraptor kullanabilirsiniz. Bununla ilgili bir linki kullanabileceğiniz kaynaklar altına ekleyeceğim. Daha doğrusu tam halini ekleyeceğim.</p>
 <p><img alt="image-20220206181901173" src="images/image-20220206181901173.png"></p>
 <p>Velociraptor VQL'i:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="k">System</span><span class="p">.</span><span class="k">TimeStamp</span> <span class="k">AS</span> <span class="k">Timestamp</span><span class="p">,</span>
-       <span class="n">EventData</span><span class="p">.</span><span class="n">QueryName</span> <span class="k">AS</span> <span class="n">Query</span><span class="p">,</span>
-       <span class="n">EventData</span><span class="p">.</span><span class="n">QueryType</span> <span class="k">AS</span> <span class="k">Type</span><span class="p">,</span>
-       <span class="n">EventData</span><span class="p">.</span><span class="n">QueryResults</span> <span class="k">AS</span> <span class="n">Answer</span>
-<span class="k">FROM</span> <span class="n">watch_etw</span><span class="p">(</span><span class="n">guid</span><span class="o">=</span><span class="ss">&quot;{1C95126E-7EEA-49A9-A3FE-A378B03DDB4D}&quot;</span><span class="p">)</span>
-<span class="k">WHERE</span> <span class="k">System</span><span class="p">.</span><span class="n">ID</span> <span class="o">=</span> <span class="mi">3020</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">System</span><span class="p">.</span><span class="k">TimeStamp</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">Timestamp</span><span class="p">,</span><span class="w"></span>
+<span class="w">       </span><span class="n">EventData</span><span class="p">.</span><span class="n">QueryName</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Query</span><span class="p">,</span><span class="w"></span>
+<span class="w">       </span><span class="n">EventData</span><span class="p">.</span><span class="n">QueryType</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">Type</span><span class="p">,</span><span class="w"></span>
+<span class="w">       </span><span class="n">EventData</span><span class="p">.</span><span class="n">QueryResults</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Answer</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">watch_etw</span><span class="p">(</span><span class="n">guid</span><span class="o">=</span><span class="ss">&quot;{1C95126E-7EEA-49A9-A3FE-A378B03DDB4D}&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">System</span><span class="p">.</span><span class="n">ID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3020</span><span class="w"></span>
 </code></pre></div>
 
 <p>Peki şimdi işin bu kısmını hallettik diyelim. Bu ne işimize yarayacak?  Bununla ilgili gördüğüm örnekler: </p>
@@ -189,18 +267,18 @@
 <footer class="blog-footer">
 
     <ul class="nav">
-            <li><a href="https://mertcangokgoz.com/"> Mertcan Gökgöz</a></li>
+            <li><a href="https://devilinside.me/"> Eşelyon</a></li>
+            <li><a href="https://medium.com/@brkalbyrk"> Berk Albayrak</a></li>
+            <li><a href="https://ahmtglr.wordpress.com/"> Ahmet Güler</a></li>
+            <li><a href="https://kaganisildak.com/"> Kağan Işıldak</a></li>
+            <li><a href="https://eybisi.run/"> Eybisi</a></li>
             <li><a href="https://onur.im/"> Onur Aslan</a></li>
-            <li><a href="http://www.omeripek.com.tr/"> Ömer İpek</a></li>
             <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
             <li><a href="http://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
-            <li><a href="http://ahmetgurel.com"> Ahmet Gürel</a></li>
-            <li><a href="https://berkimran.com.tr"> Berk İmran</a></li>
             <li><a href="https://aligoren.com"> Ali Gören</a></li>
             <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
-            <li><a href="https://cybersaxostiger.github.io/"> 1v3m</a></li>
 <br>
-            <li><a href="www.twitter.com/0x656e">Twitter</a></li>
+            <li><a href="www.twitter.com/eness_ergun">Twitter</a></li>
             <li><a href="info@enesergun.net">Mail</a></li>
     </ul>
 

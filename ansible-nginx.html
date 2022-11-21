@@ -9,9 +9,86 @@
 </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href='https://fonts.googleapis.com/css?family=Gentium+Book+Basic|Merriweather:400,300' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://enesergun.net/theme/css/cid.css">
+        
+        <link rel="stylesheet" href="theme/css/cid.css">
         <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+        <style>
+                
+
+        pre {
+            font-family: "", "Lucida Console", monospace, Monaco;
+            font-size: 14px;
+            line-height: 1.0;
+        }
+
+        a {
+            color: #da4b6d;
+            text-decoration: none;
+        }
+
+        w {
+            color: white;
+        }
+
+        e {
+            color: #93ffd7;
+        }
+
+        /* green  */
+        k {
+            color: #ff93f1;
+        }
+
+        /* pink   */
+        l {
+            color: #f1ff93;
+        }
+
+        /* yellow */
+        o {
+            color: #93f1ff;
+        }
+
+        /* blue   */
+        r {
+            color: #fa4d57;
+        }
+
+        /* red    */
+
+        body {
+            font-family: "", "Lucida Console", monospace, Monaco
+        }
+
+        h1 {
+            color: #da4b6d !important;
+        }
+
+        .blog-header {
+            text-align: center;
+        }
+
+        header[role="banner"] {
+            #logo-main {
+                display: block;
+                margin: 20px auto;
+            }
+        }
+
+        #navbar-primary.navbar-default {
+            background: transparent;
+            border: none;
+
+            text-align: center;
+            display: inline-block;
+            float: none;
+            padding-left: 30px;
+            padding-right: 30px;
+            width: 100%;
+            border-style: groove;
+            border-color: #ff93f1;
+        }
+        </style>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -35,6 +112,7 @@
         <header>
             <h1>Ansible ile Nginx Kurulum ve Yapılandırılması vol.1</h1>
             <p class="date">Written on <time datetime="2017-09-20T10:20:00+03:00">Sep 20, 2017</time></p>
+            
         </header>
 
         <article>
@@ -92,33 +170,33 @@ ayrı bir role yazmaktayım. Bahsetmeden olmaz test sunucumda Centos kullanmakta
     Daha sonra ekleyeceğimiz roller için ayrı playbookları include etmek daha kolay.</p>
 <p>Daha sonra ki makalelerimde zaten bu dosyaların üzerinde geliştirmeler yapacağız.</p>
 <p>Şimdi hosts dosyamızı oluşturduk içerisine bağlanacağımız sunucuları yazalım.</p>
-<div class="highlight"><pre><span></span><code><span class="k">[web]</span>
-<span class="na">192.168.1.53 ansible_connection</span><span class="o">=</span><span class="s">ssh ansible_ssh_user=root ansible_ssh_pass=369874125</span>
-<span class="k">[database]</span>
-<span class="na">192.168.1.53 ansible_ssh_user</span><span class="o">=</span><span class="s">root ansible_ssh_pass=369874125 #Database&#39;i sonra kullanacağız</span>
+<div class="highlight"><pre><span></span><code><span class="k">[web]</span><span class="w"></span>
+<span class="na">192.168.1.53 ansible_connection</span><span class="o">=</span><span class="s">ssh ansible_ssh_user=root ansible_ssh_pass=369874125</span><span class="w"></span>
+<span class="k">[database]</span><span class="w"></span>
+<span class="na">192.168.1.53 ansible_ssh_user</span><span class="o">=</span><span class="s">root ansible_ssh_pass=369874125 #Database&#39;i sonra kullanacağız</span><span class="w"></span>
 </code></pre></div>
 
 <p>Burada açıklanacak çok fazla birşey yok sanırım. Siz buraya istediğiniz kadar ip ekleyebilirsiniz. Ansible bu yazdığınız tüm IP'leri gezerek kurulumları sağlayacaktır.</p>
 <p><strong> Site.yml Dosyamızı Oluşturalım </strong></p>
-<div class="highlight"><pre><span></span><code><span class="err">---</span>
-<span class="err">    - include dbplaybook.yml</span>
-<span class="err">    - include webplaybook.yml</span>
+<div class="highlight"><pre><span></span><code><span class="o">---</span>
+    <span class="o">-</span> <span class="k">include</span> <span class="nv">dbplaybook</span>.<span class="nv">yml</span>
+    <span class="o">-</span> <span class="k">include</span> <span class="nv">webplaybook</span>.<span class="nv">yml</span>
 </code></pre></div>
 
 <p>İki tane ansible dosyamı include ettim. DBPlaybook'una daha sonra bakacağız.</p>
 <p><strong> Webplaybook.yml Dosyamızı oluşturalım </strong></p>
-<div class="highlight"><pre><span></span><code><span class="o">---</span>
-<span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">Create</span> <span class="n">a</span> <span class="n">Web</span> <span class="n">Server</span> <span class="ow">and</span> <span class="n">ETC</span>
-  <span class="n">hosts</span><span class="p">:</span> <span class="n">web</span>
-  <span class="n">become</span><span class="p">:</span> <span class="n">yes</span>
-  <span class="n">become_user</span><span class="p">:</span> <span class="n">root</span>
-  <span class="n">remote_user</span><span class="p">:</span> <span class="n">root</span>
-  <span class="n">vars_files</span><span class="p">:</span>
-    <span class="o">-</span> <span class="n">vars</span><span class="o">/</span><span class="n">main</span><span class="o">.</span><span class="n">yml</span>
-  <span class="n">roles</span><span class="p">:</span>
-    <span class="o">-</span> <span class="n">base</span>
-    <span class="o">-</span> <span class="n">web</span>
-    <span class="o">-</span> <span class="n">nginx</span>
+<div class="highlight"><pre><span></span><code><span class="o">---</span><span class="w"></span>
+<span class="o">-</span><span class="w"> </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Server</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">ETC</span><span class="w"></span>
+<span class="w">  </span><span class="n">hosts</span><span class="p">:</span><span class="w"> </span><span class="n">web</span><span class="w"></span>
+<span class="w">  </span><span class="n">become</span><span class="p">:</span><span class="w"> </span><span class="n">yes</span><span class="w"></span>
+<span class="w">  </span><span class="n">become_user</span><span class="p">:</span><span class="w"> </span><span class="n">root</span><span class="w"></span>
+<span class="w">  </span><span class="n">remote_user</span><span class="p">:</span><span class="w"> </span><span class="n">root</span><span class="w"></span>
+<span class="w">  </span><span class="n">vars_files</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="o">-</span><span class="w"> </span><span class="n">vars</span><span class="o">/</span><span class="n">main</span><span class="o">.</span><span class="n">yml</span><span class="w"></span>
+<span class="w">  </span><span class="n">roles</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="o">-</span><span class="w"> </span><span class="n">base</span><span class="w"></span>
+<span class="w">    </span><span class="o">-</span><span class="w"> </span><span class="n">web</span><span class="w"></span>
+<span class="w">    </span><span class="o">-</span><span class="w"> </span><span class="n">nginx</span><span class="w"></span>
 </code></pre></div>
 
 <p>Burada name olarak istediğinizi yazabilirsiniz sadece bu görevi tanımlamak amacı ile yazılmıştır.</p>
@@ -176,11 +254,11 @@ Daha sonra ise döngüye soktuğumuz itemları sırası ile kurdurmak. with_item
 <p>Kalan kısımlarda command ile direk olarak shell'e komutu bir döngü sayesinde basmaktayız.
 Notify kısmı ise bizim handlers kısmında ismini verdiğimiz görevleri yerine getirir.</p>
 <p><strong> Handlers dosyasına bir göz atalım. </strong></p>
-<div class="highlight"><pre><span></span><code><span class="err">---</span>
-<span class="err">- name: restart firewall</span>
-<span class="err">  service: name=firewalld state=restarted</span>
-<span class="err">- name: restart nginx</span>
-<span class="err">  service: name=nginx state=restarted</span>
+<div class="highlight"><pre><span></span><code>---
+- name: restart firewall
+  service: name=firewalld state=restarted
+- name: restart nginx
+  service: name=nginx state=restarted
 </code></pre></div>
 
 <p>Burada name olarak verdiğimiz isimleri Role içerisinde handlers'a yazmaktayız.</p>
@@ -221,11 +299,11 @@ Notify kısmı ise bizim handlers kısmında ismini verdiğimiz görevleri yerin
 
 <p>Burada nginx için kullanıcı ve grup eklemekteyiz.</p>
 <h2>Vars Dosyamız</h2>
-<div class="highlight"><pre><span></span><code><span class="err">---</span>
-<span class="err">    # Nginx</span>
-<span class="err">    project_domain: 0x656e.com</span>
-<span class="err">    nginx_group: webapps</span>
-<span class="err">    nginx_user: project</span>
+<div class="highlight"><pre><span></span><code>---
+    # Nginx
+    project_domain: 0x656e.com
+    nginx_group: webapps
+    nginx_user: project
 </code></pre></div>
 
 <p>Değişkenlerimizi tanımladık.</p>
@@ -265,18 +343,18 @@ Notify kısmı ise bizim handlers kısmında ismini verdiğimiz görevleri yerin
 <footer class="blog-footer">
 
     <ul class="nav">
-            <li><a href="https://mertcangokgoz.com/"> Mertcan Gökgöz</a></li>
+            <li><a href="https://devilinside.me/"> Eşelyon</a></li>
+            <li><a href="https://medium.com/@brkalbyrk"> Berk Albayrak</a></li>
+            <li><a href="https://ahmtglr.wordpress.com/"> Ahmet Güler</a></li>
+            <li><a href="https://kaganisildak.com/"> Kağan Işıldak</a></li>
+            <li><a href="https://eybisi.run/"> Eybisi</a></li>
             <li><a href="https://onur.im/"> Onur Aslan</a></li>
-            <li><a href="http://www.omeripek.com.tr/"> Ömer İpek</a></li>
             <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
             <li><a href="http://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
-            <li><a href="http://ahmetgurel.com"> Ahmet Gürel</a></li>
-            <li><a href="https://berkimran.com.tr"> Berk İmran</a></li>
             <li><a href="https://aligoren.com"> Ali Gören</a></li>
             <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
-            <li><a href="https://cybersaxostiger.github.io/"> 1v3m</a></li>
 <br>
-            <li><a href="www.twitter.com/0x656e">Twitter</a></li>
+            <li><a href="www.twitter.com/eness_ergun">Twitter</a></li>
             <li><a href="info@enesergun.net">Mail</a></li>
     </ul>
 

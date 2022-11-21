@@ -9,9 +9,86 @@
 </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href='https://fonts.googleapis.com/css?family=Gentium+Book+Basic|Merriweather:400,300' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://enesergun.net/theme/css/cid.css">
+        
+        <link rel="stylesheet" href="theme/css/cid.css">
         <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+        <style>
+                
+
+        pre {
+            font-family: "", "Lucida Console", monospace, Monaco;
+            font-size: 14px;
+            line-height: 1.0;
+        }
+
+        a {
+            color: #da4b6d;
+            text-decoration: none;
+        }
+
+        w {
+            color: white;
+        }
+
+        e {
+            color: #93ffd7;
+        }
+
+        /* green  */
+        k {
+            color: #ff93f1;
+        }
+
+        /* pink   */
+        l {
+            color: #f1ff93;
+        }
+
+        /* yellow */
+        o {
+            color: #93f1ff;
+        }
+
+        /* blue   */
+        r {
+            color: #fa4d57;
+        }
+
+        /* red    */
+
+        body {
+            font-family: "", "Lucida Console", monospace, Monaco
+        }
+
+        h1 {
+            color: #da4b6d !important;
+        }
+
+        .blog-header {
+            text-align: center;
+        }
+
+        header[role="banner"] {
+            #logo-main {
+                display: block;
+                margin: 20px auto;
+            }
+        }
+
+        #navbar-primary.navbar-default {
+            background: transparent;
+            border: none;
+
+            text-align: center;
+            display: inline-block;
+            float: none;
+            padding-left: 30px;
+            padding-right: 30px;
+            width: 100%;
+            border-style: groove;
+            border-color: #ff93f1;
+        }
+        </style>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -35,6 +112,7 @@
         <header>
             <h1>Application Shimming Kullanarak Windows Sistemler Üzerinde Kalıcılık</h1>
             <p class="date">Written on <time datetime="2019-12-21T15:00:00+03:00">Dec 21, 2019</time></p>
+            
         </header>
 
         <article>
@@ -76,7 +154,7 @@
 <p>Evet artık her şeyimiz tamamlandı, sistem yöneticimiz ne zaman Putty'yi açarsa bize Reverse Shell düşecektir. Metasploit üzerinde Multi handler açıp sürekli dinleyerek nurtopu gibi bir meterpreter shell'e sahip olabilirsiniz. </p>
 <h2>Arayüz Olmadan Enjekte Etmek</h2>
 <p>Bunun için CLI üzerinden aşağıdaki komutunu girmeniz yeterli olacaktır.</p>
-<div class="highlight"><pre><span></span><code><span class="err">sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe</span>
+<div class="highlight"><pre><span></span><code>sdb-explorer.exe -r pentestlab.sdb -a istediginiz.exe
 </code></pre></div>
 
 <p>Tabi burada illa kurulu bir uygulama olmasına gerek yok isterseniz Windows sistem üzerinde çalışan herhangi bir exe'ye de bunu enjekte edebilirsiniz. Okuduğum makale örneğinde <code>spoolsv.exe</code> dosyasına enjekte edilmiştir.</p>
@@ -85,21 +163,21 @@
 Uzun cevap:</p>
 <p>Oluşturulan bu SDB dosyalarına ait kayıtlar Windows sistemler altında AppPatch klasörü altında tutulmaktadır. </p>
 <p>Bu klasöre ulaşmak için: </p>
-<div class="highlight"><pre><span></span><code><span class="c">%WINDIR%\AppPatch\custom</span>
-<span class="c">%WINDIR%\AppPatch\AppPatch64\Custom</span>
+<div class="highlight"><pre><span></span><code><span class="c">%WINDIR%\AppPatch\custom</span><span class="w"></span>
+<span class="c">%WINDIR%\AppPatch\AppPatch64\Custom</span><span class="w"></span>
 </code></pre></div>
 
 <p>Ha bunun yerine isterseniz Process Explorer içerisinde de kaybolabilirsiniz.</p>
 <h2>Tespit etmek</h2>
 <p>Registry değişikliklerini veya dosya konumlarını izlemek bunun için bir yöntemdir. Takip edilecek Registry ve dosya konumları aşağıda verilmiştir. Oluşturulacak yeni bir key SysMon üzerinde <code>12</code> event ID ile tetiklenecektir. </p>
 <p>Registry konumları:</p>
-<div class="highlight"><pre><span></span><code><span class="err">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\</span>
-<span class="err">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\</span>
+<div class="highlight"><pre><span></span><code>HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom\
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB\
 </code></pre></div>
 
 <p>Dosya konumu:</p>
-<div class="highlight"><pre><span></span><code><span class="c">%WINDIR%\AppPatch\custom</span>
-<span class="c">%WINDIR%\AppPatch\AppPatch64\Custom</span>
+<div class="highlight"><pre><span></span><code><span class="c">%WINDIR%\AppPatch\custom</span><span class="w"></span>
+<span class="c">%WINDIR%\AppPatch\AppPatch64\Custom</span><span class="w"></span>
 </code></pre></div>
 
 <p>Daha detaylı bir bilgi almak için Sean Price'ın <a href="https://www.blackhat.com/docs/eu-15/materials/eu-15-Pierce-Defending-Against-Malicious-Application-Compatibility-Shims.pdf">sunumunu</a> kullanabilirsiniz.</p>
@@ -135,18 +213,18 @@ Uzun cevap:</p>
 <footer class="blog-footer">
 
     <ul class="nav">
-            <li><a href="https://mertcangokgoz.com/"> Mertcan Gökgöz</a></li>
+            <li><a href="https://devilinside.me/"> Eşelyon</a></li>
+            <li><a href="https://medium.com/@brkalbyrk"> Berk Albayrak</a></li>
+            <li><a href="https://ahmtglr.wordpress.com/"> Ahmet Güler</a></li>
+            <li><a href="https://kaganisildak.com/"> Kağan Işıldak</a></li>
+            <li><a href="https://eybisi.run/"> Eybisi</a></li>
             <li><a href="https://onur.im/"> Onur Aslan</a></li>
-            <li><a href="http://www.omeripek.com.tr/"> Ömer İpek</a></li>
             <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
             <li><a href="http://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
-            <li><a href="http://ahmetgurel.com"> Ahmet Gürel</a></li>
-            <li><a href="https://berkimran.com.tr"> Berk İmran</a></li>
             <li><a href="https://aligoren.com"> Ali Gören</a></li>
             <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
-            <li><a href="https://cybersaxostiger.github.io/"> 1v3m</a></li>
 <br>
-            <li><a href="www.twitter.com/0x656e">Twitter</a></li>
+            <li><a href="www.twitter.com/eness_ergun">Twitter</a></li>
             <li><a href="info@enesergun.net">Mail</a></li>
     </ul>
 

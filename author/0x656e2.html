@@ -8,9 +8,86 @@
         <title>Enes Ergün - Articles by 0x656e</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href='https://fonts.googleapis.com/css?family=Gentium+Book+Basic|Merriweather:400,300' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://enesergun.net/theme/css/cid.css">
+        
+        <link rel="stylesheet" href="theme/css/cid.css">
         <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+        <style>
+                
+
+        pre {
+            font-family: "", "Lucida Console", monospace, Monaco;
+            font-size: 14px;
+            line-height: 1.0;
+        }
+
+        a {
+            color: #da4b6d;
+            text-decoration: none;
+        }
+
+        w {
+            color: white;
+        }
+
+        e {
+            color: #93ffd7;
+        }
+
+        /* green  */
+        k {
+            color: #ff93f1;
+        }
+
+        /* pink   */
+        l {
+            color: #f1ff93;
+        }
+
+        /* yellow */
+        o {
+            color: #93f1ff;
+        }
+
+        /* blue   */
+        r {
+            color: #fa4d57;
+        }
+
+        /* red    */
+
+        body {
+            font-family: "", "Lucida Console", monospace, Monaco
+        }
+
+        h1 {
+            color: #da4b6d !important;
+        }
+
+        .blog-header {
+            text-align: center;
+        }
+
+        header[role="banner"] {
+            #logo-main {
+                display: block;
+                margin: 20px auto;
+            }
+        }
+
+        #navbar-primary.navbar-default {
+            background: transparent;
+            border: none;
+
+            text-align: center;
+            display: inline-block;
+            float: none;
+            padding-left: 30px;
+            padding-right: 30px;
+            width: 100%;
+            border-style: groove;
+            border-color: #ff93f1;
+        }
+        </style>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -34,115 +111,92 @@
 
 
             <article class="post-overview">
-                <h2><a href="https://enesergun.net/python-format-kullanirken-dikkatli-olun.html">String.Format() Kullanırken Dikkatli Olun</a></h2>
-                <time datetime="2018-06-10T02:41:00+03:00">Jun 10, 2018</time>
-                <div class="excerpt"><p>Bildiğiniz üzere uygulamalar da kullanıcı girdisi çok önemlidir. Bu girdilerin serialize edilmesi ve güvenli hale getirilmesi gerekmektedir. Güvenlik bilinci olmayan bir yazılımcı ise bu girdilerde kullanıcıya güvenerek hiç bir önlem almaz ise ne olur? Tabi ki hacklenir. Bu girdilerin güvenli hale getirilmesi için dile özgü bir çok yöntem vardır. Bu …</p></div>
+                <h2>
+                <span class="tag"> [ siber güvenlik ]
+                <a href="https://enesergun.net/data-exfiltration.html">Data Exfiltration</a></h2>
+                
+                
             </article>
 
 
             <article class="post-overview">
-                <h2><a href="https://enesergun.net/python-hata-yonetimi.html">Python İstisnalar ve İstisna Yönetimi</a></h2>
-                <time datetime="2018-05-08T23:12:00+03:00">May 08, 2018</time>
-                <div class="excerpt"><p>Bildiğiniz gibi yazdığınız program/uygulama bazı yazım yanlışları veya veri girişi kısımlarında gerekli kontroller ve yönetimler yapılmamışsa  programınız/uygulamanız bir hata FIRLATARAK sonlanacaktır. Üstelik bu konu zararlı kişilerce kullanılarak son kullanıcıyı mağdur etmeye kadar gidebiliyor. Konu bu haliyle zaten oldukça önemli, bu kısımda yazılımcıya oldukça fazla yük düşmekte. Nedir bunlar …</p></div>
+                <h2>
+                <span class="tag"> [ python ]
+                <a href="https://enesergun.net/python-format-kullanirken-dikkatli-olun.html">String.Format() Kullanırken Dikkatli Olun</a></h2>
+                
+                
             </article>
 
 
             <article class="post-overview">
-                <h2><a href="https://enesergun.net/python-alt-cizgi.html">Python'da alt çizgi(_)</a></h2>
-                <time datetime="2018-05-02T22:55:00+03:00">May 02, 2018</time>
-                <div class="excerpt"><p>Selamlar, yazıya giriş yapmadan önce uyarayım bu yazı okuduğum bir makaleden anladıklarımı kapsamaktadır. Direkt olarak çeviri yapmadım kendi yorumlarımı katarak anladığımı aktarmaya çalıştım. Teşekkürler, iyi okumalar!</p>
-<p>Python kodlarının çoğunda alt çizgiyi görebilirsiniz. Peki ya hiç anlamını araştırdınız mı? Malesef ben de araştırmamıştım. Aslında Python'da alt çizginin çok özel bir yeri …</p></div>
+                <h2>
+                <span class="tag"> [ python ]
+                <a href="https://enesergun.net/python-hata-yonetimi.html">Python İstisnalar ve İstisna Yönetimi</a></h2>
+                
+                
             </article>
 
 
             <article class="post-overview">
-                <h2><a href="https://enesergun.net/japronto-neymis.html">Japronto Neymiş?</a></h2>
-                <time datetime="2018-05-01T16:12:00+03:00">May 01, 2018</time>
-                <div class="excerpt"><p>Uvloop ve picohttpparser tabanlı çok hızlı, ölçeklendirilebilir, asenkron bir HTTP araç takımıdır. Yazan kişi böyle söylüyor en azından. Eğer benchmark grafikleri de doğruysa ben bundan sonra bunu kullanırım.</p>
-<p>Hemen grafiği aşağıya iliştiriyorum. </p>
-<h4>Performans</h4>
-<p><img alt="Performans" src="https://github.com/squeaky-pl/japronto/raw/master/benchmarks/results.png"></p>
-<p>Bu grafikte yüksek olan iyi demektir. Bu benchmark AWS c4.2xlarge makinesinde yapılmış. Yük testinde </p>
-<p>adlı toolu …</p></div>
+                <h2>
+                <span class="tag"> [ python ]
+                <a href="https://enesergun.net/python-alt-cizgi.html">Python'da alt çizgi(_)</a></h2>
+                
+                
             </article>
 
 
             <article class="post-overview">
-                <h2><a href="https://enesergun.net/esp32-ile-calismak.html">ESP32 ile çalışmak</a></h2>
-                <time datetime="2018-04-14T13:12:00+03:00">Apr 14, 2018</time>
-                <div class="excerpt"><p>Selamlar,</p>
-<p>Geçen hafta sonu sevdiğim bir abim daha önce almış olduğu ESP32 kartını denemem için bana getirmişti. Malesef sadece dün akşam bu kart ile ilgilenebildim. Tabi ki daha öncesinde kart hakkında araştırmalar yapmış bulundum. </p>
-<h4>Bu kart ne işe yarar?</h4>
-<p>Bu kart tümleşik bir kart olarak geçiyor. Kendine ait bir işlemcisi …</p></div>
+                <h2>
+                <span class="tag"> [ python ]
+                <a href="https://enesergun.net/japronto-neymis.html">Japronto Neymiş?</a></h2>
+                
+                
             </article>
 
 
             <article class="post-overview">
-                <h2><a href="https://enesergun.net/flask-events-app.html">Flask ile Adım Adım Etkinlik Uygulaması Yapalım</a></h2>
-                <time datetime="2018-02-13T22:19:00+03:00">Feb 13, 2018</time>
-                <div class="excerpt"><p>Selamlar arkadaşlar, birkaç yazı yazmak istedim hem bu arada belki bazı arkadaşların isteklerini de yerine getirmiş olurum. Amacım bu yazı serisinde Flask ile basit bir etkinlik uygulaması yapmak. Bunun için adım adım gideceğim, yazı serisinin en sonunda Bootstrap ile bir arayüz yazacağız. Sanırım en uzun yazımız da bu olacak. Neyse …</p></div>
+                <h2>
+                <span class="tag"> [ iot & elektronik ]
+                <a href="https://enesergun.net/esp32-ile-calismak.html">ESP32 ile çalışmak</a></h2>
+                
+                
             </article>
 
 
             <article class="post-overview">
-                <h2><a href="https://enesergun.net/ps-command-arguments.html">PS Komutunun Alabildiği Argümanlar</a></h2>
-                <time datetime="2018-02-10T22:19:00+03:00">Feb 10, 2018</time>
-                <div class="excerpt"><p><strong>PS</strong> komutu linux üzerinde processleri ( çalışan işlemleri ) monitoring edebileceğimiz bir komuttur. Pek tabi ki bir çok argüman almaktadır. Şimdi bu argümanların en çok kullanılanlarına aşağıda bahsedeceğiz. PS komutu çıktıları bir çok formatta olabiliyor. İyi okumalar.</p>
-<h3>Let's go</h3>
-<p><strong>NOT</strong>: Önce komutu gösterip daha sonra komutu açıklayacağım bilginize.</p>
-<div class="highlight"><pre><span></span><code>ps -A
-</code></pre></div>
-
-<ul>
-<li>Bu komut …</li></ul></div>
+                <h2>
+                <span class="tag"> [ flask ]
+                <a href="https://enesergun.net/flask-events-app.html">Flask ile Adım Adım Etkinlik Uygulaması Yapalım</a></h2>
+                
+                
             </article>
 
 
             <article class="post-overview">
-                <h2><a href="https://enesergun.net/vagrant-komutlari.html">Vagrant Komutları ( Cheatsheet )</a></h2>
-                <time datetime="2018-01-08T23:12:00+03:00">Jan 08, 2018</time>
-                <div class="excerpt"><h2>Vagrant Komutları</h2>
-<p>Selamlar, geçtiğimiz hafta Vagrant ile ilgili bir blog post yayınlamıştım hatırlarsanız. Biraz daha üzerine gitmek istedim. Bu yazıda Vagrant komutlarının kısa açıklamalarına değineceğim.</p>
-<p>Sayfayı print ederek elinize güzel bir döküman geçmesini amaçlamaktayım.</p>
-<table>
-<thead>
-<tr>
-<th>Komut</th>
-<th>Açıklama</th>
-<th>Ek Alan</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>vagrant box</td>
-<td>Bir ana fonksiyondur kutuları kontrol etmenizi sağlar.</td>
-<td></td>
-</tr>
-<tr>
-<td>vagrant box add …</td></tr></tbody></table></div>
+                <h2>
+                <span class="tag"> [ linux ]
+                <a href="https://enesergun.net/ps-command-arguments.html">PS Komutunun Alabildiği Argümanlar</a></h2>
+                
+                
             </article>
 
 
             <article class="post-overview">
-                <h2><a href="https://enesergun.net/vagrant-nedir.html">Neymiş bu Vagrant</a></h2>
-                <time datetime="2018-01-06T22:14:00+03:00">Jan 06, 2018</time>
-                <div class="excerpt"><h3>Kısaca Vagrant Nedir?</h3>
-<p>Kendi anladığım şekilde anlatmam gerekirse Vagrant hazırladığınız text scriptleri ile sanal sunucular oluşturabileceğiniz otomatize bir araçtır. </p>
-<h3>Ne İşe Yarar?</h3>
-<p>Oluşturduğunuz scriptler ile herhangi bir ortamda (Müşteri ortamı vs.) sizler için hazır bir makine inşa eder. Tabi bir de <a href="https://ka1nsha.github.io/ansible-nginx.html">ansible</a> ile birleştirirseniz tadından yenmez sanırım. Tabi ki bunda …</p></div>
+                <h2>
+                <span class="tag"> [ vagrant ]
+                <a href="https://enesergun.net/vagrant-komutlari.html">Vagrant Komutları ( Cheatsheet )</a></h2>
+                
+                
             </article>
 
 
             <article class="post-overview">
-                <h2><a href="https://enesergun.net/hug-sqlalchemy-basit-api.html">Hug ve SQLAlchemy ile Basit API Yapımı</a></h2>
-                <time datetime="2017-09-30T00:59:00+03:00">Sep 30, 2017</time>
-                <div class="excerpt"><p>Selam,</p>
-<p>Geçenlerde yazı yazdıktan sonra <a href="https://twitter.com/miratcanbayrak">Mirat Can Bayrak</a> dedi ki hug ile ilgili birşeyler yazsana. Meğer kendisi üşenmiş. Neyse hug'a gelelim.</p>
-<p>Google'da hug diye arattığınızda bulamayabilirsiniz. I need hug.</p>
-<p>Hug'a erişmek için:</p>
-<p><a href="http://www.hug.rest/">HUG</a> </p>
-<h2>Hug Nedir ?</h2>
-<p>Hug falcon altyapısını kullanan bir rest api frameworkü. Peki bize ne vaad ediyor bu hug …</p></div>
+                <h2>
+                <span class="tag"> [ vagrant ]
+                <a href="https://enesergun.net/vagrant-nedir.html">Neymiş bu Vagrant</a></h2>
+                
+                
             </article>
 
 
@@ -161,18 +215,18 @@
 <footer class="blog-footer">
 
     <ul class="nav">
-            <li><a href="https://mertcangokgoz.com/"> Mertcan Gökgöz</a></li>
+            <li><a href="https://devilinside.me/"> Eşelyon</a></li>
+            <li><a href="https://medium.com/@brkalbyrk"> Berk Albayrak</a></li>
+            <li><a href="https://ahmtglr.wordpress.com/"> Ahmet Güler</a></li>
+            <li><a href="https://kaganisildak.com/"> Kağan Işıldak</a></li>
+            <li><a href="https://eybisi.run/"> Eybisi</a></li>
             <li><a href="https://onur.im/"> Onur Aslan</a></li>
-            <li><a href="http://www.omeripek.com.tr/"> Ömer İpek</a></li>
             <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
             <li><a href="http://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
-            <li><a href="http://ahmetgurel.com"> Ahmet Gürel</a></li>
-            <li><a href="https://berkimran.com.tr"> Berk İmran</a></li>
             <li><a href="https://aligoren.com"> Ali Gören</a></li>
             <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
-            <li><a href="https://cybersaxostiger.github.io/"> 1v3m</a></li>
 <br>
-            <li><a href="www.twitter.com/0x656e">Twitter</a></li>
+            <li><a href="www.twitter.com/eness_ergun">Twitter</a></li>
             <li><a href="info@enesergun.net">Mail</a></li>
     </ul>
 

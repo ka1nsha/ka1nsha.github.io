@@ -9,9 +9,86 @@
 </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href='https://fonts.googleapis.com/css?family=Gentium+Book+Basic|Merriweather:400,300' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://enesergun.net/theme/css/cid.css">
+        
+        <link rel="stylesheet" href="theme/css/cid.css">
         <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+        <style>
+                
+
+        pre {
+            font-family: "", "Lucida Console", monospace, Monaco;
+            font-size: 14px;
+            line-height: 1.0;
+        }
+
+        a {
+            color: #da4b6d;
+            text-decoration: none;
+        }
+
+        w {
+            color: white;
+        }
+
+        e {
+            color: #93ffd7;
+        }
+
+        /* green  */
+        k {
+            color: #ff93f1;
+        }
+
+        /* pink   */
+        l {
+            color: #f1ff93;
+        }
+
+        /* yellow */
+        o {
+            color: #93f1ff;
+        }
+
+        /* blue   */
+        r {
+            color: #fa4d57;
+        }
+
+        /* red    */
+
+        body {
+            font-family: "", "Lucida Console", monospace, Monaco
+        }
+
+        h1 {
+            color: #da4b6d !important;
+        }
+
+        .blog-header {
+            text-align: center;
+        }
+
+        header[role="banner"] {
+            #logo-main {
+                display: block;
+                margin: 20px auto;
+            }
+        }
+
+        #navbar-primary.navbar-default {
+            background: transparent;
+            border: none;
+
+            text-align: center;
+            display: inline-block;
+            float: none;
+            padding-left: 30px;
+            padding-right: 30px;
+            width: 100%;
+            border-style: groove;
+            border-color: #ff93f1;
+        }
+        </style>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -35,6 +112,7 @@
         <header>
             <h1>TSF Parser</h1>
             <p class="date">Written on <time datetime="2016-06-28T10:20:00+03:00">Jun 28, 2016</time></p>
+            
         </header>
 
         <article>
@@ -54,11 +132,11 @@
     <span class="n">lx</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">ac</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
     <span class="k">global</span> <span class="n">sayfaid</span>
     <span class="n">sayfaid</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//div[@class=&quot;pagenavdiv&quot;]/a[@href]/text()&#39;</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">sayfaid</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">sayfaid</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">sayfaid</span> <span class="o">==</span> <span class="p">[]:</span>
-        <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="kc">True</span>
 <span class="k">def</span> <span class="nf">multiplelist</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">number</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">http</span> <span class="o">=</span> <span class="s2">&quot;https://lisans.tsf.org.tr/online/main/kulupliste/</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">number</span><span class="p">)</span>
@@ -82,13 +160,13 @@
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">id</span><span class="p">:</span>
 
-    <span class="k">if</span> <span class="n">analyze</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">analyze</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
         <span class="n">multiplelist</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">sayfaid</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span class="s2">&quot;Son&quot;</span><span class="p">:</span>
                 <span class="n">analyze</span><span class="p">(</span><span class="n">sayfaid</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">])</span>
-                <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="n">multiplelist</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">u</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">isim</span><span class="p">)):</span>
                 <span class="n">isimsoyisim</span> <span class="o">=</span> <span class="n">isim</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="n">soyisim</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -119,7 +197,7 @@
             <span class="n">soyisim</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[3]/text()&#39;</span><span class="p">)</span>
             <span class="n">dyil</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[4]/text()&#39;</span><span class="p">)</span>
             <span class="n">il</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[5]/text()&#39;</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">http</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">http</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">isim</span><span class="p">)):</span>
                 <span class="n">isimsoyisim</span> <span class="o">=</span> <span class="n">isim</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="n">soyisim</span><span class="p">[</span><span class="n">f</span><span class="p">]</span>
                 <span class="n">adddb</span><span class="o">.</span><span class="n">dbadd</span><span class="p">(</span><span class="n">isimsoyisim</span><span class="p">,</span><span class="n">dyil</span><span class="p">[</span><span class="n">f</span><span class="p">],</span><span class="n">il</span><span class="p">[</span><span class="n">f</span><span class="p">])</span>
@@ -158,10 +236,10 @@
 
 <span class="k">def</span> <span class="nf">tor_reload</span><span class="p">():</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">call</span><span class="p">(</span><span class="s1">&#39;sudo systemctl reload tor&#39;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Successfully Connected to New Tor Circuit!&quot;</span><span class="p">)</span>
+        <span class="n">call</span><span class="p">(</span><span class="s1">&#39;sudo systemctl reload tor&#39;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Successfully Connected to New Tor Circuit!&quot;</span><span class="p">)</span>
     <span class="k">except</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Can&#39;t changed the Tor node, checking tor status and starting if doesn&#39;t working...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Can&#39;t changed the Tor node, checking tor status and starting if doesn&#39;t working...&quot;</span><span class="p">)</span>
     <span class="n">socks</span><span class="o">.</span><span class="n">setdefaultproxy</span><span class="p">(</span><span class="n">socks</span><span class="o">.</span><span class="n">PROXY_TYPE_SOCKS5</span><span class="p">,</span> <span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">9050</span><span class="p">)</span>
     <span class="n">socket</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="n">socks</span><span class="o">.</span><span class="n">socksocket</span>
 
@@ -181,7 +259,7 @@
             <span class="n">soyisim</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[3]/text()&#39;</span><span class="p">)</span>
             <span class="n">dyil</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[4]/text()&#39;</span><span class="p">)</span>
             <span class="n">il</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//table[@class=&quot;lisans-table&quot;]//tr/td[5]/text()&#39;</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">http</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">http</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">isim</span><span class="p">)):</span>
                 <span class="n">isimsoyisim</span> <span class="o">=</span> <span class="n">isim</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="n">soyisim</span><span class="p">[</span><span class="n">f</span><span class="p">]</span>
                 <span class="n">adddb</span><span class="o">.</span><span class="n">dbadd</span><span class="p">(</span><span class="n">isimsoyisim</span><span class="p">,</span><span class="n">dyil</span><span class="p">[</span><span class="n">f</span><span class="p">],</span><span class="n">il</span><span class="p">[</span><span class="n">f</span><span class="p">])</span>
@@ -249,18 +327,18 @@
 <footer class="blog-footer">
 
     <ul class="nav">
-            <li><a href="https://mertcangokgoz.com/"> Mertcan Gökgöz</a></li>
+            <li><a href="https://devilinside.me/"> Eşelyon</a></li>
+            <li><a href="https://medium.com/@brkalbyrk"> Berk Albayrak</a></li>
+            <li><a href="https://ahmtglr.wordpress.com/"> Ahmet Güler</a></li>
+            <li><a href="https://kaganisildak.com/"> Kağan Işıldak</a></li>
+            <li><a href="https://eybisi.run/"> Eybisi</a></li>
             <li><a href="https://onur.im/"> Onur Aslan</a></li>
-            <li><a href="http://www.omeripek.com.tr/"> Ömer İpek</a></li>
             <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
             <li><a href="http://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
-            <li><a href="http://ahmetgurel.com"> Ahmet Gürel</a></li>
-            <li><a href="https://berkimran.com.tr"> Berk İmran</a></li>
             <li><a href="https://aligoren.com"> Ali Gören</a></li>
             <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
-            <li><a href="https://cybersaxostiger.github.io/"> 1v3m</a></li>
 <br>
-            <li><a href="www.twitter.com/0x656e">Twitter</a></li>
+            <li><a href="www.twitter.com/eness_ergun">Twitter</a></li>
             <li><a href="info@enesergun.net">Mail</a></li>
     </ul>
 
