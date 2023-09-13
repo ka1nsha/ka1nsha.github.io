@@ -30,7 +30,7 @@ LINKS = (
          ('Eybisi','https://eybisi.run/'),
          ('Onur Aslan', 'https://onur.im/'),
          ('Canyoupwn.me', 'https://canyoupwn.me/'),
-         ('Oğuz Özkeroğlu', 'http://www.oguzozkeroglu.com'),
+         ('Oğuz Özkeroğlu', 'https://www.oguzozkeroglu.com'),
          ('Ali Gören', 'https://aligoren.com'),
          ('Emir Kurt', 'https://0xf61.gitlab.io/'),
          
