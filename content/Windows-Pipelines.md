@@ -9,17 +9,17 @@ Authors: 0x656e
 
 ## Pipe neymiş?
 
-Kendileri iki process arasında iletişim ve veri aktarımını sağlayan basit ve küçük bir teknolojidir. Processler arası iletişim kurmak için kullanılır. Pek tabii `Named Pipes`2 uzak makine arasında da iletişim kurabilir. Aslında PIPE olarak bahsedilen 2 tür alt kategori var fakat bunlardan bizi ilgilendiren en geniş kapsamlısı olan `Named Pipes`dır.
+Kendileri iki process arasında iletişim ve veri aktarımını sağlayan basit ve küçük bir teknolojidir. Processler arası iletişim kurmak için kullanılır. Pek tabii **Named Pipes** 2 uzak makine arasında da iletişim kurabilir. Aslında PIPE olarak bahsedilen 2 tür alt kategori var fakat bunlardan bizi ilgilendiren en geniş kapsamlısı olan **Named Pipes**dır.
 
 - Named Pipes
 - Anonymous Pipes
 
 Burada PIPE’ın çocukluğuna inmeyeceğim. Geçmişim bir çöptür, çöpü karıştıran… tamam tamam. 
 
-PIPE aslında temelinde Windows sistemlerde `FILE_OBJECT` objesidir ve kendisine ait NPFS(Named Pipe File System) dosya sistemi bulunur. Aslında bu konuda PIPE’lara erişim de, dosyaya erişim kadar basit düzeylere indirilebilir. 
+PIPE aslında temelinde Windows sistemlerde **FILE_OBJECT** objesidir ve kendisine ait NPFS(Named Pipe File System) dosya sistemi bulunur. Aslında bu konuda PIPE’lara erişim de, dosyaya erişim kadar basit düzeylere indirilebilir. 
 
-- Server tarafında Named pipe oluşturmak için WinAPI’nin `CreateNamedPipe` fonksiyonu kullanılır. Bağlantıları beklemek veya kabul etmek için ise `ConnectedNamedPipe` fonksiyonundan yararlanılır.
-- Client tarafında ise normal dosya açarmış gibi `CreateFile` veya `CallNamedPipe` fonksiyonları kullanılmaktadır.
+- Server tarafında Named pipe oluşturmak için WinAPI’nin **CreateNamedPipe** fonksiyonu kullanılır. Bağlantıları beklemek veya kabul etmek için ise **ConnectedNamedPipe** fonksiyonundan yararlanılır.
+- Client tarafında ise normal dosya açarmış gibi **CreateFile** veya **CallNamedPipe** fonksiyonları kullanılmaktadır.
 
 **CreateNamedPipe** 
 
@@ -71,13 +71,13 @@ Kısaca bu mod, eğer gönderilen ve alınan verinin boyutu bilinmiyorsa veya ta
 
 ### Message Mod
 
-Bu modda ise gönderilen ve alınan veri bilinen bir veri boyutuna sahipse kullanılmaktadır. Pek tabii veri boyutunu aşan bir durum olursa bunu partlara/partionlara ayırmak yerine `234 (0xEA, ERROR_MORE_DATA)`hatası vermektedir.
+Bu modda ise gönderilen ve alınan veri bilinen bir veri boyutuna sahipse kullanılmaktadır. Pek tabii veri boyutunu aşan bir durum olursa bunu partlara/partionlara ayırmak yerine **234 (0xEA, ERROR_MORE_DATA)** hatası vermektedir.
 
 Diğer hatalar ve ref. için:
 
 [https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-](https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-)
 
-**Önemli Not**: Boruları eğer OVERLAP yapısında oluşturmamışsanız borularda yapılan tüm işlemler `senkron`olarak yapılacaktır. Eğer `asenkron`bir şekilde işlem yapmak isterseniz OVERLAPED bir biçimde işlemler yapabilmek için `FILE_FLAG_OVERLAPPED`değerinin CreateNamedPipe fonksiyonunda belirtilmesi gerekmektedir.
+**Önemli Not**: Boruları eğer OVERLAP yapısında oluşturmamışsanız borularda yapılan tüm işlemler **senkron** olarak yapılacaktır. Eğer **asenkron** bir şekilde işlem yapmak isterseniz OVERLAPED bir biçimde işlemler yapabilmek için **FILE_FLAG_OVERLAPPED** değerinin CreateNamedPipe fonksiyonunda belirtilmesi gerekmektedir.
 
 Detaylı bilgi için:
 
@@ -98,7 +98,7 @@ Bu başlık tıpkı viral olan aşağıdaki tirad gibidir.
 
 [https://www.youtube.com/watch?v=xcmuBXAzwGc](https://www.youtube.com/watch?v=xcmuBXAzwGc)
 
-Borular yapıları gereği diskte tutulmazlar. Yani geçici veri taşırlar. Bu sebeple bizim yazdığımız okuduğumuz veriler `non-paged memory'i` kullanır. Bu sebepledir ki konunun başında belirttiğimiz gibi boruları oluştururken verdiğimiz buffer boyutları önemlidir. 
+Borular yapıları gereği diskte tutulmazlar. Yani geçici veri taşırlar. Bu sebeple bizim yazdığımız okuduğumuz veriler **non-paged memory'i** kullanır. Bu sebepledir ki konunun başında belirttiğimiz gibi boruları oluştururken verdiğimiz buffer boyutları önemlidir. 
 
 Vereceğimiz bufferSizelar bizim ne kadar veri okuyabileceğimizi veya yazabileceğimizi belirtir. Burada belirtilen değerlerin dışına çıkılırsa sistem üzerinde hataya veya borular üzerinde gecikmeye sebebiyet verebilir. 
 
@@ -118,7 +118,7 @@ Konu boruları oluşturmaya gelince aslında elimizde çok fazla bir seçeneğim
 [in, optional] LPSECURITY_ATTRIBUTES lpSecurityAttributes
 ```
 
-Buradaki değerin `optional`olduğunu görüyoruz. Boruyu yani PIPE’ı oluştururken ilgili değer eğer değer vermemişsek ********NULL******** olarak tanımlanacaktır fakat ilgili değer default olarak ACL’lerde belirtilen “default security descriptor” ile tanımlanacaktır. Bu da LocalSystem kullanıcılarına, boruyu oluşturana, yöneticilere full control vermekle birlikte herkese de read yetkisi verecektir. 
+Buradaki değerin **optional** olduğunu görüyoruz. Boruyu yani PIPE’ı oluştururken ilgili değer eğer değer vermemişsek ********NULL******** olarak tanımlanacaktır fakat ilgili değer default olarak ACL’lerde belirtilen “default security descriptor” ile tanımlanacaktır. Bu da LocalSystem kullanıcılarına, boruyu oluşturana, yöneticilere full control vermekle birlikte herkese de read yetkisi verecektir. 
 
 Bu sebeple ilgili flaglerin güvenli bir şekilde verilmesi önem arz etmektedir. Düzgün verilmeyen sistemler “Impersonation” ataklarına izin vermektedir.
 
