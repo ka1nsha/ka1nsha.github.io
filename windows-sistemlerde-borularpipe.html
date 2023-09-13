@@ -128,16 +128,16 @@
         <article>
             <h1>Windows Sistemlerde İsimli Borular - Named Pipes</h1>
 <h2>Pipe neymiş?</h2>
-<p>Kendileri iki process arasında iletişim ve veri aktarımını sağlayan basit ve küçük bir teknolojidir. Processler arası iletişim kurmak için kullanılır. Pek tabii <code>Named Pipes</code>2 uzak makine arasında da iletişim kurabilir. Aslında PIPE olarak bahsedilen 2 tür alt kategori var fakat bunlardan bizi ilgilendiren en geniş kapsamlısı olan <code>Named Pipes</code>dır.</p>
+<p>Kendileri iki process arasında iletişim ve veri aktarımını sağlayan basit ve küçük bir teknolojidir. Processler arası iletişim kurmak için kullanılır. Pek tabii <strong>Named Pipes</strong> 2 uzak makine arasında da iletişim kurabilir. Aslında PIPE olarak bahsedilen 2 tür alt kategori var fakat bunlardan bizi ilgilendiren en geniş kapsamlısı olan <strong>Named Pipes</strong>dır.</p>
 <ul>
 <li>Named Pipes</li>
 <li>Anonymous Pipes</li>
 </ul>
 <p>Burada PIPE’ın çocukluğuna inmeyeceğim. Geçmişim bir çöptür, çöpü karıştıran… tamam tamam. </p>
-<p>PIPE aslında temelinde Windows sistemlerde <code>FILE_OBJECT</code> objesidir ve kendisine ait NPFS(Named Pipe File System) dosya sistemi bulunur. Aslında bu konuda PIPE’lara erişim de, dosyaya erişim kadar basit düzeylere indirilebilir. </p>
+<p>PIPE aslında temelinde Windows sistemlerde <strong>FILE_OBJECT</strong> objesidir ve kendisine ait NPFS(Named Pipe File System) dosya sistemi bulunur. Aslında bu konuda PIPE’lara erişim de, dosyaya erişim kadar basit düzeylere indirilebilir. </p>
 <ul>
-<li>Server tarafında Named pipe oluşturmak için WinAPI’nin <code>CreateNamedPipe</code> fonksiyonu kullanılır. Bağlantıları beklemek veya kabul etmek için ise <code>ConnectedNamedPipe</code> fonksiyonundan yararlanılır.</li>
-<li>Client tarafında ise normal dosya açarmış gibi <code>CreateFile</code> veya <code>CallNamedPipe</code> fonksiyonları kullanılmaktadır.</li>
+<li>Server tarafında Named pipe oluşturmak için WinAPI’nin <strong>CreateNamedPipe</strong> fonksiyonu kullanılır. Bağlantıları beklemek veya kabul etmek için ise <strong>ConnectedNamedPipe</strong> fonksiyonundan yararlanılır.</li>
+<li>Client tarafında ise normal dosya açarmış gibi <strong>CreateFile</strong> veya <strong>CallNamedPipe</strong> fonksiyonları kullanılmaktadır.</li>
 </ul>
 <p><strong>CreateNamedPipe</strong> </p>
 <div class="highlight"><pre><span></span><code><span class="n">HANDLE</span><span class="w"> </span><span class="nf">CreateNamedPipeA</span><span class="p">(</span><span class="w"></span>
@@ -177,10 +177,10 @@
 <h3>Byte Mod</h3>
 <p>Kısaca bu mod, eğer gönderilen ve alınan verinin boyutu bilinmiyorsa veya tahmin edilemiyorsa kullanılıyor. Bu modda veri stream edilecek şekilde kullanılır.</p>
 <h3>Message Mod</h3>
-<p>Bu modda ise gönderilen ve alınan veri bilinen bir veri boyutuna sahipse kullanılmaktadır. Pek tabii veri boyutunu aşan bir durum olursa bunu partlara/partionlara ayırmak yerine <code>234 (0xEA, ERROR_MORE_DATA)</code>hatası vermektedir.</p>
+<p>Bu modda ise gönderilen ve alınan veri bilinen bir veri boyutuna sahipse kullanılmaktadır. Pek tabii veri boyutunu aşan bir durum olursa bunu partlara/partionlara ayırmak yerine <strong>234 (0xEA, ERROR_MORE_DATA)</strong> hatası vermektedir.</p>
 <p>Diğer hatalar ve ref. için:</p>
 <p><a href="https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-">https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-</a></p>
-<p><strong>Önemli Not</strong>: Boruları eğer OVERLAP yapısında oluşturmamışsanız borularda yapılan tüm işlemler <code>senkron</code>olarak yapılacaktır. Eğer <code>asenkron</code>bir şekilde işlem yapmak isterseniz OVERLAPED bir biçimde işlemler yapabilmek için <code>FILE_FLAG_OVERLAPPED</code>değerinin CreateNamedPipe fonksiyonunda belirtilmesi gerekmektedir.</p>
+<p><strong>Önemli Not</strong>: Boruları eğer OVERLAP yapısında oluşturmamışsanız borularda yapılan tüm işlemler <strong>senkron</strong> olarak yapılacaktır. Eğer <strong>asenkron</strong> bir şekilde işlem yapmak isterseniz OVERLAPED bir biçimde işlemler yapabilmek için <strong>FILE_FLAG_OVERLAPPED</strong> değerinin CreateNamedPipe fonksiyonunda belirtilmesi gerekmektedir.</p>
 <p>Detaylı bilgi için:</p>
 <p><a href="https://learn.microsoft.com/en-gb/windows/win32/ipc/synchronous-and-overlapped-input-and-output">https://learn.microsoft.com/en-gb/windows/win32/ipc/synchronous-and-overlapped-input-and-output</a></p>
 <p><a href="https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-overlapped">https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-overlapped</a> </p>
@@ -193,7 +193,7 @@
 <h3>Gelen, Giden Buffer</h3>
 <p>Bu başlık tıpkı viral olan aşağıdaki tirad gibidir.</p>
 <p><a href="https://www.youtube.com/watch?v=xcmuBXAzwGc">https://www.youtube.com/watch?v=xcmuBXAzwGc</a></p>
-<p>Borular yapıları gereği diskte tutulmazlar. Yani geçici veri taşırlar. Bu sebeple bizim yazdığımız okuduğumuz veriler <code>non-paged memory'i</code> kullanır. Bu sebepledir ki konunun başında belirttiğimiz gibi boruları oluştururken verdiğimiz buffer boyutları önemlidir. </p>
+<p>Borular yapıları gereği diskte tutulmazlar. Yani geçici veri taşırlar. Bu sebeple bizim yazdığımız okuduğumuz veriler <strong>non-paged memory'i</strong> kullanır. Bu sebepledir ki konunun başında belirttiğimiz gibi boruları oluştururken verdiğimiz buffer boyutları önemlidir. </p>
 <p>Vereceğimiz bufferSizelar bizim ne kadar veri okuyabileceğimizi veya yazabileceğimizi belirtir. Burada belirtilen değerlerin dışına çıkılırsa sistem üzerinde hataya veya borular üzerinde gecikmeye sebebiyet verebilir. </p>
 <p>Windows’un x64 sistemlerinde en yüksek olabilecek bufferSize işletim sistemine bağlı olarak 4gb kadarcıktır. Eğer bufferSize 0 olarak verilirse işletim sistemi akıllıdır bunu anlar ve sizin aslında minimum veriye ihtiyacınız olduğunu düşünür. Bu sebeple gelen veriyi kontrol eder ve buna göre bir bufferSize ayırır fakat bu da ekstra maliyet demektir. Çünkü gelen veriyi kontrol et → bufferı genişler → veriyi kabul et akışı oluşur. Bu sebeple sunucu ve istemci(client) arasında gecikmeye sebebiyet verir.</p>
 <h2>Boruların Güvenliği</h2>
@@ -204,7 +204,7 @@
 <div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">optional</span><span class="p">]</span><span class="w"> </span><span class="n">LPSECURITY_ATTRIBUTES</span><span class="w"> </span><span class="n">lpSecurityAttributes</span><span class="w"></span>
 </code></pre></div>
 
-<p>Buradaki değerin <code>optional</code>olduğunu görüyoruz. Boruyu yani PIPE’ı oluştururken ilgili değer eğer değer vermemişsek <strong><em>*</em></strong><em>NULL</em><strong><em>*</em></strong> olarak tanımlanacaktır fakat ilgili değer default olarak ACL’lerde belirtilen “default security descriptor” ile tanımlanacaktır. Bu da LocalSystem kullanıcılarına, boruyu oluşturana, yöneticilere full control vermekle birlikte herkese de read yetkisi verecektir. </p>
+<p>Buradaki değerin <strong>optional</strong> olduğunu görüyoruz. Boruyu yani PIPE’ı oluştururken ilgili değer eğer değer vermemişsek <strong><em>*</em></strong><em>NULL</em><strong><em>*</em></strong> olarak tanımlanacaktır fakat ilgili değer default olarak ACL’lerde belirtilen “default security descriptor” ile tanımlanacaktır. Bu da LocalSystem kullanıcılarına, boruyu oluşturana, yöneticilere full control vermekle birlikte herkese de read yetkisi verecektir. </p>
 <p>Bu sebeple ilgili flaglerin güvenli bir şekilde verilmesi önem arz etmektedir. Düzgün verilmeyen sistemler “Impersonation” ataklarına izin vermektedir.</p>
 <p>İlgili ataklarla alakalı daha detaylı bilgi:</p>
 <p><a href="https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/named-pipe-client-impersonation">https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/named-pipe-client-impersonation</a></p>
@@ -263,20 +263,5 @@
     </p>
 </footer>
             </div>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WJ9HG4F8NE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-WJ9HG4F8NE');
-</script>
-<script>
-    var _gaq=[['_setAccount','UA-44262671-1'],['_trackPageview']];
-    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-    s.parentNode.insertBefore(g,s)}(document,'script'));
-</script>
     </body>
 </html>

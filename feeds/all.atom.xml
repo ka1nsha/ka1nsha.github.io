@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Enes Ergün</title><link href="https://enesergun.net/" rel="alternate"></link><link href="https://enesergun.net/feeds/all.atom.xml" rel="self"></link><id>https://enesergun.net/</id><updated>2023-09-13T22:00:00+03:00</updated><subtitle>Personel homepage</subtitle><entry><title>Windows Sistemlerde Borular(PIPE)</title><link href="https://enesergun.net/windows-sistemlerde-borularpipe.html" rel="alternate"></link><published>2023-09-13T22:00:00+03:00</published><updated>2023-09-13T22:00:00+03:00</updated><author><name>0x656e</name></author><id>tag:enesergun.net,2023-09-13:/windows-sistemlerde-borularpipe.html</id><summary type="html">&lt;h1&gt;Windows Sistemlerde İsimli Borular - Named Pipes&lt;/h1&gt;
 &lt;h2&gt;Pipe neymiş?&lt;/h2&gt;
-&lt;p&gt;Kendileri iki process arasında iletişim ve veri aktarımını sağlayan basit ve küçük bir teknolojidir. Processler arası iletişim kurmak için kullanılır. Pek tabii &lt;code&gt;Named Pipes&lt;/code&gt;2 uzak makine arasında da iletişim kurabilir. Aslında PIPE olarak bahsedilen 2 tür alt kategori var fakat bunlardan …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Windows Sistemlerde İsimli Borular - Named Pipes&lt;/h1&gt;
+&lt;p&gt;Kendileri iki process arasında iletişim ve veri aktarımını sağlayan basit ve küçük bir teknolojidir. Processler arası iletişim kurmak için kullanılır. Pek tabii &lt;strong&gt;Named Pipes&lt;/strong&gt; 2 uzak makine arasında da iletişim kurabilir. Aslında PIPE olarak bahsedilen 2 tür alt kategori var fakat bunlardan …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Windows Sistemlerde İsimli Borular - Named Pipes&lt;/h1&gt;
 &lt;h2&gt;Pipe neymiş?&lt;/h2&gt;
-&lt;p&gt;Kendileri iki process arasında iletişim ve veri aktarımını sağlayan basit ve küçük bir teknolojidir. Processler arası iletişim kurmak için kullanılır. Pek tabii &lt;code&gt;Named Pipes&lt;/code&gt;2 uzak makine arasında da iletişim kurabilir. Aslında PIPE olarak bahsedilen 2 tür alt kategori var fakat bunlardan bizi ilgilendiren en geniş kapsamlısı olan &lt;code&gt;Named Pipes&lt;/code&gt;dır.&lt;/p&gt;
+&lt;p&gt;Kendileri iki process arasında iletişim ve veri aktarımını sağlayan basit ve küçük bir teknolojidir. Processler arası iletişim kurmak için kullanılır. Pek tabii &lt;strong&gt;Named Pipes&lt;/strong&gt; 2 uzak makine arasında da iletişim kurabilir. Aslında PIPE olarak bahsedilen 2 tür alt kategori var fakat bunlardan bizi ilgilendiren en geniş kapsamlısı olan &lt;strong&gt;Named Pipes&lt;/strong&gt;dır.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Named Pipes&lt;/li&gt;
 &lt;li&gt;Anonymous Pipes&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Burada PIPE’ın çocukluğuna inmeyeceğim. Geçmişim bir çöptür, çöpü karıştıran… tamam tamam. &lt;/p&gt;
-&lt;p&gt;PIPE aslında temelinde Windows sistemlerde &lt;code&gt;FILE_OBJECT&lt;/code&gt; objesidir ve kendisine ait NPFS(Named Pipe File System) dosya sistemi bulunur. Aslında bu konuda PIPE’lara erişim de, dosyaya erişim kadar basit düzeylere indirilebilir. &lt;/p&gt;
+&lt;p&gt;PIPE aslında temelinde Windows sistemlerde &lt;strong&gt;FILE_OBJECT&lt;/strong&gt; objesidir ve kendisine ait NPFS(Named Pipe File System) dosya sistemi bulunur. Aslında bu konuda PIPE’lara erişim de, dosyaya erişim kadar basit düzeylere indirilebilir. &lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Server tarafında Named pipe oluşturmak için WinAPI’nin &lt;code&gt;CreateNamedPipe&lt;/code&gt; fonksiyonu kullanılır. Bağlantıları beklemek veya kabul etmek için ise &lt;code&gt;ConnectedNamedPipe&lt;/code&gt; fonksiyonundan yararlanılır.&lt;/li&gt;
-&lt;li&gt;Client tarafında ise normal dosya açarmış gibi &lt;code&gt;CreateFile&lt;/code&gt; veya &lt;code&gt;CallNamedPipe&lt;/code&gt; fonksiyonları kullanılmaktadır.&lt;/li&gt;
+&lt;li&gt;Server tarafında Named pipe oluşturmak için WinAPI’nin &lt;strong&gt;CreateNamedPipe&lt;/strong&gt; fonksiyonu kullanılır. Bağlantıları beklemek veya kabul etmek için ise &lt;strong&gt;ConnectedNamedPipe&lt;/strong&gt; fonksiyonundan yararlanılır.&lt;/li&gt;
+&lt;li&gt;Client tarafında ise normal dosya açarmış gibi &lt;strong&gt;CreateFile&lt;/strong&gt; veya &lt;strong&gt;CallNamedPipe&lt;/strong&gt; fonksiyonları kullanılmaktadır.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;CreateNamedPipe&lt;/strong&gt; &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;HANDLE&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;CreateNamedPipeA&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
@@ -52,10 +52,10 @@
 &lt;h3&gt;Byte Mod&lt;/h3&gt;
 &lt;p&gt;Kısaca bu mod, eğer gönderilen ve alınan verinin boyutu bilinmiyorsa veya tahmin edilemiyorsa kullanılıyor. Bu modda veri stream edilecek şekilde kullanılır.&lt;/p&gt;
 &lt;h3&gt;Message Mod&lt;/h3&gt;
-&lt;p&gt;Bu modda ise gönderilen ve alınan veri bilinen bir veri boyutuna sahipse kullanılmaktadır. Pek tabii veri boyutunu aşan bir durum olursa bunu partlara/partionlara ayırmak yerine &lt;code&gt;234 (0xEA, ERROR_MORE_DATA)&lt;/code&gt;hatası vermektedir.&lt;/p&gt;
+&lt;p&gt;Bu modda ise gönderilen ve alınan veri bilinen bir veri boyutuna sahipse kullanılmaktadır. Pek tabii veri boyutunu aşan bir durum olursa bunu partlara/partionlara ayırmak yerine &lt;strong&gt;234 (0xEA, ERROR_MORE_DATA)&lt;/strong&gt; hatası vermektedir.&lt;/p&gt;
 &lt;p&gt;Diğer hatalar ve ref. için:&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-"&gt;https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Önemli Not&lt;/strong&gt;: Boruları eğer OVERLAP yapısında oluşturmamışsanız borularda yapılan tüm işlemler &lt;code&gt;senkron&lt;/code&gt;olarak yapılacaktır. Eğer &lt;code&gt;asenkron&lt;/code&gt;bir şekilde işlem yapmak isterseniz OVERLAPED bir biçimde işlemler yapabilmek için &lt;code&gt;FILE_FLAG_OVERLAPPED&lt;/code&gt;değerinin CreateNamedPipe fonksiyonunda belirtilmesi gerekmektedir.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Önemli Not&lt;/strong&gt;: Boruları eğer OVERLAP yapısında oluşturmamışsanız borularda yapılan tüm işlemler &lt;strong&gt;senkron&lt;/strong&gt; olarak yapılacaktır. Eğer &lt;strong&gt;asenkron&lt;/strong&gt; bir şekilde işlem yapmak isterseniz OVERLAPED bir biçimde işlemler yapabilmek için &lt;strong&gt;FILE_FLAG_OVERLAPPED&lt;/strong&gt; değerinin CreateNamedPipe fonksiyonunda belirtilmesi gerekmektedir.&lt;/p&gt;
 &lt;p&gt;Detaylı bilgi için:&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://learn.microsoft.com/en-gb/windows/win32/ipc/synchronous-and-overlapped-input-and-output"&gt;https://learn.microsoft.com/en-gb/windows/win32/ipc/synchronous-and-overlapped-input-and-output&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-overlapped"&gt;https://learn.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-overlapped&lt;/a&gt; &lt;/p&gt;
@@ -68,7 +68,7 @@
 &lt;h3&gt;Gelen, Giden Buffer&lt;/h3&gt;
 &lt;p&gt;Bu başlık tıpkı viral olan aşağıdaki tirad gibidir.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=xcmuBXAzwGc"&gt;https://www.youtube.com/watch?v=xcmuBXAzwGc&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Borular yapıları gereği diskte tutulmazlar. Yani geçici veri taşırlar. Bu sebeple bizim yazdığımız okuduğumuz veriler &lt;code&gt;non-paged memory'i&lt;/code&gt; kullanır. Bu sebepledir ki konunun başında belirttiğimiz gibi boruları oluştururken verdiğimiz buffer boyutları önemlidir. &lt;/p&gt;
+&lt;p&gt;Borular yapıları gereği diskte tutulmazlar. Yani geçici veri taşırlar. Bu sebeple bizim yazdığımız okuduğumuz veriler &lt;strong&gt;non-paged memory'i&lt;/strong&gt; kullanır. Bu sebepledir ki konunun başında belirttiğimiz gibi boruları oluştururken verdiğimiz buffer boyutları önemlidir. &lt;/p&gt;
 &lt;p&gt;Vereceğimiz bufferSizelar bizim ne kadar veri okuyabileceğimizi veya yazabileceğimizi belirtir. Burada belirtilen değerlerin dışına çıkılırsa sistem üzerinde hataya veya borular üzerinde gecikmeye sebebiyet verebilir. &lt;/p&gt;
 &lt;p&gt;Windows’un x64 sistemlerinde en yüksek olabilecek bufferSize işletim sistemine bağlı olarak 4gb kadarcıktır. Eğer bufferSize 0 olarak verilirse işletim sistemi akıllıdır bunu anlar ve sizin aslında minimum veriye ihtiyacınız olduğunu düşünür. Bu sebeple gelen veriyi kontrol eder ve buna göre bir bufferSize ayırır fakat bu da ekstra maliyet demektir. Çünkü gelen veriyi kontrol et → bufferı genişler → veriyi kabul et akışı oluşur. Bu sebeple sunucu ve istemci(client) arasında gecikmeye sebebiyet verir.&lt;/p&gt;
 &lt;h2&gt;Boruların Güvenliği&lt;/h2&gt;
@@ -79,7 +79,7 @@
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;optional&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;LPSECURITY_ATTRIBUTES&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;lpSecurityAttributes&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Buradaki değerin &lt;code&gt;optional&lt;/code&gt;olduğunu görüyoruz. Boruyu yani PIPE’ı oluştururken ilgili değer eğer değer vermemişsek &lt;strong&gt;&lt;em&gt;*&lt;/em&gt;&lt;/strong&gt;&lt;em&gt;NULL&lt;/em&gt;&lt;strong&gt;&lt;em&gt;*&lt;/em&gt;&lt;/strong&gt; olarak tanımlanacaktır fakat ilgili değer default olarak ACL’lerde belirtilen “default security descriptor” ile tanımlanacaktır. Bu da LocalSystem kullanıcılarına, boruyu oluşturana, yöneticilere full control vermekle birlikte herkese de read yetkisi verecektir. &lt;/p&gt;
+&lt;p&gt;Buradaki değerin &lt;strong&gt;optional&lt;/strong&gt; olduğunu görüyoruz. Boruyu yani PIPE’ı oluştururken ilgili değer eğer değer vermemişsek &lt;strong&gt;&lt;em&gt;*&lt;/em&gt;&lt;/strong&gt;&lt;em&gt;NULL&lt;/em&gt;&lt;strong&gt;&lt;em&gt;*&lt;/em&gt;&lt;/strong&gt; olarak tanımlanacaktır fakat ilgili değer default olarak ACL’lerde belirtilen “default security descriptor” ile tanımlanacaktır. Bu da LocalSystem kullanıcılarına, boruyu oluşturana, yöneticilere full control vermekle birlikte herkese de read yetkisi verecektir. &lt;/p&gt;
 &lt;p&gt;Bu sebeple ilgili flaglerin güvenli bir şekilde verilmesi önem arz etmektedir. Düzgün verilmeyen sistemler “Impersonation” ataklarına izin vermektedir.&lt;/p&gt;
 &lt;p&gt;İlgili ataklarla alakalı daha detaylı bilgi:&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/named-pipe-client-impersonation"&gt;https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/named-pipe-client-impersonation&lt;/a&gt;&lt;/p&gt;
