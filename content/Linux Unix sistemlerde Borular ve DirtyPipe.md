@@ -188,7 +188,7 @@ Ayrıca 2. bir dikkat etmemiz gereken şey ise tıpkı isimsiz pipeler gibi (ned
 Şimdi bir de isimli boruları kullanırken yaptığımız yönlendirme işlemindeki kullanılan sistem çağrılarına bakalım:
 
 ```cpp
-trace -c -f sh cat temp.txt > /tmp/ebucehil
+strace -c -f sh cat temp.txt > /tmp/ebucehil
 sh: 0: cannot open cat: No such file
 % time     seconds  usecs/call     calls    errors syscall
 ------ ----------- ----------- --------- --------- ----------------
@@ -254,11 +254,11 @@ Daha detaylı bilgi için:
 
 Direkt detaylı bilgi: [https://dirtypipe.cm4all.com/](https://dirtypipe.cm4all.com/)
 
-Kısaca: 2006 yılında Linux üzerinde splice diye bir sistem çağrısı entegre edilmiş. İlgili sistem çağrısı borular arasındaki iletişimde tüm datanın kernel’a gidip tekrardan userland’e geri dönmemesi için verimlilik adına kullanılmak amacıyla ortaya çıkmış tabi. Bunu da borular arasındaki buffera alınan veriler içerisine “******PIPE_BUF_FLAG_CAN_MERGE******” bayrağı ile sağlamışlar. Buraya kadar her şey düzgün giderken buffer’a eklenen her veri içerisine bu değer işlenmiş fakat ilgili refactoring düzgün işletilmediği veya kaçırıldığı için ilgili bayrak, splice operasyonu sırasında initialize edilmediği için saldırgan kişiler initialize sırasında istediği değerleri read-only buffer içerisine yazabilmişler. Sonrası malum zaten.
+Kısaca: 2006 yılında Linux üzerinde splice diye bir sistem çağrısı entegre edilmiş. İlgili sistem çağrısı borular arasındaki iletişimde tüm datanın kernel’a gidip tekrardan userland’e geri dönmemesi için verimlilik adına kullanılmak amacıyla ortaya çıkmış tabi. Bunu da borular arasındaki buffera alınan veriler içerisine “**PIPE_BUF_FLAG_CAN_MERGE**” bayrağı ile sağlamışlar. Buraya kadar her şey düzgün giderken buffer’a eklenen her veri içerisine bu değer işlenmiş fakat ilgili refactoring düzgün işletilmediği veya kaçırıldığı için ilgili bayrak, splice operasyonu sırasında initialize edilmediği için saldırgan kişiler initialize sırasında istediği değerleri read-only buffer içerisine yazabilmişler. Sonrası malum zaten.
 
 Kısacasından ziyade açıklamaya girersek eğer:
 
-Borularda yazma işlemini gerçekleştiren **pipe_write()** fonksiyonu gerçekleştiriyor. Eğer boru boş değilse son buffer içerisindeki veri ile şu an ki veriyi birleştirmekle yükümlü. Bunu da pek tabi bayrak ile yapıyor. Bunu yaparken de verileri farklı bufferlarda tutabilmek için aslında 2 adet dallanma gerçekleştiriyor. Yazma işlemi yapacağı zaman yeni oluşturulan buffer’ı **“PIPE_BUF_FLAG_CAN_MERGE”** olarak işaretliyor ki gelen veriler birleştirilebilsin. Veri akışı bitene kadar da bu bayrak kullanılıyor.  Yeni oluşturulan buffer da doğal olarak memory table’da belirli bir allocation işlemi gerçekleştiriyor. 
+Borularda yazma işlemini gerçekleştiren **pipe_write()** fonksiyonu gerçekleştiriyor. Eğer boru boş değilse son buffer içerisindeki veri ile şu an ki veriyi birleştirmekle yükümlü. Bunu da pek tabi bayrak ile yapıyor. Bunu yaparken de verileri farklı bufferlarda tutabilmek için aslında 2 adet dallanma gerçekleştiriyor. Yazma işlemi yapacağı zaman yeni oluşturulan buffer’ı “**PIPE_BUF_FLAG_CAN_MERGE**” olarak işaretliyor ki gelen veriler birleştirilebilsin. Veri akışı bitene kadar da bu bayrak kullanılıyor.  Yeni oluşturulan buffer da doğal olarak memory table’da belirli bir allocation işlemi gerçekleştiriyor. 
 
 ```cpp
 buf = &pipe->bufs[head & mask]; 
@@ -476,13 +476,12 @@ Yazının son kısımları sanki boş kağıdı doldurmaya çalışan öğrenci 
 
 Klasik olarak yazı sonu şarkısını ekleyip bu yazıyı sonlandıralım. Bu sefer yine karar veremeyip 2 tane şarkı ekliyorum. Okuduğunuz için teşekkürler:
 
-```c
-[![Pera - Sensiz Ben](https://res.cloudinary.com/marcomontalbano/image/upload/v1696975449/video_to_markdown/images/youtube--5wzntE1XNrs-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=5wzntE1XNrs "Pera - Sensiz Ben")
-```
 
-```c
+[![Pera - Sensiz Ben](https://res.cloudinary.com/marcomontalbano/image/upload/v1696975449/video_to_markdown/images/youtube--5wzntE1XNrs-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=5wzntE1XNrs "Pera - Sensiz Ben")
+
+
 [![Murat Yılmazyıldırım - Adsız Özlem](https://res.cloudinary.com/marcomontalbano/image/upload/v1696975533/video_to_markdown/images/youtube--N-bj9HpGTOA-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=N-bj9HpGTOA "Murat Yılmazyıldırım - Adsız Özlem")
-```
+
 
 ## Referanslar
 
