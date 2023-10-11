@@ -1,112 +1,47 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="tr" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="tr" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="tr" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="tr" class="no-js"> <!--<![endif]-->
+<html lang="tr">
     <head>
         <meta charset="utf-8">
         <title>    Python Hafıza Yönetimi ve Garbage Collection Hakkında
 </title>
-                    <meta property="article:tag" content="python memory management" />
-                    <meta property="article:tag" content="python hafıza yönetim" />
-                    <meta property="article:tag" content="python yavaş" />
-                    <meta property="article:tag" content="python çöp toplayıcı" />
-                    <meta property="article:tag" content="garbage collection types" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
 
+	<meta name="author" content="0x656e" />
+	<meta name="description" content="Python Garbage Collector Garbage Collector Neymiş? Garbage collector Türkçe&#39;ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerindeki temel mantığıda aynıdır. Nedir bu olay derseniz de basit anlamda kodunuz üzerinde kullandığınız her nesne/obje memory&#39;de bir alan kaplar. Bu alan verinizin boyutuna göredir. Örnek vermek gerekirse C&#39;de 32bit bir integer değişkeni …" />
+	<meta name="keywords" content="python memory management, python hafıza yönetim, python yavaş, python çöp toplayıcı, garbage collection types">
+			<meta property="article:tag" content="python memory management" />
+			<meta property="article:tag" content="python hafıza yönetim" />
+			<meta property="article:tag" content="python yavaş" />
+			<meta property="article:tag" content="python çöp toplayıcı" />
+			<meta property="article:tag" content="garbage collection types" />
 	<link rel="canonical" href="https://enesergun.net/python-garbage-collection.html"/>
-  
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	
+	<meta name="description" content=""/>
+	
         
-        <link rel="stylesheet" href="theme/css/cid.css">
+        <!-- og definitions -->
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://enesergun.net/python-garbage-collection.html" />
+	<meta property="og:title" content="Python Hafıza Yönetimi ve Garbage Collection Hakkında" />
+	<meta property="og:description" content="Python Garbage Collector Garbage Collector Neymiş? Garbage collector Türkçe'ye çevrildiğinde çöp toplayıcı anlamına gelmektedir. Aslında yazılım dillerindeki temel mantığıda aynıdır. Nedir bu..." />
+	<meta property="og:image" content="https://w0.peakpx.com/wallpaper/212/918/HD-wallpaper-virtual-world-sunset-80s-landscape-retro-theme-tron.jpg" />
+        <link rel="stylesheet" href="theme/style.css">
         <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
-        <style>
-                
-
-        pre {
-            font-family: "", "Lucida Console", monospace, Monaco;
-            font-size: 14px;
-            line-height: 1.0;
-        }
-
-        a {
-            color: #da4b6d;
-            text-decoration: none;
-        }
-
-        w {
-            color: white;
-        }
-
-        e {
-            color: #93ffd7;
-        }
-
-        /* green  */
-        k {
-            color: #ff93f1;
-        }
-
-        /* pink   */
-        l {
-            color: #f1ff93;
-        }
-
-        /* yellow */
-        o {
-            color: #93f1ff;
-        }
-
-        /* blue   */
-        r {
-            color: #fa4d57;
-        }
-
-        /* red    */
-
-        body {
-            font-family: "", "Lucida Console", monospace, Monaco
-        }
-
-        h1 {
-            color: #da4b6d !important;
-        }
-
-        .blog-header {
-            text-align: center;
-        }
-
-        header[role="banner"] {
-            #logo-main {
-                display: block;
-                margin: 20px auto;
-            }
-        }
-
-        #navbar-primary.navbar-default {
-            background: transparent;
-            border: none;
-
-            text-align: center;
-            display: inline-block;
-            float: none;
-            padding-left: 30px;
-            padding-right: 30px;
-            width: 100%;
-            border-style: groove;
-            border-color: #ff93f1;
-        }
-        </style>
+        
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
+       
 
             <div class="container">
 
 <header class="blog-header">
-    <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage </p>
+    <h1><a href="https://enesergun.net" class="glitch glow" data-text="Enes Ergün">Enes Ergün</a></h1>
+
+    <p> Chaotic Neutral / ISTP-T - 30 lvl rogue - Cyber Security </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -266,7 +201,7 @@ Yeni birisiyle tanıştınız. Beyninizde bu tanıştığınız kişi <code>Gen0
     </ul>
 
     <p class="disclaimer">
-    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/hdra/Pelican-Cid">Cid</a> theme.
+    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/ka1nsha/MBPelican">MB Pelican</a> theme.
     </p>
 </footer>
             </div>
