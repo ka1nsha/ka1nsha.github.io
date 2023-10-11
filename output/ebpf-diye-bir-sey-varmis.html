@@ -1,105 +1,51 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html lang="tr">
     <head>
         <meta charset="utf-8">
         <title>    eBPF Diye Bir Şey Varmış
 </title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+
+	<meta name="author" content="0x656e" />
+	<meta name="description" content="eBPF Diye Bir Şey Varmış Not: Yazının altı Awesome gibi oldu amacım asla böyle bir şey değil fakat ekstra bilgi göz çıkartmaz diye. Hem de kendime not sonuçta. Konuya nasıl girsem bilemedim. Aslında yazılarımda genel olarak giriş/girizgah için konunun ana hatlarıyla ne olduğundan bahsederim ama burada farklı mevzular da …" />
+	<meta name="keywords" content="ebpf, ebpf türkçe, ebpf nedir, linux, ring0, user space, kernel space, bpf, python ebpf">
+			<meta property="article:tag" content="ebpf" />
+			<meta property="article:tag" content="ebpf türkçe" />
+			<meta property="article:tag" content="ebpf nedir" />
+			<meta property="article:tag" content="linux" />
+			<meta property="article:tag" content="ring0" />
+			<meta property="article:tag" content="user space" />
+			<meta property="article:tag" content="kernel space" />
+			<meta property="article:tag" content="bpf" />
+			<meta property="article:tag" content="python ebpf" />
+	<link rel="canonical" href="https://enesergun.net/ebpf-diye-bir-sey-varmis.html"/>
+
+	
+	<meta name="description" content=""/>
+	
         
-        <link rel="stylesheet" href="theme/css/cid.css">
+        <!-- og definitions -->
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://enesergun.net/ebpf-diye-bir-sey-varmis.html" />
+	<meta property="og:title" content="eBPF Diye Bir Şey Varmış" />
+	<meta property="og:description" content="eBPF Diye Bir Şey Varmış Not: Yazının altı Awesome gibi oldu amacım asla böyle bir şey değil fakat ekstra bilgi göz çıkartmaz diye. Hem de kendime not sonuçta. Konuya nasıl girsem bilemedim...." />
+	<meta property="og:image" content="https://w0.peakpx.com/wallpaper/212/918/HD-wallpaper-virtual-world-sunset-80s-landscape-retro-theme-tron.jpg" />
+        <link rel="stylesheet" href="theme/style.css">
         <link href="https://enesergun.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Enes Ergün Atom Feed" />
-        <style>
-                
-
-        pre {
-            font-family: "", "Lucida Console", monospace, Monaco;
-            font-size: 14px;
-            line-height: 1.0;
-        }
-
-        a {
-            color: #da4b6d;
-            text-decoration: none;
-        }
-
-        w {
-            color: white;
-        }
-
-        e {
-            color: #93ffd7;
-        }
-
-        /* green  */
-        k {
-            color: #ff93f1;
-        }
-
-        /* pink   */
-        l {
-            color: #f1ff93;
-        }
-
-        /* yellow */
-        o {
-            color: #93f1ff;
-        }
-
-        /* blue   */
-        r {
-            color: #fa4d57;
-        }
-
-        /* red    */
-
-        body {
-            font-family: "", "Lucida Console", monospace, Monaco
-        }
-
-        h1 {
-            color: #da4b6d !important;
-        }
-
-        .blog-header {
-            text-align: center;
-        }
-
-        header[role="banner"] {
-            #logo-main {
-                display: block;
-                margin: 20px auto;
-            }
-        }
-
-        #navbar-primary.navbar-default {
-            background: transparent;
-            border: none;
-
-            text-align: center;
-            display: inline-block;
-            float: none;
-            padding-left: 30px;
-            padding-right: 30px;
-            width: 100%;
-            border-style: groove;
-            border-color: #ff93f1;
-        }
-        </style>
+        
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
+       
 
             <div class="container">
 
 <header class="blog-header">
-    <h1><a href="https://enesergun.net" class="glitch" data-text="Enes Ergün">Enes Ergün</a></h1>
-    <p> Personel homepage </p>
+    <h1><a href="https://enesergun.net" class="glitch glow" data-text="Enes Ergün">Enes Ergün</a></h1>
+
+    <p> Chaotic Neutral / ISTP-T - 30 lvl rogue - Cyber Security </p>
     <nav>
         <a href="https://enesergun.net/">INDEX</a>
         <a href="https://enesergun.net/archives">ARCHIVES</a>
@@ -121,7 +67,7 @@
 <p>Konuya nasıl girsem bilemedim. Aslında yazılarımda genel olarak giriş/girizgah için konunun ana hatlarıyla ne olduğundan bahsederim ama burada farklı mevzular da karşımıza çıktığı için sanırım işin temelinden almak gerekiyor. </p>
 <p>Bu yazı içerisinde çalışırken aldığım notlar ve çıkarımlardan bahsedeceğim. Hali hazırda uzmanı olduğum bir konu değil ve öğrenirken bahsetmek veya bahsetmek(blog yazısı) için öğrenme taraftarıyım. Benim açımdan bu daha efektif bir öğrenme biçimi oluyor. Her neyse. Ana odak noktamız eBPF olacak. eBPF’i anlatabilmek için kıyısından köşesinden user space ve kernel space, BPF ve tarihinden bahsedeceğim. </p>
 <h2>User Space ve Kernel Space</h2>
-<p>Bildiğiniz üzere günümüz modern işletim sistemlerinde işlemler “virtual memory” üzerinden işletilmektedir. İlgili “virtual memory sistemleri” sistem üzerinde çalışan processlerin memory üzerindeki adreslerini sanal bir adres üzerinden fiziksel sanal adresten ayırır. İlgili yöntem dolayısıyla biz processlere RAM üzerinde paging veya swapping yaptırtabiliyoruz. Konumuz memory management olmadığı için detaylı aramayı Google üzerinden yapabilirsiniz. Keywordler: Memory Management, Dynamic Allocation, Virtual Memory. </p>
+<p>Bildiğiniz üzere günümüz modern işletim sistemlerinde işlemler “virtual memory” üzerinden işletilmektedir. İlgili “virtual memory sistemleri” sistem üzerinde çalışan processlerin memory üzerindeki adreslerini sanal bir adres üzerinden fiziksel adresten ayırır. İlgili yöntem dolayısıyla biz processlere RAM üzerinde paging veya swapping yaptırtabiliyoruz. Konumuz memory management olmadığı için detaylı aramayı Google üzerinden yapabilirsiniz. Keywordler: Memory Management, Dynamic Allocation, Virtual Memory. </p>
 <p>Bir üst paragrafta bahsedilen “virtual memory” üzerinde de işlemler aslında ayrılmıştır. Günümüzde işletim sistemleri genellikle “virtual memory’i” user space ve kernel space olarak ayırmaktadır. Bunun temel sebeplerinden en önemlisi güvenlik kaygısı ve donanım güvenliğidir. “Kernel Space” işletim sisteminin kernelini, kernel eklentilerini ve genellikle donanım sürücüleri tarafından kullanılmaktadır. Kernel space’in donanıma sınırsız bir erişimi vardır ve bilin bakalım eğer 2 ana bölgeye ayrılmasaydı donanımlarımızın hali nice olurdu? User space de ise bizim günlük kullandığımız uygulamalara ayrılmıştır bunlar nadiren hardware ile konuşur ve yetkileri de (donanıma erişim) kısıtlanmıştır. Bu ana 2 bölgeye ayrılması sonucu aslında karşımıza bir farklı terim çıkmaktadır bu da “protection ring” olarak tanımlanmaktadır.</p>
 <p>Bknz:</p>
 <p><img alt="Untitled" src="images/ring0.png"></p>
@@ -363,7 +309,7 @@ checkinstall
             <li><a href="https://eybisi.run/"> Eybisi</a></li>
             <li><a href="https://onur.im/"> Onur Aslan</a></li>
             <li><a href="https://canyoupwn.me/"> Canyoupwn.me</a></li>
-            <li><a href="http://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
+            <li><a href="https://www.oguzozkeroglu.com"> Oğuz Özkeroğlu</a></li>
             <li><a href="https://aligoren.com"> Ali Gören</a></li>
             <li><a href="https://0xf61.gitlab.io/"> Emir Kurt</a></li>
 <br>
@@ -372,15 +318,18 @@ checkinstall
     </ul>
 
     <p class="disclaimer">
-    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/hdra/Pelican-Cid">Cid</a> theme.
+    Built with <a href="http://getpelican.com">Pelican</a>, and <a href="https://github.com/ka1nsha/MBPelican">MB Pelican</a> theme.
     </p>
 </footer>
             </div>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WJ9HG4F8NE"></script>
 <script>
-    var _gaq=[['_setAccount','UA-44262671-1'],['_trackPageview']];
-    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-    s.parentNode.insertBefore(g,s)}(document,'script'));
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WJ9HG4F8NE');
 </script>
     </body>
 </html>
