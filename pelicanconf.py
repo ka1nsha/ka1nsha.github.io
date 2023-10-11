@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = u'0x656e'
 SITENAME = u'Enes Ergün'
-SITESUBTITLE = u"Personel homepage"
+SITESUBTITLE = u"Chaotic Neutral / ISTP-T - 30 lvl rogue - Cyber Security"
 SITEURL = 'https://enesergun.net'
 
 PATH = 'content'
@@ -33,7 +33,6 @@ LINKS = (
          ('Oğuz Özkeroğlu', 'https://www.oguzozkeroglu.com'),
          ('Ali Gören', 'https://aligoren.com'),
          ('Emir Kurt', 'https://0xf61.gitlab.io/'),
-         
          )
 
 # Social widget
@@ -50,7 +49,7 @@ DEFAULT_PAGINATION = 10
 DISQUS_SITENAME = "0x656e"
 DISQUS_LOAD_LATER = True
 #GOOGLE_ANALYTICS = "UA-44262671-1"
-THEME = '/home/ka1/Pelican-Cid'
+THEME = '/home/ka1/MBPelican'
 OUTPUT_PATH = '/home/ka1/blogyazilari'
 DISPLAY_PAGES_ON_MENU = True
 DISPLAY_CATEGORIES_ON_MENU = True
