@@ -11,7 +11,7 @@ Authors: 0x656e
 
 ## Girizgah
 
-Bir önceki post olan [Windows Sistemlerde Borular (PIPE)]([https://enesergun.net/windows-sistemlerde-borularpipe.html](https://enesergun.net/windows-sistemlerde-borularpipe.html)) yazısında işletim sistemleri arası iletişim serisi şeklinde blog konularından gideceğimi yazmıştım. Bakmayın ben de öğrenip, araştırıp yazıyorum. Bildiğime değil yani. Her neyse bu blog yazısındaki konumuz da bir önceki ile benzer olarak Linux sistemlerde Borular şeklinde olacak.
+Bir önceki post olan [Windows Sistemlerde Borular - PIPE](https://enesergun.net/windows-sistemlerde-borularpipe.html) yazısında işletim sistemleri arası iletişim serisi şeklinde blog konularından gideceğimi yazmıştım. Bakmayın ben de öğrenip, araştırıp yazıyorum. Bildiğime değil yani. Her neyse bu blog yazısındaki konumuz da bir önceki ile benzer olarak Linux sistemlerde Borular şeklinde olacak.
 
 ## Neymiş bu borular?
 
